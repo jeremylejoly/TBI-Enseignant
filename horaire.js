@@ -98,9 +98,14 @@ function saveWeeks() {
 }
 
 // --- RENDER TABLE ---
+let activeCell = null;
+
 function renderScheduleTable(week) {
     const container = document.getElementById('schedule-table-container');
     if (!container) return;
+    
+    // Position relative pour aligner correctement la barre de formatage
+    container.style.position = 'relative';
     
     let html = `
         <table class="schedule-table">
@@ -139,13 +144,29 @@ function renderScheduleTable(week) {
                     cellClass += " midi-row-cell";
                 }
                 
+                let text = "";
+                let styleAttr = "";
+                
+                if (typeof cellValue === 'object' && cellValue !== null) {
+                    text = cellValue.text || "";
+                    const styles = [];
+                    if (cellValue.bg) styles.push(`background-color: ${cellValue.bg}`);
+                    if (cellValue.color) styles.push(`color: ${cellValue.color}`);
+                    if (styles.length > 0) {
+                        styleAttr = `style="${styles.join('; ')}"`;
+                    }
+                } else {
+                    text = cellValue || "";
+                }
+                
                 html += `
                     <td 
                         class="${cellClass}" 
                         contenteditable="${isEditable}" 
                         data-row="${rowIndex}" 
                         data-col="${colIndex}"
-                    >${escapeHtml(cellValue)}</td>
+                        ${styleAttr}
+                    >${escapeHtml(text)}</td>
                 `;
             }
         }
@@ -171,16 +192,169 @@ function renderScheduleTable(week) {
         };
         cell.addEventListener('blur', saveHandler);
         cell.addEventListener('input', saveHandler);
+        
+        // Afficher la barre de formatage lors du focus
+        cell.addEventListener('focus', () => {
+            showCellFormatToolbar(cell, container);
+        });
     });
 }
 
 function updateCellData(rowKey, colIndex, text) {
     const week = tbiWeeks.find(w => w.id === activeWeekId);
     if (week) {
-        week.gridData[`row-${rowKey}`][colIndex] = text;
+        const row = `row-${rowKey}`;
+        const currentVal = week.gridData[row][colIndex];
+        
+        if (typeof currentVal === 'object' && currentVal !== null) {
+            week.gridData[row][colIndex] = {
+                text: text,
+                color: currentVal.color || "",
+                bg: currentVal.bg || ""
+            };
+        } else {
+            week.gridData[row][colIndex] = text;
+        }
         saveWeeks();
     }
 }
+
+function updateCellStylesAndText(rowKey, colIndex, text, color, bg) {
+    const week = tbiWeeks.find(w => w.id === activeWeekId);
+    if (week) {
+        const row = `row-${rowKey}`;
+        if (color || bg) {
+            week.gridData[row][colIndex] = {
+                text: text,
+                color: color || "",
+                bg: bg || ""
+            };
+        } else {
+            week.gridData[row][colIndex] = text;
+        }
+        saveWeeks();
+    }
+}
+
+// --- BARRE FLOTTANTE DE FORMATAGE DES CELLULES ---
+function showCellFormatToolbar(cell, container) {
+    activeCell = cell;
+    let toolbar = document.getElementById('horaire-format-toolbar');
+    if (!toolbar) {
+        toolbar = document.createElement('div');
+        toolbar.id = 'horaire-format-toolbar';
+        toolbar.className = 'absolute bg-white border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[4px_4px_0_rgba(0,0,0,1)] z-50 flex flex-col gap-2 no-print transition-all duration-150';
+        container.appendChild(toolbar);
+    }
+    
+    // Remplissage du contenu de la palette
+    toolbar.innerHTML = `
+        <div class="flex flex-col gap-1 select-none">
+            <span class="text-[9px] font-display font-black text-neutral-400 uppercase tracking-wider text-left">Couleur de fond</span>
+            <div class="flex gap-1">
+                <button data-bg="" class="w-6 h-6 rounded-full border border-neutral-300 bg-white flex items-center justify-center text-[10px] font-bold text-neutral-500 hover:scale-110 active:scale-95 transition cursor-pointer" title="Aucun">✕</button>
+                <button data-bg="#E0E7FF" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #E0E7FF" title="Bleu pastel"></button>
+                <button data-bg="#D1FAE5" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #D1FAE5" title="Vert pastel"></button>
+                <button data-bg="#FEF3C7" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #FEF3C7" title="Jaune pastel"></button>
+                <button data-bg="#FFE4E6" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #FFE4E6" title="Rouge pastel"></button>
+                <button data-bg="#F5F3FF" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #F5F3FF" title="Violet pastel"></button>
+                <button data-bg="#CFFAFE" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #CFFAFE" title="Cyan pastel"></button>
+            </div>
+        </div>
+        <div class="flex flex-col gap-1 select-none">
+            <span class="text-[9px] font-display font-black text-neutral-400 uppercase tracking-wider text-left">Couleur du texte</span>
+            <div class="flex gap-1">
+                <button data-color="#1E293B" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition flex items-center justify-center bg-[#1E293B] cursor-pointer" title="Défaut"></button>
+                <button data-color="#312E81" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#312E81] cursor-pointer" title="Bleu foncé"></button>
+                <button data-color="#064E3B" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#064E3B] cursor-pointer" title="Vert foncé"></button>
+                <button data-color="#78350F" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#78350F] cursor-pointer" title="Orange/Marron"></button>
+                <button data-color="#881337" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#881337] cursor-pointer" title="Rouge foncé"></button>
+                <button data-color="#4C1D95" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#4C1D95] cursor-pointer" title="Violet foncé"></button>
+                <button data-color="#FFFFFF" class="w-6 h-6 rounded-full border border-neutral-300 hover:scale-110 active:scale-95 transition bg-white flex items-center justify-center cursor-pointer" title="Blanc">
+                    <span class="text-[10px] text-neutral-800 font-bold">W</span>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Liaisons des actions au clic
+    toolbar.querySelectorAll('button[data-bg]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            applyCellBg(btn.dataset.bg);
+        });
+    });
+    
+    toolbar.querySelectorAll('button[data-color]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            applyCellColor(btn.dataset.color);
+        });
+    });
+    
+    // Positionnement de la palette flottante au-dessus/au-dessous de la cellule
+    const rect = cell.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    
+    let top = rect.top - containerRect.top + container.scrollTop - toolbar.offsetHeight - 10;
+    let left = rect.left - containerRect.left + container.scrollLeft + (rect.width - toolbar.offsetWidth) / 2;
+    
+    // Si la palette dépasse en haut, l'afficher en dessous de la cellule
+    if (rect.top - containerRect.top - toolbar.offsetHeight - 10 < 0) {
+        top = rect.bottom - containerRect.top + container.scrollTop + 10;
+    }
+    
+    // Limites de débordement
+    if (left < 5) left = 5;
+    if (left + toolbar.offsetWidth > container.scrollWidth - 5) {
+        left = container.scrollWidth - toolbar.offsetWidth - 5;
+    }
+    
+    toolbar.style.top = `${top}px`;
+    toolbar.style.left = `${left}px`;
+    toolbar.style.position = 'absolute';
+    toolbar.classList.remove('hidden');
+}
+
+function hideCellFormatToolbar() {
+    const toolbar = document.getElementById('horaire-format-toolbar');
+    if (toolbar) {
+        toolbar.classList.add('hidden');
+    }
+    activeCell = null;
+}
+
+function applyCellBg(bg) {
+    if (!activeCell) return;
+    activeCell.style.backgroundColor = bg;
+    
+    const row = activeCell.dataset.row;
+    const col = parseInt(activeCell.dataset.col);
+    const text = activeCell.innerText;
+    
+    updateCellStylesAndText(row, col, text, activeCell.style.color, bg);
+}
+
+function applyCellColor(color) {
+    if (!activeCell) return;
+    activeCell.style.color = color;
+    
+    const row = activeCell.dataset.row;
+    const col = parseInt(activeCell.dataset.col);
+    const text = activeCell.innerText;
+    
+    updateCellStylesAndText(row, col, text, color, activeCell.style.backgroundColor);
+}
+
+// Cacher la barre de formatage en cliquant à l'extérieur
+document.addEventListener('pointerdown', (e) => {
+    const toolbar = document.getElementById('horaire-format-toolbar');
+    if (toolbar && !toolbar.classList.contains('hidden')) {
+        if (activeCell && !activeCell.contains(e.target) && !toolbar.contains(e.target)) {
+            hideCellFormatToolbar();
+        }
+    }
+});
 
 // --- WEEKS ACTIONS ---
 function selectWeek(weekId) {
