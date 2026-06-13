@@ -333,7 +333,7 @@ function drawRoueWheel() {
         text.setAttribute("y", "250");
         text.setAttribute("text-anchor", "middle");
         text.setAttribute("dominant-baseline", "middle");
-        text.setAttribute("class", "fill-white font-display font-black text-2xl select-none");
+        text.setAttribute("class", "fill-white font-sans font-normal text-3xl select-none");
         text.textContent = student.name;
         wheelGroup.appendChild(text);
         return;
@@ -365,13 +365,13 @@ function drawRoueWheel() {
         text.setAttribute("transform", `rotate(${midAngle}, 250, 250)`);
         text.setAttribute("text-anchor", "end");
         text.setAttribute("dominant-baseline", "middle");
-        text.setAttribute("class", "fill-white font-display font-black select-none pointer-events-none");
+        text.setAttribute("class", "fill-white font-sans font-normal select-none pointer-events-none");
         
-        // Adjust font size based on slice count for readability
-        let fontSize = "16px";
-        if (N > 15) fontSize = "11px";
-        else if (N > 10) fontSize = "13px";
-        else if (N > 6) fontSize = "15px";
+        // Adjust font size based on slice count for readability (Outfit sans-serif)
+        let fontSize = "20px";
+        if (N > 15) fontSize = "14px";
+        else if (N > 10) fontSize = "16px";
+        else if (N > 6) fontSize = "18px";
         
         text.style.fontSize = fontSize;
         text.style.textShadow = "1px 1px 2px rgba(0,0,0,0.6)";
