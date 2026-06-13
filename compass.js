@@ -35,7 +35,7 @@ function renderCompassState() {
     
     if (!needleLeg || !pencilLeg || !needlePoint || !pencilGroup || !compassSvg) return;
     
-    // Needle point is now FIXED at x = 60
+    // Needle point is now FIXED at x = 60, y = 220
     const needleX = 60;
     needleLeg.setAttribute('x2', needleX.toString());
     needlePoint.setAttribute('cx', needleX.toString());
@@ -50,8 +50,6 @@ function renderCompassState() {
     // Connect and center the width adjustment screw
     const screwLine = document.querySelector('#compass-svg line[class="stroke-amber-600"]');
     if (screwLine && widthScrew) {
-        // Needle leg is at x=85 at y=120.
-        // Pencil leg is at 100 + 0.375 * (pencilX - 100) at y=120.
         const leg1X = 85;
         const leg2X = 100 + 0.375 * (pencilX - 100);
         screwLine.setAttribute('x1', leg1X.toString());
@@ -60,14 +58,13 @@ function renderCompassState() {
     }
     
     // Apply CSS rotation around the needle point pivot (60, 220)
-    // Convert to percentage layout offsets to prevent center shift under different scales/zooms
     compassSvg.style.transformOrigin = `${needleX / 2}% 84.61538%`;
     compassSvg.style.transform = `rotate(${compassAngle}deg)`;
     
     // Update the dashed preview circle
     const previewCircle = document.getElementById('compass-preview-circle');
     if (previewCircle) {
-        const radiusSvg = Math.sqrt((2 * compassROffset) ** 2 + 15 ** 2);
+        const radiusSvg = 2 * compassROffset;
         previewCircle.setAttribute('cx', needleX.toString());
         previewCircle.setAttribute('r', radiusSvg.toString());
     }
@@ -75,7 +72,7 @@ function renderCompassState() {
     // Update the live centimeter radius label
     updateCompassRadiusLabel();
     
-    // Update the new custom floating info card values
+    // Update the custom floating info card values
     const cardRadius = document.getElementById('compass-card-radius');
     const cardAngle = document.getElementById('compass-card-angle');
     
@@ -85,7 +82,7 @@ function renderCompassState() {
         if (widget) {
             const widgetRect = widget.getBoundingClientRect();
             const scale = widgetRect.width / 200;
-            const canvasRadius = Math.sqrt((2 * compassROffset) ** 2 + 15 ** 2) * scale;
+            const canvasRadius = (2 * compassROffset) * scale;
             cm = (canvasRadius / 40).toFixed(1);
         }
         if (cardRadius) cardRadius.textContent = cm;
@@ -102,17 +99,16 @@ function updateCompassRadiusLabel() {
     const widgetRect = widget.getBoundingClientRect();
     const scale = widgetRect.width / 200; // SVG space is 200px wide
     
-    // Calculate the drawing canvas radius (hypotenuse between needle base and pencil base)
-    const canvasRadius = Math.sqrt((2 * compassROffset) ** 2 + 15 ** 2) * scale;
+    // Calculate the drawing canvas radius
+    const canvasRadius = (2 * compassROffset) * scale;
     
-    // Convert pixels to cm (1 grand carreau / grid block = 40 pixels = 1 cm)
+    // Convert pixels to cm (40 pixels = 1 cm)
     const cm = (canvasRadius / 40).toFixed(1);
     
     label.textContent = `${cm} cm`;
 }
 
 // --- DRAG TO POSITION WIDGET ---
-// Dragging the needle point or needle leg moves the whole widget
 function setupCompassMovement() {
     const needlePoint = document.getElementById('compass-needle-point');
     const needleLeg = document.getElementById('compass-needle-leg');
@@ -178,7 +174,6 @@ function setupCompassMovement() {
         document.removeEventListener('touchend', onEnd);
     }
     
-    // Remove old listeners
     needlePoint.removeEventListener('mousedown', onStart);
     needlePoint.removeEventListener('touchstart', onStart);
     needleLeg.removeEventListener('mousedown', onStart);
@@ -193,10 +188,9 @@ function setupCompassMovement() {
 // --- WIDTH ADJUSTMENT (RADIUS) ---
 function setupCompassWidthAdjuster() {
     const screw = document.getElementById('compass-width-screw');
-    const pencilPoint = document.getElementById('compass-pencil-point');
     const widget = document.getElementById('floating-widget-compass');
     
-    if (!screw || !pencilPoint || !widget) return;
+    if (!screw || !widget) return;
     
     let isAdjusting = false;
     let startX = 0;
@@ -236,14 +230,10 @@ function setupCompassWidthAdjuster() {
         }
         
         const widgetRect = widget.getBoundingClientRect();
-        const scale = widgetRect.width / 200; // SVG space to screen space ratio
+        const scale = widgetRect.width / 200;
         
-        // Calculate horizontal movement in SVG units
         const dxSvg = (clientX - startX) / scale;
         
-        // Update arm spread offset (radius). Clip to limits [15, 90]
-        // Since needleX is fixed and pencilX increases by 2 * rOffset,
-        // we divide dxSvg by 2 to maintain a 1:1 drag response.
         compassROffset = Math.round(startROffset + dxSvg / 2);
         compassROffset = Math.max(15, Math.min(90, compassROffset));
         
@@ -258,25 +248,21 @@ function setupCompassWidthAdjuster() {
         document.removeEventListener('touchend', onEnd);
     }
     
-    // Attach listeners
     screw.removeEventListener('mousedown', onStart);
     screw.removeEventListener('touchstart', onStart);
-    pencilPoint.removeEventListener('mousedown', onStart);
-    pencilPoint.removeEventListener('touchstart', onStart);
-    
     screw.addEventListener('mousedown', onStart);
     screw.addEventListener('touchstart', onStart, { passive: false });
-    pencilPoint.addEventListener('mousedown', onStart);
-    pencilPoint.addEventListener('touchstart', onStart, { passive: false });
 }
 
 // --- ROTATE & DRAW ---
 function setupCompassDrawHandler() {
     const head = document.getElementById('compass-head');
+    const pencil = document.getElementById('compass-pencil');
+    const pencilLeg = document.getElementById('compass-pencil-leg');
     const widget = document.getElementById('floating-widget-compass');
     const canvas = document.getElementById('drawing-canvas');
     
-    if (!head || !widget || !canvas) return;
+    if (!widget || !canvas) return;
     
     let isRotating = false;
     let startDragAngle = 0;
@@ -304,11 +290,9 @@ function setupCompassDrawHandler() {
         scale = width / 200;
         
         // Coordinates of the needle tip (pivot center of circle)
-        // SVG: (60, 220) - needleX is fixed at 60
         pivotX = widgetClientLeft + 60 * scale;
         pivotY = widgetClientTop + 220 * scale;
         
-        // Calculate angle of pointer relative to needle pivot
         const dx = e.clientX - pivotX;
         const dy = e.clientY - pivotY;
         startDragAngle = Math.atan2(dy, dx) * 180 / Math.PI;
@@ -331,33 +315,25 @@ function setupCompassDrawHandler() {
         const dy = e.clientY - pivotY;
         const currentDragAngle = Math.atan2(dy, dx) * 180 / Math.PI;
         
-        // Compute delta and new angle
         const delta = currentDragAngle - startDragAngle;
         compassAngle = (startCompassAngle + delta + 360) % 360;
         
-        // Render SVG rotation
         renderCompassState();
         
-        // Draw the circular stroke on the canvas!
         const canvasCenterX = pivotX - canvasRect.left;
         const canvasCenterY = pivotY - canvasRect.top;
         
-        // Radius of pencil relative to needle pivot
-        const canvasRadius = Math.sqrt((2 * compassROffset) ** 2 + 15 ** 2) * scale;
+        // Radius of pencil is exactly 2 * compassROffset
+        const canvasRadius = (2 * compassROffset) * scale;
         
-        // Base starting offset angle in radians
-        const baseAngle = Math.atan2(15, 2 * compassROffset);
-        
-        // Calculate incremental change and prevent large jumps when crossing 0/360 degrees
         let diff = compassAngle - lastDrawnAngle;
         if (diff > 180) diff -= 360;
         if (diff < -180) diff += 360;
         
-        // Start and End angles for canvas arc
-        const startRad = (lastDrawnAngle * Math.PI / 180) + baseAngle;
+        // Base starting offset angle in radians is now 0 since pencil point is at y=220
+        const startRad = (lastDrawnAngle * Math.PI / 180);
         const endRad = startRad + (diff * Math.PI / 180);
         
-        // Draw the arc segment on the blackboard
         if (window.drawCompassArc) {
             window.drawCompassArc(canvasCenterX, canvasCenterY, canvasRadius, startRad, endRad);
         }
@@ -374,7 +350,19 @@ function setupCompassDrawHandler() {
         document.removeEventListener('pointercancel', onEnd);
     }
     
-    head.addEventListener('pointerdown', onStart);
+    // Attach listeners to both head and pencil parts to trigger drawing
+    if (head) {
+        head.removeEventListener('pointerdown', onStart);
+        head.addEventListener('pointerdown', onStart);
+    }
+    if (pencil) {
+        pencil.removeEventListener('pointerdown', onStart);
+        pencil.addEventListener('pointerdown', onStart);
+    }
+    if (pencilLeg) {
+        pencilLeg.removeEventListener('pointerdown', onStart);
+        pencilLeg.addEventListener('pointerdown', onStart);
+    }
 }
 
 // Resize the Compass widget dynamically from the UI slider
@@ -398,4 +386,3 @@ window.setCompassROffset = (val) => {
     compassROffset = val;
     renderCompassState();
 };
-
