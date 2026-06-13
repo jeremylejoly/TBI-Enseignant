@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Console TBI Enseignant - Waimes</title>
+    
+    <!-- Polices premium de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fredoka:wght@300..700&family=Caveat:wght@400..700&family=Architects+Daughter&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS pour une mise en page moderne -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Outfit', 'sans-serif'],
+              display: ['Fredoka', 'sans-serif'],
+              hand: ['Caveat', 'cursive'],
+              sketch: ['Architects Daughter', 'cursive'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Lucide Icons pour des icônes premium -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Styles personnalisés de la console -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Métadonnées PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="TBI Enseignant">
+    <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body class="bg-[#FDFBF7] text-[#1e293b] min-h-screen flex flex-col overflow-hidden font-sans">
+
+
+
+    <!-- Conteneur des Écrans (Onglets) -->
+    <main class="flex-1 relative min-h-0 w-full">
+        
+        <!-- ÉCRAN D'ACCUEIL : Dashboard -->
+        <section id="screen-home" class="tab-screen active absolute inset-0 flex flex-col min-h-0 overflow-y-auto bg-[#FDFBF7] p-6 md:p-8 select-none">
+            <div class="max-w-5xl mx-auto w-full space-y-8 animate-fadeIn pb-12">
+                
+                <!-- Bannière d'accueil -->
+                <div class="bg-gradient-to-r from-indigo-100 to-amber-100/70 border-[3px] border-neutral-900 rounded-[28px] p-6 md:p-8 flex items-center gap-6 relative overflow-hidden shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                    <div class="absolute top-2 right-2 opacity-5 select-none text-8xl font-black">👨‍🏫</div>
+                    
+                    <!-- Avatar enseignant -->
+                    <div class="w-16 h-16 bg-white border-2 border-neutral-900 rounded-2xl flex items-center justify-center text-3xl shadow-[2px_2px_0_rgba(0,0,0,1)] shrink-0 select-none transform hover:rotate-6 transition">
+                        👨‍🏫
+                    </div>
+                    
+                    <div>
+                        <h2 class="font-display font-black text-2xl md:text-3xl text-neutral-800 tracking-tight leading-tight flex items-center gap-2">
+                            Bonjour Mr Lejoly ! 🌟
+                        </h2>
+                        <p class="text-sm md:text-base text-neutral-600 font-sans font-semibold mt-1.5 leading-normal">
+                            Bienvenue sur votre console de classe. Sélectionnez l'une des applications ci-dessous pour enseigner ou préparer vos activités scolaires.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Titre de section -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🚀</span>
+                    <h3 class="font-display font-black text-xl text-neutral-800 tracking-tight">
+                        Vos Applications
+                    </h3>
+                </div>
+
+                <!-- Grille des 5 applications -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- App 1: Tableau Blanc -->
+                    <div onclick="switchTab('whiteboard')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-indigo-50 border-2 border-neutral-900 rounded-xl text-indigo-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                                <i data-lucide="presentation" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-full border border-indigo-200 uppercase">Actif</span>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display font-black text-lg text-neutral-800">Tableau Blanc</h4>
+                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
+                                Écrivez, importez des fiches PDF, utilisez les ciseaux, post-it et les outils compas/équerre.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- App 2: Time Timer -->
+                    <div onclick="switchTab('timer')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-rose-50 border-2 border-neutral-900 rounded-xl text-rose-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                                <i data-lucide="timer" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-rose-100 text-rose-700 rounded-full border border-rose-200 uppercase">Actif</span>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display font-black text-lg text-neutral-800">Time Timer</h4>
+                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
+                                Minuteur visuel plein écran tricolore pour structurer le temps de travail et la parole en classe.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- App 3: Programme P5-P6 -->
+                    <div onclick="switchTab('curriculum')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-emerald-50 border-2 border-neutral-900 rounded-xl text-emerald-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                                <i data-lucide="book-open" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full border border-emerald-200 uppercase">Actif</span>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display font-black text-lg text-neutral-800">Programme P5-P6</h4>
+                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
+                                Suivez les compétences scolaires et copiez les sujets directement sur le tableau blanc.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- App 4: Horaire -->
+                    <div onclick="switchTab('horaire')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-amber-50 border-2 border-neutral-900 rounded-xl text-amber-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                                <i data-lucide="calendar" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-neutral-100 text-neutral-500 rounded-full border border-neutral-300 uppercase">Nouveau</span>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display font-black text-lg text-neutral-800">Semainier</h4>
+                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
+                                Semainier de cours interactif pour planifier et afficher l'emploi du temps de la classe.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- App 5: Devoirs -->
+                    <div onclick="switchTab('devoirs')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-violet-50 border-2 border-neutral-900 rounded-xl text-violet-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                                <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-neutral-100 text-neutral-500 rounded-full border border-neutral-300 uppercase">Nouveau</span>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display font-black text-lg text-neutral-800">Devoirs</h4>
+                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
+                                Liste et gestion des leçons et devoirs donnés aux élèves de P5 et P6.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <footer class="border-t border-neutral-300/60 pt-6 text-center text-xs text-neutral-400 font-mono tracking-wider">
+                   Waimes Centre • Plateforme Console TBI Enseignant • P5 & P6
+                </footer>
+
+            </div>
+        </section>
+        
+        <!-- ÉCRAN 1 : Tableau Blanc Interactif (TBI) -->
+        <section id="screen-whiteboard" class="tab-screen absolute inset-0 flex flex-col min-h-0">
+            <!-- Onglets du Tableau Blanc (à la LYNX) -->
+            <div id="whiteboard-tabs-bar" class="bg-neutral-100 border-b border-neutral-300 px-4 py-1.5 flex items-center gap-2 select-none overflow-x-auto min-h-[46px] relative z-30">
+                <button onclick="switchTab('home')" class="p-1.5 hover:bg-neutral-200 rounded-lg transition text-neutral-800 flex items-center justify-center shrink-0 border border-neutral-300 bg-white shadow-sm mr-1.5" title="Retour à l'accueil">
+                    <i data-lucide="home" class="w-4 h-4 text-neutral-700"></i>
+                </button>
+                <div id="tabs-container" class="flex gap-1.5">
+                    <!-- Les onglets seront injectés ici en JS -->
+                </div>
+                <button onclick="addNewBlankTab()" class="p-1 hover:bg-neutral-200 rounded-lg transition" title="Nouveau tableau blanc">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Aire de dessin et d'affichage -->
+            <div class="flex-1 flex min-h-0 relative z-10">
+                
+                <!-- Panneau Latéral Gauche (Miniatures des pages PDF) -->
+                <aside id="pdf-thumbnails-sidebar" class="w-0 h-full border-r-2 border-neutral-300 bg-neutral-50 flex flex-col transition-all duration-300 relative z-30 overflow-hidden">
+                    <div class="p-3 bg-neutral-100 border-b-2 border-neutral-200 flex justify-between items-center flex-shrink-0 select-none">
+                        <span class="font-display font-bold text-xs text-neutral-700 flex items-center gap-1.5"><i data-lucide="layout-grid" class="w-4 h-4 text-indigo-500"></i> Pages du document</span>
+                        <button onclick="toggleThumbnailsPanel()" class="p-1 hover:bg-neutral-200 rounded text-neutral-600"><i data-lucide="x" class="w-4 h-4"></i></button>
+                    </div>
+                    <!-- Liste des miniatures -->
+                    <div id="pdf-thumbnails-container" class="flex-1 overflow-y-auto p-3 grid grid-cols-2 gap-2.5">
+                        <!-- Miniatures chargées en JS -->
+                    </div>
+                </aside>
+                
+                <!-- Zone du Tableau Blanc -->
+                <div class="flex-1 h-full relative overflow-auto bg-[#fafafa]" id="whiteboard-viewport">
+                    
+                    <!-- Conteneur zoomable du tableau -->
+                    <div id="board-container" class="absolute inset-0 z-0" style="width: 100%; height: 100%;">
+                        <!-- Canvas de fond (Seyes, Grille, PDF, Images de fond) -->
+                        <canvas id="bg-canvas" class="absolute inset-0 z-0 pointer-events-none"></canvas>
+                        
+                        <!-- Canvas de dessin libre (Crayon, surligneur, formes, gomme) -->
+                        <canvas id="drawing-canvas" class="absolute inset-0 z-10 touch-none"></canvas>
+                        
+                        <!-- Calque des annotations interactives (zones de texte éditables et images mobiles) -->
+                        <div id="annotations-layer" class="absolute inset-0 z-20 pointer-events-none" style="width: 100%; height: 100%;"></div>
+                    </div>
+
+                    <!-- Calque de widgets flottants (Time Timer, Équerre, Compas) -->
+                    <div id="widgets-container" class="absolute inset-0 z-30 pointer-events-none overflow-visible">
+                        
+                        <!-- WIDGET FLOATING : Time Timer -->
+                        <div id="floating-widget-timer" class="floating-widget absolute bg-white border-[3px] border-neutral-900 rounded-[24px] shadow-[4px_4px_0_rgba(0,0,0,1)] pointer-events-auto p-4 flex flex-col z-50 select-none hidden" style="width: 320px; top: 80px; left: 50px;">
+                            <div class="widget-header flex justify-between items-center cursor-move pb-2 border-b-2 border-neutral-200 mb-3">
+                                <span class="font-display font-bold text-sm text-neutral-700 flex items-center gap-1.5">⏱️ Minuteur</span>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="minimizeWidget('timer')" class="p-1 hover:bg-neutral-100 rounded text-neutral-500" title="Réduire"><i data-lucide="minus-square" class="w-4 h-4"></i></button>
+                                    <button onclick="toggleWidget('timer')" class="p-1 hover:bg-rose-50 text-rose-500 rounded" title="Fermer"><i data-lucide="x-square" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                            <!-- Mini corps du timer -->
+                            <div id="widget-timer-body" class="flex flex-col items-center gap-3">
+                                <!-- SVG du Timer -->
+                                <div class="w-[180px] h-[180px] relative">
+                                    <svg id="widget-timer-svg" viewBox="-250 -250 500 500" class="w-full h-full cursor-pointer touch-none">
+                                        <circle class="dial-background fill-white stroke-neutral-200" r="225" stroke-width="4" />
+                                        <path id="widget-timer-wedge" class="timer-wedge fill-rose-500 opacity-80" d="M 0 0 Z" />
+                                        <g id="widget-dial-ticks"></g>
+                                        <g id="widget-dial-labels"></g>
+                                        <circle class="dial-bezel fill-none stroke-neutral-900" r="225" stroke-width="8" />
+                                        <circle class="center-pin fill-neutral-900" r="14" />
+                                        <line id="widget-timer-needle" class="timer-needle stroke-rose-500" x1="0" y1="0" x2="0" y2="-210" stroke-width="3" />
+                                    </svg>
+                                </div>
+                                <div class="flex items-center justify-between w-full">
+                                    <span class="font-mono font-bold text-2xl text-neutral-800" id="widget-timer-digital">15:00</span>
+                                    <div class="flex gap-1.5">
+                                        <button onclick="setWidgetPreset(5)" class="px-2 py-1 bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-xs font-bold rounded">5m</button>
+                                        <button onclick="setWidgetPreset(15)" class="px-2 py-1 bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-xs font-bold rounded">15m</button>
+                                        <button onclick="setWidgetPreset(30)" class="px-2 py-1 bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-xs font-bold rounded">30m</button>
+                                    </div>
+                                </div>
+                                <!-- Contrôles -->
+                                <div class="flex gap-2 w-full mt-1">
+                                    <button onclick="startWidgetTimer()" id="btn-widget-play" class="flex-1 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl flex items-center justify-center gap-1.5 text-xs"><i data-lucide="play" class="w-3.5 h-3.5"></i> Démarrer</button>
+                                    <button onclick="pauseWidgetTimer()" id="btn-widget-pause" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl flex items-center justify-center gap-1.5 text-xs hidden"><i data-lucide="pause" class="w-3.5 h-3.5"></i> Pause</button>
+                                    <button onclick="resetWidgetTimer()" class="py-2 px-3.5 bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-700 font-bold rounded-xl text-xs" title="Réinitialiser"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="floating-widget-aristo" class="floating-widget absolute pointer-events-auto z-40 hidden select-none" style="width: 250px; height: 125px; top: 120px; left: 450px;">
+                            <!-- Curseur de redimensionnement de l'équerre -->
+                            <div class="absolute bottom-2 left-2 flex items-center gap-1 bg-white/95 border border-neutral-300 rounded-lg px-2 py-0.5 shadow-sm text-[9px] font-bold z-50 pointer-events-auto">
+                                <span class="text-neutral-500">Taille :</span>
+                                <input type="range" min="100" max="500" value="250" class="w-16 h-1 accent-indigo-600 cursor-pointer" oninput="resizeAristoWidget(this.value)">
+                            </div>
+                            
+                            <svg id="aristo-svg" width="100%" height="100%" class="touch-none" viewBox="0 0 300 150">
+                                <!-- Triangle gradué transparent -->
+                                <polygon points="0,0 300,0 150,150" fill="#ffffff" fill-opacity="0.85" stroke="#475569" stroke-opacity="0.6" stroke-width="1.5"/>
+                                <!-- Ligne médiane perpendiculaire -->
+                                <line x1="150" y1="0" x2="150" y2="150" stroke="#1e293b" stroke-opacity="0.4" stroke-dasharray="2,2" stroke-width="1"/>
+                                <!-- Lignes parallèles -->
+                                <line x1="15" y1="15" x2="285" y2="15" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                <line x1="30" y1="30" x2="270" y2="30" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                <line x1="45" y1="45" x2="255" y2="45" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                <line x1="60" y1="60" x2="240" y2="60" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                <line x1="75" y1="75" x2="225" y2="75" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                <line x1="90" y1="90" x2="210" y2="90" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                <line x1="105" y1="105" x2="195" y2="105" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                <line x1="120" y1="120" x2="180" y2="120" stroke="#94a3b8" stroke-opacity="0.4" stroke-width="0.5"/>
+                                
+                                <!-- Bande rapporteur jaune transparente -->
+                                <path d="M 55 0 A 95 95 0 0 0 245 0" fill="none" stroke="#facc15" stroke-width="14" opacity="0.6"/>
+                                
+                                <!-- Texte de marque Aristo -->
+                                <text x="150" y="62" font-size="6" font-weight="900" fill="#475569" text-anchor="middle" font-family="sans-serif" letter-spacing="0.5">ARISTO-GEODREIECK 2</text>
+                                
+                                <!-- Graduation base (Règle plate en haut) -->
+                                <line x1="0" y1="0" x2="300" y2="0" stroke="#0f172a" stroke-width="2.5"/>
+                                <!-- Graduations et chiffres (générés par JS) -->
+                                <g id="aristo-rulers-marks"></g>
+                                
+                                <!-- Poignée centrale pour le drag -->
+                                <circle cx="150" cy="35" r="14" fill="#0f172a" class="cursor-move pointer-events-auto" id="aristo-drag-handle" title="Faire glisser"/>
+                                
+                                <!-- Poignée de rotation -->
+                                <path d="M 150 90 A 12 12 0 1 1 149.9 90" fill="none" stroke="#0f172a" class="cursor-alias" stroke-width="2.5" id="aristo-rotate-handle" title="Faire pivoter"/>
+                                <path d="M 158 90 L 150 95 L 150 85 Z" fill="#0f172a"/>
+                                
+                                <!-- Bouton de fermeture de l'équerre -->
+                                <circle cx="150" cy="125" r="9" fill="#f43f5e" class="cursor-pointer pointer-events-auto" onclick="toggleWidget('aristo')"/>
+                                <text x="150" y="126" font-size="8" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle" class="cursor-pointer pointer-events-none">X</text>
+                            </svg>
+                        </div>
+
+                        <!-- WIDGET FLOATING : Compas -->
+                        <div id="floating-widget-compass" class="floating-widget absolute pointer-events-auto z-40 hidden select-none" style="width: 130px; height: 169px; top: 200px; left: 200px;">
+                            <!-- Curseur de redimensionnement du compas -->
+                            <div class="absolute bottom-2 left-2 flex items-center gap-1 bg-white/95 border border-neutral-300 rounded-lg px-2 py-0.5 shadow-sm text-[9px] font-bold z-50 pointer-events-auto">
+                                <span class="text-neutral-500">Taille :</span>
+                                <input type="range" min="80" max="300" value="130" class="w-16 h-1 accent-indigo-600 cursor-pointer" oninput="resizeCompassWidget(this.value)">
+                            </div>
+                            
+                            <!-- Carte de statut du compas (Rayon, Angle et Fermeture) -->
+                            <div class="absolute top-12 left-[102%] bg-[#0f172a] text-white border-2 border-slate-700 rounded-2xl p-2.5 flex items-center gap-2.5 shadow-[4px_4px_0_rgba(0,0,0,1)] z-50 pointer-events-auto select-none font-mono">
+                                <div class="flex flex-col text-[#eab308] leading-none font-black text-center pr-2 border-r border-slate-800 text-[9px]">
+                                    <span>R =</span>
+                                    <span class="text-xs my-0.5 font-bold" id="compass-card-radius">1.6</span>
+                                    <span>CM</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[#38bdf8] font-black text-xs" id="compass-card-angle">0°</span>
+                                    <button onclick="toggleWidget('compass')" class="text-slate-400 hover:text-rose-500 font-sans font-bold text-xs cursor-pointer ml-1 select-none focus:outline-none">✕</button>
+                                </div>
+                            </div>
+                            
+                            <svg id="compass-svg" width="100%" height="100%" class="touch-none" viewBox="0 0 200 260">
+                                <!-- Cercle de prévisualisation en pointillés (affiché en fond) -->
+                                <circle id="compass-preview-circle" cx="60" cy="220" r="80" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6"/>
+                                
+                                <!-- Tête du compas (Poignée de rotation) -->
+                                <circle cx="100" cy="30" r="12" class="fill-slate-700 cursor-alias" id="compass-head" title="Faire tourner le compas pour tracer"/>
+                                <rect x="94" y="30" width="12" height="30" class="fill-slate-500" id="compass-neck"/>
+                                
+                                <!-- Afficheur de rayon en cm -->
+                                <text id="compass-radius-label" x="100" y="92" font-size="8.5" font-weight="900" fill="#475569" text-anchor="middle" font-family="sans-serif">2.5 cm</text>
+                                
+                                <!-- Branche Pointe Sèche (Aiguille à gauche) -->
+                                <line id="compass-needle-leg" x1="100" y1="60" x2="60" y2="220" class="stroke-slate-600" stroke-width="7" stroke-linecap="round"/>
+                                <circle cx="60" cy="220" r="6" class="fill-slate-800 cursor-move" id="compass-needle-point" title="Positionner la pointe sèche (Centre)"/>
+                                
+                                <!-- Branche Crayon (Mine à droite) -->
+                                <line id="compass-pencil-leg" x1="100" y1="60" x2="140" y2="220" class="stroke-slate-600" stroke-width="7" stroke-linecap="round"/>
+                                <!-- Écrou de réglage de l'écartement -->
+                                <line x1="80" y1="120" x2="120" y2="120" class="stroke-amber-600" stroke-width="5"/>
+                                <circle cx="100" cy="120" r="9" class="fill-amber-500 hover:fill-amber-600 cursor-ew-resize" id="compass-width-screw" title="Ajuster l'écartement (Rayon)"/>
+                                
+                                <!-- Crayon -->
+                                <g id="compass-pencil">
+                                    <rect x="135" y="200" width="10" height="25" class="fill-indigo-400 stroke-indigo-600"/>
+                                    <polygon points="135,225 145,225 140,235" class="fill-amber-100"/>
+                                    <circle cx="140" cy="235" r="3" class="fill-neutral-900 cursor-move" id="compass-pencil-point" title="Ajuster le rayon"/>
+                                </g>
+                                
+                                <!-- Bouton de fermeture -->
+                                <circle cx="100" cy="12" r="7" class="fill-rose-500 hover:fill-rose-600 cursor-pointer" onclick="toggleWidget('compass')"/>
+                                <text x="100" y="13" font-size="6" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle">X</text>
+                            </svg>
+                        </div>
+
+                        <!-- WIDGET FLOATING : Fractions -->
+                        <div id="floating-widget-fractions" class="floating-widget absolute bg-white border-[3px] border-neutral-900 rounded-[24px] shadow-[4px_4px_0_rgba(0,0,0,1)] pointer-events-auto flex flex-col z-40 hidden select-none p-4" style="width: 620px; top: 120px; left: 100px;">
+                            <!-- En-tête -->
+                            <div class="flex items-center justify-between pb-2.5 border-b-2 border-neutral-200 cursor-move" id="fractions-header">
+                                <span class="font-display font-black text-sm text-neutral-800 flex items-center gap-1.5"><i data-lucide="pie-chart" class="w-4 h-4 text-indigo-500"></i> Fractions Équivalentes</span>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="toggleWidget('fractions')" class="w-6 h-6 border-2 border-neutral-900 rounded-lg bg-rose-200 text-rose-800 font-sans font-bold text-xs flex items-center justify-center cursor-pointer shadow-[1px_1px_0_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] hover:shadow-none transition">✕</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Onglets -->
+                            <div class="flex gap-2 mt-3 no-print">
+                                <button onclick="switchFractionsTab('circles')" id="frac-tab-circles" class="px-3 py-1.5 text-xs font-bold border-2 border-neutral-900 rounded-xl bg-indigo-100 text-indigo-900 shadow-[2px_2px_0_rgba(0,0,0,1)] cursor-pointer">⭕ Cercles</button>
+                                <button onclick="switchFractionsTab('bars')" id="frac-tab-bars" class="px-3 py-1.5 text-xs font-bold border-2 border-neutral-900 rounded-xl bg-neutral-100 text-neutral-600 shadow-[2px_2px_0_rgba(0,0,0,1)] cursor-pointer">📊 Barres</button>
+                            </div>
+                            
+                            <!-- Contenu Cercles -->
+                            <div id="fractions-circles-content" class="flex flex-col gap-3 mt-3 flex-1">
+                                <div class="flex gap-3">
+                                    <!-- Espace de dessin SVG -->
+                                    <div class="w-[380px] h-[260px] border-2 border-neutral-300 rounded-2xl relative bg-slate-50 overflow-hidden flex items-center justify-center">
+                                        <svg id="fractions-circles-svg" width="100%" height="100%" class="absolute inset-0">
+                                            <!-- Cercle cible -->
+                                            <circle cx="190" cy="130" r="90" fill="none" stroke="#64748b" stroke-width="2.5" stroke-dasharray="6,6" opacity="0.6"/>
+                                            <circle cx="190" cy="130" r="4" fill="#64748b"/>
+                                            <!-- Quartiers placés (injectés par JS) -->
+                                            <g id="placed-slices-group"></g>
+                                            <!-- Quartier temporaire pendant drag -->
+                                            <g id="drag-slice-group"></g>
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- Réserve de pièces (à droite) -->
+                                    <div class="flex-1 flex flex-col gap-2 bg-neutral-50 border-2 border-neutral-200 rounded-2xl p-2.5 overflow-y-auto max-h-[260px]">
+                                        <span class="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider block">Ajouter une pièce :</span>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <button onclick="spawnFractionCircle(1)" class="py-1 px-1.5 border border-neutral-400 bg-red-100 text-red-800 text-[10px] font-bold rounded-lg hover:bg-red-200 flex items-center justify-center gap-1">1 (Tout)</button>
+                                            <button onclick="spawnFractionCircle(2)" class="py-1 px-1.5 border border-neutral-400 bg-orange-100 text-orange-800 text-[10px] font-bold rounded-lg hover:bg-orange-200 flex items-center justify-center gap-1">1/2</button>
+                                            <button onclick="spawnFractionCircle(3)" class="py-1 px-1.5 border border-neutral-400 bg-yellow-100 text-yellow-800 text-[10px] font-bold rounded-lg hover:bg-yellow-200 flex items-center justify-center gap-1">1/3</button>
+                                            <button onclick="spawnFractionCircle(4)" class="py-1 px-1.5 border border-neutral-400 bg-lime-100 text-lime-800 text-[10px] font-bold rounded-lg hover:bg-lime-200 flex items-center justify-center gap-1">1/4</button>
+                                            <button onclick="spawnFractionCircle(5)" class="py-1 px-1.5 border border-neutral-400 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg hover:bg-emerald-200 flex items-center justify-center gap-1">1/5</button>
+                                            <button onclick="spawnFractionCircle(6)" class="py-1 px-1.5 border border-neutral-400 bg-cyan-100 text-cyan-800 text-[10px] font-bold rounded-lg hover:bg-cyan-200 flex items-center justify-center gap-1">1/6</button>
+                                            <button onclick="spawnFractionCircle(8)" class="py-1 px-1.5 border border-neutral-400 bg-blue-100 text-blue-800 text-[10px] font-bold rounded-lg hover:bg-blue-200 flex items-center justify-center gap-1">1/8</button>
+                                            <button onclick="spawnFractionCircle(10)" class="py-1 px-1.5 border border-neutral-400 bg-purple-100 text-purple-800 text-[10px] font-bold rounded-lg hover:bg-purple-200 flex items-center justify-center gap-1">1/10</button>
+                                            <button onclick="spawnFractionCircle(12)" class="py-1 px-1.5 border border-neutral-400 bg-pink-100 text-pink-800 text-[10px] font-bold rounded-lg hover:bg-pink-200 flex items-center justify-center gap-1">1/12</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Contrôles bas -->
+                                <div class="flex items-center justify-between mt-1 text-xs">
+                                    <label class="flex items-center gap-1.5 font-bold text-neutral-600">
+                                        <input type="checkbox" id="frac-show-labels" checked onchange="toggleFractionLabels(this.checked)" class="accent-indigo-600 rounded">
+                                        Afficher les fractions (1/x)
+                                    </label>
+                                    <button onclick="clearFractionCircles()" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold rounded-lg text-slate-700 transition">Vider tout</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Contenu Barres -->
+                            <div id="fractions-bars-content" class="hidden flex-col gap-3 mt-3 flex-1">
+                                <div class="flex flex-col gap-3">
+                                    <!-- Espace de rails SVG -->
+                                    <div class="w-[580px] h-[200px] border-2 border-neutral-300 rounded-2xl relative bg-slate-50 overflow-hidden">
+                                        <svg id="fractions-bars-svg" width="100%" height="100%" class="absolute inset-0">
+                                            <!-- Rails horizontaux -->
+                                            <g id="bars-rails-group"></g>
+                                            <!-- Tuiles placées -->
+                                            <g id="placed-tiles-group"></g>
+                                            <!-- Tuile en cours de drag -->
+                                            <g id="drag-tile-group"></g>
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- Réserve de tuiles (au bas) -->
+                                    <div class="bg-neutral-50 border-2 border-neutral-200 rounded-2xl p-2.5 flex flex-col gap-1.5">
+                                        <span class="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider block">Créer une tuile :</span>
+                                        <div class="flex flex-wrap gap-1.5">
+                                            <button onclick="spawnFractionTile(1)" class="py-1 px-2.5 border border-neutral-400 bg-red-100 text-red-800 text-[10px] font-bold rounded-lg hover:bg-red-200">1 (Tout)</button>
+                                            <button onclick="spawnFractionTile(2)" class="py-1 px-2.5 border border-neutral-400 bg-orange-100 text-orange-800 text-[10px] font-bold rounded-lg hover:bg-orange-200">1/2</button>
+                                            <button onclick="spawnFractionTile(3)" class="py-1 px-2.5 border border-neutral-400 bg-yellow-100 text-yellow-800 text-[10px] font-bold rounded-lg hover:bg-yellow-200">1/3</button>
+                                            <button onclick="spawnFractionTile(4)" class="py-1 px-2.5 border border-neutral-400 bg-lime-100 text-lime-800 text-[10px] font-bold rounded-lg hover:bg-lime-200">1/4</button>
+                                            <button onclick="spawnFractionTile(5)" class="py-1 px-2.5 border border-neutral-400 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg hover:bg-emerald-200">1/5</button>
+                                            <button onclick="spawnFractionTile(6)" class="py-1 px-2.5 border border-neutral-400 bg-cyan-100 text-cyan-800 text-[10px] font-bold rounded-lg hover:bg-cyan-200">1/6</button>
+                                            <button onclick="spawnFractionTile(8)" class="py-1 px-2.5 border border-neutral-400 bg-blue-100 text-blue-800 text-[10px] font-bold rounded-lg hover:bg-blue-200">1/8</button>
+                                            <button onclick="spawnFractionTile(10)" class="py-1 px-2.5 border border-neutral-400 bg-purple-100 text-purple-800 text-[10px] font-bold rounded-lg hover:bg-purple-200">1/10</button>
+                                            <button onclick="spawnFractionTile(12)" class="py-1 px-2.5 border border-neutral-400 bg-pink-100 text-pink-800 text-[10px] font-bold rounded-lg hover:bg-pink-200">1/12</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Contrôles bas -->
+                                <div class="flex items-center justify-between mt-1 text-xs">
+                                    <label class="flex items-center gap-1.5 font-bold text-neutral-600">
+                                        <input type="checkbox" id="frac-show-labels-tile" checked onchange="toggleFractionLabelsTile(this.checked)" class="accent-indigo-600 rounded">
+                                        Afficher les fractions (1/x)
+                                    </label>
+                                    <button onclick="clearFractionTiles()" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-300 font-bold rounded-lg text-slate-700 transition">Vider tout</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- WIDGET FLOATING : Abaque -->
+                        <div id="floating-widget-abaque" class="floating-widget absolute bg-white border-[3px] border-neutral-900 rounded-[24px] shadow-[4px_4px_0_rgba(0,0,0,1)] pointer-events-auto flex flex-col z-40 hidden select-none p-4" style="width: 840px; top: 150px; left: 50px;">
+                            <!-- En-tête -->
+                            <div class="flex items-center justify-between pb-2.5 border-b-2 border-neutral-200 cursor-move" id="abaque-header">
+                                <span class="font-display font-black text-sm text-neutral-800 flex items-center gap-1.5"><i data-lucide="grid" class="w-4 h-4 text-indigo-500"></i> Abaque de Numération Décimale</span>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="clearAbaque()" class="px-2.5 py-1 border border-neutral-300 hover:bg-neutral-100 text-[10px] font-bold rounded-lg text-neutral-600 cursor-pointer shadow-[1px_1px_0_rgba(0,0,0,1)] mr-2">Effacer tout</button>
+                                    <button onclick="toggleWidget('abaque')" class="w-6 h-6 border-2 border-neutral-900 rounded-lg bg-rose-200 text-rose-800 font-sans font-bold text-xs flex items-center justify-center cursor-pointer shadow-[1px_1px_0_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] hover:shadow-none transition">✕</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Table de l'abaque -->
+                            <div class="overflow-x-auto mt-3 relative">
+                                <table class="abaque-table w-full border-collapse text-center" style="font-family: Arial, sans-serif;">
+                                    <thead>
+                                        <!-- Ligne 1 : Les classes -->
+                                        <tr class="border-2 border-neutral-900 text-[10px] font-black text-white leading-tight">
+                                            <th colspan="3" class="bg-amber-500 border-r-2 border-neutral-900 py-1">MILLIARDS</th>
+                                            <th colspan="3" class="bg-purple-600 border-r-2 border-neutral-900 py-1">MILLIONS</th>
+                                            <th colspan="3" class="bg-sky-500 border-r-2 border-neutral-900 py-1">MILLIERS</th>
+                                            <th colspan="3" class="bg-emerald-500 border-r-2 border-neutral-900 py-1">UNITÉS SIMPLES</th>
+                                            <th class="bg-rose-500 w-4 py-1">,</th>
+                                            <th colspan="3" class="bg-slate-600 border-r-2 border-neutral-900 py-1">PARTIE DÉCIMALE</th>
+                                            <th class="bg-neutral-500 w-6 py-1"></th>
+                                        </tr>
+                                        <!-- Ligne 2 : Les unités -->
+                                        <tr class="border-2 border-neutral-900 border-t-0 text-[10px] font-bold text-neutral-800 bg-neutral-100">
+                                            <th class="w-11 border-r border-neutral-300">C</th>
+                                            <th class="w-11 border-r border-neutral-300">D</th>
+                                            <th class="w-11 border-r-2 border-neutral-900">U</th>
+                                            <th class="w-11 border-r border-neutral-300">C</th>
+                                            <th class="w-11 border-r border-neutral-300">D</th>
+                                            <th class="w-11 border-r-2 border-neutral-900">U</th>
+                                            <th class="w-11 border-r border-neutral-300">C</th>
+                                            <th class="w-11 border-r border-neutral-300">D</th>
+                                            <th class="w-11 border-r-2 border-neutral-900">U</th>
+                                            <th class="w-11 border-r border-neutral-300">C</th>
+                                            <th class="w-11 border-r border-neutral-300">D</th>
+                                            <th class="w-11 border-r-2 border-neutral-900">U</th>
+                                            <!-- Virgule -->
+                                            <th class="w-4 bg-rose-100 font-black text-rose-600 text-xs border-r-2 border-neutral-900">,</th>
+                                            <th class="w-11 border-r border-neutral-300">d</th>
+                                            <th class="w-11 border-r border-neutral-300">c</th>
+                                            <th class="w-11 border-r-2 border-neutral-900">m</th>
+                                            <th class="w-6"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="abaque-rows">
+                                        <!-- Injecté dynamiquement en JS -->
+                                    </tbody>
+                                </table>
+                                <canvas id="abaque-drawing-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- WIDGET FLOATING : Horloge -->
+                        <div id="floating-widget-horloge" class="floating-widget absolute bg-white border-[3px] border-neutral-900 rounded-[24px] shadow-[4px_4px_0_rgba(0,0,0,1)] pointer-events-auto flex flex-col z-40 hidden select-none p-4" style="width: 320px; top: 120px; left: 300px;">
+                            <!-- En-tête -->
+                            <div class="flex items-center justify-between pb-2.5 border-b-2 border-neutral-200 cursor-move" id="horloge-header">
+                                <span class="font-display font-black text-sm text-neutral-800 flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Horloge à Manipuler</span>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="toggleWidget('horloge')" class="w-6 h-6 border-2 border-neutral-900 rounded-lg bg-rose-200 text-rose-800 font-sans font-bold text-xs flex items-center justify-center cursor-pointer shadow-[1px_1px_0_rgba(0,0,0,1)] hover:translate-x-[0.5px] hover:translate-y-[0.5px] hover:shadow-none transition">✕</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Horloge SVG -->
+                            <div class="flex justify-center items-center py-4 relative">
+                                <svg id="horloge-svg" width="240" height="240" viewBox="0 0 200 200" class="touch-none select-none">
+                                    <!-- Fond du cadran -->
+                                    <circle cx="100" cy="100" r="95" fill="#fcfdfd" stroke="#0f172a" stroke-width="3"/>
+                                    <!-- Cercles intérieurs déco -->
+                                    <circle cx="100" cy="100" r="72" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                    <circle cx="100" cy="100" r="50" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+                                    
+                                    <!-- Graduations minutes et heures -->
+                                    <g id="clock-ticks"></g>
+                                    
+                                    <!-- Chiffres 1-12 (Heures principales) -->
+                                    <g id="clock-numbers" font-family="Arial, sans-serif" font-weight="900" font-size="14" fill="#0f172a" text-anchor="middle" dominant-baseline="middle"></g>
+                                    
+                                    <!-- Chiffres 13-24 (Heures de l'après-midi) -->
+                                    <g id="clock-numbers-24" font-family="Arial, sans-serif" font-weight="700" font-size="8.5" fill="#64748b" text-anchor="middle" dominant-baseline="middle" opacity="0.85"></g>
+                                    
+                                    <!-- Aiguille des Heures -->
+                                    <line id="hour-hand" x1="100" y1="100" x2="100" y2="48" stroke="#3b82f6" stroke-width="6.5" stroke-linecap="round" class="cursor-pointer pointer-events-auto"/>
+                                    <circle id="hour-hand-target" cx="100" cy="48" r="8" fill="#3b82f6" opacity="0"/>
+                                    
+                                    <!-- Aiguille des Minutes -->
+                                    <line id="minute-hand" x1="100" y1="100" x2="100" y2="22" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" class="cursor-pointer pointer-events-auto"/>
+                                    <circle id="minute-hand-target" cx="100" cy="22" r="8" fill="#0f172a" opacity="0"/>
+                                    
+                                    <!-- Aiguille des Secondes -->
+                                    <line id="second-hand" x1="100" y1="100" x2="100" y2="15" stroke="#ef4444" stroke-width="1.8" stroke-linecap="round" class="cursor-pointer pointer-events-auto"/>
+                                    <circle id="second-hand-target" cx="100" cy="15" r="8" fill="#ef4444" opacity="0"/>
+                                    
+                                    <!-- Centre pivot -->
+                                    <circle cx="100" cy="100" r="6.5" fill="#0f172a"/>
+                                    <circle cx="100" cy="100" r="3.5" fill="#ffffff"/>
+                                </svg>
+                            </div>
+                            
+                            <!-- Heure numérique et contrôles bas -->
+                            <div class="flex flex-col gap-2.5 items-center">
+                                <!-- Heure digitale -->
+                                <div class="flex items-center gap-1.5">
+                                    <span id="digital-clock-display" class="font-mono font-black text-lg text-neutral-800 bg-neutral-100 border-2 border-neutral-900 px-3 py-1 rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)]">10:00:00</span>
+                                    <button onclick="toggleDigitalDisplay()" id="btn-toggle-digital" class="p-1.5 border-2 border-neutral-900 bg-neutral-100 hover:bg-neutral-200 rounded-xl flex items-center justify-center cursor-pointer shadow-[1.5px_1.5px_0_rgba(0,0,0,1)]" title="Masquer/Afficher l'affichage digital">
+                                        <i data-lucide="eye" id="digital-eye-icon" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Boutons de modification rapide -->
+                                <div class="flex gap-1.5 no-print">
+                                    <button onclick="adjustClockTime(-60)" class="py-1 px-1.5 border border-neutral-300 hover:bg-neutral-100 text-[10px] font-bold rounded-lg text-neutral-600 cursor-pointer">-1h</button>
+                                    <button onclick="adjustClockTime(-5)" class="py-1 px-1.5 border border-neutral-300 hover:bg-neutral-100 text-[10px] font-bold rounded-lg text-neutral-600 cursor-pointer">-5m</button>
+                                    <button onclick="adjustClockTime(5)" class="py-1 px-1.5 border border-neutral-300 hover:bg-neutral-100 text-[10px] font-bold rounded-lg text-neutral-600 cursor-pointer">+5m</button>
+                                    <button onclick="adjustClockTime(60)" class="py-1 px-1.5 border border-neutral-300 hover:bg-neutral-100 text-[10px] font-bold rounded-lg text-neutral-600 cursor-pointer">+1h</button>
+                                </div>
+                                
+                                <!-- Mode indépendant -->
+                                <div class="mt-1 flex items-center gap-1.5 text-xs font-bold text-neutral-600">
+                                    <input type="checkbox" id="clock-free-mode" onchange="setClockFreeMode(this.checked)" class="accent-indigo-600 rounded">
+                                    <label for="clock-free-mode">Aiguilles indépendantes</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Barre d'outils flottante du traitement de texte -->
+                    <div id="textbox-toolbar" class="hidden absolute bg-neutral-900 text-white border-2 border-neutral-750 rounded-xl px-2.5 py-1.5 flex items-center gap-2 z-50 shadow-xl pointer-events-auto select-none">
+                        <button onpointerdown="event.preventDefault(); changeActiveTextboxSize(-2)" class="p-1 hover:bg-neutral-800 rounded font-display font-bold text-xs" title="Diminuer la taille">A-</button>
+                        <span id="textbox-size-display" class="text-xs font-mono font-bold px-1 select-none">20px</span>
+                        <button onpointerdown="event.preventDefault(); changeActiveTextboxSize(2)" class="p-1 hover:bg-neutral-800 rounded font-display font-bold text-xs" title="Augmenter la taille">A+</button>
+                        
+                        <span class="w-px h-4 bg-neutral-700"></span>
+                        
+                        <button onpointerdown="event.preventDefault(); toggleActiveTextboxUnderline()" id="btn-textbox-underline" class="p-1 hover:bg-neutral-800 rounded font-display font-bold text-xs underline" title="Souligner">U</button>
+                        
+                        <span class="w-px h-4 bg-neutral-700"></span>
+                        
+                        <!-- Palette de couleurs pour texte -->
+                        <div class="flex items-center gap-1">
+                            <button onpointerdown="event.preventDefault(); changeActiveTextboxColor('#1e293b')" class="w-4 h-4 rounded-full bg-slate-800 border border-neutral-600 hover:scale-110 transition" title="Ardoise"></button>
+                            <button onpointerdown="event.preventDefault(); changeActiveTextboxColor('#4f46e5')" class="w-4 h-4 rounded-full bg-indigo-600 border border-neutral-600 hover:scale-110 transition" title="Bleu"></button>
+                            <button onpointerdown="event.preventDefault(); changeActiveTextboxColor('#10b981')" class="w-4 h-4 rounded-full bg-emerald-500 border border-neutral-600 hover:scale-110 transition" title="Vert"></button>
+                            <button onpointerdown="event.preventDefault(); changeActiveTextboxColor('#f59e0b')" class="w-4 h-4 rounded-full bg-amber-500 border border-neutral-600 hover:scale-110 transition" title="Orange"></button>
+                            <button onpointerdown="event.preventDefault(); changeActiveTextboxColor('#ef4444')" class="w-4 h-4 rounded-full bg-rose-500 border border-neutral-600 hover:scale-110 transition" title="Rouge"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panneau Latéral (Checklist Programme P5-P6) -->
+                <aside id="whiteboard-sidebar" class="w-0 h-full border-l-4 border-neutral-900 bg-white flex flex-col transition-all duration-300 relative z-30 overflow-hidden">
+                    <div class="p-3 bg-neutral-100 border-b-2 border-neutral-200 flex justify-between items-center flex-shrink-0 select-none">
+                        <span class="font-display font-black text-sm text-neutral-800 flex items-center gap-1.5"><i data-lucide="book-open" class="w-4 h-4 text-indigo-500"></i> Suivi du Programme</span>
+                        <button onclick="toggleSidebar()" class="p-1 hover:bg-neutral-200 rounded text-neutral-600" title="Masquer le panneau"><i data-lucide="x" class="w-4.5 h-4.5"></i></button>
+                    </div>
+                    
+                    <!-- Info bulle drag and drop -->
+                    <div class="bg-amber-50 border-b border-amber-200 px-3 py-2 text-[11px] font-semibold text-amber-800 flex items-start gap-1.5">
+                        <span class="text-xs">💡</span>
+                        <p>Cliquez sur l'icône 📋 à côté d'une matière dans le programme pour la copier directement sous forme de boîte de texte sur le tableau blanc.</p>
+                    </div>
+                    
+                    <!-- Iframe contenant programme_P5_P6.html -->
+                    <div class="flex-1 w-full relative min-h-0">
+                        <iframe src="programme_P5_P6.html" id="curriculum-sidebar-iframe" class="absolute inset-0 w-full h-full border-none"></iframe>
+                    </div>
+                </aside>
+
+            </div>
+            
+            <!-- Barre de Contrôles Inférieure (Clair haute visibilité) -->
+            <div id="whiteboard-bottom-bar" class="relative bg-white text-neutral-800 border-t-[3px] border-neutral-900 px-4 py-2.5 flex items-center justify-between select-none z-30 shadow-[0_-4px_0_rgba(0,0,0,0.05)] animate-fade-in">
+                <!-- Gauche : Menu Burger, Navigation PDF & Zoom -->
+                <div class="flex items-center gap-2">
+                    <!-- Menu Burger -->
+                    <div class="relative">
+                        <button onclick="toggleBurgerMenu()" class="p-2.5 hover:bg-neutral-100 rounded-xl transition flex items-center justify-center border-[3px] border-neutral-900 bg-neutral-50 text-neutral-800 shadow-[2px_2px_0_rgba(0,0,0,1)]" id="burger-menu-btn" title="Menu principal">
+                            <i data-lucide="menu" class="w-5 h-5 text-indigo-600"></i>
+                        </button>
+                        <!-- Menu Popup -->
+                        <div id="burger-popup-menu" class="hidden absolute bottom-14 left-0 bg-white text-neutral-800 border-[3px] border-neutral-900 rounded-2xl shadow-xl w-65 py-2.5 z-50">
+                            <button onclick="addNewBlankTab(); closeBurgerMenu()" class="w-full px-4 py-2.5 hover:bg-neutral-100 flex items-center gap-3 font-display font-bold text-sm text-left">
+                                <span class="text-lg">🖥️</span> Ouvrir un tableau blanc
+                            </button>
+                            <input type="file" id="pdf-loader-bottom-input" accept="application/pdf" class="hidden" onchange="loadPdfFile(event)">
+                            <button onclick="document.getElementById('pdf-loader-bottom-input').click(); closeBurgerMenu()" class="w-full px-4 py-2.5 hover:bg-neutral-100 flex items-center gap-3 font-display font-bold text-sm text-left">
+                                <span class="text-lg">📁</span> Importer un fichier PDF
+                            </button>
+                            <input type="file" id="image-loader-bottom-input" accept="image/*" class="hidden" onchange="loadImageFile(event)">
+                            <button onclick="document.getElementById('image-loader-bottom-input').click(); closeBurgerMenu()" class="w-full px-4 py-2.5 hover:bg-neutral-100 flex items-center gap-3 font-display font-bold text-sm text-left">
+                                <span class="text-lg">🖼️</span> Insérer une image
+                            </button>
+                            <hr class="border-neutral-250 my-1.5">
+                            <button onclick="clearCurrentTab(); closeBurgerMenu()" class="w-full px-4 py-2.5 hover:bg-rose-50 text-rose-600 flex items-center gap-3 font-display font-bold text-sm text-left">
+                                <span class="text-lg">🗑️</span> Effacer la page active
+                            </button>
+                            <button onclick="exportCurrentTab(); closeBurgerMenu()" class="w-full px-4 py-2.5 hover:bg-indigo-50 text-indigo-600 flex items-center gap-3 font-display font-bold text-sm text-left">
+                                <span class="text-lg">💾</span> Enregistrer en image PNG
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation PDF/Tableau Blanc -->
+                    <div id="pdf-navigation-bottom" class="hidden items-center gap-1 bg-white border-[3px] border-neutral-900 px-3 py-1 rounded-xl text-neutral-800 shadow-[3px_3px_0_rgba(0,0,0,1)]">
+                        <button onclick="prevPdfPage()" class="p-1 hover:bg-neutral-200 rounded transition text-neutral-800" title="Page précédente"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                        <span id="pdf-page-num-bottom" class="text-xs font-bold font-mono px-1">1 / 1</span>
+                        <button onclick="nextPdfPage()" class="p-1 hover:bg-neutral-200 rounded transition text-neutral-800" title="Page suivante"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                        <button onclick="addWhiteboardPage()" id="add-page-btn" class="p-1 hover:bg-neutral-200 rounded transition ml-1 hidden" title="Ajouter une page blanche"><i data-lucide="plus" class="w-4 h-4 text-emerald-600 font-bold"></i></button>
+                        <button onclick="toggleThumbnailsPanel()" class="p-1 hover:bg-neutral-200 rounded transition ml-1 text-neutral-850" title="Voir les miniatures des pages"><i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i></button>
+                    </div>
+
+                    <!-- Contrôles de zoom -->
+                    <div class="flex items-center gap-1 bg-white border-[3px] border-neutral-900 px-3 py-1 rounded-xl text-neutral-800 shadow-[3px_3px_0_rgba(0,0,0,1)]">
+                        <button onclick="zoomOut()" class="p-1 hover:bg-neutral-200 rounded transition" title="Zoomer arrière"><i data-lucide="zoom-out" class="w-4 h-4"></i></button>
+                        <span id="zoom-level-text" class="text-xs font-bold font-mono px-1 min-w-[36px] text-center select-none">100%</span>
+                        <button onclick="zoomIn()" class="p-1 hover:bg-neutral-200 rounded transition" title="Zoomer avant"><i data-lucide="zoom-in" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Milieu : Barre d'outils de dessin -->
+                <div class="flex items-center gap-2 bg-white border-[3px] border-neutral-900 px-4 py-1.5 rounded-2xl text-neutral-800 shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                    <!-- 1. Sélectionner -->
+                    <button onclick="setWhiteboardTool('select')" id="tool-btn-select" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Sélectionner / Déplacer les tracés">
+                        <i data-lucide="mouse-pointer" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 2. Stylo Noir (pen1) -->
+                    <button onclick="setWhiteboardTool('pen1')" id="tool-btn-pen1" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Stylo Noir">
+                        <i data-lucide="pencil" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 3. Stylo Bleu (pen2) -->
+                    <button onclick="setWhiteboardTool('pen2')" id="tool-btn-pen2" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Stylo Bleu">
+                        <i data-lucide="pencil" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 4. Stylo Rouge (pen3) -->
+                    <button onclick="setWhiteboardTool('pen3')" id="tool-btn-pen3" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Stylo Rouge">
+                        <i data-lucide="pencil" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 5. Gomme -->
+                    <button onclick="setWhiteboardTool('eraser')" id="tool-btn-eraser" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Gomme">
+                        <i data-lucide="eraser" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 6. Fluo / Surligneur -->
+                    <button onclick="setWhiteboardTool('highlighter')" id="tool-btn-highlighter" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Surligneur (Fluo)">
+                        <i data-lucide="highlighter" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 7. Laser -->
+                    <button onclick="setWhiteboardTool('laser')" id="tool-btn-laser" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Pointeur Laser">
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 8. Texte -->
+                    <button onclick="setWhiteboardTool('text')" id="tool-btn-text" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Zone de Texte">
+                        <i data-lucide="type" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 9. Ligne (Règle) -->
+                    <button onclick="setWhiteboardTool('line')" id="tool-btn-line" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Règle (Tracer une ligne droite)">
+                        <i data-lucide="minus" class="w-5 h-5"></i>
+                    </button>
+                    <!-- 10. Formes -->
+                    <div class="relative inline-block">
+                        <button onclick="setWhiteboardTool('shape')" id="tool-btn-shape" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition" title="Formes Géométriques">
+                            <i data-lucide="shapes" class="w-5 h-5"></i>
+                        </button>
+                        <!-- Menu de sélection des formes -->
+                        <div id="shape-select-container" class="hidden absolute bottom-14 left-1/2 -translate-x-1/2 bg-white border-2 border-neutral-300 text-neutral-800 rounded-xl py-1.5 px-2 flex gap-1.5 z-40 shadow-xl items-center">
+                            <button onclick="setShapeType('line')" id="shape-btn-line" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition active" title="Ligne droite"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                            <button onclick="setShapeType('arrow')" id="shape-btn-arrow" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition" title="Flèche"><i data-lucide="arrow-up-right" class="w-4 h-4"></i></button>
+                            <button onclick="setShapeType('rect')" id="shape-btn-rect" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition" title="Rectangle"><i data-lucide="square" class="w-4 h-4"></i></button>
+                            <button onclick="setShapeType('circle')" id="shape-btn-circle" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition" title="Cercle"><i data-lucide="circle" class="w-4 h-4"></i></button>
+                            
+                            <span class="w-px h-5 bg-neutral-300 mx-0.5"></span>
+                            
+                            <!-- Remplissage des formes -->
+                            <button onclick="toggleFillShapes()" id="shape-fill-toggle-btn" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500 transition" title="Remplir les formes (Pot de peinture)">
+                                <i data-lucide="paint-bucket" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="relative inline-block">
+                        <button onclick="toggleToolsMenu(event)" id="tool-btn-tools" class="tool-btn p-2 rounded-xl hover:bg-neutral-200 transition text-neutral-600 flex items-center justify-center gap-1.5" title="Outils supplémentaires">
+                            <i data-lucide="wrench" class="w-5 h-5 text-neutral-600"></i>
+                            <span class="text-xs font-bold font-display hidden sm:inline">Outils</span>
+                        </button>
+                        <!-- Menu Popover Outils -->
+                        <div id="tools-menu-container" class="hidden absolute bottom-14 left-1/2 -translate-x-1/2 bg-white border-[3px] border-neutral-900 text-neutral-800 rounded-2xl p-2.5 flex flex-col gap-1.5 z-50 shadow-[4px_4px_0_rgba(0,0,0,1)] w-48 select-none">
+                            <button onclick="triggerToolAction('aristo')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="triangle" class="w-4 h-4 text-indigo-500"></i> Équerre Aristo
+                            </button>
+                            <button onclick="triggerToolAction('compass')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="compass" class="w-4 h-4 text-indigo-500"></i> Compas
+                            </button>
+                            <button onclick="triggerToolAction('scissors')" id="tools-menu-scissors-btn" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="scissors" class="w-4 h-4 text-indigo-500"></i> Ciseaux (Découper)
+                            </button>
+                            <button onclick="triggerToolAction('timer')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="timer" class="w-4 h-4 text-indigo-500"></i> Minuteur
+                            </button>
+                            <button onclick="triggerToolAction('fractions')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-500"></i> Fractions
+                            </button>
+                            <button onclick="triggerToolAction('abaque')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="grid" class="w-4 h-4 text-indigo-500"></i> Abaque décimal
+                            </button>
+                            <button onclick="triggerToolAction('horloge')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Horloge
+                            </button>
+                            <button onclick="triggerToolAction('postit')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
+                                <i data-lucide="sticky-note" class="w-4 h-4 text-indigo-500"></i> Post-it (Note)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Droite : Fonds scolaires & Historique -->
+                <div class="flex items-center gap-2">
+                    <!-- Boutons de fonds scolaires rapides -->
+                    <div class="flex items-center bg-white border-[3px] border-neutral-900 p-0.5 rounded-xl shadow-[3px_3px_0_rgba(0,0,0,1)]">
+                        <button onclick="setBoardBackground('blank')" id="bg-btn-blank" class="bg-select-btn px-2.5 py-1 text-[10px] font-bold rounded-lg text-neutral-500 hover:text-neutral-800 transition">Uni</button>
+                        <button onclick="setBoardBackground('blackboard')" id="bg-btn-blackboard" class="bg-select-btn px-2.5 py-1 text-[10px] font-bold rounded-lg text-neutral-500 hover:text-neutral-800 transition">Ardoise</button>
+                        <button onclick="setBoardBackground('seyes')" id="bg-btn-seyes" class="bg-select-btn px-2.5 py-1 text-[10px] font-bold rounded-lg text-neutral-500 hover:text-neutral-800 transition">Lignes</button>
+                        <button onclick="setBoardBackground('grid')" id="bg-btn-grid" class="bg-select-btn px-2.5 py-1 text-[10px] font-bold rounded-lg text-neutral-500 hover:text-neutral-800 transition">Carrés</button>
+                    </div>
+                    
+                    <span class="w-px h-6 bg-neutral-300 mx-1"></span>
+                    
+                    <button onclick="undo()" class="p-2 hover:bg-neutral-200 rounded-xl transition text-neutral-500 hover:text-neutral-800" title="Annuler (Ctrl+Z)"><i data-lucide="undo" class="w-5 h-5"></i></button>
+                    <button onclick="redo()" class="p-2 hover:bg-neutral-200 rounded-xl transition text-neutral-500 hover:text-neutral-800" title="Rétablir (Ctrl+Y)"><i data-lucide="redo" class="w-5 h-5"></i></button>
+                </div>
+                
+                <!-- Popover de réglage d'outils (Stylos, Fluo, Règle) -->
+                <div id="tool-settings-popover" class="hidden absolute bottom-16 bg-white border-[3px] border-neutral-900 text-neutral-800 rounded-2xl p-3 z-50 shadow-[4px_4px_0_rgba(0,0,0,1)] w-72 select-none">
+                    <div class="mb-2.5">
+                        <span class="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-wider block mb-1.5">Couleur du tracé</span>
+                        <div id="popover-color-grid" class="grid grid-cols-6 gap-2">
+                            <!-- Injecté dynamiquement en JS -->
+                        </div>
+                    </div>
+                    <div class="border-t border-neutral-200 pt-2">
+                        <span class="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-wider block mb-1.5">Épaisseur du trait</span>
+                        <div id="popover-width-row" class="flex justify-between gap-1.5">
+                            <!-- Injecté dynamiquement en JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ÉCRAN 2 : Programme P5-P6 Plein Écran -->
+        <section id="screen-curriculum" class="tab-screen absolute inset-0 flex flex-col min-h-0 bg-white">
+            <div class="bg-white border-b-2 border-neutral-300 px-4 py-2 flex items-center justify-between no-print shrink-0 select-none">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchTab('home')" class="p-1.5 hover:bg-neutral-200 rounded-lg transition border border-neutral-300 bg-white shadow-sm flex items-center justify-center" title="Retour à l'accueil">
+                        <i data-lucide="home" class="w-4 h-4 text-neutral-700"></i>
+                    </button>
+                    <span class="font-display font-black text-sm text-neutral-800">📚 Programme P5-P6</span>
+                </div>
+            </div>
+            <iframe src="programme_P5_P6.html" id="curriculum-fullscreen-iframe" class="flex-1 w-full border-none"></iframe>
+        </section>
+
+        <!-- ÉCRAN 3 : Time Timer Plein Écran -->
+        <section id="screen-timer" class="tab-screen absolute inset-0 flex flex-col min-h-0 bg-[#FDFBF7] select-none">
+            <div class="bg-white border-b-2 border-neutral-300 px-6 py-3 flex items-center justify-between no-print shrink-0">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchTab('home')" class="p-1.5 hover:bg-neutral-200 rounded-lg transition border border-neutral-300 bg-white shadow-sm flex items-center justify-center" title="Retour à l'accueil">
+                        <i data-lucide="home" class="w-4 h-4 text-neutral-700"></i>
+                    </button>
+                    <span class="font-display font-black text-sm text-neutral-800">⏱️ Time Timer</span>
+                </div>
+            </div>
+            <div class="flex-1 flex items-center justify-center p-6 md:p-8 min-h-0 overflow-y-auto">
+                <div class="max-w-4xl mx-auto w-full h-full flex flex-col md:grid md:grid-cols-2 gap-8 items-center justify-center min-h-0">
+                    <!-- Gauche : Grand cadran du timer -->
+                    <div class="flex flex-col items-center justify-center w-full h-full min-h-0">
+                        <div class="w-[85vw] h-[45vh] md:w-full md:h-full max-w-[420px] max-h-[420px] relative">
+                            <svg id="fullscreen-timer-svg" viewBox="-250 -250 500 500" class="w-full h-full cursor-pointer touch-none">
+                                <!-- Cadran blanc -->
+                                <circle class="dial-background fill-white stroke-neutral-200" r="225" stroke-width="4" />
+                                <!-- Disque rouge -->
+                                <path id="fullscreen-timer-wedge" class="timer-wedge fill-rose-500 opacity-80" d="M 0 0 Z" />
+                                <!-- Ticks et labels -->
+                                <g id="fullscreen-dial-ticks"></g>
+                                <g id="fullscreen-dial-labels"></g>
+                                <!-- Lunette extérieure -->
+                                <circle class="dial-bezel fill-none stroke-neutral-900" r="225" stroke-width="8" />
+                                <!-- Pivot central -->
+                                <circle class="center-pin fill-neutral-900" r="14" />
+                                <line id="fullscreen-timer-needle" class="timer-needle stroke-rose-500" x1="0" y1="0" x2="0" y2="-210" stroke-width="3" />
+                            </svg>
+                        </div>
+                        <!-- Digital géant -->
+                        <div class="font-mono font-black text-6xl md:text-7xl text-neutral-800 mt-6" id="fullscreen-timer-digital">
+                            15:00
+                        </div>
+                    </div>
+
+                    <!-- Droite : Commandes et paramètres -->
+                    <div class="flex flex-col gap-6 w-full justify-center animate-fadeIn">
+                        
+                        <!-- Boutons Play / Pause / Reset -->
+                        <div class="flex gap-4">
+                            <button onclick="startFullscreenTimer()" id="btn-fullscreen-play" class="flex-1 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-lg rounded-2xl flex items-center justify-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-neutral-900 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">
+                                <i data-lucide="play" class="w-5 h-5 fill-current"></i> Démarrer
+                            </button>
+                            <button onclick="pauseFullscreenTimer()" id="btn-fullscreen-pause" class="flex-1 py-4 bg-amber-50 hover:bg-amber-600 text-white font-display font-bold text-lg rounded-2xl flex items-center justify-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-neutral-900 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all hidden">
+                                <i data-lucide="pause" class="w-5 h-5"></i> Pause
+                            </button>
+                            <button onclick="resetFullscreenTimer()" class="flex-1 py-4 bg-rose-50 hover:bg-rose-100 text-rose-700 font-display font-bold text-lg rounded-2xl flex items-center justify-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-neutral-900 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">
+                                <i data-lucide="refresh-cw" class="w-5 h-5"></i> Remettre à zéro
+                            </button>
+                        </div>
+
+                        <!-- Préréglages rapides -->
+                        <div class="bg-white border-2 border-neutral-900 p-5 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                            <h3 class="font-display font-bold text-sm uppercase text-neutral-400 tracking-wider mb-3 flex items-center gap-1.5"><i data-lucide="alarm-clock" class="w-4 h-4"></i> Raccourcis durées</h3>
+                            <div class="grid grid-cols-4 gap-2.5">
+                                <button onclick="setFullscreenPreset(5)" class="py-2.5 bg-neutral-100 hover:bg-neutral-900 hover:text-white border-2 border-neutral-200 hover:border-neutral-900 font-display font-bold text-sm rounded-xl transition">5 min</button>
+                                <button onclick="setFullscreenPreset(10)" class="py-2.5 bg-neutral-100 hover:bg-neutral-900 hover:text-white border-2 border-neutral-200 hover:border-neutral-900 font-display font-bold text-sm rounded-xl transition">10 min</button>
+                                <button onclick="setFullscreenPreset(15)" class="py-2.5 bg-neutral-100 hover:bg-neutral-900 hover:text-white border-2 border-neutral-200 hover:border-neutral-900 font-display font-bold text-sm rounded-xl transition">15 min</button>
+                                <button onclick="setFullscreenPreset(20)" class="py-2.5 bg-neutral-100 hover:bg-neutral-900 hover:text-white border-2 border-neutral-200 hover:border-neutral-900 font-display font-bold text-sm rounded-xl transition">20 min</button>
+                                <button onclick="setFullscreenPreset(30)" class="py-2.5 bg-neutral-100 hover:bg-neutral-900 hover:text-white border-2 border-neutral-200 hover:border-neutral-900 font-display font-bold text-sm rounded-xl transition">30 min</button>
+                                <button onclick="setFullscreenPreset(45)" class="py-2.5 bg-neutral-100 hover:bg-neutral-900 hover:text-white border-2 border-neutral-200 hover:border-neutral-900 font-display font-bold text-sm rounded-xl transition">45 min</button>
+                                <button onclick="setFullscreenPreset(60)" class="py-2.5 bg-neutral-100 hover:bg-neutral-900 hover:text-white border-2 border-neutral-200 hover:border-neutral-900 font-display font-bold text-sm rounded-xl transition">60 min</button>
+                                <button onclick="showCustomFullscreenTimePrompt()" class="py-2.5 bg-indigo-50 hover:bg-indigo-600 hover:text-white border-2 border-indigo-200 hover:border-indigo-600 font-display font-bold text-sm rounded-xl transition text-indigo-700">Autre...</button>
+                            </div>
+                        </div>
+
+                        <!-- Consigne de classe -->
+                        <div class="bg-white border-2 border-neutral-900 p-5 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                            <h3 class="font-display font-bold text-sm uppercase text-neutral-400 tracking-wider mb-3 flex items-center gap-1.5"><i data-lucide="message-square-code" class="w-4 h-4"></i> Consigne de classe</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div onclick="setWorkMode('silence')" data-mode="silence" class="mode-btn active p-3 border-2 border-neutral-200 bg-neutral-50 hover:bg-neutral-100 rounded-2xl flex flex-col items-center gap-1 transition cursor-pointer">
+                                    <span class="text-3xl">🤫</span>
+                                    <span class="font-display text-xs font-bold text-neutral-700">Silence individuel</span>
+                                </div>
+                                <div onclick="setWorkMode('chuchotement')" data-mode="chuchotement" class="mode-btn p-3 border-2 border-neutral-200 bg-neutral-50 hover:bg-neutral-100 rounded-2xl flex flex-col items-center gap-1 transition cursor-pointer">
+                                    <span class="text-3xl">💬</span>
+                                    <span class="font-display text-xs font-bold text-neutral-700">Chuchotement (binôme)</span>
+                                </div>
+                                <div onclick="setWorkMode('groupe')" data-mode="groupe" class="mode-btn p-3 border-2 border-neutral-200 bg-neutral-50 hover:bg-neutral-100 rounded-2xl flex flex-col items-center gap-1 transition cursor-pointer">
+                                    <span class="text-3xl">👥</span>
+                                    <span class="font-display text-xs font-bold text-neutral-700">Travail en groupe</span>
+                                </div>
+                                <div onclick="setWorkMode('presentation')" data-mode="presentation" class="mode-btn p-3 border-2 border-neutral-200 bg-neutral-50 hover:bg-neutral-100 rounded-2xl flex flex-col items-center gap-1 transition cursor-pointer">
+                                    <span class="text-3xl">📢</span>
+                                    <span class="font-display text-xs font-bold text-neutral-700">Écoute active (exposé)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Volume et sons -->
+                        <div class="bg-white border-2 border-neutral-900 p-5 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)] flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <button onclick="toggleMute()" id="sound-btn" class="p-2.5 bg-neutral-100 hover:bg-neutral-200 border-2 border-neutral-200 rounded-xl transition text-neutral-700">
+                                    <i data-lucide="volume-2" id="sound-icon-element" class="w-5 h-5"></i>
+                                </button>
+                                <div>
+                                    <h4 class="font-display font-bold text-sm text-neutral-800">Volume sonore</h4>
+                                    <p class="text-[10px] font-mono text-neutral-400 font-semibold uppercase">Son de la cloche fin</p>
+                                </div>
+                            </div>
+                            <input type="range" min="0" max="1" step="0.1" value="0.5" onchange="setVolume(this.value)" id="volume-range-input" class="w-1/2 accent-indigo-600 cursor-pointer">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ÉCRAN 4 : Horaire -->
+        <section id="screen-horaire" class="tab-screen absolute inset-0 flex flex-col min-h-0 bg-[#FDFBF7] select-none">
+            <div class="bg-white border-b-2 border-neutral-300 px-6 py-3 flex items-center justify-between no-print shrink-0">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchTab('home')" class="p-1.5 hover:bg-neutral-200 rounded-lg transition border border-neutral-300 bg-white shadow-sm flex items-center justify-center" title="Retour à l'accueil">
+                        <i data-lucide="home" class="w-4 h-4 text-neutral-700"></i>
+                    </button>
+                    <span class="font-display font-black text-sm text-neutral-800">📅 Semainier</span>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6 md:p-8">
+                <div class="max-w-5xl mx-auto w-full space-y-6 animate-fadeIn pb-12">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-amber-100 border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                            <i data-lucide="calendar" class="w-6 h-6 text-amber-600"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-black text-2xl text-neutral-800 leading-none">Semainier</h2>
+                            <p class="text-xs text-neutral-500 font-semibold mt-1">Semainier interactif des cours</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Barre d'outils de gestion de l'horaire -->
+                    <div class="horaire-controls flex flex-wrap items-center justify-between gap-4 bg-white border-[3px] border-neutral-900 p-4 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)] no-print">
+                        <div class="flex items-center gap-3">
+                            <label for="week-select" class="text-xs font-display font-black text-neutral-600 uppercase">Semaine :</label>
+                            <select id="week-select" onchange="selectWeek(this.value)" class="text-sm bg-neutral-100 border-2 border-neutral-900 rounded-xl p-2 font-bold text-neutral-800 outline-none cursor-pointer">
+                                <!-- Les options seront injectées dynamiquement -->
+                            </select>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2.5">
+                            <button onclick="handleAddNewWeek()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Nouvelle semaine
+                            </button>
+                            <button onclick="handleDuplicateWeek()" class="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Dupliquer
+                            </button>
+                            <button onclick="handleRenameWeek()" class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Renommer
+                            </button>
+                            <button onclick="handleDeleteWeek()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Supprimer
+                            </button>
+                            <span class="w-px h-6 bg-neutral-300 mx-1"></span>
+                            <button onclick="window.print()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="printer" class="w-3.5 h-3.5"></i> Imprimer / PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table du Semainier -->
+                    <div class="horaire-container overflow-x-auto">
+                        <div id="schedule-table-container">
+                            <!-- Généré en JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <footer class="border-t border-neutral-300/60 pt-6 text-center text-xs text-neutral-400 font-mono tracking-wider no-print">
+                       Waimes Centre • Plateforme Console TBI Enseignant • P5 & P6
+                    </footer>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ÉCRAN 5 : Devoirs -->
+        <section id="screen-devoirs" class="tab-screen absolute inset-0 flex flex-col min-h-0 bg-[#FDFBF7] select-none">
+            <div class="bg-white border-b-2 border-neutral-300 px-6 py-3 flex items-center justify-between no-print shrink-0">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchTab('home')" class="p-1.5 hover:bg-neutral-200 rounded-lg transition border border-neutral-300 bg-white shadow-sm flex items-center justify-center" title="Retour à l'accueil">
+                        <i data-lucide="home" class="w-4 h-4 text-neutral-700"></i>
+                    </button>
+                    <span class="font-display font-black text-sm text-neutral-800">📝 Devoirs & Leçons</span>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6 md:p-8">
+                <div class="max-w-5xl mx-auto w-full space-y-6 animate-fadeIn pb-12">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-violet-100 border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                            <i data-lucide="clipboard-list" class="w-6 h-6 text-violet-600"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-black text-2xl text-neutral-800 leading-none">Devoirs & Leçons</h2>
+                            <p class="text-xs text-neutral-500 font-semibold mt-1">Suivi et planification des devoirs et leçons</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Barre d'outils de gestion des devoirs -->
+                    <div class="horaire-controls flex flex-wrap items-center justify-between gap-4 bg-white border-[3px] border-neutral-900 p-4 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)] no-print">
+                        <div class="flex items-center gap-3">
+                            <label for="devoirs-week-select" class="text-xs font-display font-black text-neutral-600 uppercase">Semaine :</label>
+                            <select id="devoirs-week-select" onchange="selectDevoirsWeek(this.value)" class="text-sm bg-neutral-100 border-2 border-neutral-900 rounded-xl p-2 font-bold text-neutral-800 outline-none cursor-pointer">
+                                <!-- Les options seront injectées dynamiquement -->
+                            </select>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2.5">
+                            <button onclick="handleAddNewDevoirsWeek()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Nouvelle semaine
+                            </button>
+                            <button onclick="handleDuplicateDevoirsWeek()" class="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Dupliquer
+                            </button>
+                            <button onclick="handleRenameDevoirsWeek()" class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Renommer
+                            </button>
+                            <button onclick="handleDeleteDevoirsWeek()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Supprimer
+                            </button>
+                            <span class="w-px h-6 bg-neutral-300 mx-1"></span>
+                            <button onclick="window.print()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                <i data-lucide="printer" class="w-3.5 h-3.5"></i> Imprimer / PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table des Devoirs -->
+                    <div class="devoirs-container overflow-x-auto">
+                        <div id="devoirs-table-container">
+                            <!-- Généré en JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <footer class="border-t border-neutral-300/60 pt-6 text-center text-xs text-neutral-400 font-mono tracking-wider no-print">
+                       Waimes Centre • Plateforme Console TBI Enseignant • P5 & P6
+                    </footer>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts de PDF.js -->
+    <script src="pdf.min.js"></script>
+    <script src="pdf.worker.min.js"></script>
+
+    <!-- Fichiers d'implémentation logique -->
+    <script src="timer.js"></script>
+    <script src="aristo.js"></script>
+    <script src="compass.js"></script>
+    <script src="whiteboard.js"></script>
+    <script src="horaire.js"></script>
+    <script src="devoirs.js"></script>
+    <script src="fractions.js"></script>
+    <script src="abaque.js"></script>
+    <script src="horloge.js"></script>
+    <script src="app.js"></script>
+
+    <script>
+      // Enregistrement du service worker pour le mode hors-ligne
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js')
+            .then(function(reg) { console.log('✅ Service Worker de la Console TBI enregistré !', reg); })
+            .catch(function(err) { console.error('❌ Échec enregistrement Service Worker TBI :', err); });
+        });
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,842 @@
+/* CSS pour la Console TBI Enseignant */
+
+:root {
+    --primary-color: #4f46e5; /* Indigo */
+    --primary-hover: #4338ca;
+    --border-color: #1e293b; /* Ardoise foncée */
+    --bg-light: #FDFBF7; /* Couleur crème comme LCML */
+    --panel-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    
+    /* Couleurs du Time Timer */
+    --color-silence: #8b5cf6;
+    --color-chuchotement: #10b981;
+    --color-groupe: #f59e0b;
+    --color-presentation: #ef4444;
+}
+
+/* --- LOGIQUE DES ONGLETS (TABS) --- */
+.tab-screen {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+.tab-screen.active {
+    display: flex !important;
+    opacity: 1;
+    pointer-events: auto;
+}
+#screen-curriculum.active {
+    display: flex !important;
+}
+
+.tab-btn {
+    color: #4b5563;
+    background: transparent;
+}
+.tab-btn:hover {
+    color: #111827;
+    background: rgba(0, 0, 0, 0.04);
+}
+.tab-btn.active {
+    background-color: #111827;
+    color: #ffffff;
+}
+
+/* --- BARRES D'OUTILS --- */
+#whiteboard-bottom-bar svg {
+    stroke-width: 2.5px !important;
+}
+
+.tool-btn, .widget-btn {
+    color: #1e293b;
+    transition: all 0.15s ease;
+}
+.tool-btn:hover, .widget-btn:hover {
+    color: #111827;
+    background-color: #e5e7eb;
+}
+.tool-btn.active, .widget-btn.active-widget {
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+}
+
+.shape-btn {
+    color: #4b5563;
+}
+.shape-btn:hover {
+    background-color: #e5e7eb;
+}
+.shape-btn.active {
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
+.bg-select-btn {
+    color: #4b5563;
+}
+.bg-select-btn:hover {
+    background-color: #e5e7eb;
+}
+.bg-select-btn.active {
+    background-color: #111827;
+    color: #ffffff;
+}
+
+.color-dot.active {
+    border-color: #000000;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #000000;
+}
+
+/* --- WIDGETS FLOTTANTS --- */
+.floating-widget {
+    user-select: none;
+    touch-action: none;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease;
+}
+
+.floating-widget:active {
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+}
+
+.widget-header {
+    user-select: none;
+}
+
+/* Style des boutons rapides de consigne */
+.mode-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mode-btn:hover {
+    transform: translateY(-2px);
+    border-color: #111827;
+}
+.mode-btn.active {
+    border-color: #111827;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    transform: translateY(-2px);
+}
+.mode-btn[data-mode="silence"].active {
+    background-color: rgba(139, 92, 246, 0.08);
+}
+.mode-btn[data-mode="chuchotement"].active {
+    background-color: rgba(16, 185, 129, 0.08);
+}
+.mode-btn[data-mode="groupe"].active {
+    background-color: rgba(245, 158, 11, 0.08);
+}
+.mode-btn[data-mode="presentation"].active {
+    background-color: rgba(239, 68, 68, 0.08);
+}
+
+/* --- ZONES DE TEXTE MOBILES (WHITEBOARD) --- */
+.text-box, .text-content-node {
+    font-family: 'Arial', sans-serif !important;
+}
+
+.text-box {
+    position: absolute;
+    min-width: 120px;
+    min-height: 40px;
+    padding: 6px 12px;
+    border: 2px dashed transparent;
+    cursor: text;
+    pointer-events: none;
+    font-weight: 600;
+    color: #1e293b;
+    outline: none;
+    display: inline-block;
+    border-radius: 8px;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.select-mode-active .text-box,
+.text-mode-active .text-box {
+    pointer-events: auto;
+}
+
+.select-mode-active .text-box {
+    cursor: move;
+}
+
+.text-box:hover {
+    border-color: #cbd5e1;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.text-box:focus-within {
+    border-color: #4f46e5;
+    border-style: solid;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+}
+
+/* Bouton pour supprimer une boîte de texte */
+.text-box-delete {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.text-box:hover .text-box-delete,
+.text-box:focus-within .text-box-delete {
+    display: flex;
+}
+
+/* --- ÉQUERRE ARISTO / COMPAS STYLING --- */
+#aristo-svg, #compass-svg {
+    overflow: visible !important;
+    pointer-events: auto;
+}
+.floating-widget {
+    overflow: visible !important;
+}
+.aristo-snap-active {
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) !important;
+}
+
+/* --- STYLING DU COMPAS --- */
+
+/* --- FONDS DE TABLEAU (CSS GENERATED) --- */
+.board-bg-blank {
+    background-color: #ffffff !important;
+}
+
+/* Tableau Noir / Ardoise */
+.board-bg-blackboard {
+    background-color: #1b2621 !important; /* Vert ardoise de classe */
+    background-image: 
+        radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0),
+        radial-gradient(rgba(255, 255, 255, 0.015) 2px, transparent 0) !important;
+    background-size: 40px 40px, 80px 80px !important;
+    color: #ffffff !important;
+}
+
+/* Lignes d'écriture (anciennement Seyes) */
+/* Réduit de 33% : ligne principale tous les 54px, lignes secondaires tous les 13.5px. Marge en rouge. */
+.board-bg-seyes {
+    background-color: #f7fafc !important;
+    background-image: 
+        /* Marge Rouge à gauche à 120px */
+        linear-gradient(90deg, transparent 119px, #ef4444 119px, #ef4444 121px, transparent 121px),
+        /* Lignes principales violettes tous les 54px */
+        linear-gradient(#c7d2fe 53px, #818cf8 53px, #818cf8 55px, transparent 55px),
+        /* Lignes secondaires bleues tous les 13.5px */
+        linear-gradient(#e0f2fe 12.5px, #bae6fd 12.5px, #bae6fd 13.5px, transparent 13.5px) !important;
+    background-size: 100% 100%, 100% 54px, 100% 13.5px !important;
+}
+
+/* Quadrillage petits carreaux d'écolier (Carrés) */
+/* Lignes tous les 40px (1cm) de couleur #93c5fd avec épaisseur 1.5px */
+.board-bg-grid {
+    background-color: #fcfdfd !important;
+    background-image: 
+        /* Marge Rouge */
+        linear-gradient(90deg, transparent 99px, #fca5a5 99px, #fca5a5 101.5px, transparent 101.5px),
+        /* Grilles verticales */
+        linear-gradient(90deg, #93c5fd 1.5px, transparent 1.5px),
+        /* Grilles horizontales */
+        linear-gradient(#93c5fd 1.5px, transparent 1.5px) !important;
+    background-size: 100% 100%, 40px 100%, 100% 40px !important;
+}
+
+/* Portée musicale */
+/* Groupe de 5 lignes parallèles répétées */
+.board-bg-music {
+    background-color: #ffffff !important;
+    background-image: 
+        /* 5 lignes parallèles */
+        linear-gradient(#334155 1px, transparent 1px),
+        linear-gradient(#334155 1px, transparent 1px),
+        linear-gradient(#334155 1px, transparent 1px),
+        linear-gradient(#334155 1px, transparent 1px),
+        linear-gradient(#334155 1px, transparent 1px) !important;
+    background-size: 100% 160px !important; /* Répétition globale */
+    /* Positionnement relatif de chaque ligne dans la répétition */
+    background-position: 0 40px, 0 50px, 0 60px, 0 70px, 0 80px !important;
+}
+
+#widgets-container {
+    overflow: visible !important;
+}
+
+/* --- CURSOR STYLING --- */
+.canvas-cursor-pen {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231e293b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E") 2 22, pointer;
+}
+
+.canvas-cursor-highlighter {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m12 14 4-4L6 2 2 6l8 8Z'/%3E%3Cpath d='m12 14-8 8'/%3E%3Crect x='14' y='14' width='8' height='8' rx='2'/%3E%3C/svg%3E") 2 22, pointer;
+}
+
+.canvas-cursor-eraser {
+    cursor: none !important;
+}
+
+.canvas-cursor-laser {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff2255' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/%3E%3C/svg%3E") 12 12, crosshair;
+}
+
+#eraser-cursor-preview {
+    position: fixed;
+    pointer-events: none;
+    border: 1.5px solid #ef4444;
+    background-color: rgba(239, 68, 68, 0.15);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    display: none;
+}
+
+/* --- LOGIQUE DES ONGLETS DE FICHIERS (TABS STYLE LYNX) --- */
+.whiteboard-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background-color: #cbd5e1;
+    color: #334155;
+    border: 2px solid #0f172a;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+    top: 2px;
+    flex-shrink: 0;
+}
+.whiteboard-tab:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+.whiteboard-tab.active {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-bottom: 2px solid #ffffff;
+    z-index: 10;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
+}
+
+/* --- MINIATURES PDF (THUMBNAILS) --- */
+.pdf-thumbnail-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    background-color: #ffffff;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.pdf-thumbnail-card:hover {
+    border-color: #94a3b8;
+    transform: translateY(-1px);
+}
+.pdf-thumbnail-card.active {
+    border-color: #4f46e5;
+    background-color: #e0e7ff;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1);
+}
+.pdf-thumbnail-card canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background-color: #ffffff;
+}
+
+/* --- MENU BURGER POPUP --- */
+#burger-popup-menu {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+    transform-origin: bottom left;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.15), 0 0 0 2px #0f172a;
+}
+
+/* --- POST-IT STICKY NOTES --- */
+.post-it-box {
+    background-color: #fef08a !important; /* Tailwind yellow-200 */
+    border: 2.5px solid #000000 !important;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1) !important;
+    min-width: 140px;
+    min-height: 100px;
+    padding: 10px 14px;
+}
+.post-it-box:focus-within {
+    border-color: #4f46e5 !important;
+    box-shadow: 4px 4px 0px rgba(79, 70, 229, 1) !important;
+}
+
+/* --- MOVABLE IMAGE CROP BOXES --- */
+.movable-image-box {
+    min-width: unset !important;
+    min-height: unset !important;
+    background: transparent !important;
+    border: 2px dashed transparent !important;
+    padding: 0 !important;
+    display: inline-block;
+    overflow: visible;
+}
+.movable-image-box img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    user-select: none;
+}
+.movable-image-box:hover {
+    border-color: #4f46e5 !important;
+}
+
+/* --- HORAIRE / SEMAINIER STYLES --- */
+.horaire-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid #0f172a;
+    background-color: #ffffff;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    font-family: 'Fredoka', sans-serif;
+    table-layout: fixed;
+}
+
+.schedule-table th, 
+.schedule-table td {
+    border: 2px solid #0f172a;
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+}
+
+.schedule-table th {
+    background-color: #f1f5f9;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 800;
+    color: #0f172a;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 12px 10px;
+}
+
+.schedule-table th.time-col-header {
+    width: 80px;
+}
+
+.schedule-time-cell {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    color: #475569;
+    background-color: #f8fafc;
+    width: 80px;
+}
+
+.schedule-course-cell {
+    min-height: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    outline: none;
+    transition: background-color 0.15s ease;
+    white-space: pre-line; /* preserves newlines! */
+    word-break: break-word;
+}
+
+.schedule-course-cell[contenteditable="true"]:hover {
+    background-color: #faf5ff; /* light purple tint on hover */
+    cursor: text;
+}
+
+.schedule-course-cell[contenteditable="true"]:focus {
+    background-color: #f5f3ff;
+    box-shadow: inset 0 0 0 2px #6366f1;
+}
+
+/* Specific styling for fixed rows */
+.recreation-row-cell {
+    background-color: #f8fafc !important;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: #0f172a;
+}
+
+.midi-row-cell {
+    background-color: #f8fafc !important;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 950;
+    font-size: 15px;
+    letter-spacing: 6px;
+    color: #0f172a;
+}
+
+/* Grayed out cell for Wednesday afternoon or disabled blocks */
+.schedule-table td.disabled-cell {
+    background-color: #e2e8f0 !important;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(148, 163, 184, 0.15) 10px, rgba(148, 163, 184, 0.15) 20px) !important;
+    color: #94a3b8;
+    cursor: not-allowed;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+/* Print Styles */
+@media print {
+    /* Hide layout parts */
+    header, 
+    nav, 
+    .tab-btn, 
+    .horaire-controls, 
+    footer,
+    #sidebar-toggle-btn,
+    .no-print {
+        display: none !important;
+    }
+    
+    /* Make schedule take full space */
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        overflow: visible !important;
+    }
+    
+    .tab-screen {
+        display: block !important;
+        position: static !important;
+        opacity: 1 !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .schedule-table {
+        box-shadow: none !important;
+        border-width: 2px !important;
+        page-break-inside: avoid;
+    }
+    
+    .schedule-table th, 
+    .schedule-table td,
+    .devoirs-table th,
+    .devoirs-table td {
+        border-width: 1px !important;
+        padding: 6px !important;
+        font-size: 11px !important;
+    }
+    
+    .devoirs-table {
+        box-shadow: none !important;
+        border-width: 2px !important;
+        page-break-inside: avoid;
+    }
+    
+    .devoirs-btn-add, 
+    .devoirs-item-actions {
+        display: none !important;
+    }
+}
+
+/* --- DEVOIRS / SEMAINIER STYLES --- */
+.devoirs-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.devoirs-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid #0f172a;
+    background-color: #ffffff;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    font-family: 'Fredoka', sans-serif;
+}
+
+.devoirs-table th, 
+.devoirs-table td {
+    border: 2px solid #0f172a;
+    padding: 12px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.devoirs-table th {
+    background-color: #f1f5f9;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 800;
+    color: #0f172a;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 12px;
+    text-align: center;
+}
+
+.devoirs-day-col {
+    width: 130px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: #0f172a;
+    background-color: #f8fafc;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.devoirs-date-col {
+    width: 130px;
+    text-align: center !important;
+    vertical-align: middle !important;
+    background-color: #f8fafc;
+}
+
+.devoirs-date-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #475569;
+    text-align: center;
+    outline: none;
+    padding: 6px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+}
+
+.devoirs-date-input:hover {
+    background-color: #e2e8f0;
+}
+
+.devoirs-date-input:focus {
+    background-color: #e2e8f0;
+    box-shadow: inset 0 0 0 2px #0f172a;
+}
+
+.devoirs-content-col {
+    background-color: #ffffff;
+}
+
+.devoirs-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.devoirs-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background-color: #f8fafc;
+    border: 2px solid transparent;
+    transition: all 0.15s ease;
+}
+
+.devoirs-item:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.devoirs-item:focus-within {
+    background-color: #ffffff;
+    border-color: #4f46e5;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.08);
+}
+
+.devoirs-bullet {
+    font-size: 16px;
+    color: #4f46e5;
+    user-select: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.devoirs-input-text {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    min-width: 100px;
+    color: #1e293b;
+    font-family: Arial, sans-serif;
+}
+
+.devoirs-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
+}
+
+.devoirs-item:hover .devoirs-item-actions,
+.devoirs-item:focus-within .devoirs-item-actions {
+    opacity: 1;
+}
+
+.devoirs-color-select {
+    font-size: 11px;
+    padding: 3px 8px;
+    border: 2px solid #0f172a;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-weight: 700;
+    color: #0f172a;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+    transition: all 0.1s;
+}
+
+.devoirs-color-select:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+}
+
+.devoirs-color-select:active {
+    transform: translate(0, 0);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+}
+
+.devoirs-btn-delete {
+    padding: 6px;
+    border: 2px solid #0f172a;
+    background: #fecdd3;
+    color: #be123c;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+    transition: all 0.1s;
+}
+
+.devoirs-btn-delete:hover {
+    background-color: #fda4af;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+}
+
+.devoirs-btn-delete:active {
+    transform: translate(0, 0);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+}
+
+.devoirs-btn-add {
+    margin-top: 12px;
+    padding: 6px 12px;
+    background-color: #ffffff;
+    color: #4f46e5;
+    border: 2px dashed #4f46e5;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.devoirs-btn-add:hover {
+    background-color: #e0e7ff;
+    color: #4338ca;
+    border-style: solid;
+}
+
+/* --- ABAQUE DE NUMÉRATION --- */
+.abaque-table {
+    border: 3px solid #0f172a;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+}
+.abaque-table th {
+    height: auto;
+}
+.abaque-table td {
+    border: 1px solid #cbd5e1;
+    height: 46px;
+    padding: 0;
+    vertical-align: middle;
+}
+/* Borders corresponding to classes */
+.abaque-table td:nth-child(3),
+.abaque-table td:nth-child(6),
+.abaque-table td:nth-child(9),
+.abaque-table td:nth-child(12) {
+    border-right: 2px solid #0f172a;
+}
+.abaque-table td.abaque-comma-cell {
+    background-color: #ffe4e6;
+    border-right: 2px solid #0f172a;
+    border-left: none;
+    font-weight: 900;
+    color: #ef4444;
+    font-size: 18px;
+    width: 16px;
+    user-select: none;
+}
+.abaque-input {
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    background: transparent !important;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    outline: none;
+    padding: 0;
+    box-sizing: border-box;
+}
+.abaque-input:focus {
+    background-color: #f0fdf4 !important; /* light green highlight on focus */
+}
+.abaque-row-clear-btn {
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+tr:hover .abaque-row-clear-btn {
+    opacity: 1;
+}
+
+
+
+

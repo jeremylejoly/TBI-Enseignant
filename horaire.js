@@ -1,0 +1,334 @@
+// Logic for Horaire / Semainier — horaire.js
+
+let tbiWeeks = [];
+let activeWeekId = null;
+
+const TIME_SLOTS = [
+    { time: "8h30 - 9h20", type: "course" },
+    { time: "9h20 - 10h10", type: "course" },
+    { time: "10h10 - 10h25", type: "recreation" },
+    { time: "10h25 - 11h15", type: "course" },
+    { time: "11h15 - 12h05", type: "course" },
+    { time: "12h05 - 13h20", type: "midi" },
+    { time: "13h20 - 14h05", type: "course" },
+    { time: "14h05 - 14h50", type: "course" },
+    { time: "14h50 - 15h05", type: "recreation" },
+    { time: "15h05 - 15h50", type: "course" }
+];
+
+const DEFAULT_GRID_DATA = {
+    "row-0": ["GYM (1/2)", "", "", "", "GYM"],
+    "row-1": ["GYM (1/2)", "Philippe en AP", "", "Cours philosophiques", "GYM"],
+    "row-2": ["R   E", "C   R", "E   A", "T   I", "O   N"],
+    "row-3": ["Allemand\nAP chez Philippe", "Philippe en AP", "", "", "Allemand"],
+    "row-4": ["Allemand\nAP chez Philippe", "", "", "", ""],
+    "row-5": ["M", "I", "11h50", "D", "I"],
+    "row-6": ["", "Allemand", "Disabled", "", ""],
+    "row-7": ["", "Allemand\nAP chez Hélène", "Disabled", "EPC", ""],
+    "row-8": ["R   E", "C   R   E", "Disabled", "A   T   I", "O   N"],
+    "row-9": ["", "", "Disabled", "", "Conseil de classe - Temps libre"]
+};
+
+const BLANK_GRID_DATA = {
+    "row-0": ["", "", "", "", ""],
+    "row-1": ["", "", "", "", ""],
+    "row-2": ["R   E", "C   R", "E   A", "T   I", "O   N"],
+    "row-3": ["", "", "", "", ""],
+    "row-4": ["", "", "", "", ""],
+    "row-5": ["M", "I", "11h50", "D", "I"],
+    "row-6": ["", "", "Disabled", "", ""],
+    "row-7": ["", "", "Disabled", "", ""],
+    "row-8": ["R   E", "C   R   E", "Disabled", "A   T   I", "O   N"],
+    "row-9": ["", "", "Disabled", "", ""]
+};
+
+// --- INITIALIZATION ---
+window.addEventListener('DOMContentLoaded', () => {
+    initHoraireApp();
+});
+
+function initHoraireApp() {
+    loadWeeks();
+    populateWeekSelect();
+    
+    const currentWeek = tbiWeeks.find(w => w.id === activeWeekId);
+    if (currentWeek) {
+        renderScheduleTable(currentWeek);
+    }
+}
+
+// --- STORAGE MANAGEMENT ---
+function loadWeeks() {
+    const stored = localStorage.getItem('tbi_weeks');
+    if (stored) {
+        try {
+            tbiWeeks = JSON.parse(stored);
+        } catch(e) {
+            tbiWeeks = [];
+        }
+    }
+    
+    const storedActiveId = localStorage.getItem('tbi_active_week_id');
+    if (storedActiveId) {
+        activeWeekId = storedActiveId;
+    }
+    
+    if (tbiWeeks.length === 0) {
+        // Initialize with default template week
+        const defaultWeek = {
+            id: 'week-' + Date.now(),
+            name: "Grille Modèle (Par défaut)",
+            gridData: JSON.parse(JSON.stringify(DEFAULT_GRID_DATA))
+        };
+        tbiWeeks.push(defaultWeek);
+        activeWeekId = defaultWeek.id;
+        saveWeeks();
+    }
+    
+    // Validate activeWeekId
+    if (!tbiWeeks.find(w => w.id === activeWeekId)) {
+        activeWeekId = tbiWeeks[0].id;
+        localStorage.setItem('tbi_active_week_id', activeWeekId);
+    }
+}
+
+function saveWeeks() {
+    localStorage.setItem('tbi_weeks', JSON.stringify(tbiWeeks));
+    localStorage.setItem('tbi_active_week_id', activeWeekId);
+}
+
+// --- RENDER TABLE ---
+function renderScheduleTable(week) {
+    const container = document.getElementById('schedule-table-container');
+    if (!container) return;
+    
+    let html = `
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th class="time-col-header">HEURES</th>
+                    <th>LUNDI</th>
+                    <th>MARDI</th>
+                    <th>MERCREDI</th>
+                    <th>JEUDI</th>
+                    <th>VENDREDI</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    TIME_SLOTS.forEach((slot, rowIndex) => {
+        html += `<tr>`;
+        
+        // Hour Column
+        html += `<td class="schedule-time-cell">${slot.time}</td>`;
+        
+        // 5 Days Columns
+        for (let colIndex = 0; colIndex < 5; colIndex++) {
+            const cellValue = week.gridData[`row-${rowIndex}`][colIndex];
+            
+            if (cellValue === "Disabled") {
+                html += `<td class="disabled-cell"></td>`;
+            } else {
+                let cellClass = "schedule-course-cell";
+                let isEditable = true;
+                
+                if (slot.type === "recreation") {
+                    cellClass += " recreation-row-cell";
+                } else if (slot.type === "midi") {
+                    cellClass += " midi-row-cell";
+                }
+                
+                html += `
+                    <td 
+                        class="${cellClass}" 
+                        contenteditable="${isEditable}" 
+                        data-row="${rowIndex}" 
+                        data-col="${colIndex}"
+                    >${escapeHtml(cellValue)}</td>
+                `;
+            }
+        }
+        
+        html += `</tr>`;
+    });
+    
+    html += `
+            </tbody>
+        </table>
+    `;
+    
+    container.innerHTML = html;
+    
+    // Listen to changes in cells
+    const cells = container.querySelectorAll('.schedule-course-cell[contenteditable="true"]');
+    cells.forEach(cell => {
+        const saveHandler = (e) => {
+            const row = e.target.dataset.row;
+            const col = parseInt(e.target.dataset.col);
+            const text = e.target.innerText; // innerText preserves newlines!
+            updateCellData(row, col, text);
+        };
+        cell.addEventListener('blur', saveHandler);
+        cell.addEventListener('input', saveHandler);
+    });
+}
+
+function updateCellData(rowKey, colIndex, text) {
+    const week = tbiWeeks.find(w => w.id === activeWeekId);
+    if (week) {
+        week.gridData[`row-${rowKey}`][colIndex] = text;
+        saveWeeks();
+    }
+}
+
+// --- WEEKS ACTIONS ---
+function selectWeek(weekId) {
+    activeWeekId = weekId;
+    saveWeeks();
+    const week = tbiWeeks.find(w => w.id === activeWeekId);
+    if (week) {
+        renderScheduleTable(week);
+    }
+}
+
+function formatDateString(d) {
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = String(d.getFullYear()).slice(-2);
+    return `${day}/${month}/${year}`;
+}
+
+function handleAddNewWeek() {
+    const currentWeek = tbiWeeks.find(w => w.id === activeWeekId);
+    let newMonday;
+    
+    if (currentWeek && currentWeek.name && currentWeek.name.startsWith("Semaine du ")) {
+        const dateStr = currentWeek.name.substring("Semaine du ".length).trim();
+        const parts = dateStr.split('/');
+        if (parts.length >= 3) {
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            let year = parseInt(parts[2], 10);
+            if (year < 100) year += 2000;
+            
+            const currentMonday = new Date(year, month, day);
+            if (!isNaN(currentMonday.getTime())) {
+                newMonday = new Date(currentMonday);
+                newMonday.setDate(currentMonday.getDate() + 7);
+            }
+        }
+    }
+    
+    // Fallback if parsing fails or no currentWeek
+    if (!newMonday) {
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        const daysUntilNextMonday = (8 - dayOfWeek) % 7 || 7;
+        newMonday = new Date(today);
+        newMonday.setDate(today.getDate() + daysUntilNextMonday);
+    }
+    
+    const name = "Semaine du " + formatDateString(newMonday);
+    
+    let gridData;
+    if (currentWeek) {
+        gridData = JSON.parse(JSON.stringify(currentWeek.gridData));
+    } else {
+        if (typeof DEFAULT_GRID_DATA !== 'undefined') {
+            gridData = JSON.parse(JSON.stringify(DEFAULT_GRID_DATA));
+        } else {
+            gridData = JSON.parse(JSON.stringify(BLANK_GRID_DATA));
+        }
+    }
+    
+    const newWeek = {
+        id: 'week-' + Date.now(),
+        name: name,
+        gridData: gridData
+    };
+    
+    tbiWeeks.push(newWeek);
+    activeWeekId = newWeek.id;
+    saveWeeks();
+    
+    populateWeekSelect();
+    selectWeek(activeWeekId);
+}
+
+function handleDuplicateWeek() {
+    const currentWeek = tbiWeeks.find(w => w.id === activeWeekId);
+    if (!currentWeek) return;
+    
+    const name = prompt("Nom du semainier dupliqué :", currentWeek.name + " (Copie)");
+    if (!name || name.trim() === "") return;
+    
+    const newWeek = {
+        id: 'week-' + Date.now(),
+        name: name.trim(),
+        gridData: JSON.parse(JSON.stringify(currentWeek.gridData))
+    };
+    
+    tbiWeeks.push(newWeek);
+    activeWeekId = newWeek.id;
+    saveWeeks();
+    
+    populateWeekSelect();
+    selectWeek(activeWeekId);
+}
+
+function handleRenameWeek() {
+    const currentWeek = tbiWeeks.find(w => w.id === activeWeekId);
+    if (!currentWeek) return;
+    
+    const name = prompt("Nouveau nom de la semaine :", currentWeek.name);
+    if (!name || name.trim() === "") return;
+    
+    currentWeek.name = name.trim();
+    saveWeeks();
+    
+    populateWeekSelect();
+}
+
+function handleDeleteWeek() {
+    if (tbiWeeks.length <= 1) {
+        alert("Impossible de supprimer la seule semaine restante. Il doit y avoir au moins un semainier dans l'horaire.");
+        return;
+    }
+    
+    const currentWeek = tbiWeeks.find(w => w.id === activeWeekId);
+    if (!currentWeek) return;
+    
+    if (confirm(`Voulez-vous vraiment supprimer définitivement le semainier "${currentWeek.name}" ?`)) {
+        tbiWeeks = tbiWeeks.filter(w => w.id !== activeWeekId);
+        activeWeekId = tbiWeeks[0].id;
+        saveWeeks();
+        
+        populateWeekSelect();
+        selectWeek(activeWeekId);
+    }
+}
+
+function populateWeekSelect() {
+    const select = document.getElementById('week-select');
+    if (!select) return;
+    
+    select.innerHTML = '';
+    tbiWeeks.forEach(week => {
+        const opt = document.createElement('option');
+        opt.value = week.id;
+        opt.textContent = week.name;
+        opt.selected = (week.id === activeWeekId);
+        select.appendChild(opt);
+    });
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
