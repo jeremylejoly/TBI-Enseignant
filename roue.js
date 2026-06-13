@@ -269,10 +269,9 @@ function getRoueActiveStudents() {
 
 function drawRoueWheel() {
     const wheelGroup = document.getElementById("roue-wheel-group");
-    const container = document.getElementById("roue-wheel-container");
     const spinBtn = document.getElementById("roue-spin-btn");
     
-    if (!wheelGroup || !container) return;
+    if (!wheelGroup) return;
     
     // Clear wheel group
     wheelGroup.innerHTML = "";
