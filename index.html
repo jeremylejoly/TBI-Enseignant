@@ -162,6 +162,22 @@
                         </div>
                     </div>
 
+                    <!-- App 6: Roue de la chance -->
+                    <div onclick="switchTab('roue')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
+                        <div class="flex justify-between items-start">
+                            <div class="p-3 bg-amber-50 border-2 border-neutral-900 rounded-xl text-amber-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                                <i data-lucide="shuffle" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-neutral-100 text-neutral-500 rounded-full border border-neutral-300 uppercase">Nouveau</span>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display font-black text-lg text-neutral-800">La roue de la chance</h4>
+                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
+                                Tire au sort le prénom d'un élève avec une roue animée, puis retire-le pour les tirages suivants.
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Footer -->
@@ -1069,6 +1085,146 @@
             </div>
         </section>
 
+        <!-- ÉCRAN 6 : La roue de la chance -->
+        <section id="screen-roue" class="tab-screen absolute inset-0 flex flex-col min-h-0 bg-[#FDFBF7] select-none">
+            <div class="bg-white border-b-2 border-neutral-300 px-6 py-3 flex items-center justify-between no-print shrink-0">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchTab('home')" class="p-1.5 hover:bg-neutral-200 rounded-lg transition border border-neutral-300 bg-white shadow-sm flex items-center justify-center" title="Retour à l'accueil">
+                        <i data-lucide="home" class="w-4 h-4 text-neutral-700"></i>
+                    </button>
+                    <span class="font-display font-black text-sm text-neutral-800">🎡 La roue de la chance</span>
+                </div>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-6 md:p-8 relative">
+                <!-- Canvas pour confettis en plein écran local à l'overlay -->
+                <canvas id="roue-confetti-canvas" class="pointer-events-none fixed inset-0 z-50 w-full h-full"></canvas>
+                
+                <div class="max-w-5xl mx-auto w-full space-y-6 pb-12">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-amber-100 border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                            <i data-lucide="shuffle" class="w-6 h-6 text-amber-600"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-black text-2xl text-neutral-800 leading-none">La roue de la chance</h2>
+                            <p class="text-xs text-neutral-500 font-semibold mt-1">Tirez au sort un élève de façon ludique</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Conteneur principal (Layout colonnes) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        
+                        <!-- Colonne gauche (35%): Gestion de la liste -->
+                        <div class="lg:col-span-4 bg-white border-[3px] border-neutral-900 p-5 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)] flex flex-col gap-4">
+                            <h3 class="font-display font-black text-sm text-neutral-700 uppercase tracking-wider">Liste des élèves</h3>
+                            
+                            <!-- Saisie rapide -->
+                            <div class="flex gap-2">
+                                <input type="text" id="roue-student-input" placeholder="Prénom de l'élève..." 
+                                    class="flex-1 text-sm bg-neutral-50 border-2 border-neutral-900 rounded-xl px-3 py-2 font-bold text-neutral-800 outline-none placeholder-neutral-400 focus:bg-white focus:ring-2 focus:ring-indigo-500" />
+                                <button id="roue-add-btn" class="p-2 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-neutral-900 rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Actions globales -->
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="toggleAllRoueStudents(true)" class="flex-1 px-2.5 py-1.5 bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 font-sans font-bold text-[11px] rounded-lg text-neutral-700 transition">
+                                    Tout cocher
+                                </button>
+                                <button onclick="toggleAllRoueStudents(false)" class="flex-1 px-2.5 py-1.5 bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 font-sans font-bold text-[11px] rounded-lg text-neutral-700 transition">
+                                    Tout décocher
+                                </button>
+                            </div>
+                            
+                            <!-- Liste défilante -->
+                            <div id="roue-students-list" class="max-h-[320px] overflow-y-auto space-y-2 pr-1">
+                                <!-- Généré en JS -->
+                            </div>
+                            
+                            <hr class="border-neutral-200 my-1">
+                            
+                            <!-- Actions de session -->
+                            <div class="flex flex-col gap-2">
+                                <button onclick="resetRoueTirage()" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-neutral-950 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Réinitialiser la roue
+                                </button>
+                                <button onclick="clearAllRoueStudents()" class="w-full py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Vider la liste
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Colonne droite (65%): La roue elle-même -->
+                        <div class="lg:col-span-8 flex flex-col items-center justify-center bg-white border-[3px] border-neutral-900 p-6 md:p-8 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)] min-h-[500px] relative overflow-hidden">
+                            
+                            <!-- Conteneur SVG de la Roue -->
+                            <div class="w-[380px] h-[380px] md:w-[450px] md:h-[450px] relative flex items-center justify-center">
+                                
+                                <!-- Pointeur en haut (12 o'clock) -->
+                                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none drop-shadow-[0_4px_6px_rgba(0,0,0,0.15)]">
+                                    <svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Border -->
+                                        <path d="M16 42L0 12H32L16 42Z" fill="#171717" />
+                                        <!-- Fill -->
+                                        <path d="M16 36L4 14H28L16 36Z" fill="#EF4444" />
+                                    </svg>
+                                </div>
+                                
+                                <!-- Roue SVG -->
+                                <svg id="roue-svg" viewBox="0 0 500 500" class="w-full h-full drop-shadow-[0_8px_16px_rgba(0,0,0,0.1)]">
+                                    <!-- Ombre externe néo-brutaliste -->
+                                    <circle cx="250" cy="250" r="236" fill="none" stroke="#171717" stroke-width="8" />
+                                    
+                                    <!-- Groupe de rotation de la roue -->
+                                    <g id="roue-wheel-group" class="transition-transform duration-100 ease-out">
+                                        <!-- Les parts et les noms seront injectés ici en JS -->
+                                    </g>
+                                    
+                                    <!-- Bordure extérieure noire épaisse -->
+                                    <circle cx="250" cy="250" r="230" fill="none" stroke="#171717" stroke-width="6" />
+                                    
+                                    <!-- Cercle central décoratif (pivot) -->
+                                    <circle cx="250" cy="250" r="45" fill="#FFFFFF" stroke="#171717" stroke-width="5" />
+                                    <circle cx="250" cy="250" r="32" fill="#F3F4F6" stroke="#171717" stroke-width="3" />
+                                </svg>
+                                
+                                <!-- Bouton au centre de la roue pour la faire tourner -->
+                                <button onclick="spinRoue()" id="roue-center-spin" class="absolute w-[64px] h-[64px] rounded-full bg-white hover:bg-neutral-100 border-[3px] border-neutral-900 shadow-[0_4px_0_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[0_2px_0_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center font-display font-black text-[11px] text-neutral-800 z-10 uppercase tracking-tighter leading-none select-none cursor-pointer">
+                                    Tirer !
+                                </button>
+                            </div>
+                            
+                            <!-- Bouton alternatif en dessous de la roue -->
+                            <button id="roue-spin-btn" onclick="spinRoue()" class="mt-6 px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white border-[3px] border-neutral-900 font-display font-black text-base rounded-2xl shadow-[4px_4px_0_rgba(0,0,0,1)] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-2 cursor-pointer select-none">
+                                <i data-lucide="play" class="w-5 h-5"></i> Faire tourner la roue !
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal / Overlay Félicitations Gagnant -->
+            <div id="roue-congrats-overlay" class="hidden fixed inset-0 bg-neutral-900/80 backdrop-blur-sm z-[100] items-center justify-center p-4 transition-all duration-300 opacity-0 select-none">
+                <div class="bg-[#FDFBF7] border-[4px] border-neutral-900 rounded-[32px] p-8 max-w-md w-full text-center shadow-[8px_8px_0_rgba(0,0,0,1)] animate-scaleIn transform">
+                    <div class="text-6xl mb-4 animate-bounce">🎉</div>
+                    <h3 class="font-display font-black text-xl text-neutral-500 uppercase tracking-widest">Tirage au sort</h3>
+                    
+                    <div class="my-6 py-4 px-6 bg-white border-[3px] border-neutral-900 rounded-2xl shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                        <span id="roue-winner-name" class="font-display font-black text-4xl text-indigo-600 tracking-tight block truncate">Mathis</span>
+                    </div>
+                    
+                    <p class="text-sm text-neutral-600 font-sans font-semibold mb-6">
+                        a été tiré au sort et va être retiré de la roue pour les prochains lancers de cette session.
+                    </p>
+                    
+                    <button id="roue-congrats-close" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-neutral-950 border-[3px] border-neutral-900 font-display font-black text-sm rounded-xl shadow-[3px_3px_0_rgba(0,0,0,1)] transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer uppercase tracking-wider">
+                        Continuer
+                    </button>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Scripts de PDF.js -->
@@ -1082,6 +1238,7 @@
     <script src="whiteboard.js"></script>
     <script src="horaire.js"></script>
     <script src="devoirs.js"></script>
+    <script src="roue.js"></script>
     <script src="fractions.js"></script>
     <script src="abaque.js"></script>
     <script src="horloge.js"></script>

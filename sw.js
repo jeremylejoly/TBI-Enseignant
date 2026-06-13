@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v31';
+const CACHE_NAME = 'tbi-enseignant-cache-v32';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -11,6 +11,7 @@ const ASSETS_TO_CACHE = [
     './compass.js',
     './horaire.js',
     './devoirs.js',
+    './roue.js',
     './fractions.js',
     './abaque.js',
     './horloge.js',

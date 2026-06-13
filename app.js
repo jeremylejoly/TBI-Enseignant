@@ -79,6 +79,11 @@ function switchTab(tabId) {
         if (typeof initDevoirsApp === 'function') {
             initDevoirsApp();
         }
+    } else if (tabId === 'roue') {
+        // Initialiser/Rafraîchir la roue de la chance
+        if (typeof initRoueApp === 'function') {
+            initRoueApp();
+        }
     }
     
     // Synchroniser la progression des iframes
