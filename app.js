@@ -544,3 +544,70 @@ function syncWidgetStatesForTab(newTab) {
 window.saveWidgetStatesForTab = saveWidgetStatesForTab;
 window.syncWidgetStatesForTab = syncWidgetStatesForTab;
 window.widgetStates = widgetStates;
+
+// --- GESTION DE LA SAUVEGARDE & RESTAURATION ---
+function exportClassData() {
+    const data = {};
+    const keysToBackup = [
+        'tbi_weeks',
+        'tbi_active_week_id',
+        'tbi_devoirs_weeks',
+        'tbi_active_devoirs_week_id',
+        'tbi_roue_students',
+        'p5p6v4',
+        'tbi_eraser_size'
+    ];
+    
+    keysToBackup.forEach(key => {
+        const val = localStorage.getItem(key);
+        if (val !== null) {
+            data[key] = val;
+        }
+    });
+    
+    const jsonStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    const dateStr = new Date().toISOString().split('T')[0];
+    a.href = url;
+    a.download = `console-tbi-sauvegarde-${dateStr}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function importClassData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            
+            // Validate that it contains some of our keys
+            const hasTbiKeys = Object.keys(data).some(key => key.startsWith('tbi_') || key === 'p5p6v4');
+            if (!hasTbiKeys) {
+                alert("Le fichier sélectionné ne semble pas être une sauvegarde valide de la Console TBI.");
+                return;
+            }
+            
+            if (confirm("Voulez-vous restaurer ces données ? Cela remplacera votre emploi du temps, devoirs et élèves actuels.")) {
+                Object.keys(data).forEach(key => {
+                    localStorage.setItem(key, data[key]);
+                });
+                alert("Données restaurées avec succès ! L'application va se recharger.");
+                window.location.reload();
+            }
+        } catch(err) {
+            alert("Erreur lors de la lecture du fichier de sauvegarde : " + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+window.exportClassData = exportClassData;
+window.importClassData = importClassData;
