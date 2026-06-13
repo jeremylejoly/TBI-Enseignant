@@ -81,6 +81,8 @@ function initFractions() {
     setupFractionsDragListeners();
     
     // 4. Render initial shapes
+    packAllCircles();
+    packAllRails();
     renderCircles();
     renderTiles();
 }
@@ -135,6 +137,7 @@ function spawnFractionCircle(denom) {
     placedCircles.push(piece);
     selectedShapeId = piece.id;
     
+    packAllCircles();
     renderCircles();
     saveFractionsState();
 }
@@ -152,8 +155,61 @@ function spawnFractionTile(denom) {
     placedTiles.push(tile);
     selectedShapeId = tile.id;
     
+    packAllRails();
     renderTiles();
     saveFractionsState();
+}
+
+// --- PACKING FUNCTIONS (SNAP CONTIGUOUS) ---
+function packAllCircles() {
+    const snapped = placedCircles.filter(c => c.isSnapped);
+    
+    // Sort snapped slices by their center angle in the packed circle
+    snapped.sort((a, b) => {
+        let angleA = a.startAngle + a.span / 2;
+        let angleB = b.startAngle + b.span / 2;
+        
+        if (draggedCircle && a.id === draggedCircle.id) {
+            angleA = draggedCircle.pointerAngle !== undefined ? draggedCircle.pointerAngle : (a.startAngle + a.span / 2);
+        }
+        if (draggedCircle && b.id === draggedCircle.id) {
+            angleB = draggedCircle.pointerAngle !== undefined ? draggedCircle.pointerAngle : (b.startAngle + b.span / 2);
+        }
+        
+        return angleA - angleB;
+    });
+    
+    // Pack them contiguously starting from 0 degrees (12 o'clock)
+    let currentAngle = 0;
+    snapped.forEach(c => {
+        c.startAngle = currentAngle;
+        currentAngle = (currentAngle + c.span) % 360;
+    });
+}
+
+function packAllRails() {
+    const railsY = [20, 50, 80, 110, 140, 170];
+    railsY.forEach(ry => {
+        const targetY = ry - 12;
+        // Get all tiles snapped to this rail
+        const railTiles = placedTiles.filter(t => t.isSnapped && t.y === targetY);
+        
+        // Sort snapped tiles by their center x coordinate
+        railTiles.sort((a, b) => {
+            let ax = a.x + a.width / 2;
+            let bx = b.x + b.width / 2;
+            if (draggedTile && a.id === draggedTile.id) ax = (draggedTile.rawX !== undefined ? draggedTile.rawX : a.x) + a.width / 2;
+            if (draggedTile && b.id === draggedTile.id) bx = (draggedTile.rawX !== undefined ? draggedTile.rawX : b.x) + b.width / 2;
+            return ax - bx;
+        });
+        
+        // Pack them contiguously from left (x = 50)
+        let currentX = 50;
+        railTiles.forEach(t => {
+            t.x = currentX;
+            currentX += t.width;
+        });
+    });
 }
 
 function renderCircles() {
@@ -307,32 +363,28 @@ function setupFractionsDragListeners() {
             const rawX = coords.x - circleDragOffset.x;
             const rawY = coords.y - circleDragOffset.y;
             
-            const dist = Math.sqrt((coords.x - 190) ** 2 + (coords.y - 130) ** 2);
+            const dist = Math.sqrt((rawX - 190) ** 2 + (rawY - 130) ** 2);
             
-            if (dist < 55) {
+            if (dist < 60) {
                 // Snap to target center circle
                 draggedCircle.isSnapped = true;
                 draggedCircle.x = 190;
                 draggedCircle.y = 130;
                 
-                // Rotate start angle based on pointer angle relative to center
+                // Get pointer angle relative to center (0 to 360, where 0 is 12 o'clock)
                 let pointerAngle = Math.atan2(coords.y - 130, coords.x - 190) * 180 / Math.PI + 90;
                 if (pointerAngle < 0) pointerAngle += 360;
                 
-                // Align starting angle
-                let targetStartAngle = pointerAngle - draggedCircle.span / 2;
-                
-                // Snap start angle to denom multiples
-                const snapStep = 360 / draggedCircle.denom;
-                let snappedAngle = Math.round(targetStartAngle / snapStep) * snapStep;
-                draggedCircle.startAngle = (snappedAngle % 360 + 360) % 360;
+                draggedCircle.pointerAngle = pointerAngle;
             } else {
                 // Float freely
                 draggedCircle.isSnapped = false;
+                draggedCircle.pointerAngle = undefined;
                 draggedCircle.x = Math.max(10, Math.min(370, rawX));
                 draggedCircle.y = Math.max(10, Math.min(250, rawY));
             }
             
+            packAllCircles();
             renderCircles();
         });
         
@@ -341,8 +393,13 @@ function setupFractionsDragListeners() {
             try {
                 svgCircles.releasePointerCapture(e.pointerId);
             } catch(err) {}
+            
+            draggedCircle.pointerAngle = undefined;
+            packAllCircles();
             draggedCircle = null;
+            
             saveFractionsState();
+            renderCircles();
         };
         
         svgCircles.addEventListener('pointerup', stopCircleDrag);
@@ -376,23 +433,16 @@ function setupFractionsDragListeners() {
                 // Snap to rail
                 draggedTile.isSnapped = true;
                 draggedTile.y = nearestRailY - 12;
-                
-                // Snap horizontally to multiples of tile segment width relative to 50
-                const snapStep = 480 / draggedTile.denom;
-                let targetX = rawX;
-                let snappedX = 50 + Math.round((targetX - 50) / snapStep) * snapStep;
-                
-                // Clamp within rails bounds
-                if (snappedX < 50) snappedX = 50;
-                if (snappedX + draggedTile.width > 530) snappedX = 530 - draggedTile.width;
-                draggedTile.x = snappedX;
+                draggedTile.rawX = rawX;
             } else {
                 // Float freely
                 draggedTile.isSnapped = false;
+                draggedTile.rawX = undefined;
                 draggedTile.x = Math.max(5, Math.min(575 - draggedTile.width, rawX));
                 draggedTile.y = Math.max(5, Math.min(195 - 24, rawY));
             }
             
+            packAllRails();
             renderTiles();
         });
         
@@ -401,8 +451,13 @@ function setupFractionsDragListeners() {
             try {
                 svgBars.releasePointerCapture(e.pointerId);
             } catch(err) {}
+            
+            draggedTile.rawX = undefined;
+            packAllRails();
             draggedTile = null;
+            
             saveFractionsState();
+            renderTiles();
         };
         
         svgBars.addEventListener('pointerup', stopTileDrag);
@@ -440,9 +495,11 @@ function getSlicePath(cx, cy, r, startAngle, angleSpan) {
 function deleteShape(id) {
     if (id.startsWith('circle-')) {
         placedCircles = placedCircles.filter(c => c.id !== id);
+        packAllCircles();
         renderCircles();
     } else {
         placedTiles = placedTiles.filter(t => t.id !== id);
+        packAllRails();
         renderTiles();
     }
     if (selectedShapeId === id) selectedShapeId = null;
@@ -486,6 +543,7 @@ function toggleFractionLabelsTile(show) {
     saveFractionsState();
 }
 
+// state helpers
 function getFractionsActiveTab() {
     return fractionsActiveTab;
 }
@@ -516,6 +574,9 @@ function setFractionsData(data) {
     if (!data) return;
     if (data.circles) placedCircles = data.circles.map((c, i) => ({ id: `circle-${Date.now()}-${i}`, ...c }));
     if (data.tiles) placedTiles = data.tiles.map((t, i) => ({ id: `tile-${Date.now()}-${i}`, ...t }));
+    
+    packAllCircles();
+    packAllRails();
     
     if (data.showLabelsCircles !== undefined) {
         showLabelsCircles = data.showLabelsCircles;
