@@ -863,10 +863,11 @@ function handlePointerDown(e) {
     // 2. TEXT MODE
     if (activeTool === 'text') {
         e.preventDefault();
-        // Soustraire le padding et la bordure CSS de la boîte de texte
-        // (padding-left: 12px + border: 2px = 14px ; padding-top: 6px + border: 2px = 8px)
-        // afin que le curseur clignote précisément là où l'utilisateur a cliqué.
-        createTextbox(x - 14 / zoomScale, y - 8 / zoomScale);
+        const defaultFontSize = 20;
+        // Aligner précisément le curseur d'écriture avec le clic de l'utilisateur :
+        // - Horizontalement : soustraire le padding-left (12px) et la bordure (2px) = 14px
+        // - Verticalement : soustraire le padding-top (6px), la bordure (2px) et la moitié de la taille de police (10px) = 18px
+        createTextbox(x - 14 / zoomScale, y - 18 / zoomScale, "", defaultFontSize);
         return;
     }
     
@@ -1861,7 +1862,7 @@ function setBoardBackground(styleName) {
 }
 
 // --- EDITABLE ARIAL TEXT ANNOTATIONS ---
-function createTextbox(x, y, initialText = "", fontSize = 8, underline = false, color = '#1e293b', isPostIt = false) {
+function createTextbox(x, y, initialText = "", fontSize = 20, underline = false, color = '#1e293b', isPostIt = false) {
     const layer = document.getElementById('annotations-layer');
     if (!layer) return;
     
@@ -1870,7 +1871,7 @@ function createTextbox(x, y, initialText = "", fontSize = 8, underline = false, 
     if (isPostIt) {
         textBox.classList.add('post-it-box');
         textBox.dataset.isPostIt = 'true';
-        if (!initialText && fontSize === 8) {
+        if (!initialText && (fontSize === 8 || fontSize === 20)) {
             fontSize = 14;
         }
     }
