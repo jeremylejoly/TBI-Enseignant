@@ -429,7 +429,79 @@ function renderTabsUI() {
     boardTabs.forEach(tab => {
         const tabEl = document.createElement('div');
         tabEl.className = `whiteboard-tab ${tab.id === activeTabId ? 'active' : ''}`;
+        tabEl.setAttribute('draggable', 'true');
+        
         tabEl.addEventListener('click', () => switchWhiteboardTab(tab.id));
+        
+        // --- DRAG & DROP REORDERING LISTENERS ---
+        tabEl.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', tab.id);
+            tabEl.classList.add('opacity-50');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        
+        tabEl.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            
+            const rect = tabEl.getBoundingClientRect();
+            const midpoint = rect.left + rect.width / 2;
+            
+            if (e.clientX < midpoint) {
+                tabEl.style.borderLeft = '4px solid #4f46e5';
+                tabEl.style.borderRight = '';
+            } else {
+                tabEl.style.borderRight = '4px solid #4f46e5';
+                tabEl.style.borderLeft = '';
+            }
+        });
+        
+        tabEl.addEventListener('dragleave', () => {
+            tabEl.style.borderLeft = '';
+            tabEl.style.borderRight = '';
+        });
+        
+        tabEl.addEventListener('drop', (e) => {
+            e.preventDefault();
+            tabEl.style.borderLeft = '';
+            tabEl.style.borderRight = '';
+            
+            const draggedId = e.dataTransfer.getData('text/plain');
+            if (draggedId === tab.id) return;
+            
+            const draggedIndex = boardTabs.findIndex(t => t.id === draggedId);
+            const targetIndex = boardTabs.findIndex(t => t.id === tab.id);
+            
+            if (draggedIndex !== -1 && targetIndex !== -1) {
+                const [draggedTab] = boardTabs.splice(draggedIndex, 1);
+                
+                const rect = tabEl.getBoundingClientRect();
+                const midpoint = rect.left + rect.width / 2;
+                const insertIndex = e.clientX < midpoint ? targetIndex : targetIndex + 1;
+                
+                let finalInsertIndex = insertIndex;
+                if (draggedIndex < targetIndex) {
+                    if (e.clientX >= midpoint) {
+                        finalInsertIndex = targetIndex;
+                    } else {
+                        finalInsertIndex = targetIndex - 1;
+                    }
+                }
+                
+                boardTabs.splice(finalInsertIndex, 0, draggedTab);
+                
+                renderTabsUI();
+                saveActiveTabTextboxes();
+            }
+        });
+        
+        tabEl.addEventListener('dragend', () => {
+            tabEl.classList.remove('opacity-50');
+            document.querySelectorAll('.whiteboard-tab').forEach(el => {
+                el.style.borderLeft = '';
+                el.style.borderRight = '';
+            });
+        });
         
         const nameSpan = document.createElement('span');
         nameSpan.textContent = tab.name;
