@@ -293,27 +293,32 @@ function selectDevoirsWeek(weekId) {
 }
 
 function handleAddNewDevoirsWeek() {
-    const currentWeek = tbiDevoirsWeeks.find(w => w.id === activeDevoirsWeekId);
-    let newMonday;
+    let latestMonday = null;
     
-    if (currentWeek && currentWeek.dates && currentWeek.dates["Lundi"]) {
-        const parts = currentWeek.dates["Lundi"].split('/');
-        if (parts.length >= 3) {
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10) - 1;
-            let year = parseInt(parts[2], 10);
-            if (year < 100) year += 2000;
-            
-            const currentMonday = new Date(year, month, day);
-            if (!isNaN(currentMonday.getTime())) {
-                newMonday = new Date(currentMonday);
-                newMonday.setDate(currentMonday.getDate() + 7);
+    tbiDevoirsWeeks.forEach(w => {
+        if (w.dates && w.dates["Lundi"]) {
+            const parts = w.dates["Lundi"].split('/');
+            if (parts.length >= 3) {
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                let year = parseInt(parts[2], 10);
+                if (year < 100) year += 2000;
+                
+                const monday = new Date(year, month, day);
+                if (!isNaN(monday.getTime())) {
+                    if (!latestMonday || monday > latestMonday) {
+                        latestMonday = monday;
+                    }
+                }
             }
         }
-    }
-    
-    // Fallback if parsing fails or no currentWeek
-    if (!newMonday) {
+    });
+
+    let newMonday;
+    if (latestMonday) {
+        newMonday = new Date(latestMonday);
+        newMonday.setDate(latestMonday.getDate() + 7);
+    } else {
         const today = new Date();
         const dayOfWeek = today.getDay();
         const daysUntilNextMonday = (8 - dayOfWeek) % 7 || 7;

@@ -374,28 +374,33 @@ function formatDateString(d) {
 }
 
 function handleAddNewWeek() {
-    const currentWeek = tbiWeeks.find(w => w.id === activeWeekId);
-    let newMonday;
+    let latestMonday = null;
     
-    if (currentWeek && currentWeek.name && currentWeek.name.startsWith("Semaine du ")) {
-        const dateStr = currentWeek.name.substring("Semaine du ".length).trim();
-        const parts = dateStr.split('/');
-        if (parts.length >= 3) {
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10) - 1;
-            let year = parseInt(parts[2], 10);
-            if (year < 100) year += 2000;
-            
-            const currentMonday = new Date(year, month, day);
-            if (!isNaN(currentMonday.getTime())) {
-                newMonday = new Date(currentMonday);
-                newMonday.setDate(currentMonday.getDate() + 7);
+    tbiWeeks.forEach(w => {
+        if (w.name && w.name.startsWith("Semaine du ")) {
+            const dateStr = w.name.substring("Semaine du ".length).trim();
+            const parts = dateStr.split('/');
+            if (parts.length >= 3) {
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                let year = parseInt(parts[2], 10);
+                if (year < 100) year += 2000;
+                
+                const monday = new Date(year, month, day);
+                if (!isNaN(monday.getTime())) {
+                    if (!latestMonday || monday > latestMonday) {
+                        latestMonday = monday;
+                    }
+                }
             }
         }
-    }
-    
-    // Fallback if parsing fails or no currentWeek
-    if (!newMonday) {
+    });
+
+    let newMonday;
+    if (latestMonday) {
+        newMonday = new Date(latestMonday);
+        newMonday.setDate(latestMonday.getDate() + 7);
+    } else {
         const today = new Date();
         const dayOfWeek = today.getDay();
         const daysUntilNextMonday = (8 - dayOfWeek) % 7 || 7;
@@ -406,14 +411,10 @@ function handleAddNewWeek() {
     const name = "Semaine du " + formatDateString(newMonday);
     
     let gridData;
-    if (currentWeek) {
-        gridData = JSON.parse(JSON.stringify(currentWeek.gridData));
+    if (typeof DEFAULT_GRID_DATA !== 'undefined') {
+        gridData = JSON.parse(JSON.stringify(DEFAULT_GRID_DATA));
     } else {
-        if (typeof DEFAULT_GRID_DATA !== 'undefined') {
-            gridData = JSON.parse(JSON.stringify(DEFAULT_GRID_DATA));
-        } else {
-            gridData = JSON.parse(JSON.stringify(BLANK_GRID_DATA));
-        }
+        gridData = JSON.parse(JSON.stringify(BLANK_GRID_DATA));
     }
     
     const newWeek = {
