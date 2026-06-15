@@ -134,6 +134,8 @@
 /* --- ZONES DE TEXTE MOBILES (WHITEBOARD) --- */
 .text-box, .text-content-node {
     font-family: 'Arial', sans-serif !important;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 .text-box {

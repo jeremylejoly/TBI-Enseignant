@@ -549,7 +549,7 @@ function saveActiveTabTextboxes() {
         }
         
         const textSpan = el.querySelector('.text-content-node');
-        const text = textSpan ? textSpan.textContent : el.textContent.replace('✕', '').trim();
+        const text = textSpan ? textSpan.innerText : el.innerText.replace('✕', '').trim();
         return {
             type: 'text',
             text: text,
@@ -2854,25 +2854,30 @@ function exportCurrentTab() {
         const x = parseFloat(el.dataset.x) + 12;
         const y = parseFloat(el.dataset.y) + 28;
         const contentNode = el.querySelector('.text-content-node');
-        const text = contentNode ? contentNode.textContent : el.textContent.replace('✕', '').trim();
+        const text = contentNode ? contentNode.innerText : el.innerText.replace('✕', '').trim();
         const fontSize = parseFloat(el.dataset.fontSize) || 12;
         const color = el.dataset.color || '#1e293b';
         const underline = el.dataset.underline === 'true';
         
         if (text && text !== "Écrivez ici...") {
+            const lines = text.split('\n');
             tempCtx.font = `bold ${fontSize}px Arial, sans-serif`;
             tempCtx.fillStyle = bgType === 'blackboard' ? '#ffffff' : color;
-            tempCtx.fillText(text, x, y);
             
-            if (underline) {
-                const width = tempCtx.measureText(text).width;
-                tempCtx.strokeStyle = tempCtx.fillStyle;
-                tempCtx.lineWidth = Math.max(1, fontSize / 15);
-                tempCtx.beginPath();
-                tempCtx.moveTo(x, y + 4);
-                tempCtx.lineTo(x + width, y + 4);
-                tempCtx.stroke();
-            }
+            lines.forEach((lineText, index) => {
+                const lineY = y + index * (fontSize * 1.25);
+                tempCtx.fillText(lineText, x, lineY);
+                
+                if (underline) {
+                    const width = tempCtx.measureText(lineText).width;
+                    tempCtx.strokeStyle = tempCtx.fillStyle;
+                    tempCtx.lineWidth = Math.max(1, fontSize / 15);
+                    tempCtx.beginPath();
+                    tempCtx.moveTo(x, lineY + 4);
+                    tempCtx.lineTo(x + width, lineY + 4);
+                    tempCtx.stroke();
+                }
+            });
         }
     });
     tempCtx.restore();
