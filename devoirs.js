@@ -140,16 +140,15 @@ function renderDevoirsTable(week) {
             html += `
                 <div class="devoirs-item">
                     <span class="devoirs-bullet" style="color: ${itemColor};">•</span>
-                    <input 
-                        type="text" 
+                    <textarea 
                         class="devoirs-input-text" 
                         style="color: ${itemColor};" 
-                        value="${escapeHtml(item.text)}" 
                         data-day="${day}"
                         data-index="${index}"
-                        oninput="updateDevoirsItemText('${day}', ${index}, this.value)"
+                        oninput="updateDevoirsItemText('${day}', ${index}, this.value); autoResizeTextarea(this)"
                         placeholder="Écrire un devoir..."
-                    />
+                        rows="1"
+                    >${escapeHtml(item.text)}</textarea>
                     <div class="devoirs-item-actions no-print">
                         <select 
                             class="devoirs-color-select" 
@@ -194,10 +193,19 @@ function renderDevoirsTable(week) {
     
     container.innerHTML = html;
     
+    // Auto-resize all textareas to fit their content
+    container.querySelectorAll('.devoirs-input-text').forEach(ta => autoResizeTextarea(ta));
+    
     // Reinitialize Lucide Icons
     if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
         lucide.createIcons();
     }
+}
+
+// --- AUTO-RESIZE TEXTAREA HELPER ---
+function autoResizeTextarea(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
 }
 
 // --- VALUE CHANGED CALLBACKS ---
@@ -223,15 +231,15 @@ function updateDevoirsItemColor(day, index, color) {
         week.daysData[day][index].color = color;
         saveDevoirs();
         
-        // Update input element style directly to prevent full re-render
+        // Update textarea element style directly to prevent full re-render
         const container = document.getElementById('devoirs-table-container');
         if (container) {
-            const input = container.querySelector(`input[data-day="${day}"][data-index="${index}"]`);
-            if (input) {
-                input.style.color = color;
+            const textarea = container.querySelector(`textarea[data-day="${day}"][data-index="${index}"]`);
+            if (textarea) {
+                textarea.style.color = color;
                 
                 // Update bullet color
-                const itemContainer = input.closest('.devoirs-item');
+                const itemContainer = textarea.closest('.devoirs-item');
                 if (itemContainer) {
                     const bullet = itemContainer.querySelector('.devoirs-bullet');
                     if (bullet) bullet.style.color = color;
@@ -254,12 +262,12 @@ function addDevoirsItem(day) {
         saveDevoirs();
         renderDevoirsTable(week);
         
-        // Focus the new input
+        // Focus the new textarea
         const container = document.getElementById('devoirs-table-container');
         if (container) {
-            const inputs = container.querySelectorAll(`input[data-day="${day}"][data-index]`);
-            if (inputs.length > 0) {
-                inputs[inputs.length - 1].focus();
+            const textareas = container.querySelectorAll(`textarea[data-day="${day}"][data-index]`);
+            if (textareas.length > 0) {
+                textareas[textareas.length - 1].focus();
             }
         }
     }

@@ -559,6 +559,13 @@
     .devoirs-item-actions {
         display: none !important;
     }
+    
+    .devoirs-input-text {
+        font-size: 11px !important;
+        overflow: visible !important;
+        height: auto !important;
+        resize: none !important;
+    }
 }
 
 /* --- DEVOIRS / SEMAINIER STYLES --- */
@@ -654,7 +661,7 @@
 
 .devoirs-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     padding: 6px 10px;
     border-radius: 10px;
@@ -688,12 +695,21 @@
     border: none;
     background: transparent;
     padding: 4px 0;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     outline: none;
     min-width: 100px;
     color: #1e293b;
     font-family: Arial, sans-serif;
+    resize: none;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.4;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .devoirs-item-actions {
@@ -703,6 +719,7 @@
     opacity: 0;
     transition: opacity 0.15s ease;
     flex-shrink: 0;
+    padding-top: 2px;
 }
 
 .devoirs-item:hover .devoirs-item-actions,
