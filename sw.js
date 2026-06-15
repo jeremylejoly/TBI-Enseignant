@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v40';
+const CACHE_NAME = 'tbi-enseignant-cache-v41';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',

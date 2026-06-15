@@ -12,11 +12,11 @@ let shapeType = 'line'; // 'line', 'arrow', 'rect', 'circle'
 
 // Configurations individuelles des outils
 const toolConfigs = {
-    pen1: { color: '#1e293b', width: 3 },         // Stylo Noir (Fin 3px par défaut)
-    pen2: { color: '#3b82f6', width: 3 },         // Stylo Bleu (Fin 3px par défaut)
-    pen3: { color: '#ef4444', width: 3 },         // Stylo Rouge (Fin 3px par défaut)
-    highlighter: { color: '#eab308', width: 2 }, // Fluo Jaune (Moyen 2px par défaut)
-    line: { color: '#1e293b', width: 3 }            // Règle
+    pen1: { color: '#1e293b', width: 2 },         // Stylo Noir (Fin 2px par défaut)
+    pen2: { color: '#3b82f6', width: 2 },         // Stylo Bleu (Fin 2px par défaut)
+    pen3: { color: '#ef4444', width: 2 },         // Stylo Rouge (Fin 2px par défaut)
+    highlighter: { color: '#eab308', width: 4.5 }, // Fluo Jaune (Fin 4.5px par défaut)
+    line: { color: '#1e293b', width: 2 }            // Règle
 };
 let activePen = 'pen1';
 
@@ -993,7 +993,7 @@ function handlePointerDown(e) {
                     type: 'stroke',
                     tool: activeTool,
                     color: strokeColor,
-                    width: activeTool === 'eraser' ? eraserSize : (activeTool === 'highlighter' ? strokeWidth * 2 : strokeWidth),
+                    width: activeTool === 'eraser' ? eraserSize : strokeWidth,
                     points: [{ x, y }]
                 };
             }
@@ -1696,23 +1696,23 @@ function toggleToolSettingsPopover(toolName, btnId) {
 
         widthRow.innerHTML = '';
         const thicknesses = toolName === 'highlighter' ? [
-            { value: 1, label: 'Très fin' },
-            { value: 1.5, label: 'Fin' },
-            { value: 2, label: 'Moyen' },
-            { value: 3, label: 'Large' },
-            { value: 4.5, label: 'Géant' }
+            { value: 3, label: 'Très fin' },
+            { value: 4.5, label: 'Fin' },
+            { value: 8, label: 'Moyen' },
+            { value: 12, label: 'Large' },
+            { value: 20, label: 'Géant' }
         ] : toolName === 'eraser' ? [
             { value: 8, label: 'Très fin' },
             { value: 15, label: 'Fin' },
-            { value: 25, label: 'Moyen' },
-            { value: 40, label: 'Large' },
-            { value: 60, label: 'Géant' }
+            { value: 35, label: 'Moyen' },
+            { value: 60, label: 'Large' },
+            { value: 1000, label: 'Géant' }
         ] : [
-            { value: 1.5, label: 'Très fin' },
-            { value: 3, label: 'Fin' },
-            { value: 4.5, label: 'Moyen' },
-            { value: 6, label: 'Large' },
-            { value: 10, label: 'Géant' }
+            { value: 1, label: 'Très fin' },
+            { value: 2, label: 'Fin' },
+            { value: 3, label: 'Moyen' },
+            { value: 5, label: 'Large' },
+            { value: 7, label: 'Géant' }
         ];
         
         const activeWidth = toolName === 'eraser' ? eraserSize : (toolConfigs[toolName] ? toolConfigs[toolName].width : 3);
@@ -1877,7 +1877,7 @@ function updatePaletteSelection() {
 }
 
 function setStrokeWidth(widthValue) {
-    strokeWidth = parseInt(widthValue);
+    strokeWidth = parseFloat(widthValue);
     
     if (activeTool === 'select' && selectedElement) {
         saveStateToUndo();
