@@ -935,11 +935,11 @@ function handlePointerDown(e) {
     // 2. TEXT MODE
     if (activeTool === 'text') {
         e.preventDefault();
-        const defaultFontSize = 20;
+        const defaultFontSize = 12;
         // Aligner précisément le curseur d'écriture avec le clic de l'utilisateur :
         // - Horizontalement : soustraire le padding-left (12px) et la bordure (2px) = 14px
-        // - Verticalement : soustraire le padding-top (6px), la bordure (2px) et la moitié de la taille de police (10px) = 18px
-        createTextbox(x - 14 / zoomScale, y - 18 / zoomScale, "", defaultFontSize);
+        // - Verticalement : soustraire le padding-top (6px), la bordure (2px) et la moitié de la taille de police (6px) = 14px
+        createTextbox(x - 14 / zoomScale, y - 14 / zoomScale, "", defaultFontSize);
         return;
     }
     
@@ -1934,7 +1934,7 @@ function setBoardBackground(styleName) {
 }
 
 // --- EDITABLE ARIAL TEXT ANNOTATIONS ---
-function createTextbox(x, y, initialText = "", fontSize = 20, underline = false, color = '#1e293b', isPostIt = false) {
+function createTextbox(x, y, initialText = "", fontSize = 12, underline = false, color = '#1e293b', isPostIt = false) {
     const layer = document.getElementById('annotations-layer');
     if (!layer) return;
     
@@ -1943,8 +1943,8 @@ function createTextbox(x, y, initialText = "", fontSize = 20, underline = false,
     if (isPostIt) {
         textBox.classList.add('post-it-box');
         textBox.dataset.isPostIt = 'true';
-        if (!initialText && (fontSize === 8 || fontSize === 20)) {
-            fontSize = 14;
+        if (!initialText && (fontSize === 8 || fontSize === 12 || fontSize === 20)) {
+            fontSize = 12;
         }
     }
     textBox.style.left = `${x * zoomScale}px`;
@@ -2093,7 +2093,7 @@ function handleGlobalPaste(e) {
             const x = (scrollLeft + clientWidth / 2 - 60) / zoomScale;
             const y = (scrollTop + clientHeight / 2 - 20) / zoomScale;
             
-            createTextbox(x, y, text, 14);
+            createTextbox(x, y, text, 12);
             saveActiveTabTextboxes();
             e.preventDefault();
         }
@@ -2175,7 +2175,7 @@ function showTextboxToolbar(el) {
     toolbar.style.left = `${Math.max(10, left)}px`;
     
     // Update toolbar indicator states
-    const size = parseInt(el.dataset.fontSize) || 20;
+    const size = parseInt(el.dataset.fontSize) || 12;
     document.getElementById('textbox-size-display').textContent = `${size}px`;
     
     const underline = el.dataset.underline === 'true';
@@ -2199,8 +2199,8 @@ function hideTextboxToolbar() {
 
 function changeActiveTextboxSize(delta) {
     if (!activeEditingTextbox) return;
-    const currentSize = parseInt(activeEditingTextbox.dataset.fontSize) || 20;
-    const newSize = Math.max(12, Math.min(72, currentSize + delta));
+    const currentSize = parseInt(activeEditingTextbox.dataset.fontSize) || 12;
+    const newSize = Math.max(6, Math.min(72, currentSize + delta));
     
     activeEditingTextbox.dataset.fontSize = newSize;
     activeEditingTextbox.style.fontSize = `${newSize * zoomScale}px`;
@@ -2246,8 +2246,8 @@ window.addTextToWhiteboard = function(text) {
     const existing = document.querySelectorAll('.text-box').length;
     const offset = existing * 25;
     
-    // Always insert text box at center mapped back to 1x coordinate space (fontsize 14 for curriculum items)
-    createTextbox(x / zoomScale + offset, y / zoomScale + offset, text, 14);
+    // Always insert text box at center mapped back to 1x coordinate space (fontsize 12 for curriculum items)
+    createTextbox(x / zoomScale + offset, y / zoomScale + offset, text, 12);
     saveActiveTabTextboxes();
 };
 
@@ -2855,7 +2855,7 @@ function exportCurrentTab() {
         const y = parseFloat(el.dataset.y) + 28;
         const contentNode = el.querySelector('.text-content-node');
         const text = contentNode ? contentNode.textContent : el.textContent.replace('✕', '').trim();
-        const fontSize = parseFloat(el.dataset.fontSize) || 20;
+        const fontSize = parseFloat(el.dataset.fontSize) || 12;
         const color = el.dataset.color || '#1e293b';
         const underline = el.dataset.underline === 'true';
         
