@@ -292,28 +292,33 @@ function showCellFormatToolbar(cell, container) {
         });
     });
     
+    // Rendre la palette visible avant de mesurer ses dimensions
+    toolbar.classList.remove('hidden');
+    
     // Positionnement de la palette flottante au-dessus/au-dessous de la cellule
     const rect = cell.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
     
-    let top = rect.top - containerRect.top + container.scrollTop - toolbar.offsetHeight - 10;
-    let left = rect.left - containerRect.left + container.scrollLeft + (rect.width - toolbar.offsetWidth) / 2;
+    const toolbarHeight = toolbar.offsetHeight || 110;
+    const toolbarWidth = toolbar.offsetWidth || 210;
+    
+    let top = rect.top - containerRect.top + container.scrollTop - toolbarHeight - 10;
+    let left = rect.left - containerRect.left + container.scrollLeft + (rect.width - toolbarWidth) / 2;
     
     // Si la palette dépasse en haut, l'afficher en dessous de la cellule
-    if (rect.top - containerRect.top - toolbar.offsetHeight - 10 < 0) {
+    if (rect.top - containerRect.top - toolbarHeight - 10 < 0) {
         top = rect.bottom - containerRect.top + container.scrollTop + 10;
     }
     
     // Limites de débordement
     if (left < 5) left = 5;
-    if (left + toolbar.offsetWidth > container.scrollWidth - 5) {
-        left = container.scrollWidth - toolbar.offsetWidth - 5;
+    if (left + toolbarWidth > container.scrollWidth - 5) {
+        left = container.scrollWidth - toolbarWidth - 5;
     }
     
     toolbar.style.top = `${top}px`;
     toolbar.style.left = `${left}px`;
     toolbar.style.position = 'absolute';
-    toolbar.classList.remove('hidden');
 }
 
 function hideCellFormatToolbar() {
