@@ -96,17 +96,33 @@ function saveDevoirs() {
     localStorage.setItem('tbi_active_devoirs_week_id', activeDevoirsWeekId);
 }
 
-// --- RENDER TABLE ---
 function renderDevoirsTable(week) {
     const container = document.getElementById('devoirs-table-container');
     if (!container) return;
+    
+    // Normalize daysData to always have exactly one item per day (merging multiple if they exist)
+    DAYS_LIST.forEach(day => {
+        let items = week.daysData[day];
+        if (Array.isArray(items)) {
+            if (items.length > 1) {
+                const mergedText = items.map(it => it.text).join('\n');
+                const primaryColor = items[0].color || '#1e293b';
+                week.daysData[day] = [{ text: mergedText, color: primaryColor }];
+            } else if (items.length === 0) {
+                week.daysData[day] = [{ text: "", color: '#1e293b' }];
+            }
+        } else {
+            week.daysData[day] = [{ text: "", color: '#1e293b' }];
+        }
+    });
+    saveDevoirs();
     
     let html = `
         <table class="devoirs-table animate-fadeIn">
             <thead>
                 <tr>
-                    <th style="width: 130px;">JOUR</th>
-                    <th style="width: 130px;">DATE</th>
+                    <th style="width: 180px;">JOUR</th>
+                    <th style="width: 180px;">DATE</th>
                     <th>DEVOIRS & LEÇONS</th>
                 </tr>
             </thead>
@@ -115,7 +131,8 @@ function renderDevoirsTable(week) {
     
     DAYS_LIST.forEach(day => {
         const dateVal = week.dates[day] || "";
-        const items = week.daysData[day] || [];
+        const item = week.daysData[day][0];
+        const itemColor = item.color || '#1e293b';
         
         html += `
             <tr>
@@ -132,55 +149,31 @@ function renderDevoirsTable(week) {
                 </td>
                 <td class="devoirs-content-col">
                     <div class="devoirs-list" id="devoirs-list-${day}">
-        `;
-        
-        items.forEach((item, index) => {
-            const itemColor = item.color || '#1e293b';
-            
-            html += `
-                <div class="devoirs-item">
-                    <span class="devoirs-bullet" style="color: ${itemColor};">•</span>
-                    <textarea 
-                        class="devoirs-input-text" 
-                        style="color: ${itemColor};" 
-                        data-day="${day}"
-                        data-index="${index}"
-                        oninput="updateDevoirsItemText('${day}', ${index}, this.value); autoResizeTextarea(this)"
-                        placeholder="Écrire un devoir..."
-                        rows="1"
-                    >${escapeHtml(item.text)}</textarea>
-                    <div class="devoirs-item-actions no-print">
-                        <select 
-                            class="devoirs-color-select" 
-                            onchange="updateDevoirsItemColor('${day}', ${index}, this.value)"
-                            style="color: ${itemColor}; border-color: ${itemColor};"
-                        >
-                            <option value="#1e293b" style="color: #1e293b; font-weight: bold;" ${itemColor === '#1e293b' ? 'selected' : ''}>Noir</option>
-                            <option value="#3b82f6" style="color: #3b82f6; font-weight: bold;" ${itemColor === '#3b82f6' ? 'selected' : ''}>Bleu</option>
-                            <option value="#ef4444" style="color: #ef4444; font-weight: bold;" ${itemColor === '#ef4444' ? 'selected' : ''}>Rouge</option>
-                            <option value="#10b981" style="color: #10b981; font-weight: bold;" ${itemColor === '#10b981' ? 'selected' : ''}>Vert</option>
-                            <option value="#f97316" style="color: #f97316; font-weight: bold;" ${itemColor === '#f97316' ? 'selected' : ''}>Orange</option>
-                        </select>
-                        <button 
-                            class="devoirs-btn-delete" 
-                            onclick="deleteDevoirsItem('${day}', ${index})" 
-                            title="Supprimer la ligne"
-                        >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                        </button>
+                        <div class="devoirs-item">
+                            <textarea 
+                                class="devoirs-input-text" 
+                                style="color: ${itemColor};" 
+                                data-day="${day}"
+                                data-index="0"
+                                oninput="updateDevoirsItemText('${day}', 0, this.value); autoResizeTextarea(this)"
+                                placeholder="Écrire les devoirs..."
+                                rows="1"
+                            >${escapeHtml(item.text)}</textarea>
+                            <div class="devoirs-item-actions no-print">
+                                <select 
+                                    class="devoirs-color-select" 
+                                    onchange="updateDevoirsItemColor('${day}', 0, this.value)"
+                                    style="color: ${itemColor}; border-color: ${itemColor};"
+                                >
+                                    <option value="#1e293b" style="color: #1e293b; font-weight: bold;" ${itemColor === '#1e293b' ? 'selected' : ''}>Noir</option>
+                                    <option value="#3b82f6" style="color: #3b82f6; font-weight: bold;" ${itemColor === '#3b82f6' ? 'selected' : ''}>Bleu</option>
+                                    <option value="#ef4444" style="color: #ef4444; font-weight: bold;" ${itemColor === '#ef4444' ? 'selected' : ''}>Rouge</option>
+                                    <option value="#10b981" style="color: #10b981; font-weight: bold;" ${itemColor === '#10b981' ? 'selected' : ''}>Vert</option>
+                                    <option value="#f97316" style="color: #f97316; font-weight: bold;" ${itemColor === '#f97316' ? 'selected' : ''}>Orange</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            `;
-        });
-        
-        html += `
-                    </div>
-                    <button 
-                        class="devoirs-btn-add no-print" 
-                        onclick="addDevoirsItem('${day}')"
-                    >
-                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Ajouter une ligne
-                    </button>
                 </td>
             </tr>
         `;
@@ -195,12 +188,8 @@ function renderDevoirsTable(week) {
     
     // Auto-resize all textareas to fit their content
     container.querySelectorAll('.devoirs-input-text').forEach(ta => autoResizeTextarea(ta));
-    
-    // Reinitialize Lucide Icons
-    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-        lucide.createIcons();
-    }
 }
+
 
 // --- AUTO-RESIZE TEXTAREA HELPER ---
 function autoResizeTextarea(el) {
