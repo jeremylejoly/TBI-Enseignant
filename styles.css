@@ -165,13 +165,13 @@
 
 .text-box:hover {
     border-color: #cbd5e1;
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: transparent;
 }
 
 .text-box:focus-within {
     border-color: #4f46e5;
     border-style: solid;
-    background-color: #ffffff;
+    background-color: transparent;
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
 }
 
