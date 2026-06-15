@@ -121,9 +121,9 @@ function renderDevoirsTable(week) {
         <table class="devoirs-table animate-fadeIn">
             <thead>
                 <tr>
-                    <th style="width: 180px;">JOUR</th>
-                    <th style="width: 180px;">DATE</th>
-                    <th>DEVOIRS & LEÇONS</th>
+                    <th style="width: 110px;">JOUR</th>
+                    <th style="width: 110px;">DATE</th>
+                    <th>DEVOIRS</th>
                 </tr>
             </thead>
             <tbody>

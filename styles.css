@@ -607,7 +607,7 @@
 }
 
 .devoirs-day-col {
-    width: 180px;
+    width: 110px;
     font-family: 'Fredoka', sans-serif;
     font-weight: 900;
     font-size: 22px;
@@ -618,7 +618,7 @@
 }
 
 .devoirs-date-col {
-    width: 180px;
+    width: 110px;
     text-align: center !important;
     vertical-align: middle !important;
     background-color: #f8fafc;
