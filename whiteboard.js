@@ -937,9 +937,9 @@ function handlePointerDown(e) {
         e.preventDefault();
         const defaultFontSize = 12;
         // Aligner précisément le curseur d'écriture avec le clic de l'utilisateur :
-        // - Horizontalement : soustraire le padding-left (12px) et la bordure (2px) = 14px
-        // - Verticalement : soustraire le padding-top (6px), la bordure (2px) et la moitié de la taille de police (6px) = 14px
-        createTextbox(x - 14 / zoomScale, y - 14 / zoomScale, "", defaultFontSize);
+        // - Horizontalement : soustraire la bordure (2px) et le padding-left (12px) divisés par zoomScale = 14px
+        // - Verticalement : soustraire la bordure + padding-top (8px) divisés par zoomScale, et la hauteur de la ligne (environ 80% de la taille de police = 9.6px) pour que la ligne d'écriture soit sur le clic
+        createTextbox(x - 14 / zoomScale, y - 8 / zoomScale - 0.8 * defaultFontSize, "", defaultFontSize);
         return;
     }
     
