@@ -300,6 +300,46 @@ function toggleControlButtons(isRunning) {
         if (fPlay) fPlay.classList.remove('hidden');
         if (fPause) fPause.classList.add('hidden');
     }
+
+    // Fullscreen Time Timer dynamic layout changes
+    const layout = document.getElementById('timer-main-layout');
+    const rightMenu = document.getElementById('timer-controls-right');
+    const runningOverlay = document.getElementById('timer-running-overlay');
+    
+    if (layout && rightMenu && runningOverlay) {
+        if (isRunning) {
+            // Hide settings panel
+            rightMenu.classList.add('hidden');
+            
+            // Update the active class instruction badge (emoji, text, and border color)
+            const emojiEl = document.getElementById('timer-active-instruction-emoji');
+            const textEl = document.getElementById('timer-active-instruction-text');
+            const badgeEl = document.getElementById('timer-active-instruction-badge');
+            
+            const mode = timerActiveMode || 'silence';
+            const modeDetails = timerModes[mode];
+            if (modeDetails) {
+                if (emojiEl) emojiEl.textContent = modeDetails.emoji;
+                if (textEl) textEl.textContent = modeDetails.name;
+                if (badgeEl) badgeEl.style.borderColor = modeDetails.color;
+            }
+            
+            // Show centered instruction & pause button overlay
+            runningOverlay.classList.remove('hidden');
+            
+            // Switch main container from 2 columns grid to centered column flex layout
+            layout.classList.remove('md:grid', 'md:grid-cols-2');
+        } else {
+            // Restore settings panel
+            rightMenu.classList.remove('hidden');
+            
+            // Hide centered overlay
+            runningOverlay.classList.add('hidden');
+            
+            // Restore 2 columns grid layout
+            layout.classList.add('md:grid', 'md:grid-cols-2');
+        }
+    }
 }
 
 // --- WIDGET EXPOSED API ---

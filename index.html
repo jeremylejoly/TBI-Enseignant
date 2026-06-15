@@ -877,7 +877,7 @@
                 </div>
             </div>
             <div class="flex-1 flex items-center justify-center p-6 md:p-8 min-h-0 overflow-y-auto">
-                <div class="max-w-4xl mx-auto w-full h-full flex flex-col md:grid md:grid-cols-2 gap-8 items-center justify-center min-h-0">
+                <div id="timer-main-layout" class="max-w-4xl mx-auto w-full h-full flex flex-col md:grid md:grid-cols-2 gap-8 items-center justify-center min-h-0">
                     <!-- Gauche : Grand cadran du timer -->
                     <div class="flex flex-col items-center justify-center w-full h-full min-h-0">
                         <div class="w-[85vw] h-[45vh] md:w-full md:h-full max-w-[420px] max-h-[420px] relative">
@@ -900,10 +900,23 @@
                         <div class="font-mono font-black text-6xl md:text-7xl text-neutral-800 mt-6" id="fullscreen-timer-digital">
                             15:00
                         </div>
+                        
+                        <!-- Zone active pendant la lecture (consigne de classe + bouton pause) -->
+                        <div id="timer-running-overlay" class="mt-6 flex flex-col items-center gap-4 hidden">
+                            <!-- Badge consigne de classe active -->
+                            <div id="timer-active-instruction-badge" class="px-6 py-3 border-[3px] border-neutral-900 rounded-2xl shadow-[4px_4px_0_rgba(0,0,0,1)] flex items-center gap-2.5 bg-white transition-all">
+                                <span id="timer-active-instruction-emoji" class="text-3xl">🤫</span>
+                                <span id="timer-active-instruction-text" class="font-display font-black text-lg text-neutral-800">Silence individuel</span>
+                            </div>
+                            <!-- Bouton pause au centre -->
+                            <button onclick="pauseFullscreenTimer()" class="px-8 py-3 bg-amber-400 hover:bg-amber-500 text-neutral-900 font-display font-bold text-lg rounded-2xl flex items-center justify-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,1)] border-2 border-neutral-900 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer">
+                                <i data-lucide="pause" class="w-5 h-5"></i> Pause
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Droite : Commandes et paramètres -->
-                    <div class="flex flex-col gap-6 w-full justify-center animate-fadeIn">
+                    <div id="timer-controls-right" class="flex flex-col gap-6 w-full justify-center animate-fadeIn">
                         
                         <!-- Boutons Play / Pause / Reset -->
                         <div class="flex gap-4">
