@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v55';
+const CACHE_NAME = 'tbi-enseignant-cache-v56';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -22,9 +22,9 @@ const ASSETS_TO_CACHE = [
     './icon-192.png',
     './icon-512.png',
     './logo.svg',
+    './tailwind.min.js',
+    './lucide.min.js',
     // External CDN script and style dependencies cached for 100% offline capability
-    'https://cdn.tailwindcss.com',
-    'https://unpkg.com/lucide@latest',
     'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fredoka:wght@300..700&family=Caveat:wght@400..700&family=Architects+Daughter&display=swap'
 ];
 
