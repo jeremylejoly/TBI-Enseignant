@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v51';
+const CACHE_NAME = 'tbi-enseignant-cache-v52';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -21,6 +21,7 @@ const ASSETS_TO_CACHE = [
     './manifest.json',
     './icon-192.png',
     './icon-512.png',
+    './logo.svg',
     // External CDN script and style dependencies cached for 100% offline capability
     'https://cdn.tailwindcss.com',
     'https://unpkg.com/lucide@latest',
