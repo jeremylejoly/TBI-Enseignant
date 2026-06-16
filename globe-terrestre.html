@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le Globe Terrestre 3D Interactif</title>
+  
+  <!-- Fonts similar to the website -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Architects+Daughter&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #FDFBF7;
+      --card-bg: #FFFFFF;
+      --ink: #11231D;
+      --ink-soft: #4b5563;
+      --border-color: #111827;
+      --border-width: 4px;
+      
+      /* Accents */
+      --accent-red: #ef4444;     /* Équateur */
+      --accent-orange: #f97316;  /* Tropiques */
+      --accent-blue: #0ea5e9;    /* Cercles polaires */
+      --accent-gold: #d97706;    /* Greenwich */
+      --accent-indigo: #6366f1;  /* Éclairage / boutons */
+      --accent-green: #22c55e;
+      --cream-light: #fefcfa;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      font-family: 'Nunito', system-ui, sans-serif;
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    /* main layout */
+    .app-container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Sidebar - Panel Control */
+    .control-panel {
+      width: 400px;
+      height: 100%;
+      background-color: var(--card-bg);
+      border-right: var(--border-width) solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      overflow-y: auto;
+      z-index: 10;
+      box-shadow: 6px 0px 0px rgba(17, 24, 39, 0.05);
+    }
+
+    /* Scrollbar customized */
+    .control-panel::-webkit-scrollbar {
+      width: 8px;
+    }
+    .control-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .control-panel::-webkit-scrollbar-thumb {
+      background: #e4e4e7;
+      border-radius: 4px;
+    }
+    .control-panel::-webkit-scrollbar-thumb:hover {
+      background: #d4d4d8;
+    }
+
+    /* 3D Render Area */
+    .viewport-container {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      background: radial-gradient(circle at 50% 50%, #f3f4f6 0%, #e5e7eb 100%);
+    }
+
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 26px;
+      margin: 0 0 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .title-underline {
+      height: 6px;
+      background-color: #fde047;
+      margin-bottom: 18px;
+      border-radius: 3px;
+      border: 2px solid var(--border-color);
+    }
+
+    .section-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 18px 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background-color: var(--border-color);
+      margin-left: 8px;
+    }
+
+    /* Group components in neo-brutalist cards */
+    .card {
+      background: var(--cream-light);
+      border: 3px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 4px 4px 0px var(--border-color);
+      transition: all 0.15s ease;
+    }
+
+    /* Tabs buttons */
+    .tab-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tab-group.grid-2x2 {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tab-group.grid-2x2 .btn-tab {
+      flex: 1 1 calc(50% - 4px);
+      min-width: 110px;
+      font-size: 11px;
+      padding: 6px 4px;
+    }
+
+    .btn-tab {
+      flex: 1;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 12px;
+      border: 2.5px solid var(--border-color);
+      background-color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px var(--border-color);
+      transition: all 0.1s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-tab:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--border-color);
+    }
+
+    .btn-tab:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--border-color);
+    }
+
+    .btn-tab.active {
+      background-color: #c7d2fe; /* light indigo */
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--border-color);
+    }
+
+    /* Checkboxes custom (neo-brutal style) */
+    .checkbox-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .checkbox-item input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .checkmark {
+      height: 22px;
+      width: 22px;
+      background-color: white;
+      border: 2.5px solid var(--border-color);
+      border-radius: 6px;
+      margin-right: 12px;
+      position: relative;
+      box-shadow: 2px 2px 0px var(--border-color);
+      transition: all 0.1s ease;
+      flex-shrink: 0;
+    }
+
+    .checkbox-item:hover input ~ .checkmark {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--border-color);
+    }
+
+    .checkbox-item input:checked ~ .checkmark {
+      background-color: #a7f3d0; /* emerald light */
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--border-color);
+    }
+
+    .checkmark::after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 6px;
+      top: 2px;
+      width: 6px;
+      height: 10px;
+      border: solid var(--border-color);
+      border-width: 0 2.5px 2.5px 0;
+      transform: rotate(45deg);
+    }
+
+    .checkbox-item input:checked ~ .checkmark::after {
+      display: block;
+    }
+
+    .checkbox-label {
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      display: inline-block;
+    }
+
+    /* Sub-panels for Modes */
+    .mode-subpanel {
+      display: none;
+    }
+
+    .mode-subpanel.active {
+      display: block;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    /* Seasons control layout */
+    .seasons-grid {
+      display: grid;
+      grid-template-cols: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .btn-season {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 6px;
+      border: 2.5px solid var(--border-color);
+      background-color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0px var(--border-color);
+      transition: all 0.1s ease;
+      text-align: center;
+    }
+
+    .btn-season:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px var(--border-color);
+    }
+
+    .btn-season:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--border-color);
+    }
+
+    .btn-season.active {
+      background-color: #fef08a; /* yellow-200 */
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--border-color);
+    }
+
+    /* Auto Rotation Slider & Controls */
+    .flex-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-action {
+      background-color: white;
+      border: 2.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      box-shadow: 2px 2px 0px var(--border-color);
+      transition: all 0.1s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px var(--border-color);
+    }
+
+    .btn-action:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--border-color);
+    }
+
+    .slider-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .slider-container label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: #e4e4e7;
+      border-radius: 4px;
+      border: 1.5px solid var(--border-color);
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #a7f3d0;
+      border: 2px solid var(--border-color);
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -6px;
+      box-shadow: 1px 1px 0px var(--border-color);
+    }
+
+    /* Explanation Card */
+    .explanation-panel {
+      margin-top: auto;
+      background-color: #fef08a; /* Yellow blackboard style */
+      border: 3px solid var(--border-color);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 4px 4px 0px var(--border-color);
+      position: relative;
+    }
+
+    .explanation-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .explanation-text {
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .handdrawn-font {
+      font-family: 'Architects Daughter', cursive;
+      font-size: 14px;
+      color: #3b82f6;
+    }
+
+    /* Overlay 2D labels on the 3D scene */
+    .html-label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      pointer-events: none;
+      z-index: 5;
+      box-shadow: 2px 2px 0px var(--border-color);
+      white-space: nowrap;
+      transition: opacity 0.1s ease;
+    }
+
+    .html-label.continent-label {
+      background-color: #f0fdf4; /* Soft green */
+      color: #166534;
+      border-color: #166534;
+      box-shadow: 2px 2px 0px #166534;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 12px;
+    }
+
+    .html-label.ocean-label {
+      background-color: #f0f9ff; /* Soft sky blue */
+      color: #075985;
+      border-color: #075985;
+      border-style: dashed;
+      box-shadow: 2px 2px 0px #075985;
+      font-style: italic;
+      font-size: 11px;
+    }
+
+    .html-label.grid-label {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #374151; /* neutral-700 */
+      border: 1.5px solid #9ca3af;
+      border-radius: 4px;
+      padding: 1px 4px;
+      font-size: 10px;
+      font-weight: 700;
+      box-shadow: 1.5px 1.5px 0px #9ca3af;
+    }
+
+    /* Visual Sun badge in solar mode */
+    .sun-indicator {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: radial-gradient(circle, #fef08a 0%, #f59e0b 70%, #d97706 100%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 4px solid var(--border-color);
+      box-shadow: 6px 6px 0px rgba(17, 24, 39, 0.1);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: white;
+      text-shadow: 1px 1px 2px var(--border-color);
+      z-index: 5;
+      animation: pulseSun 2s infinite ease-in-out;
+    }
+
+    .sun-indicator::after {
+      content: '☀️';
+      font-size: 24px;
+    }
+
+    /* Navigation helper overlay */
+    .nav-helper {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: white;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 3px 3px 0px var(--border-color);
+      z-index: 5;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseSun {
+      0% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.06); box-shadow: 0 0 15px #f59e0b; }
+      100% { transform: translateY(-50%) scale(1); }
+    }
+
+    /* Responsive */
+    @media (max-width: 850px) {
+      .app-container {
+        flex-direction: column;
+      }
+      .control-panel {
+        width: 100%;
+        height: 50%;
+        border-right: none;
+        border-bottom: var(--border-width) solid var(--border-color);
+      }
+      .viewport-container {
+        height: 50%;
+      }
+      .sun-indicator {
+        width: 60px;
+        height: 60px;
+        right: 10px;
+      }
+      .sun-indicator::after {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Left Sidebar: Controls -->
+    <div class="control-panel">
+      <h1>Globe Terrestre 3D</h1>
+      <div class="title-underline"></div>
+      
+      <!-- Card: Select Texture Map -->
+      <div class="card">
+        <div class="section-title" style="margin-top: 0;">Type de carte</div>
+        <div class="tab-group" id="map-type-tabs">
+          <button class="btn-tab active" data-map="satellite">🟢 Relief</button>
+          <button class="btn-tab" data-map="politique">🔴 Politique</button>
+        </div>
+      </div>
+      
+
+
+      <!-- Mode 1: GEOGRAPHY SUBPANEL -->
+      <div id="panel-geographie">
+        
+        <!-- Card: Lines checkboxes -->
+        <div class="card">
+          <div class="section-title" style="margin-top: 0;">Lignes géographiques</div>
+          <div class="checkbox-container">
+            
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-equateur" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">
+                <span class="color-dot" style="background-color: var(--accent-red);"></span>
+                Équateur (0°)
+              </span>
+            </label>
+
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-tropiques" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">
+                <span class="color-dot" style="background-color: var(--accent-orange);"></span>
+                Tropiques (23.4°)
+              </span>
+            </label>
+
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-polaires" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">
+                <span class="color-dot" style="background-color: var(--accent-blue);"></span>
+                Cercles Polaires (66.6°)
+              </span>
+            </label>
+
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-greenwich" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">
+                <span class="color-dot" style="background-color: var(--accent-gold);"></span>
+                Méridien de Greenwich
+              </span>
+            </label>
+
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-paralleles">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">
+                <span class="color-dot" style="background-color: #9ca3af;"></span>
+                Parallèles (tous les 10°)
+              </span>
+            </label>
+
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-meridiens">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">
+                <span class="color-dot" style="background-color: #d1d5db;"></span>
+                Méridiens (tous les 10°)
+              </span>
+            </label>
+            
+          </div>
+        </div>
+
+        <!-- Card: Hemisphere illumination controls -->
+        <div class="card">
+          <div class="section-title" style="margin-top: 0;">Éclairer les Hémisphères</div>
+          <div class="checkbox-container">
+            
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-hemi-nord" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">💡 Hémisphère Nord</span>
+            </label>
+
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-hemi-sud" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">💡 Hémisphère Sud</span>
+            </label>
+            
+          </div>
+          <div class="checkbox-container" style="margin-top: 10px; border-top: 1.5px dashed var(--border-color); padding-top: 8px;">
+            <label class="checkbox-item" id="btn-highlight-nord-label">
+              <input type="checkbox" id="chk-highlight-nord">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">🎨 Colorer Nord</span>
+            </label>
+            <label class="checkbox-item" id="btn-highlight-sud-label">
+              <input type="checkbox" id="chk-highlight-sud">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">🎨 Colorer Sud</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Card: Geographical Names -->
+        <div class="card">
+          <div class="section-title" style="margin-top: 0;">Repères cartographiques</div>
+          <div class="checkbox-container">
+            
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-continents" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">🗺️ Noms des continents</span>
+            </label>
+
+            <label class="checkbox-item">
+              <input type="checkbox" id="chk-oceans" checked>
+              <span class="checkmark"></span>
+              <span class="checkbox-label">🌊 Noms des océans</span>
+            </label>
+            
+          </div>
+        </div>
+        
+      </div>
+
+
+
+      <!-- Card: Rotation Speed Control -->
+      <div class="card">
+        <div class="section-title" style="margin-top: 0;">Rotation du globe</div>
+        <div class="flex-row">
+          <button class="btn-action" id="btn-play-rotation">
+            <span id="rotation-icon">⏸️</span> Pause
+          </button>
+          <div class="slider-container">
+            <label for="speed-slider">Vitesse de rotation</label>
+            <input type="range" id="speed-slider" min="0" max="100" value="30">
+          </div>
+        </div>
+        <div class="flex-row" style="margin-top: 12px; border-top: 1.5px dashed var(--border-color); padding-top: 8px;">
+          <button class="btn-action" id="btn-reset-view" style="flex: 1; justify-content: center;">
+            🔄 Réinitialiser la vue
+          </button>
+        </div>
+      </div>
+
+      <!-- Explanation Panel -->
+      <div class="explanation-panel">
+        <div class="explanation-title">📝 Note pour la leçon :</div>
+        <p class="explanation-text" id="explanation-content">
+          L'Équateur sépare la Terre en deux hémisphères. Les tropiques et cercles polaires sont parallèles à l'Équateur. Fais glisser le globe pour l'observer !
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Right Area: 3D Viewport -->
+    <div class="viewport-container">
+      
+      <!-- Floating labels projected from 3D points -->
+      <div id="label-equateur" class="html-label" style="color: var(--accent-red);">ÉQUATEUR</div>
+      <div id="label-cancer" class="html-label" style="color: var(--accent-orange);">Tropique du Cancer (+23.4°)</div>
+      <div id="label-capricorne" class="html-label" style="color: var(--accent-orange);">Tropique du Capricorne (-23.4°)</div>
+      <div id="label-arctique" class="html-label" style="color: var(--accent-blue);">Cercle Polaire Arctique (+66.6°)</div>
+      <div id="label-antarctique" class="html-label" style="color: var(--accent-blue);">Cercle Polaire Antarctique (-66.6°)</div>
+      <div id="label-greenwich" class="html-label" style="color: var(--accent-gold);">Méridien de Greenwich (0°)</div>
+      <div id="label-pole-nord" class="html-label" style="border-style: dashed;">Pôle Nord</div>
+      <div id="label-pole-sud" class="html-label" style="border-style: dashed;">Pôle Sud</div>
+
+      <!-- Continents labels -->
+      <div id="label-europe" class="html-label continent-label">Europe</div>
+      <div id="label-asie" class="html-label continent-label">Asie</div>
+      <div id="label-afrique" class="html-label continent-label">Afrique</div>
+      <div id="label-namerique" class="html-label continent-label">Amérique du Nord</div>
+      <div id="label-samerique" class="html-label continent-label">Amérique du Sud</div>
+      <div id="label-oceanie" class="html-label continent-label">Océanie</div>
+      <div id="label-antarctique-cont" class="html-label continent-label">Antarctique</div>
+
+      <!-- Oceans labels -->
+      <div id="label-atlantique" class="html-label ocean-label">Océan Atlantique</div>
+      <div id="label-pacifique" class="html-label ocean-label">Océan Pacifique</div>
+      <div id="label-indien" class="html-label ocean-label">Océan Indien</div>
+      <div id="label-arctique-oc" class="html-label ocean-label">Océan Arctique</div>
+      <div id="label-austral" class="html-label ocean-label">Océan Austral</div>
+
+
+      
+      <!-- Control instruction overlay -->
+      <div class="nav-helper">
+        🖱️ <span>Glisse pour tourner · Molette pour zoomer</span>
+      </div>
+
+      <!-- Three.js Canvas Container -->
+      <div id="canvas-container"></div>
+      
+    </div>
+
+  </div>
+
+  <!-- Include Three.js & OrbitControls from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="ne_110m_admin_0_countries.js"></script>
+  <script src="ne_110m_admin_0_countries.js"></script>
+
+  <script>
+    /* ==========================================================
+       1. MESURE DES PARALLÈLES ET MÉRIDIENS (ÉTIQUETTES DYNAMIQUES)
+       ========================================================== */
+    function buildGridLabels() {
+      const viewport = document.querySelector('.viewport-container');
+      
+      // Parallels labels (every 20° from 80°S to 80°N)
+      for (let lat = -80; lat <= 80; lat += 20) {
+        if (lat === 0) continue; // Equator already has its own label
+        const labelText = lat > 0 ? `${lat}°N` : `${Math.abs(lat)}°S`;
+        const el = document.createElement('div');
+        el.className = 'html-label grid-label';
+        el.id = `label-parallel-${lat}`;
+        el.textContent = labelText;
+        viewport.appendChild(el);
+        
+        labelElements[`parallel_${lat}`] = {
+          el: el,
+          pos: getVectorFromLonLat(0, lat), // Placed on Greenwich meridian (lon 0)
+          chkId: 'chk-paralleles'
+        };
+      }
+      
+      // Meridians labels (every 20° from -160° to 180°)
+      for (let lon = -160; lon <= 180; lon += 20) {
+        if (lon === 0) continue; // Greenwich already has its own label
+        let labelText = '';
+        if (lon === 180) labelText = '180°';
+        else labelText = lon > 0 ? `${lon}°E` : `${Math.abs(lon)}°O`; // O for Ouest in French
+        
+        const el = document.createElement('div');
+        el.className = 'html-label grid-label';
+        el.id = `label-meridian-${lon}`;
+        el.textContent = labelText;
+        viewport.appendChild(el);
+        
+        labelElements[`meridian_${lon}`] = {
+          el: el,
+          pos: getVectorFromLonLat(lon, 0), // Placed on Equator (lat 0)
+          chkId: 'chk-meridiens'
+        };
+      }
+    }
+
+    function createPoliticalTexture() {
+      if (!geoCountriesData) return;
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = 2048;
+      canvas.height = 1024;
+      const ctx = canvas.getContext('2d');
+      
+      // Draw ocean background (soft baby blue matching the neo-brutalist theme)
+      ctx.fillStyle = '#cbe3fc';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw countries with clear black borders
+      ctx.strokeStyle = '#11231D';
+      ctx.lineWidth = 2.0; // Thicker border for better visibility on 3D globe
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      
+      const PASTEL_COLORS = [
+        '#FFADAD', '#FFD6A5', '#FDFFB6', '#CAFFBF', '#9BF6FF',
+        '#A0C4FF', '#BDB2FF', '#FFC6FF', '#E8AEFF', '#FFDAC1',
+        '#E2F0CB', '#B5EAD7', '#C7CEEA', '#E0F2FE', '#F3E8FF'
+      ];
+
+      function getCountryColor(properties, idx) {
+        // mapcolor13 is 1-indexed (1 to 13) in Natural Earth dataset.
+        // It guarantees adjacent countries have different colors.
+        const colorVal = properties.mapcolor13 || properties.MAPCOLOR13;
+        if (colorVal && colorVal > 0) {
+          return PASTEL_COLORS[(colorVal - 1) % PASTEL_COLORS.length];
+        }
+        // Fallback to hashing country name if mapcolor13 is not present or -99
+        const name = properties.NAME || properties.name || idx.toString();
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        return PASTEL_COLORS[Math.abs(hash) % PASTEL_COLORS.length];
+      }
+
+      function drawPolygon(ctx, coordinates) {
+        ctx.beginPath();
+        coordinates.forEach(ring => {
+          ring.forEach((pt, i) => {
+            const lon = pt[0];
+            const lat = pt[1];
+            const x = (lon + 180) * (2048 / 360);
+            const y = (90 - lat) * (1024 / 180);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.closePath(); // CRITICAL: close each ring individually so borders are closed
+        });
+        ctx.fill('evenodd');
+        ctx.stroke();
+      }
+      
+      geoCountriesData.features.forEach((feature, idx) => {
+        const props = feature.properties || {};
+        ctx.fillStyle = getCountryColor(props, idx);
+        
+        const geom = feature.geometry;
+        if (geom.type === 'Polygon') {
+          drawPolygon(ctx, geom.coordinates);
+        } else if (geom.type === 'MultiPolygon') {
+          geom.coordinates.forEach(poly => {
+            drawPolygon(ctx, poly);
+          });
+        }
+      });
+      
+      politicalTexture = new THREE.CanvasTexture(canvas);
+    }
+
+    /* ==========================================================
+       2. THREE.JS INITIALISATION & GLOBAL STATE
+       ========================================================== */
+    let scene, camera, renderer, controls;
+    let earthMesh, earthPivot, earthGroup;
+    let equatorTorus, tropicsGroup, polarGroup, greenwichTorus, parallelsGroup, meridiansGroup;
+    let sunLight, ambientLight, hemisNorthDome, hemisSouthDome, sunMesh, sunRaysGroup;
+    
+    // Textures
+    let satelliteTexture, politicalTexture;
+    let geoCountriesData = null;
+    
+    // State Variables
+    let currentMode = 'geographie';
+    let currentMapType = 'satellite'; // 'satellite' or 'politique'
+    let isRotating = true;
+    let rotationSpeed = 0.003;
+    
+    // Dom Elements
+    const explanationEl = document.getElementById('explanation-content');
+    const playBtn = document.getElementById('btn-play-rotation');
+    const playIcon = document.getElementById('rotation-icon');
+    const speedSlider = document.getElementById('speed-slider');
+
+    const EXPLANATIONS = {
+      geographie: {
+        normal: "L'Équateur sépare la Terre en deux hémisphères. Les tropiques et cercles polaires sont parallèles à l'Équateur. Fais glisser le globe pour l'observer !",
+        equateur: "L'ÉQUATEUR (rouge) : Cercle imaginaire situé à mi-chemin des pôles. Sa latitude est de 0°. Il divise la Terre en Hémisphère Nord et Hémisphère Sud.",
+        tropiques: "LES TROPIQUES (orange) : Le Tropique du Cancer (nord) et le Tropique du Capricorne (sud) se situent à 23,4° de l'Équateur. Ils marquent la limite où le Soleil peut être au zénith (exactement au-dessus de nous).",
+        polaires: "LES CERCLES POLAIRES (bleu) : Le Cercle Arctique (nord) et le Cercle Antarctique (sud) sont situés à 66,6° de l'Équateur. Ils limitent les zones où le soleil ne se couche pas en été (jour polaire) ou ne se lève pas en hiver (nuit polaire).",
+        greenwich: "LE MÉRIDIEN DE GREENWICH (doré) : Ligne verticale reliant les deux pôles passant par Londres. C'est le méridien d'origine (0° de longitude) qui sert de point de départ pour mesurer les fuseaux horaires.",
+        grid: "LES PARALLÈLES ET MÉRIDIENS (gris) : C'est le quadrillage géographique complet qui permet de situer précisément n'importe quel point sur Terre avec des coordonnées (Latitude et Longitude)."
+      }
+    };
+
+    function init() {
+      const container = document.getElementById('canvas-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      // Scene
+      scene = new THREE.Scene();
+
+      // Camera
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+      camera.position.set(0, 3, 14);
+
+      // Renderer
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      // Controls
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.minDistance = 6;
+      controls.maxDistance = 22;
+
+      // Lights
+      ambientLight = new THREE.AmbientLight(0xffffff, 0.85); // High ambient light for Geography Mode
+      scene.add(ambientLight);
+
+      sunLight = new THREE.DirectionalLight(0xfffae6, 1.2);
+      sunLight.position.set(15, 0, 0); // Sun comes from the right
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = 1024;
+      sunLight.shadow.mapSize.height = 1024;
+      sunLight.shadow.bias = -0.002;
+      scene.add(sunLight);
+
+      // Target to keep shadows stable
+      const lightTarget = new THREE.Object3D();
+      lightTarget.position.set(0, 0, 0);
+      scene.add(lightTarget);
+      sunLight.target = lightTarget;
+
+      /* ==========================================================
+         3. CONSTRUIRE LE GLOBE ET SES GROUPES
+         ========================================================== */
+      // earthPivot: représente l'inclinaison de l'axe terrestre (23.44° fixe dans l'espace)
+      earthPivot = new THREE.Group();
+      earthPivot.rotation.z = -23.44 * Math.PI / 180; // Inclinaison de l'axe vers la droite
+      scene.add(earthPivot);
+
+      // earthGroup: contient la sphère terrestre et les lignes qui tournent ensemble
+      earthGroup = new THREE.Group();
+      earthPivot.add(earthGroup);
+
+      // Load satellite texture with robust fallbacks for offline and local file:// CORS restrictions
+      const EARTH_OFFLINE_FALLBACK = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCACAAQADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiGQL13fnSYAH3WrRmtnhmZJQVZTjDAqfyNXbHQdQ1MbrWHcg/jdgq/rXc0krnMn0MAFPQ0u6P+6TXQz+CdbVifKik/wB2VaqP4X1eLl7KQj1TDfyqOZF2MoMp/g/Wnqu7pGfzrcs/Dl9vXzLSTbkbtu3djPOATXUR6XbRl4xBcW6IAVe7tl2t+K4Ofxp8yROpwKWzucLE5PXA5q5aaLe3pYW1u0hXqBjP5V1l7pBjhkuIbm1knUjJTIyvfLFjyO1LFB5sD3FvBJKwCyRwuoQsRkMRyeOncE0c6toFn1MODwdqErYLQIe4ZjkfgBUtz4OltEzPf2CH+6znP5YzXTQv5OnyyJfNbRRYQlonXY56gg/X3rDOjanHKb7SdQW6JG7fvw5HuDUqT6sbRSj8HajMAYYYZEIyH3bQfzxTh4B1Z25jhjH++DSQeK9bt58S3JYp1jkQYPt0zXomj6vDqsG+IFWCgsD70pylFahFRZwifDe9IO+7t1+mTn9KhuPh5fRJmOaOU+gyK9RrJ1XWLezi5nt/9rLjj8Ac1mpyZo0jye+0C5scicwxuP4DMpb8hWa0DKcN+lbOrXzX12821UzwMcisuXOQGf6YFb8umpkpMYtqz/dwfxqx/Y9/gkWkxA6kqRj86iTIIxu/KtW1kvbiIQxvMyod23cQAfU//Xo5UHMzKk0+4ifZLFsbrhjSCzf/AGPzrXezm87ZmNpTzsVgSaZLazQkCWF0z0yvWqSi9mJykjP/ALOlyOU56fNSvp0iZ3NFx6ODWvp9kk8w+0CZYRnLRRFzn046VbbTb6Qb7fSBFEDjJQuR9d3P6UNRTsHMzmfsbf3l/Ok+xMP4l/Ouwl8JyLcRRLeQbpIvNJKkDqAcfTPtWrZeDrOJgb64eQjgqh2qT7HrUOUCrTOD/sLUDbC4W3Z4j/EhDfy5FU5LWWJsOjqR2K4r1xfD+jRKDFZjI5DF2/xqafTdNusF4bVmUYyyZP4YIrPniVZnjOxh/wDqpVLg8AflXok/hG0dy0d+Uy3IaEYHsOar3vg2aMqbK5ikjOdzSjYV9OnXNXeHcXvdjjIkYrllU+22laLPSIiu5h8JzmyZZnso5APkdd7E+55/pVK48KX4lUQvayLjqJCv5hqaqR2JcZbnG+Uw65pyIc5BII9DXSSeH9VSQp9hkfBxuQgqfoc0w+H9UKB/7Pm2nnPH8utV7vcV5diE6zdXUBikuTMh678FsemeuKltNRltsbGVSqnBCgc/gOT9a5YXG05VBn3JpWvJ2/5aED0XiolKLVi1Fp3O2/4SRVt4/tck5JBZwrBT7AevvmpIfEdq0R+yziCYjkTRfKT9RXA+YSck5PqakR8dKzUYsp3PQzr0v2cE2azMR8rxsFH/ANeqVn4laCNpIbTYWP7wtIxVj+PSuXilDLtdSwbrg4/yaswXPlxRgoSm75TnqP8AaHesqicSou53Fl4tSSL9/GEzwXz8o/rVi+8RCC2keyVbmQYB+bhR646n8K4aWGCRAUj2HHJVjz71nXEckeArMV9KiNTUpxdjfvdbub63aG7Ctls5XKke2M4rQj1O30lF+zzwzOyq5iMW3HH98fjwa44300hAkcnaNo3elRBnVtw49zW0qyaskZqFnqbms3U9w0c74KOm6MBt2B069e3ernhnxcdH3xXEJmhYfLtIDKf8K56NJCgIlJx0UdadNDvUOBsPfPFbRvONmiNIvQ3df8WXeo3j/Y55oLUDCop2k+5x3rDSYxnJILdelUfMKsQCDjuKcSxXdzVRaS0Bq+5ptdSSx4aOIDrkIAahaFJGBJwT0FUo7khwJBuT+VXY5Ipf9W+SOcdxQ5JLQlp3J41jjVt5k4X5QoByfTnpUX2iadTGWZYUHCA4H4+tDsSQFOR3xSBiwbg+4ziuadWMpX6GkYOxWfeO4+g4q5BcHyDE6cd8k/mPeolUNyBT0U8L6VhzPc0sXbbUp4lRBIyqn3SrY49K021i88/a00vkcLtPyjJ9T1rKghYvhGye61Y+zyHlhuUfwnmjnsUonUxa7FDFvEbSykbS4OQQPfriqd74gfG6JkznOGzWGFdF2oxQdSoJxTrWAzswkndVzk4GQf8ACmqgOBek8TzY+YFVI5wasW/icOyxxK7uR0CVkrYIiOW2TdcIQQc+oIqklldRTb4QUz6dqPaByM615tQMqyBGdTzhcED2NWzqV7bRjzrfAH3QwB4/nXEypcpjbcSFiexPWo0u7mByPNdhnLKzHBFP2iDlsd5P4ks4vKDu4bGSEXpUUviXTirPEZZJf4Y9pG4/WuCM5kDOQAO5A/Wmx3/2SVJlJDoQy8d66oQi43Zg5SvZHczeLEslX7ZbGJmGfLQ7m/H0/nWdfeOiWKWtsyjH33fkfSuGnvJbi4MkjHknv0zTVnKnlAcVKUepTuQkEdaSnAA98fWgoR/jSsUNpwfFJ0oGKEBPHPhhxxXQafHG1urbd4XnjqRXNj2q/p921tMDuIU8EjtSnDnQRfKzZYY2rkFMZ3Dnmqk0ihguAc1Yiut8jxtsAbkHGefTNULlkRwGLE84x2rmjTk5cppKaSuhkvl5OxeSc5zUTyxwYJXc2Oh7VLGoJ5UqwI4PcVQvQwuH3A9ePpXTGk4asxcubQJLqV84baPQcUzzpDHsJJWo80sYywquZsdkiWJGPsKsSMipgNg1XeXb8q1Ezlhg1fMo6E2bHcsSRjArasoY5IQwjLtj+Ff0qDRtMfUJggOEAyzdh/8AXrs7KwjtiiDkgYPoK5601FW6mtOPMzmP7NvWbd5DKmCeSMD61UkfaVEgyf7wrvBKygps69gO1RDTbR7hJZYI9w6HoM+hHQ1nHEJq0l9xUqPWLOOj8hmVZJWUE9QM1eh0oyR+dDvMZzgnAyK6C40jT3BkW2RWHXqM1FYTxOpi8rYy5UoOi4pTqXj7lxxhZ+8ZVpBNDcjCs0Z+9jv9a0XYFCCCpJ/i7GpbqGSK4V0iZ4nGBsHKn39veqQ1K1X5JXG/PKspBzUtSnYa5Y3Hw28Mi/NKjS5/1WccetWfs9tgEAnvwcVn3jQhUcSESH5gV/hqr9vlRSCUb3X5agL9zVmW3hVirKWHO0HGfxqnLqESRAxN8xHTrWPc3zybhs+hz09frVUDOG75yadhc/Y1HnlY+ZuGT2x0rPlVyxyx9zT1lcHc52xgc5qrd3Qb5Yz06kGuujCPLzNGM5NuyEmfyYTtY7iePrVBmLEliST3NTMd8HJ+4f51DVyCKAjFO2lugppJJyepoyaQx24D+EfjSBiDkGk+lPTB4PXtRuAxjuJJ70Uu0+lKFosAi8GplIqPAFPWqQmTxyMpytSC4BbJADjoTUCk0oTJ4xVOKbv1I8ifYWJZpGGAMVG5aRG2xs6jqTTgduFABPvTw+0cn8BUTl7NWYLVlR7fMIdVKnuDUUWA3NXxIWB3YI/u+tRtbrKrPGu0r1XrSjOMnpuVqtylICHOaVNu4bulPxzg8ihogOnIqrdR3Og8O6hFZpMXPyPgAD19a6SLWLaZQQoDHvnpXnqTtExC/c7g1Ot4i93rmrUnKXMjSFRxVj0CG9iZk/ergHJxzn2p81zY5DrIAy5A5rgorncpZCQw7UNO79WPFYSpOO5ftju5b6ERZ3fn3rEF0v2w3EDYQ4EgP86wo52chXYn61o2yC1PmGTMR7j19KI+6DlzmteeIoIo/wBxGZyPXIUfU1yF1eSXV088py7Ht0HsKn1zUftckUUTZiiHYYyfWs8AOBjg120oqK0WplNtvVmpayeaih2x2zUUsu2VlHY4qvBJ5Me7PQ1G0u+Td0yavkXPzGd3axfA8xBk85zj9KAViyB0AzkioraVSCM/MP6dKssVaLLYAPWj2cefmTIcmlZlPc9wWByVwcccVQZdrlfQ45rQklxH+7Vjg9u9Vpo2MnmEcMM/jTk+bVFx0GRHBJJwKjJ54qdD8hJUHFNCrK+AoH0osO5EMntTlfCkAY/rTnQo2M9KY45z61OqHuJtPcY+tKUwgP51ZuwqgHuTiqoJwVB4NNqzsCd1cQE1IASuc0JsHJGfapPkIIUEGhITZFgntTwDSgc4qRapITYnCDPek3nqKR+abnjgU2wLFvOPPUSMQpOCae0ZRirfeHBqltLH271q6fJHfSLaypiQjCS9+PWuetFyVykuhWCn061YghLMeSD7VM8BhmKHDbTg44FWVCIMgY9a5blqPcq3FrCbdnbCsBnPqawyxzwcVq6i26MfNjngetZLda64c3LdsTtfQnhBPWmOAG9qdCRjHrTJSM4FavYjqPhl2yf7PTFaLRA4GOg4NZcSlnHpnrXVrZxSJG0ZOCMisK3wplRjd6GXBAvmgMu5GGGBp2pSZi2xjCZ4wK0JLYQHpjvWbMyyMsABAz261nRV5XKn7sbGUigOC4yPSpWi24dfunoal1AKkyxRg/KO9Rggqqg9Ovua64tNGTuiKfAVcHknJqJT8w+tPlU7qSLqeOgNJ7lLYRJGRwy9RWjBcwPHsclQexrM9qVQSw7Z7mkmDSZqExFcRc49DTYYpvuvjZ6nrmpLLTmEm8nI7e1aggVTz+ZonUhDR79hRpylsZLwMsmQAw9xUbHa4bywF/vCtp7HdG/O4EcAVkT2vkvkblOcEZyKdOUZN8rJlFx+IglCs2QMn2NVWyWwAQKtGN1k3EA47DrinAqp5PFaNXBOxVuX3zHHQcVDViW2ZDk4A9zUBxmspJ31LVraCg4p4K9uKiopJjsWFapFOarKx9amjzmtIshokYDPSmcZ6U589qYGHQ1TEgPpiruicX4bptQ4/lVLBPStHSQUcnGdwINZVPhZcd0XLhdxd84LHvVSaQxgszZGOB71POwj3FjgL1rEubhppCei9hWNOna0pDlK7siR3MzYLAfU1A8e3GDnNMzUit0re6luTaxJEuBUbJk8CpxgpUb8jC5FU1oJPUYW2AIOnUmun0a8X7MqMfmSuVKnP9akjmeE5jbr1rOS5ouLLi+V3R0eoXQX5ifmPYGsRpXN6NpwwINQNJkqxYs/enRRsW8xs56iinBRVkKcuZ3Yl0We4Zucmox8vU81PICBnHPrVYZ3c1bVmJak4+ce9CJkntwetEQwwJ6U8rk9etUlcVyIRLjO8E+nSmIxRxgbsHp61K8dR7CDkEg+1S1YaZ0kMwkgSQAg4/EU8sMgF1PtmuYMkoGPMbH1pqySIcq7A+xrndFNts2VWSVjt5JIvs4EROV61garKAMKxJyOarWuoSg7JGPP8Q61Xu2LTdSQBwTSp0nCV7inU5laxa5Kxkdc1WZPnUjvz0otJTuEbcgnir8qELt2nI9a7bqSOb4WY7tubNAXNTiEdyKXYinrms+V9TTmIhGT2pfIJGRU28DpUbO3WnZCuxFTB5FTABRmqzMablqXMkO1yd2qItg03LUYNJu40h6vz1ra06dPs2xUDS7sk55xisILU8MMjsAgJNFuZWYttTTmeJwyuy89QDis14YQ3DMB+dap0K6jtVurlTBA/CswPzH2rPkWOJ8DLAVq9dzNabEJtt3+rbIAyckVHtCnGc/hUrTKCcKSPeo2mypXaMGofKaK45HxUu1XGc4qrv8AQCjex4yaSkDiTlAoPIwaj2qc4amsj5HQ59KaUZTggihvyBIU4Q8EE1NG7FcmTbUAVmIAByaAjE4xzSTaG0TNIxGC4I+tELhHyU3VNb6PqF0Cba0mmA6lEJqNrS4gcrJFJG46hlINPW4tLFpvLmTcoCN6VTZ8NipoxKn8Jb681OdPurlBJFZzMMZ3JGSD+VaPVELQqB6XcDWjbeHNVuo3eK0mIjAJyuDz6Z6/hTJvD2qwuiSWNwGf7o2E5qdR6GaStC7D1q/JoWpRyrG9lcCRui+Wc09vDWsKcHTrkHGfuGlqPQobASCvUU2QFzkgA98Cr1xo2pWcmyeznRv9wn9RULRSLgSxspPPIxxTtcV7EdmFWcEkcDvU1xdRrwgEh7+lQvArc/NURgwfvZp6pWQWTd2aE+mzK+BDIpHZlIqJNOu5HCRwu7E4AVSa9x3S85VevHzHkflSb5Bn92fwYVk6qfQpQfc8it/B2uXDMPsRi29TK4X8vWtBPh7qjAF57Vcj+8Tj9K9M3vz+5PHT5hzT8n+7+tRzsrlPOoPh5dE/v7uFRjqoLHP6U9vh5P8Aw3cB+qMK9Cy39z9aXn0p+0kHKjzyD4eymZfPni8v+LYTn6DitF/h7p5x5dxOnruAauypaTqSDlRwreAE8zEV7GVHXdF8w/I1tab4WsrKNkljiuQcYZo8MP1xW/gZzjn1oOewzQ6kn1DkRg+KNNudQ0xILOEOyuGxvC4AB9a4C58OahDky2NyPcLuH6V6583PQelKMjv+VVGq4q1hOF3c8UOi3LFdkMrFuwjY/wBK0rHwPqt3KA8X2ZMZ3zDH6da9aye7E/jSYGc0OpfZAovucRY/DmyjCtfXUszY5WMBFz9etbEXg3Qo9v8AoIfH9+Rjn9a38UtRzMqyMQeE9DDZGnQ5+rY/nTm8L6I6BW023OO4BB/Q1s0Ucz7hZGPbeGdGtm3R6fBu9WBb+ZNW4tJ0+GYzR2Vskh6ssYFXKWjmfcLIQADoAPpTZF3Dop+ozT6KVwKMuk2FwyvPZ28jg5yYwOf61dRQihUAVR0CjAFLRTuwsHXqaPxoopXCwZPrSUtJRcLBz61DNa28/wDrreKXjHzoDxU1NdA6lfWi4WOS1zTNIhykOlGaVzt224IKkj9K42bRboMT9iukXPGY2P64r1lYZolKxSKR2DjpUqmbA3bM98E1pGpbzJcLn//Z";
+
+      const textureLoader = new THREE.TextureLoader();
+      
+      function applySatelliteTexture(texture) {
+        satelliteTexture = texture;
+        if (currentMapType === 'satellite') {
+          earthMesh.material.map = satelliteTexture;
+          earthMesh.material.needsUpdate = true;
+        }
+      }
+
+      function loadWithFallback() {
+        // Under file:// protocol, Chrome blocks local files loaded via WebGL.
+        // So we first attempt to load from jsDelivr CDN which has CORS headers.
+        if (window.location.protocol === 'file:') {
+          console.log("Local file:// protocol detected. Attempting to load Earth texture from CDN...");
+          textureLoader.setCrossOrigin('anonymous');
+          textureLoader.load(
+            'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
+            function(texture) {
+              console.log("Successfully loaded Earth texture from CDN.");
+              applySatelliteTexture(texture);
+            },
+            undefined,
+            function(err) {
+              console.warn("Failed to load Earth texture from CDN. Falling back to built-in offline low-res texture.", err);
+              // Offline fallback (Base64)
+              textureLoader.load(
+                EARTH_OFFLINE_FALLBACK,
+                function(offlineTexture) {
+                  applySatelliteTexture(offlineTexture);
+                },
+                undefined,
+                function(err2) {
+                  console.error("Failed to load offline fallback texture.", err2);
+                  setMapType('satellite');
+                }
+              );
+            }
+          );
+        } else {
+          // If served via local web server, try local file first
+          textureLoader.setCrossOrigin('anonymous');
+          textureLoader.load(
+            'earth-blue-marble.jpg',
+            function(texture) {
+              applySatelliteTexture(texture);
+            },
+            undefined,
+            function(err) {
+              console.warn("Failed to load local Earth texture. Trying CDN...", err);
+              textureLoader.load(
+                'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
+                function(cdnTexture) {
+                  applySatelliteTexture(cdnTexture);
+                },
+                undefined,
+                function(err2) {
+                  console.warn("CDN fallback failed. Using built-in offline low-res texture.", err2);
+                  textureLoader.load(
+                    EARTH_OFFLINE_FALLBACK,
+                    function(offlineTexture) {
+                      applySatelliteTexture(offlineTexture);
+                    },
+                    undefined,
+                    function(err3) {
+                      console.error("All Earth texture loads failed.", err3);
+                      setMapType('satellite');
+                    }
+                  );
+                }
+              );
+            }
+          );
+        }
+      }
+
+      loadWithFallback();
+
+      // Earth Sphere
+      const earthGeo = new THREE.SphereGeometry(5, 64, 64);
+      const earthMat = new THREE.MeshStandardMaterial({
+        color: 0xcbe3fc, // Ocean soft blue fallback initially
+        roughness: 0.8,
+        metalness: 0.1
+      });
+      earthMesh = new THREE.Mesh(earthGeo, earthMat);
+      earthMesh.castShadow = true;
+      earthMesh.receiveShadow = true;
+      earthGroup.add(earthMesh);
+
+      // Add geographical line toruses
+      buildGridLines();
+
+      // Add hemisphere overlay domes
+      buildHemisphereDomes();
+
+
+
+      // Listeners
+      window.addEventListener('resize', onWindowResize);
+      setupUIListeners();
+      
+      // Populate datasets from globally loaded scripts
+      geoCountriesData = window.geoCountriesData;
+      
+      // Build the textures
+      createPoliticalTexture();
+      
+      // Dynamically build paralleles & meridians labels with measurements
+      buildGridLabels();
+      
+      // Initial state updates
+      updateLights();
+      updateLinesVisibility();
+      updateExplanation();
+
+      // Start animation loop
+      animate();
+    }
+
+    /* ==========================================================
+       5. TRACER LES LIGNES GÉOGRAPHIQUES (TORES 3D FINIS)
+       ========================================================== */
+    function buildGridLines() {
+      const redMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+      const orangeMat = new THREE.MeshBasicMaterial({ color: 0xf97316 });
+      const blueMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9 });
+      const goldMat = new THREE.MeshBasicMaterial({ color: 0xd97706 });
+      const greyMat = new THREE.MeshBasicMaterial({ color: 0x9ca3af, transparent: true, opacity: 0.5 });
+      const lightGreyMat = new THREE.MeshBasicMaterial({ color: 0xe5e7eb, transparent: true, opacity: 0.3 });
+
+      const r = 5.02; // Légèrement plus grand que la Terre pour être au-dessus
+
+      // 1. Équateur
+      const equatorGeo = new THREE.TorusGeometry(r, 0.04, 8, 120);
+      equatorTorus = new THREE.Mesh(equatorGeo, redMat);
+      equatorTorus.rotation.x = Math.PI / 2;
+      earthGroup.add(equatorTorus);
+
+      // 2. Tropiques (+23.44° Cancer, -23.44° Capricorne)
+      tropicsGroup = new THREE.Group();
+      earthGroup.add(tropicsGroup);
+
+      const latTrop = 23.44 * Math.PI / 180;
+      const rTrop = r * Math.cos(latTrop);
+      const yTrop = r * Math.sin(latTrop);
+
+      const cancerGeo = new THREE.TorusGeometry(rTrop, 0.025, 8, 100);
+      const cancerMesh = new THREE.Mesh(cancerGeo, orangeMat);
+      cancerMesh.position.y = yTrop;
+      cancerMesh.rotation.x = Math.PI / 2;
+      tropicsGroup.add(cancerMesh);
+
+      const capGeo = new THREE.TorusGeometry(rTrop, 0.025, 8, 100);
+      const capMesh = new THREE.Mesh(capGeo, orangeMat);
+      capMesh.position.y = -yTrop;
+      capMesh.rotation.x = Math.PI / 2;
+      tropicsGroup.add(capMesh);
+
+      // 3. Cercles Polaires (+66.56° Arctique, -66.56° Antarctique)
+      polarGroup = new THREE.Group();
+      earthGroup.add(polarGroup);
+
+      const latPol = 66.56 * Math.PI / 180;
+      const rPol = r * Math.cos(latPol);
+      const yPol = r * Math.sin(latPol);
+
+      const arctiqueGeo = new THREE.TorusGeometry(rPol, 0.025, 8, 80);
+      const arctiqueMesh = new THREE.Mesh(arctiqueGeo, blueMat);
+      arctiqueMesh.position.y = yPol;
+      arctiqueMesh.rotation.x = Math.PI / 2;
+      polarGroup.add(arctiqueMesh);
+
+      const antarctiqueGeo = new THREE.TorusGeometry(rPol, 0.025, 8, 80);
+      const antarctiqueMesh = new THREE.Mesh(antarctiqueGeo, blueMat);
+      antarctiqueMesh.position.y = -yPol;
+      antarctiqueMesh.rotation.x = Math.PI / 2;
+      polarGroup.add(antarctiqueMesh);
+
+      // 4. Greenwich (Méridien 0°)
+      const greenwichGeo = new THREE.TorusGeometry(r, 0.035, 8, 120);
+      greenwichTorus = new THREE.Mesh(greenwichGeo, goldMat);
+      // Le méridien passe par les pôles. On l'oriente verticalement face à nous
+      greenwichTorus.rotation.y = Math.PI / 2;
+      earthGroup.add(greenwichTorus);
+
+      // 5. Parallèles secondaires (tous les 10° : ±10°, ±20°, etc.)
+      parallelsGroup = new THREE.Group();
+      earthGroup.add(parallelsGroup);
+
+      for (let latDeg = -80; latDeg <= 80; latDeg += 10) {
+        if (latDeg === 0) continue; // Équateur (déjà dessiné)
+        const lat = latDeg * Math.PI / 180;
+        const rPar = r * Math.cos(lat);
+        const yPar = r * Math.sin(lat);
+        const parGeo = new THREE.TorusGeometry(rPar, 0.012, 6, 80);
+        const parMesh = new THREE.Mesh(parGeo, greyMat);
+        parMesh.position.y = yPar;
+        parMesh.rotation.x = Math.PI / 2;
+        parallelsGroup.add(parMesh);
+      }
+
+      // 6. Méridiens secondaires (tous les 10° : 10°, 20°, ..., 350°)
+      meridiansGroup = new THREE.Group();
+      earthGroup.add(meridiansGroup);
+
+      for (let lonDeg = 10; lonDeg < 360; lonDeg += 10) {
+        if (lonDeg === 180) continue; // Greenwich opposé
+        const merGeo = new THREE.TorusGeometry(r, 0.01, 6, 100);
+        const merMesh = new THREE.Mesh(merGeo, lightGreyMat);
+        merMesh.rotation.y = (lonDeg * Math.PI / 180) + Math.PI / 2;
+        meridiansGroup.add(merMesh);
+      }
+    }
+
+    /* ==========================================================
+       6. COUPER LA TERRE EN DEUX ET SHADER LES HEMISPHERES
+       ========================================================== */
+    function buildHemisphereDomes() {
+      // Dômes pour obscurcir ou colorer les deux hémisphères
+      const r = 5.03;
+
+      // Hémisphère Nord : sphère coupée sur la moitié supérieure (theta length = Math.PI / 2)
+      const northGeo = new THREE.SphereGeometry(r, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+      const northMat = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false, // Prevents depth writing so Earth inside is visible
+        side: THREE.DoubleSide
+      });
+      hemisNorthDome = new THREE.Mesh(northGeo, northMat);
+      earthGroup.add(hemisNorthDome);
+
+      // Hémisphère Sud : sphère coupée sur la moitié inférieure (theta start = Math.PI / 2, length = Math.PI / 2)
+      const southGeo = new THREE.SphereGeometry(r, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+      const southMat = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false, // Prevents depth writing so Earth inside is visible
+        side: THREE.DoubleSide
+      });
+      hemisSouthDome = new THREE.Mesh(southGeo, southMat);
+      earthGroup.add(hemisSouthDome);
+    }
+
+
+
+    /* ==========================================================
+       8. ANIMATION & RENDU (TICK LOOP)
+       ========================================================== */
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Rotation quotidienne sur l'axe incliné
+      if (isRotating) {
+        earthGroup.rotation.y += rotationSpeed;
+      }
+
+      // Update OrbitControls
+      controls.update();
+
+      // Projeter les étiquettes 2D
+      updateLabelsProjection();
+
+      // Rendre la scène
+      renderer.render(scene, camera);
+    }
+
+
+
+    /* ==========================================================
+       9. ÉTIQUETTES GÉOGRAPHIQUES FLOATING 2D AVEC OCCLUSION
+       ========================================================== */
+    function getVectorFromLonLat(lon, lat) {
+      const r = 5.05;
+      const latRad = lat * Math.PI / 180;
+      const lonRad = lon * Math.PI / 180;
+      const x = r * Math.cos(latRad) * Math.sin(lonRad);
+      const y = r * Math.sin(latRad);
+      const z = r * Math.cos(latRad) * Math.cos(lonRad);
+      return new THREE.Vector3(x, y, z);
+    }
+
+    const labelElements = {
+      equateur: { el: document.getElementById('label-equateur'), pos: new THREE.Vector3(5.1, 0, 0), chkId: 'chk-equateur' },
+      cancer: { el: document.getElementById('label-cancer'), pos: new THREE.Vector3(5.1 * Math.cos(23.44*Math.PI/180), 5.1 * Math.sin(23.44*Math.PI/180), 0), chkId: 'chk-tropiques' },
+      capricorne: { el: document.getElementById('label-capricorne'), pos: new THREE.Vector3(5.1 * Math.cos(-23.44*Math.PI/180), 5.1 * Math.sin(-23.44*Math.PI/180), 0), chkId: 'chk-tropiques' },
+      arctique: { el: document.getElementById('label-arctique'), pos: new THREE.Vector3(5.1 * Math.cos(66.56*Math.PI/180), 5.1 * Math.sin(66.56*Math.PI/180), 0), chkId: 'chk-polaires' },
+      antarctique: { el: document.getElementById('label-antarctique'), pos: new THREE.Vector3(5.1 * Math.cos(-66.56*Math.PI/180), 5.1 * Math.sin(-66.56*Math.PI/180), 0), chkId: 'chk-polaires' },
+      greenwich: { el: document.getElementById('label-greenwich'), pos: new THREE.Vector3(0, 0, 5.1), chkId: 'chk-greenwich' },
+      poleNord: { el: document.getElementById('label-pole-nord'), pos: new THREE.Vector3(0, 5.8, 0), chkId: 'always' },
+      poleSud: { el: document.getElementById('label-pole-sud'), pos: new THREE.Vector3(0, -5.8, 0), chkId: 'always' },
+      
+      // Continents
+      europe: { el: document.getElementById('label-europe'), pos: getVectorFromLonLat(93.1, 47.4), chkId: 'chk-continents' },
+      asie: { el: document.getElementById('label-asie'), pos: getVectorFromLonLat(-176.5, 35.2), chkId: 'chk-continents' },
+      afrique: { el: document.getElementById('label-afrique'), pos: getVectorFromLonLat(108.4, 13.2), chkId: 'chk-continents' },
+      namerique: { el: document.getElementById('label-namerique'), pos: getVectorFromLonLat(-10.1, 40.3), chkId: 'chk-continents' },
+      samerique: { el: document.getElementById('label-samerique'), pos: getVectorFromLonLat(32.8, -14.5), chkId: 'chk-continents' },
+      oceanie: { el: document.getElementById('label-oceanie'), pos: getVectorFromLonLat(-121.8, -26.9), chkId: 'chk-continents' },
+      antarctiqueCont: { el: document.getElementById('label-antarctique-cont'), pos: getVectorFromLonLat(-166.1, -82.7), chkId: 'chk-continents' },
+
+      // Oceans
+      atlantique: { el: document.getElementById('label-atlantique'), pos: getVectorFromLonLat(54.9, 14.9), chkId: 'chk-oceans' },
+      pacifique: { el: document.getElementById('label-pacifique'), pos: getVectorFromLonLat(-78.1, 6), chkId: 'chk-oceans' },
+      indien: { el: document.getElementById('label-indien'), pos: getVectorFromLonLat(164.9, -13.3), chkId: 'chk-oceans' },
+      arctiqueOc: { el: document.getElementById('label-arctique-oc'), pos: getVectorFromLonLat(-64.5, 86.1), chkId: 'chk-oceans' },
+      austral: { el: document.getElementById('label-austral'), pos: getVectorFromLonLat(-69.6, -70.3), chkId: 'chk-oceans' }
+    };
+
+    function updateLabelsProjection() {
+      const container = document.getElementById('canvas-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      const tempV = new THREE.Vector3();
+      const camDir = new THREE.Vector3();
+      camera.getWorldDirection(camDir);
+
+      for (let key in labelElements) {
+        const item = labelElements[key];
+        
+        // 1. Déterminer si le label est activé dans l'UI
+        let isVisible = false;
+        
+        if (item.chkId === 'always') {
+          isVisible = true;
+        } else {
+          const chk = document.getElementById(item.chkId);
+          isVisible = chk ? chk.checked : false;
+        }
+
+        if (!isVisible) {
+          item.el.style.opacity = '0';
+          item.el.style.pointerEvents = 'none';
+          continue;
+        }
+
+        // 2. Calculer la position globale 3D du point de l'étiquette
+        tempV.copy(item.pos);
+        // Si le point est lié à la Terre, il tourne avec elle. 
+        // Les pôles ne tournent pas, mais pivotent avec l'axe.
+        if (key === 'poleNord' || key === 'poleSud') {
+          tempV.applyMatrix4(earthPivot.matrixWorld);
+        } else {
+          tempV.applyMatrix4(earthGroup.matrixWorld);
+        }
+
+        // 3. Occlusion: Cacher si l'étiquette passe derrière la sphère de la Terre.
+        // On compare le vecteur position relative de la Terre avec la caméra.
+        const labelToCam = new THREE.Vector3().copy(camera.position).sub(tempV);
+        const earthToLabel = new THREE.Vector3().copy(tempV).sub(new THREE.Vector3().setFromMatrixPosition(earthMesh.matrixWorld));
+        
+        const dot = earthToLabel.dot(labelToCam);
+        // Si dot < 0, l'étiquette pointe à l'opposé de la caméra (elle est sur la face cachée)
+        if (dot < 0) {
+          item.el.style.opacity = '0';
+          continue;
+        }
+
+        // 4. Projection 3D -> 2D Écran
+        tempV.project(camera);
+        const xScreen = (tempV.x * .5 + .5) * width;
+        const yScreen = (tempV.y * -.5 + .5) * height;
+
+        // Limiter la projection si en dehors du viewport
+        if (xScreen < 0 || xScreen > width || yScreen < 0 || yScreen > height) {
+          item.el.style.opacity = '0';
+          continue;
+        }
+
+        // Appliquer la transformation
+        item.el.style.left = `${xScreen}px`;
+        item.el.style.top = `${yScreen}px`;
+        item.el.style.opacity = '1';
+      }
+    }
+
+    /* ==========================================================
+       10. CONTRÔLE DE L'ÉCLAIRAGE ET AFFICHAGE DES SAISONS / HEMISPHERES
+       ========================================================== */
+    
+    // Gère l'activation ou désactivation de la lumière selon le mode
+    function updateLights() {
+      // En mode géographie, tout est éclairé de manière égale pour bien voir les pays et lignes
+      ambientLight.intensity = 0.95;
+      sunLight.intensity = 0.5;
+      sunLight.position.set(5, 10, 5); // Lumière de studio diffuse
+      
+      // Restaurer la visibilité des dômes d'hémisphères
+      updateHemisphereOverlay();
+    }
+
+    // Mode géographie : assombrir ou colorer les hémisphères
+    function updateHemisphereOverlay() {
+
+
+      const nordEclaire = document.getElementById('chk-hemi-nord').checked;
+      const sudEclaire = document.getElementById('chk-hemi-sud').checked;
+      
+      const nordColore = document.getElementById('chk-highlight-nord').checked;
+      const sudColore = document.getElementById('chk-highlight-sud').checked;
+
+      // Hémisphère Nord
+      if (nordColore) {
+        hemisNorthDome.visible = true;
+        hemisNorthDome.material.color.setHex(0x6366f1); // Indigo highlight
+        hemisNorthDome.material.opacity = 0.25;
+      } else if (!nordEclaire) {
+        hemisNorthDome.visible = true;
+        hemisNorthDome.material.color.setHex(0x000000); // Shadow
+        hemisNorthDome.material.opacity = 0.65;
+      } else {
+        hemisNorthDome.visible = false;
+      }
+
+      // Hémisphère Sud
+      if (sudColore) {
+        hemisSouthDome.visible = true;
+        hemisSouthDome.material.color.setHex(0xec4899); // Pink highlight
+        hemisSouthDome.material.opacity = 0.25;
+      } else if (!sudEclaire) {
+        hemisSouthDome.visible = true;
+        hemisSouthDome.material.color.setHex(0x000000); // Shadow
+        hemisSouthDome.material.opacity = 0.65;
+      } else {
+        hemisSouthDome.visible = false;
+      }
+      
+      hemisNorthDome.material.needsUpdate = true;
+      hemisSouthDome.material.needsUpdate = true;
+    }
+
+
+
+    // Met à jour la visibilité des lignes en fonction du mode de cours
+    function updateLinesVisibility() {
+      equatorTorus.visible = document.getElementById('chk-equateur').checked;
+      tropicsGroup.visible = document.getElementById('chk-tropiques').checked;
+      polarGroup.visible = document.getElementById('chk-polaires').checked;
+      greenwichTorus.visible = document.getElementById('chk-greenwich').checked;
+      parallelsGroup.visible = document.getElementById('chk-paralleles').checked;
+      meridiansGroup.visible = document.getElementById('chk-meridiens').checked;
+    }
+
+    // Description textuelle
+    function updateExplanation() {
+      let text = EXPLANATIONS.geographie.normal;
+      
+      // Si l'utilisateur clique ou coche certaines lignes, on adapte la description
+      if (document.getElementById('chk-equateur').checked) {
+        text = EXPLANATIONS.geographie.equateur;
+      } else if (document.getElementById('chk-tropiques').checked) {
+        text = EXPLANATIONS.geographie.tropiques;
+      } else if (document.getElementById('chk-polaires').checked) {
+        text = EXPLANATIONS.geographie.polaires;
+      } else if (document.getElementById('chk-greenwich').checked) {
+        text = EXPLANATIONS.geographie.greenwich;
+      } else if (document.getElementById('chk-paralleles').checked || document.getElementById('chk-meridiens').checked) {
+        text = EXPLANATIONS.geographie.grid;
+      }
+      
+      explanationEl.innerHTML = text;
+    }
+
+    function setMapType(type) {
+      currentMapType = type;
+      document.querySelectorAll('#map-type-tabs .btn-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.map === type);
+      });
+
+      if (type === 'satellite' && satelliteTexture) {
+        earthMesh.material.map = satelliteTexture;
+      } else if (type === 'politique' && politicalTexture) {
+        earthMesh.material.map = politicalTexture;
+      } else {
+        earthMesh.material.map = null; // Ocean solid fallback
+      }
+      earthMesh.material.needsUpdate = true;
+    }
+
+    /* ==========================================================
+       11. ÉCOUTEURS D'ÉVÉNEMENTS ET GESTION DE L'UI
+       ========================================================== */
+    function setupUIListeners() {
+      // 1. Texture Tabs
+      document.getElementById('map-type-tabs').addEventListener('click', e => {
+        const btn = e.target.closest('.btn-tab');
+        if (btn) setMapType(btn.dataset.map);
+      });
+
+      // 3. Lines checkboxes
+      const chkIds = ['chk-equateur', 'chk-tropiques', 'chk-polaires', 'chk-greenwich', 'chk-paralleles', 'chk-meridiens', 'chk-continents', 'chk-oceans'];
+      chkIds.forEach(id => {
+        document.getElementById(id).addEventListener('change', () => {
+          updateLinesVisibility();
+          updateExplanation();
+        });
+      });
+
+      // 4. Hemisphere illumination checkboxes
+      document.getElementById('chk-hemi-nord').addEventListener('change', () => {
+        // Uncheck color-highlight if lighting changes
+        if (!document.getElementById('chk-hemi-nord').checked) {
+          document.getElementById('chk-highlight-nord').checked = false;
+        }
+        updateHemisphereOverlay();
+      });
+      document.getElementById('chk-hemi-sud').addEventListener('change', () => {
+        if (!document.getElementById('chk-hemi-sud').checked) {
+          document.getElementById('chk-highlight-sud').checked = false;
+        }
+        updateHemisphereOverlay();
+      });
+
+      // Hemisphere color highlight checkboxes
+      document.getElementById('chk-highlight-nord').addEventListener('change', () => {
+        if (document.getElementById('chk-highlight-nord').checked) {
+          document.getElementById('chk-hemi-nord').checked = true; // turn light on if colored
+        }
+        updateHemisphereOverlay();
+      });
+      document.getElementById('chk-highlight-sud').addEventListener('change', () => {
+        if (document.getElementById('chk-highlight-sud').checked) {
+          document.getElementById('chk-hemi-sud').checked = true;
+        }
+        updateHemisphereOverlay();
+      });
+
+      // 7. Auto rotation play/pause
+      playBtn.addEventListener('click', () => {
+        isRotating = !isRotating;
+        playIcon.textContent = isRotating ? '⏸️' : '▶️';
+        playBtn.innerHTML = isRotating ? '<span>⏸️</span> Pause' : '<span>▶️</span> Tourner';
+      });
+
+      // 8. Rotation speed slider
+      speedSlider.addEventListener('input', e => {
+        const value = parseInt(e.target.value);
+        rotationSpeed = (value / 100) * 0.01;
+      });
+
+      // 9. Reset View button click listener
+      document.getElementById('btn-reset-view').addEventListener('click', () => {
+        camera.position.set(0, 3, 14);
+        controls.target.set(0, 0, 0);
+        controls.update();
+        earthGroup.rotation.set(0, 0, 0);
+      });
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('canvas-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height);
+    }
+
+    /* Initialize everything on load */
+    init();
+
+  </script>
+</body>
+</html>

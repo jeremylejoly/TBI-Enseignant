@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v60';
+const CACHE_NAME = 'tbi-enseignant-cache-v61';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -24,7 +24,12 @@ const ASSETS_TO_CACHE = [
     './logo.svg',
     './tailwind.min.js',
     './lucide.min.js',
+    './globe-terrestre.html',
+    './ne_110m_admin_0_countries.js',
+    './earth-blue-marble.jpg',
     // External CDN script and style dependencies cached for 100% offline capability
+    'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
+    'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js',
     'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fredoka:wght@300..700&family=Caveat:wght@400..700&family=Architects+Daughter&display=swap'
 ];
 

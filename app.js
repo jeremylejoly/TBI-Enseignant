@@ -84,6 +84,12 @@ function switchTab(tabId) {
         if (typeof initRoueApp === 'function') {
             initRoueApp();
         }
+    } else if (tabId === 'globe') {
+        // Forcer le redimensionnement du Globe 3D lors de l'activation
+        const iframe = document.getElementById('globe-fullscreen-iframe');
+        if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.dispatchEvent(new Event('resize'));
+        }
     }
     
     // Synchroniser la progression des iframes
