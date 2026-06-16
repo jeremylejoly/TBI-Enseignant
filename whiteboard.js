@@ -2338,13 +2338,31 @@ function renderPdfPage() {
         const container = document.getElementById('whiteboard-viewport');
         if (!container) return;
         
+        let pageData = tab.pages[pageNum];
+        if (!pageData) {
+            pageData = {
+                elements: [],
+                textboxes: [],
+                backgroundType: 'blank',
+                undoStack: [],
+                redoStack: []
+            };
+            tab.pages[pageNum] = pageData;
+        }
+        
         const dpr = window.devicePixelRatio || 1;
         const tempViewport = page.getViewport({ scale: 1.0 });
         
-        // Fit PDF inside canvas dimensions
-        const scaleX = container.clientWidth / tempViewport.width;
-        const scaleY = container.clientHeight / tempViewport.height;
-        const scale = Math.min(scaleX, scaleY) * 0.96;
+        // Lock scale and offsets based on first render to prevent misalignment on window resize (like HDMI plug/unplug)
+        if (pageData.pdfScale === undefined || pageData.pdfScale === null) {
+            const scaleX = container.clientWidth / tempViewport.width;
+            const scaleY = container.clientHeight / tempViewport.height;
+            pageData.pdfScale = Math.min(scaleX, scaleY) * 0.96;
+            pageData.pdfXOffset = (container.clientWidth - tempViewport.width * pageData.pdfScale) / 2;
+            pageData.pdfYOffset = (container.clientHeight - tempViewport.height * pageData.pdfScale) / 2;
+        }
+        
+        const scale = pageData.pdfScale;
         
         // Render at Retina scale adjusted by zoomScale
         const viewport = page.getViewport({ scale: scale * zoomScale * dpr });
@@ -2354,8 +2372,8 @@ function renderPdfPage() {
         bgCanvas.style.width = container.clientWidth * zoomScale + 'px';
         bgCanvas.style.height = container.clientHeight * zoomScale + 'px';
         
-        const xOffset = (container.clientWidth - tempViewport.width * scale) / 2 * zoomScale * dpr;
-        const yOffset = (container.clientHeight - tempViewport.height * scale) / 2 * zoomScale * dpr;
+        const xOffset = pageData.pdfXOffset * zoomScale * dpr;
+        const yOffset = pageData.pdfYOffset * zoomScale * dpr;
         
         bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
         
@@ -2414,6 +2432,10 @@ function loadImageFile(event) {
                 tab.pages[pageNum] = pageData;
             }
             pageData.bgImage = img;
+            // Clear cached scale and offset to re-evaluate for the new image
+            pageData.imgScale = null;
+            pageData.imgXOffset = null;
+            pageData.imgYOffset = null;
             renderCurrentPage();
         }
     };
@@ -2427,6 +2449,21 @@ function renderImageToBg(img) {
     const container = document.getElementById('whiteboard-viewport');
     if (!container) return;
     
+    const tab = getActiveTab();
+    if (!tab) return;
+    const pageNum = tab.currentPage;
+    let pageData = tab.pages[pageNum];
+    if (!pageData) {
+        pageData = {
+            elements: [],
+            textboxes: [],
+            backgroundType: 'blank',
+            undoStack: [],
+            redoStack: []
+        };
+        tab.pages[pageNum] = pageData;
+    }
+    
     const w = container.clientWidth;
     const h = container.clientHeight;
     const dpr = window.devicePixelRatio || 1;
@@ -2438,14 +2475,19 @@ function renderImageToBg(img) {
     
     bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
     
-    const scaleX = w / img.width;
-    const scaleY = h / img.height;
-    const scale = Math.min(scaleX, scaleY) * 0.96;
+    // Lock scale and offsets based on first render to prevent misalignment on window resize
+    if (pageData.imgScale === undefined || pageData.imgScale === null) {
+        const scaleX = w / img.width;
+        const scaleY = h / img.height;
+        pageData.imgScale = Math.min(scaleX, scaleY) * 0.96;
+        pageData.imgXOffset = (w - img.width * pageData.imgScale) / 2;
+        pageData.imgYOffset = (h - img.height * pageData.imgScale) / 2;
+    }
     
-    const imgW = img.width * scale * zoomScale * dpr;
-    const imgH = img.height * scale * zoomScale * dpr;
-    const x = (w * zoomScale * dpr - imgW) / 2;
-    const y = (h * zoomScale * dpr - imgH) / 2;
+    const imgW = img.width * pageData.imgScale * zoomScale * dpr;
+    const imgH = img.height * pageData.imgScale * zoomScale * dpr;
+    const x = pageData.imgXOffset * zoomScale * dpr;
+    const y = pageData.imgYOffset * zoomScale * dpr;
     
     bgCtx.drawImage(img, x, y, imgW, imgH);
 }
