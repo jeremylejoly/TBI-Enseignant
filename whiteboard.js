@@ -970,6 +970,7 @@ function handlePointerDown(e) {
     }
     
     // 3. DRAWING MODES (PEN, HIGHLIGHTER, ERASER, SHAPE)
+    e.preventDefault();
     isDrawing = true;
     canvas.setPointerCapture(e.pointerId);
     
@@ -1171,6 +1172,7 @@ function handlePointerMove(e) {
     }
     
     if (!isDrawing || !currentDrawingElement) return;
+    e.preventDefault();
     
     if (currentDrawingElement.type === 'shape') {
         currentDrawingElement.x2 = x;
