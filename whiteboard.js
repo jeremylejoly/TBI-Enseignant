@@ -935,7 +935,7 @@ function handlePointerDown(e) {
     // 2. TEXT MODE
     if (activeTool === 'text') {
         e.preventDefault();
-        const defaultFontSize = 12;
+        const defaultFontSize = 10;
         // Aligner précisément le curseur d'écriture avec le clic de l'utilisateur :
         // - Horizontalement : soustraire la bordure (2px) et le padding-left (12px) divisés par zoomScale = 14px
         // - Verticalement : soustraire la bordure + padding-top (8px) divisés par zoomScale, et la hauteur de la ligne (environ 80% de la taille de police = 9.6px) pour que la ligne d'écriture soit sur le clic
@@ -1936,7 +1936,7 @@ function setBoardBackground(styleName) {
 }
 
 // --- EDITABLE ARIAL TEXT ANNOTATIONS ---
-function createTextbox(x, y, initialText = "", fontSize = 12, underline = false, color = '#1e293b', isPostIt = false) {
+function createTextbox(x, y, initialText = "", fontSize = 10, underline = false, color = '#1e293b', isPostIt = false) {
     const layer = document.getElementById('annotations-layer');
     if (!layer) return;
     
@@ -1945,8 +1945,8 @@ function createTextbox(x, y, initialText = "", fontSize = 12, underline = false,
     if (isPostIt) {
         textBox.classList.add('post-it-box');
         textBox.dataset.isPostIt = 'true';
-        if (!initialText && (fontSize === 8 || fontSize === 12 || fontSize === 20)) {
-            fontSize = 12;
+        if (!initialText && (fontSize === 8 || fontSize === 10 || fontSize === 12 || fontSize === 20)) {
+            fontSize = 10;
         }
     }
     textBox.style.left = `${x * zoomScale}px`;
@@ -2095,7 +2095,7 @@ function handleGlobalPaste(e) {
             const x = (scrollLeft + clientWidth / 2 - 60) / zoomScale;
             const y = (scrollTop + clientHeight / 2 - 20) / zoomScale;
             
-            createTextbox(x, y, text, 12);
+            createTextbox(x, y, text, 10);
             saveActiveTabTextboxes();
             e.preventDefault();
         }
@@ -2177,7 +2177,7 @@ function showTextboxToolbar(el) {
     toolbar.style.left = `${Math.max(10, left)}px`;
     
     // Update toolbar indicator states
-    const size = parseInt(el.dataset.fontSize) || 12;
+    const size = parseInt(el.dataset.fontSize) || 10;
     document.getElementById('textbox-size-display').textContent = `${size}px`;
     
     const underline = el.dataset.underline === 'true';
@@ -2201,7 +2201,7 @@ function hideTextboxToolbar() {
 
 function changeActiveTextboxSize(delta) {
     if (!activeEditingTextbox) return;
-    const currentSize = parseInt(activeEditingTextbox.dataset.fontSize) || 12;
+    const currentSize = parseInt(activeEditingTextbox.dataset.fontSize) || 10;
     const newSize = Math.max(6, Math.min(72, currentSize + delta));
     
     activeEditingTextbox.dataset.fontSize = newSize;
@@ -2248,8 +2248,8 @@ window.addTextToWhiteboard = function(text) {
     const existing = document.querySelectorAll('.text-box').length;
     const offset = existing * 25;
     
-    // Always insert text box at center mapped back to 1x coordinate space (fontsize 12 for curriculum items)
-    createTextbox(x / zoomScale + offset, y / zoomScale + offset, text, 12);
+    // Always insert text box at center mapped back to 1x coordinate space (fontsize 10 for curriculum items)
+    createTextbox(x / zoomScale + offset, y / zoomScale + offset, text, 10);
     saveActiveTabTextboxes();
 };
 
@@ -2899,7 +2899,7 @@ function exportCurrentTab() {
         const y = parseFloat(el.dataset.y) + 28;
         const contentNode = el.querySelector('.text-content-node');
         const text = contentNode ? contentNode.innerText : el.innerText.replace('✕', '').trim();
-        const fontSize = parseFloat(el.dataset.fontSize) || 12;
+        const fontSize = parseFloat(el.dataset.fontSize) || 10;
         const color = el.dataset.color || '#1e293b';
         const underline = el.dataset.underline === 'true';
         
