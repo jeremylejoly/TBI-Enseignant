@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v59';
+const CACHE_NAME = 'tbi-enseignant-cache-v60';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -19,8 +19,8 @@ const ASSETS_TO_CACHE = [
     './pdf.min.js',
     './pdf.worker.min.js',
     './manifest.json',
-    './icon-192.png',
-    './icon-512.png',
+    './icon-192-v2.png',
+    './icon-512-v2.png',
     './logo.svg',
     './tailwind.min.js',
     './lucide.min.js',
