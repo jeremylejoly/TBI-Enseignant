@@ -144,6 +144,14 @@ function setupAristoRotation() {
         e.stopPropagation();
         isRotating = true;
         
+        if (e.target && typeof e.target.setPointerCapture === 'function') {
+            try {
+                e.target.setPointerCapture(e.pointerId);
+            } catch (err) {
+                console.warn("Could not set pointer capture:", err);
+            }
+        }
+        
         document.addEventListener('pointermove', rotateMove);
         document.addEventListener('pointerup', endRotate);
         document.addEventListener('pointercancel', endRotate);
@@ -182,6 +190,12 @@ function setupAristoRotation() {
     function endRotate(e) {
         if (!isRotating) return;
         isRotating = false;
+        
+        if (e.target && typeof e.target.releasePointerCapture === 'function') {
+            try {
+                e.target.releasePointerCapture(e.pointerId);
+            } catch (err) {}
+        }
         
         document.removeEventListener('pointermove', rotateMove);
         document.removeEventListener('pointerup', endRotate);
