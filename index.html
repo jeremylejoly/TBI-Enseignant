@@ -248,7 +248,7 @@
                             <!-- Curseur de redimensionnement de l'équerre -->
                             <div class="absolute bottom-2 left-2 flex items-center gap-1 bg-white/95 border border-neutral-300 rounded-lg px-2 py-0.5 shadow-sm text-[9px] font-bold z-50 pointer-events-auto">
                                 <span class="text-neutral-500">Taille :</span>
-                                <input type="range" min="100" max="800" value="250" class="w-16 h-1 accent-indigo-600 cursor-pointer" oninput="resizeAristoWidget(this.value)">
+                                <input type="range" min="150" max="1500" value="350" class="w-16 h-1 accent-indigo-600 cursor-pointer" oninput="resizeAristoWidget(this.value)">
                             </div>
                             
                             <svg id="aristo-svg" width="100%" height="100%" class="touch-none" viewBox="0 0 300 150">
@@ -270,7 +270,7 @@
                                 <path d="M 55 0 A 95 95 0 0 0 245 0" fill="none" stroke="#facc15" stroke-width="14" opacity="0.6"/>
                                 
                                 <!-- Texte de marque Aristo -->
-                                <text x="150" y="62" font-size="6" font-weight="900" fill="#475569" text-anchor="middle" font-family="sans-serif" letter-spacing="0.5">ARISTO-GEODREIECK 2</text>
+                                <text x="150" y="105" font-size="6" font-weight="900" fill="#475569" text-anchor="middle" font-family="sans-serif" letter-spacing="0.5">ARISTO-GEODREIECK 2</text>
                                 
                                 <!-- Graduation base (Règle plate en haut) -->
                                 <line x1="0" y1="0" x2="300" y2="0" stroke="#0f172a" stroke-width="2.5"/>
@@ -278,19 +278,23 @@
                                 <g id="aristo-rulers-marks"></g>
                                 
                                 <!-- Poignée centrale pour le drag -->
-                                <circle cx="150" cy="35" r="14" fill="#0f172a" class="cursor-move pointer-events-auto" id="aristo-drag-handle" title="Faire glisser"/>
+                                <g id="aristo-drag-handle" class="cursor-move pointer-events-auto" title="Faire glisser">
+                                    <!-- Zone de contact translucide pour ne pas cacher les lignes -->
+                                    <circle cx="150" cy="30" r="14" fill="white" fill-opacity="0.15" stroke="#0f172a" stroke-width="2.5" />
+                                    <circle cx="150" cy="30" r="3" fill="#0f172a" />
+                                </g>
                                 
                                 <!-- Poignée de rotation -->
                                 <g id="aristo-rotate-handle" class="cursor-alias pointer-events-auto" title="Faire pivoter">
                                     <!-- Zone de contact élargie (diamètre 44px) pour faciliter le toucher sur TBI -->
-                                    <circle cx="150" cy="78" r="22" fill="white" fill-opacity="0" />
-                                    <path d="M 150 90 A 12 12 0 1 1 149.9 90" fill="none" stroke="#0f172a" stroke-width="2.5"/>
-                                    <path d="M 158 90 L 150 95 L 150 85 Z" fill="#0f172a"/>
+                                    <circle cx="150" cy="60" r="22" fill="white" fill-opacity="0" />
+                                    <path d="M 150 72 A 12 12 0 1 1 149.9 72" fill="none" stroke="#0f172a" stroke-width="2.5"/>
+                                    <path d="M 158 72 L 150 77 L 150 67 Z" fill="#0f172a"/>
                                 </g>
                                 
                                 <!-- Bouton de fermeture de l'équerre -->
-                                <circle cx="150" cy="125" r="9" fill="#f43f5e" class="cursor-pointer pointer-events-auto" onclick="toggleWidget('aristo')"/>
-                                <text x="150" y="126" font-size="8" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle" class="cursor-pointer pointer-events-none">X</text>
+                                <circle cx="150" cy="128" r="9" fill="#f43f5e" class="cursor-pointer pointer-events-auto" onclick="toggleWidget('aristo')"/>
+                                <text x="150" y="129" font-size="8" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="middle" class="cursor-pointer pointer-events-none">X</text>
                             </svg>
                         </div>
 
