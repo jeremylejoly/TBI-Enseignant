@@ -1,11 +1,13 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v65';
+const CACHE_NAME = 'tbi-enseignant-cache-v66';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './styles.css',
     './app.js',
     './cartes-belgique.html',
+    './cartes-europe.html',
+    './europe-shaded-relief.jpg',
     './cartes-planisphere.html',
     './earth-shaded-relief.jpg',
     './world-time-zones-cropped.png',
