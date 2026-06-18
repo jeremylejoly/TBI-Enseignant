@@ -90,6 +90,65 @@ window.addEventListener('DOMContentLoaded', () => {
     // Set up window resize listener
     window.addEventListener('resize', resizeCanvas);
     
+    // Gestion du Drag & Drop de fichiers (PDF / Images) sur le viewport du tableau blanc
+    const viewport = document.getElementById('whiteboard-viewport');
+    if (viewport) {
+        viewport.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            viewport.classList.add('drag-over-active');
+        });
+        
+        viewport.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            viewport.classList.add('drag-over-active');
+        });
+        
+        viewport.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            viewport.classList.remove('drag-over-active');
+        });
+        
+        viewport.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            viewport.classList.remove('drag-over-active');
+            
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.type === 'application/pdf') {
+                    importPdfFile(file);
+                } else if (file.type.startsWith('image/')) {
+                    showImageImportModal(file);
+                } else {
+                    alert("Seuls les fichiers PDF et les images (PNG, JPG, GIF, WebP) sont supportés.");
+                }
+            }
+        });
+    }
+    
+    // Écouteurs de clics pour le modal d'importation d'image
+    const btnNewTab = document.getElementById('img-modal-new-tab-btn');
+    const btnBg = document.getElementById('img-modal-bg-btn');
+    const btnMove = document.getElementById('img-modal-move-btn');
+    const btnCancel = document.getElementById('img-modal-cancel-btn');
+    
+    if (btnNewTab) btnNewTab.addEventListener('click', () => {
+        if (pendingImageFile) loadImageAsNewTab(pendingImageFile);
+        closeImageImportModal();
+    });
+    if (btnBg) btnBg.addEventListener('click', () => {
+        if (pendingImageFile) loadImageAsBackground(pendingImageFile);
+        closeImageImportModal();
+    });
+    if (btnMove) btnMove.addEventListener('click', () => {
+        if (pendingImageFile) loadImageAsMovable(pendingImageFile);
+        closeImageImportModal();
+    });
+    if (btnCancel) btnCancel.addEventListener('click', closeImageImportModal);
+    
     // Écouteur global pour le copier-coller (texte et images)
     window.addEventListener('paste', handleGlobalPaste);
     
@@ -2254,13 +2313,8 @@ window.addTextToWhiteboard = function(text) {
 };
 
 // --- PDF IMPORT AND RENDERING ---
-function loadPdfFile(event) {
-    const file = event.target.files[0];
-    if (!file || file.type !== 'application/pdf') {
-        alert("Veuillez charger un fichier PDF valide.");
-        return;
-    }
-    
+function importPdfFile(file) {
+    if (!file || file.type !== 'application/pdf') return;
     saveActiveTabTextboxes();
     
     const fileReader = new FileReader();
@@ -2319,6 +2373,197 @@ function loadPdfFile(event) {
         });
     };
     fileReader.readAsArrayBuffer(file);
+}
+
+function loadPdfFile(event) {
+    const file = event.target.files[0];
+    if (!file || file.type !== 'application/pdf') {
+        alert("Veuillez charger un fichier PDF valide.");
+        return;
+    }
+    importPdfFile(file);
+    event.target.value = '';
+}
+
+function loadImportedFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (file.type === 'application/pdf') {
+        importPdfFile(file);
+    } else if (file.type.startsWith('image/')) {
+        loadImageAsNewTab(file);
+    } else {
+        alert("Format de fichier non supporté. Veuillez choisir un PDF ou une image.");
+    }
+    event.target.value = '';
+}
+
+function loadImageAsNewTab(file) {
+    saveActiveTabTextboxes();
+    
+    // Save widget states of current tab
+    const currentTab = getActiveTab();
+    if (currentTab && typeof window.saveWidgetStatesForTab === 'function') {
+        window.saveWidgetStatesForTab(currentTab);
+    }
+    
+    const img = new Image();
+    img.onload = function() {
+        const tabId = 'tab-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+        const tabName = file.name.replace(/\.[^/.]+$/, "");
+        
+        const newTab = {
+            id: tabId,
+            name: tabName,
+            type: 'whiteboard',
+            currentPage: 1,
+            totalPages: 1,
+            pages: {
+                1: {
+                    elements: [],
+                    textboxes: [],
+                    backgroundType: 'blank',
+                    bgImage: img,
+                    imgScale: null,
+                    imgXOffset: null,
+                    imgYOffset: null,
+                    undoStack: [],
+                    redoStack: []
+                }
+            }
+        };
+        
+        boardTabs.push(newTab);
+        activeTabId = tabId;
+        selectedElement = null;
+        zoomScale = 1.0;
+        updateZoomUI();
+        
+        if (typeof window.syncWidgetStatesForTab === 'function') {
+            window.syncWidgetStatesForTab(newTab);
+        }
+        
+        renderTabsUI();
+        renderCurrentPage();
+    };
+    img.src = URL.createObjectURL(file);
+}
+
+// État temporaire du fichier image pour le modal d'importation
+let pendingImageFile = null;
+
+function showImageImportModal(file) {
+    pendingImageFile = file;
+    const modal = document.getElementById('image-import-modal');
+    if (!modal) return;
+    
+    const tab = getActiveTab();
+    
+    // Configurer le bouton Arrière-plan
+    const bgBtn = document.getElementById('img-modal-bg-btn');
+    if (bgBtn) {
+        if (!tab || tab.type === 'pdf') {
+            bgBtn.disabled = true;
+            bgBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            bgBtn.title = "Impossible sur un onglet PDF";
+        } else {
+            bgBtn.disabled = false;
+            bgBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            bgBtn.title = "";
+        }
+    }
+    
+    // Configurer le bouton Objet déplaçable
+    const moveBtn = document.getElementById('img-modal-move-btn');
+    if (moveBtn) {
+        if (!tab) {
+            moveBtn.disabled = true;
+            moveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            moveBtn.disabled = false;
+            moveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+    
+    modal.classList.remove('hidden');
+}
+
+function closeImageImportModal() {
+    const modal = document.getElementById('image-import-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+    pendingImageFile = null;
+}
+
+function loadImageAsBackground(file) {
+    if (!file) return;
+    const tab = getActiveTab();
+    if (!tab || tab.type === 'pdf') return;
+    
+    const img = new Image();
+    img.onload = function() {
+        const pageNum = tab.currentPage;
+        let pageData = tab.pages[pageNum];
+        if (!pageData) {
+            pageData = { 
+                elements: [], 
+                textboxes: [], 
+                backgroundType: 'blank',
+                undoStack: [],
+                redoStack: []
+            };
+            tab.pages[pageNum] = pageData;
+        }
+        pageData.bgImage = img;
+        pageData.imgScale = null;
+        pageData.imgXOffset = null;
+        pageData.imgYOffset = null;
+        renderCurrentPage();
+        if (isThumbnailsPanelOpen) {
+            renderThumbnails();
+        }
+    };
+    img.src = URL.createObjectURL(file);
+}
+
+function loadImageAsMovable(file) {
+    if (!file) return;
+    const tab = getActiveTab();
+    if (!tab) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const src = event.target.result;
+        
+        // Centrer l'image dans le viewport
+        const viewport = document.getElementById('whiteboard-viewport');
+        const scrollLeft = viewport ? viewport.scrollLeft : 0;
+        const scrollTop = viewport ? viewport.scrollTop : 0;
+        const clientWidth = viewport ? viewport.clientWidth : 800;
+        const clientHeight = viewport ? viewport.clientHeight : 600;
+        
+        const w = 300;
+        const h = 200;
+        const x = (scrollLeft + clientWidth / 2 - w / 2) / zoomScale;
+        const y = (scrollTop + clientHeight / 2 - h / 2) / zoomScale;
+        
+        createMovableImage(x, y, w, h, src);
+        saveActiveTabTextboxes();
+    };
+    reader.readAsDataURL(file);
+}
+
+function loadImageFile(event) {
+    const file = event.target.files[0];
+    if (!file || !file.type.startsWith('image/')) {
+        alert("Veuillez insérer un fichier image valide.");
+        return;
+    }
+    
+    showImageImportModal(file);
+    event.target.value = '';
 }
 
 function renderPdfPage() {
@@ -2405,43 +2650,6 @@ function renderPdfPage() {
             }
         });
     });
-}
-
-// --- IMAGE IMPORT AND RENDERING ---
-function loadImageFile(event) {
-    const file = event.target.files[0];
-    if (!file || !file.type.startsWith('image/')) {
-        alert("Veuillez insérer un fichier image valide.");
-        return;
-    }
-    
-    saveActiveTabTextboxes();
-    
-    const img = new Image();
-    img.onload = function() {
-        const tab = getActiveTab();
-        if (tab) {
-            const pageNum = tab.currentPage;
-            let pageData = tab.pages[pageNum];
-            if (!pageData) {
-                pageData = { 
-                    elements: [], 
-                    textboxes: [], 
-                    backgroundType: 'blank',
-                    undoStack: [],
-                    redoStack: []
-                };
-                tab.pages[pageNum] = pageData;
-            }
-            pageData.bgImage = img;
-            // Clear cached scale and offset to re-evaluate for the new image
-            pageData.imgScale = null;
-            pageData.imgXOffset = null;
-            pageData.imgYOffset = null;
-            renderCurrentPage();
-        }
-    };
-    img.src = URL.createObjectURL(file);
 }
 
 function renderImageToBg(img) {
@@ -2585,6 +2793,19 @@ function renderWhiteboardThumbnail(pageNum, canvas) {
         ctx.fillStyle = '#ffffff';
     }
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Dessiner l'image d'arrière-plan si présente
+    if (pageData && pageData.bgImage) {
+        const img = pageData.bgImage;
+        const scaleX = canvas.width / img.width;
+        const scaleY = canvas.height / img.height;
+        const scale = Math.min(scaleX, scaleY);
+        const imgW = img.width * scale;
+        const imgH = img.height * scale;
+        const x = (canvas.width - imgW) / 2;
+        const y = (canvas.height - imgH) / 2;
+        ctx.drawImage(img, x, y, imgW, imgH);
+    }
     
     // Draw simple background guides
     if (bgType === 'grid') {

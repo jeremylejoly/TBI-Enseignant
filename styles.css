@@ -301,6 +301,14 @@
     -ms-user-select: none;
 }
 
+/* Indicateur de survol pour le Drag & Drop */
+#whiteboard-viewport.drag-over-active {
+    outline: 4px dashed #6366f1 !important;
+    outline-offset: -8px;
+    background-color: rgba(99, 102, 241, 0.04) !important;
+    transition: all 0.2s ease;
+}
+
 /* Permettre l'edition et la selection de texte dans les zones de texte actives */
 .text-content-node {
     user-select: text !important;
