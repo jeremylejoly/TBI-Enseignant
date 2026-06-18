@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v71';
+const CACHE_NAME = 'tbi-enseignant-cache-v72';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -33,6 +33,16 @@ const ASSETS_TO_CACHE = [
     './globe-terrestre.html',
     './ne_110m_admin_0_countries.js',
     './earth-blue-marble.jpg',
+    './classification_phylogenetique.html',
+    './energie-climat.html',
+    './circuit_electrique_18.html',
+    './maison_gaspillage_energie_v3.jpg',
+    './L_energie_et_les_rouages_du_climat.m4a',
+    './paysage_energies.png',
+    './paysage_non_renouvelables.png',
+    './effet_de_serre.png',
+    './Guide_de_l_eco-citoyen.png',
+    './photos/classification_phylogenetique_detaillee.jpg',
     // External CDN script and style dependencies cached for 100% offline capability
     'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
     'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js',

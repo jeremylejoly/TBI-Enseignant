@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Énergie et notre Climat — Carnet d'investigation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --encre:#0f1f38;        /* bleu-encre très profond, structures et titres */
+  --courant:#ffb800;      /* jaune ambre vif */
+  --courant-fonce:#d99c00;
+  --cuivre:#e28743;       /* orange terre / fossiles */
+  --papier:#f8fafc;       /* fond ardoise très clair */
+  --papier-2:#ffffff;
+  --ardoise:#475569;      /* gris ardoise moyen */
+  --ligne:#e2e8f0;        /* filets fins */
+  --vert:#10b981;         /* vert émeraude */
+  --vert-clair:#ecfdf5;
+  --rouge:#ef4444;        /* rouge corail */
+  --rouge-clair:#fef2f2;
+  --bleu:#3b82f6;         /* bleu azur */
+  --bleu-clair:#eff6ff;
+  --violet:#8b5cf6;
+  --violet-clair:#f5f3ff;
+  --ombre:0 6px 22px rgba(15,31,56,.06);
+  --ombre-forte:0 14px 40px rgba(15,31,56,.12);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--encre);
+  background:
+    radial-gradient(circle at 1px 1px, rgba(15,31,56,.04) 1px, transparent 0) 0 0/26px 26px,
+    var(--papier);
+  line-height:1.6;
+}
+h1,h2,h3,h4{font-family:'Baloo 2',system-ui,sans-serif;line-height:1.15;margin:0}
+.mono{font-family:'Space Mono',monospace}
+
+/* ---------- EN-TÊTE ---------- */
+header.site{
+  background:linear-gradient(135deg,#0d1b2e,#1e3a5f);
+  color:#fff;position:relative;overflow:hidden;
+  border-bottom:4px solid var(--courant);
+}
+header.site::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 20%, rgba(255,184,0,.2), transparent 60%);
+  pointer-events:none;
+}
+.head-inner{max-width:1100px;margin:0 auto;padding:34px 22px 28px;position:relative}
+header.site h1{font-size:clamp(1.6rem,4vw,2.4rem)}
+header.site h1 .spark{color:var(--courant)}
+.head-sub{margin-top:8px;max-width:720px;color:#cbd5e1;font-size:1rem}
+
+/* ---------- NAVIGATION ONGLETS ---------- */
+nav.tabs{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--ligne);box-shadow:var(--ombre)}
+.tabs-inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:6px 10px;scrollbar-width:thin}
+.tab-btn{
+  flex:0 0 auto;display:flex;align-items:center;gap:8px;
+  background:transparent;border:none;border-radius:12px;padding:10px 14px;
+  font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.92rem;color:var(--ardoise);
+  cursor:pointer;white-space:nowrap;transition:.15s;
+}
+.tab-btn:hover{background:var(--papier)}
+.tab-btn.active{background:var(--encre);color:#fff}
+.tab-btn .num{font-family:'Space Mono',monospace;font-size:.74rem;background:rgba(255,184,0,.15);color:var(--courant-fonce);border-radius:6px;padding:2px 6px}
+.tab-btn.active .num{background:var(--courant);color:var(--encre)}
+
+/* ---------- CONTENU / PAGES ---------- */
+main{max-width:1100px;margin:0 auto;padding:26px 22px 60px}
+.page{display:none;animation:fade .25s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.page h2{font-size:clamp(1.3rem,3vw,1.8rem);display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.pnum{font-family:'Space Mono',monospace;font-size:.85rem;background:var(--encre);color:#fff;border-radius:8px;padding:3px 9px}
+.lead{color:var(--ardoise);font-size:1.02rem;max-width:800px;margin:6px 0 18px}
+
+/* cartes génériques */
+.card{background:#fff;border:1px solid var(--ligne);border-radius:var(--radius);padding:18px 20px;margin:16px 0;box-shadow:var(--ombre)}
+
+/* étiquettes de bloc pédagogique */
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;padding:5px 12px;border-radius:999px;margin-bottom:4px}
+.tag-q{background:var(--bleu-clair);color:var(--bleu)}
+.tag-online{background:var(--violet-clair);color:var(--violet)}
+.tag-classe{background:var(--vert-clair);color:var(--vert)}
+.tag-defi{background:#fff7ee;color:var(--cuivre)}
+.tag-secu{background:var(--rouge-clair);color:var(--rouge)}
+.tag-mot{background:#fffbeb;color:var(--courant-fonce)}
+
+/* démarche / étapes */
+.demarche{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.demarche .step{flex:1 1 160px;background:var(--papier);border:1px dashed var(--ligne);border-radius:14px;padding:12px 14px}
+.demarche .step b{font-family:'Baloo 2',sans-serif;display:block;color:var(--encre)}
+.demarche .step .s{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--courant-fonce)}
+
+/* callouts (cadres pédagogiques) */
+.callout{border-radius:14px;padding:16px 18px;margin:16px 0;border-left:5px solid}
+.c-online{background:#faf9fe;border-color:var(--violet)}
+.c-classe{background:var(--vert-clair);border-color:var(--vert)}
+.c-defi{background:#fffcf8;border-color:var(--cuivre)}
+.c-secu{background:var(--rouge-clair);border-color:var(--rouge)}
+.c-mot{background:#fffdf5;border-color:var(--courant-fonce)}
+.callout h4{font-size:1.05rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.callout p,.callout li{font-size:.96rem}
+.callout ul,.callout ol{margin:8px 0 0;padding-left:20px}
+.callout li{margin:4px 0}
+
+.materiel{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.materiel span{background:#fff;border:1px solid var(--ligne);border-radius:8px;padding:5px 10px;font-size:.84rem}
+
+/* ---------- RÉVÉLATION (œil) ---------- */
+.eye-toggle{
+  flex:0 0 auto;border:1px solid var(--ligne);background:#fff;cursor:pointer;
+  border-radius:10px;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:1rem;line-height:1;transition:.15s;color:var(--ardoise);
+}
+.eye-toggle:hover{border-color:var(--courant-fonce);color:var(--encre)}
+.eye-toggle:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.hideable{margin-top:8px}
+.hideable.hidden{display:none}
+.eye-hint{font-size:.82rem;color:var(--ardoise);font-style:italic;margin:6px 0 0}
+.eye-hint.hidden{display:none}
+
+/* lexique */
+.lex{display:grid;gap:10px}
+.lex dt{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--encre)}
+.lex dd{margin:2px 0 0;color:var(--ardoise);font-size:.96rem}
+dl.lex > div{padding:12px 14px;background:var(--papier);border-radius:12px;border:1px solid var(--ligne)}
+
+/* ---------- ATELIERS (squelette générique) ---------- */
+.atelier{background:linear-gradient(180deg,#fbfdff,#f4f7fb);border:1px solid var(--ligne);border-radius:var(--radius);padding:20px;box-shadow:var(--ombre)}
+.atelier-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.atelier-head h3{font-size:1.2rem}
+.statut{font-family:'Space Mono',monospace;font-size:.85rem;padding:6px 12px;border-radius:10px;display:inline-block;margin-top:6px;border:1px solid;text-align:center}
+.statut.off{background:var(--rouge-clair);color:var(--rouge);border-color:#f1c4c4}
+.statut.on{background:var(--vert-clair);color:var(--vert);border-color:#bfe6d2}
+
+.btn{font-family:'Baloo 2',sans-serif;font-weight:700;border:none;border-radius:12px;padding:11px 18px;cursor:pointer;font-size:.95rem;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.btn-primary{background:var(--encre);color:#fff}
+.btn-primary:hover{background:#1d3557}
+.btn-jaune{background:var(--courant);color:var(--encre)}
+.btn-jaune:hover{background:var(--courant-fonce)}
+.btn-ghost{background:#fff;color:var(--encre);border:1px solid var(--ligne)}
+.btn-ghost:hover{border-color:var(--ardoise)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+
+/* QCM générique */
+.quiz-q{margin:14px 0;padding:16px;background:#fff;border:1px solid var(--ligne);border-radius:14px}
+.quiz-q p.qtext{font-weight:600;margin:0 0 10px}
+.opt{display:block;width:100%;text-align:left;background:var(--papier);border:1px solid var(--ligne);border-radius:10px;padding:11px 14px;margin:6px 0;cursor:pointer;font-size:.94rem;transition:.12s;font-family:inherit}
+.opt:hover{border-color:var(--courant)}
+.opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--encre);font-weight:600}
+.opt.wrong{background:var(--rouge-clair);border-color:var(--rouge);color:var(--encre)}
+.opt:disabled{cursor:default;opacity:.9}
+.opt:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.fb{font-size:.9rem;margin-top:8px;display:none;padding:10px 12px;border-radius:8px;background:var(--papier)}
+.fb.show{display:block}
+.scorebar{background:var(--encre);color:#fff;border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:18px}
+.scorebar b{color:var(--courant);font-size:1.3rem;font-family:'Baloo 2',sans-serif}
+
+/* objectifs / listes à cocher */
+.obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.obj-grid{grid-template-columns:1fr}}
+.checklist{list-style:none;padding:0;margin:8px 0 0}
+.checklist li{padding:7px 0 7px 30px;position:relative;border-bottom:1px dashed var(--ligne);font-size:.95rem}
+.checklist li:last-child{border-bottom:none}
+.checklist li::before{content:"";position:absolute;left:0;top:11px;width:16px;height:16px;border:2px solid var(--courant-fonce);border-radius:5px}
+.auto-eval label{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--ligne);font-size:.94rem;cursor:pointer}
+.auto-eval input{width:20px;height:20px;accent-color:var(--vert)}
+
+.print-tip{font-size:.82rem;color:var(--ardoise);font-style:italic;margin-top:6px}
+
+/* image + repères cliquables (générique, pour ateliers basés sur image) */
+.scene-wrap{position:relative;display:inline-block;max-width:100%}
+.scene-wrap img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--ligne)}
+
+/* Hotspots personnalisés */
+.hotspot-explore {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.85);
+  border: 2px solid #fff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transform: translate(-50%,-50%);
+  transition: all .2s ease;
+  box-shadow: 0 3px 10px rgba(15,31,56,.2);
+  animation: pulse-blue 2s infinite;
+}
+@keyframes pulse-blue {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+.hotspot-explore:hover {
+  transform: translate(-50%,-50%) scale(1.15);
+  background: var(--bleu);
+}
+.hotspot-explore.found {
+  background: var(--vert);
+  animation: none;
+}
+
+.hotspot-number {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--encre);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 2.5px solid var(--courant);
+  cursor: pointer;
+  transform: translate(-50%,-50%);
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+.hotspot-number:hover {
+  transform: translate(-50%,-50%) scale(1.15);
+  background: var(--courant);
+  color: var(--encre);
+}
+.hotspot-number.active {
+  background: var(--vert);
+  border-color: #fff;
+}
+
+.hotspot-waste {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transform: translate(-50%,-50%);
+  transition: all 0.2s ease;
+  z-index: 5;
+}
+.hotspot-waste:hover {
+  border-color: rgba(59, 130, 246, 0.25);
+  background: rgba(59, 130, 246, 0.04);
+}
+.hotspot-waste.found {
+  background: rgba(16, 185, 129, 0.2);
+  border: 3.5px solid var(--vert);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.3rem;
+  z-index: 10;
+}
+.hotspot-waste.found::before {
+  content: "✅";
+}
+
+/* association / matching (générique) */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:680px){.match-grid{grid-template-columns:1fr}}
+.match-col h4{margin-bottom:8px;text-align:center;font-size:.95rem}
+.match-item{background:#fff;border:2px solid var(--ligne);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.15s;font-weight:600;font-size:.92rem}
+.match-item:hover{border-color:var(--courant)}
+.match-item.sel{border-color:var(--bleu);background:var(--bleu-clair)}
+.match-item.done{border-color:var(--vert);background:var(--vert-clair);cursor:default;opacity:.85}
+.match-item.linked{border-color:var(--courant-fonce)}
+.match-item:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.match-badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--courant);color:var(--encre);font-family:'Space Mono',monospace;font-weight:700;font-size:.78rem}
+
+/* Timeline / Ordre chronologique */
+.order-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0;
+}
+.order-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fff;
+  border: 1px solid var(--ligne);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: var(--ombre);
+  cursor: pointer;
+  transition: .15s;
+}
+.order-card:hover {
+  border-color: var(--courant);
+}
+.order-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--papier);
+  border: 2px solid var(--ligne);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ardoise);
+  flex-shrink: 0;
+}
+.order-card.numbered .order-badge {
+  background: var(--encre);
+  border-color: var(--courant);
+  color: #fff;
+}
+.order-text {
+  font-size: 0.94rem;
+}
+
+/* Constructeur de chaîne d'énergie */
+.chain-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.chain-slot {
+  flex: 1 1 150px;
+  min-height: 70px;
+  border: 2px dashed var(--ligne);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.5);
+  font-size: 0.8rem;
+  font-family: 'Space Mono', monospace;
+  color: var(--ardoise);
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: .15s;
+}
+.chain-slot:hover {
+  background: rgba(255,255,255,0.8);
+  border-color: var(--courant);
+}
+.chain-slot.filled {
+  border-style: solid;
+  border-color: var(--bleu);
+  background: var(--bleu-clair);
+  color: var(--encre);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.chain-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 15px;
+}
+.chain-card {
+  background: #fff;
+  border: 1px solid var(--ligne);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--ombre);
+  transition: .15s;
+}
+.chain-card:hover {
+  border-color: var(--courant);
+  transform: translateY(-2px);
+}
+.chain-card.used {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Modal Agrandissement Image */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(15, 31, 56, 0.92);
+  backdrop-filter: blur(5px);
+}
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  animation: zoom 0.25s ease;
+}
+@keyframes zoom {
+  from {transform: scale(0.85); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+  user-select: none;
+}
+.close-modal:hover,
+.close-modal:focus {
+  color: var(--courant);
+  text-decoration: none;
+}
+
+footer.site{max-width:1100px;margin:0 auto;padding:28px 22px 60px;color:var(--ardoise);font-size:.86rem;border-top:1px solid var(--ligne)}
+footer.site b{color:var(--encre)}
+
+@media print{
+  nav.tabs,.controls,.btn,header.site::after{display:none!important}
+  .page{display:block!important}
+  body{background:#fff}
+  .card,.atelier{box-shadow:none;break-inside:avoid}
+}
+@media (prefers-reduced-motion: reduce){
+  .page{animation:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-inner">
+    <h1>L'Énergie et notre Climat ⚡🌍</h1>
+    <p class="head-sub">Découvre les formes d'énergie, explore les ressources de notre planète, comprends l'effet de serre et deviens un champion des éco-gestes grâce à nos ateliers interactifs.</p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Onglets du module">
+  <div class="tabs-inner" id="tabBar">
+    <button class="tab-btn active" data-tab="accueil"><span class="num">00</span>Accueil</button>
+    <button class="tab-btn" data-tab="formes"><span class="num">01</span>Formes d'énergie</button>
+    <button class="tab-btn" data-tab="renouvelables"><span class="num">02</span>Énergies Renouvelables</button>
+    <button class="tab-btn" data-tab="non-renouvelables"><span class="num">03</span>Énergies Fossiles & Nucléaire</button>
+    <button class="tab-btn" data-tab="centrales"><span class="num">04</span>Les Centrales</button>
+    <button class="tab-btn" data-tab="climat"><span class="num">05</span>Climat & Effet de Serre</button>
+    <button class="tab-btn" data-tab="eco-gestes"><span class="num">06</span>Éco-gestes</button>
+    <button class="tab-btn" data-tab="audio-listening"><span class="num">07</span>Écoute & Compréhension</button>
+    <button class="tab-btn" data-tab="bilan"><span class="num">08</span>Bilan & Quiz</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ====================== 00 ACCUEIL ====================== -->
+<section class="page active" id="accueil" role="tabpanel">
+  <h2><span class="pnum">00</span> Bienvenue dans l'enquête !</h2>
+  <p class="lead">Bienvenue, jeune chercheur·euse ! À travers ce carnet, tu vas mener une grande investigation pour comprendre comment fonctionne l'énergie sur notre planète, comment elle réchauffe notre climat et comment poser des gestes éco-citoyens.</p>
+
+
+
+  <div class="card">
+    <span class="tag tag-q">🔬 Notre méthode de chercheur</span>
+    <div class="demarche">
+      <div class="step"><span class="s">ÉTAPE 1</span><b>Je me pose une question</b>Qu'est-ce que je veux découvrir ?</div>
+      <div class="step"><span class="s">ÉTAPE 2</span><b>Je fais une hypothèse</b>« Je pense que… parce que… »</div>
+      <div class="step"><span class="s">ÉTAPE 3</span><b>J'expérimente</b>Je manipule le matériel ou l'atelier.</div>
+      <div class="step"><span class="s">ÉTAPE 4</span><b>J'observe &amp; je conclus</b>Mon hypothèse était-elle juste ?</div>
+      <div class="step"><span class="s">ÉTAPE 5</span><b>Je retiens</b>J'utilise le bon vocabulaire.</div>
+    </div>
+  </div>
+
+  <div class="obj-grid">
+    <div class="card">
+      <span class="tag tag-classe">✋ Ce que je saurai FAIRE</span>
+      <ul class="checklist">
+        <li>Classer les formes et sources d'énergie dans notre quotidien.</li>
+        <li>Reconstituer la chaîne de transformation d'une centrale électrique.</li>
+        <li>Repérer et corriger les gaspillages d'énergie dans une maison.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag tag-mot">🧠 Ce que je vais COMPRENDRE</span>
+      <ul class="checklist">
+        <li>La différence entre ressource renouvelable et non renouvelable.</li>
+        <li>Pourquoi l'énergie change de forme mais ne disparaît jamais.</li>
+        <li>Le fonctionnement de l'effet de serre et du réchauffement global.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-classe">🧰 Le matériel (toute la classe)</span>
+    <div class="materiel">
+      <span>Mini-panneau solaire</span><span>Moteur électrique + hélice</span><span>Ampoule LED basse conso</span><span>Boîte transparente (serre)</span><span>Thermomètre de précision</span>
+    </div>
+    <p class="print-tip">Conseil de chercheur : forme des îlots de 3 à 4 élèves pour réaliser les défis pratiques en classe.</p>
+  </div>
+
+  <div class="callout c-secu">
+    <h4>⚠️ Règle importante de sécurité</h4>
+    <p>Ne manipule jamais d'eau à proximité des installations électriques de la classe ou des mini-panneaux. L'électricité et l'eau ne font pas bon ménage !</p>
+  </div>
+</section>
+
+<!-- ====================== 01 FORMES D'ENERGIE ====================== -->
+<section class="page" id="formes" role="tabpanel">
+  <h2><span class="pnum">01</span> Formes d'énergie — Ça bouge, ça chauffe !</h2>
+  <p class="lead">L'énergie est invisible, mais nous voyons ses effets partout ! Elle permet de faire bouger les objets, d'éclairer, de chauffer et de faire fonctionner nos appareils.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div><dt>Énergie mécanique (mouvement)</dt><dd>L'énergie d'un objet qui se déplace, qui roule ou qui tourne.</dd></div>
+      <div><dt>Énergie thermique (chaleur)</dt><dd>L'énergie liée à la chaleur et à la température d'un corps.</dd></div>
+      <div><dt>Énergie chimique (stockée)</dt><dd>L'énergie emmagasinée dans la matière (les aliments, les piles, le bois, le pétrole).</dd></div>
+      <div><dt>Énergie lumineuse</dt><dd>L'énergie transportée par la lumière (le Soleil, une ampoule).</dd></div>
+      <div><dt>Énergie électrique</dt><dd>L'énergie transportée par les électrons dans les fils électriques.</dd></div>
+      <div><dt>Énergie nucléaire</dt><dd>L'énergie emprisonnée au cœur de la matière (les atomes d'uranium).</dd></div>
+    </dl>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Associe les formes d'énergie »</h4>
+    <p>Relie chaque situation ou objet de gauche à la forme d'énergie dominante correspondante à droite.</p>
+    <div class="atelier" style="margin-top:12px">
+      <div class="match-grid" id="formes-match">
+        <div class="match-col">
+          <h4>Situations de la vie courante</h4>
+          <div class="match-item" data-id="1">Un cycliste qui pédale vite</div>
+          <div class="match-item" data-id="2">Une pile électrique neuve</div>
+          <div class="match-item" data-id="3">Un radiateur chaud en hiver</div>
+          <div class="match-item" data-id="4">Les rayons lumineux du Soleil</div>
+          <div class="match-item" data-id="5">Le courant circulant dans un câble</div>
+          <div class="match-item" data-id="6">De l'uranium au cœur du réacteur</div>
+        </div>
+        <div class="match-col">
+          <h4>Formes d'énergie correspondantes</h4>
+          <!-- Éléments mélangés volontairement -->
+          <div class="match-item" data-match="3">Énergie thermique</div>
+          <div class="match-item" data-match="6">Énergie nucléaire</div>
+          <div class="match-item" data-match="1">Énergie mécanique</div>
+          <div class="match-item" data-match="4">Énergie lumineuse</div>
+          <div class="match-item" data-match="2">Énergie chimique</div>
+          <div class="match-item" data-match="5">Énergie électrique</div>
+        </div>
+      </div>
+      <p class="statut off" id="formes-match-status" style="display:block;text-align:center;margin:10px auto 0">Associations : 0 / 6</p>
+      <div class="controls" style="justify-content:center">
+        <button class="btn btn-ghost" id="formes-match-reset" type="button">↺ Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>👥 En groupe-classe — « Le mime des énergies »</h4>
+    <p>L'enseignant·e remet secrètement un mot-clé de forme d'énergie à un·e élève. Celui-ci doit le mimer devant la classe (sans parler !). La classe doit deviner la forme d'énergie concernée et identifier un exemple présent dans l'école.</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🎯 Défi de groupe — « Le saut de la bille »</h4>
+    <p>À l'aide d'un élastique tendu sur une table, propulsez doucement une bille de verre. Expliquez les transformations d'énergie successives qui ont lieu (de vos muscles à la bille).</p>
+    <div class="materiel"><span>Une bille en verre</span><span>Un élastique</span><span>Une règle plate</span></div>
+  </div>
+</section>
+
+<!-- ====================== 02 ENERGIES RENOUVELABLES ====================== -->
+<section class="page" id="renouvelables" role="tabpanel">
+  <h2><span class="pnum">02</span> Les sources renouvelables — L'énergie infinie</h2>
+  <p class="lead">Certaines sources d'énergie nous entourent en quantité infinie. Découvrons comment l'être humain réussit à capturer ces flux naturels pour produire de l'électricité ou du chauffage.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div><dt>Ressource renouvelable</dt><dd>Source d'énergie fournie par la nature qui ne s'épuise pas ou se reconstitue très rapidement à l'échelle d'une vie humaine.</dd></div>
+      <div><dt>Énergie solaire</dt><dd>La lumière ou la chaleur du Soleil captée par des panneaux photovoltaïques ou thermiques.</dd></div>
+      <div><dt>Énergie éolienne</dt><dd>La force du vent captée par les pales d'une éolienne pour faire tourner un générateur.</dd></div>
+      <div><dt>Énergie hydraulique</dt><dd>La force de l'eau en mouvement (rivière, chutes d'eau, marées) utilisée pour actionner des turbines.</dd></div>
+      <div><dt>Biomasse</dt><dd>La combustion ou fermentation de matières organiques (bois, déchets agricoles, plantes).</dd></div>
+      <div><dt>Géothermie</dt><dd>La chaleur naturelle stockée sous la surface de la Terre, récupérée par des forages profonds.</dd></div>
+    </dl>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Le paysage des énergies propres »</h4>
+    <p>Clique sur les 5 cercles bleus du paysage pour découvrir le fonctionnement des énergies renouvelables et réponds aux questions d'exploration !</p>
+    <div class="atelier" style="margin-top:12px">
+      <div style="display:flex;justify-content:center">
+        <div class="scene-wrap">
+          <img src="paysage_energies.png" alt="Paysage des énergies renouvelables">
+          <!-- Hotspots positions ajustées -->
+          <div class="hotspot-explore" id="hot-eo" style="left:30%; top:28%" role="button" aria-label="Éolienne">🌬️</div>
+          <div class="hotspot-explore" id="hot-sol" style="left:26%; top:61%" role="button" aria-label="Panneaux solaires">☀️</div>
+          <div class="hotspot-explore" id="hot-hyd" style="left:66%; top:50%" role="button" aria-label="Barrage hydraulique">💧</div>
+          <div class="hotspot-explore" id="hot-bio" style="left:81%; top:74%" role="button" aria-label="Cabane biomasse">🪵</div>
+          <div class="hotspot-explore" id="hot-geo" style="left:55%; top:40%" role="button" aria-label="Géothermie">⚙️</div>
+        </div>
+      </div>
+      <p class="statut off" id="explore-status" style="display:block;text-align:center;margin:10px auto 0">Découvertes : 0 / 5</p>
+      
+      <!-- Conteneur d'information dynamique -->
+      <div class="card" id="explore-info-card" style="display:none; border-color:var(--bleu); background:var(--bleu-clair); margin-top:14px">
+        <h3 id="explore-title" style="color:var(--encre); margin-bottom:8px">Clique sur un hotspot</h3>
+        <p id="explore-text" style="font-size:0.95rem; margin-bottom:12px"></p>
+        
+        <div id="explore-mini-q" style="background:#fff; padding:12px; border-radius:10px; border:1px solid var(--ligne)">
+          <p id="explore-question" style="font-weight:600; margin:0 0 8px; font-size:0.9rem"></p>
+          <div style="display:flex; gap:10px">
+            <button class="btn btn-ghost" id="explore-btn-opt1" style="padding:6px 12px; font-size:0.85rem" type="button"></button>
+            <button class="btn btn-ghost" id="explore-btn-opt2" style="padding:6px 12px; font-size:0.85rem" type="button"></button>
+          </div>
+          <p id="explore-mini-fb" style="font-size:0.85rem; margin-top:8px; display:none; font-weight:600"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>👥 En groupe-classe — « Notre météo énergétique »</h4>
+    <p>Analysez ensemble la météo du jour à l'école. Si toute notre électricité provenait uniquement du soleil et du vent de la région, produirions-nous beaucoup aujourd'hui ? Pourquoi est-il indispensable de combiner les différentes sources d'énergie renouvelables ?</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🎯 Défi de groupe — « La turbine à eau »</h4>
+    <p>À l'aide d'un axe rotatif et de petites pales fabriquées avec du matériel de récupération (ex. cuillères en plastique), construisez une roue à eau. Placez-la sous un filet d'eau et observez comment l'énergie de mouvement de l'eau se convertit en rotation de votre axe.</p>
+    <div class="materiel"><span>Axe rotatif</span><span>Cuillères en plastique</span><span>Support (verre)</span><span>Bac de récupération</span></div>
+  </div>
+</section>
+
+<!-- ====================== 03 ENERGIES NON RENOUVELABLES ====================== -->
+<section class="page" id="non-renouvelables" role="tabpanel">
+  <h2><span class="pnum">03</span> Les sources non renouvelables — Le stock s'épuise</h2>
+  <p class="lead">Certaines ressources se sont formées très lentement sous le sol terrestre sur des millions d'années. L'humanité consomme ces stocks précieux à toute vitesse.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div><dt>Combustible fossile</dt><dd>Matière combustible solide, liquide ou gazeuse issue de la décomposition très lente de matières organiques anciennes (charbon, pétrole, gaz naturel).</dd></div>
+      <div><dt>Uranium (Énergie nucléaire)</dt><dd>Un métal rare présent dans les roches terrestres, utilisé pour produire de l'énergie nucléaire par division de ses atomes (la fission).</dd></div>
+      <div><dt>Ressource épuisable</dt><dd>Ressource énergétique disponible en quantité fixe sur Terre et qui finira inévitablement par manquer, car son rythme de formation est trop lent.</dd></div>
+    </dl>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Le paysage des énergies non renouvelables »</h4>
+    <p>Clique sur les 4 cercles bleus du paysage pour explorer les énergies épuisables et réponds aux questions de validation !</p>
+    <div class="atelier" style="margin-top:12px">
+      <div style="display:flex;justify-content:center">
+        <div class="scene-wrap">
+          <img src="paysage_non_renouvelables.png" alt="Paysage des énergies non renouvelables">
+          <!-- Hotspots positions adjusted -->
+          <div class="hotspot-explore" id="hot-charbon" style="left:25%; top:69%" role="button" aria-label="Mine de charbon">🪨</div>
+          <div class="hotspot-explore" id="hot-petrole" style="left:37%; top:45%" role="button" aria-label="Derrick de pétrole">🛢️</div>
+          <div class="hotspot-explore" id="hot-gaz" style="left:60%; top:50%" role="button" aria-label="Extraction de gaz">🔥</div>
+          <div class="hotspot-explore" id="hot-nucl" style="left:80%; top:48%" role="button" aria-label="Centrale nucléaire">⚛️</div>
+        </div>
+      </div>
+      <p class="statut off" id="explore-non-status" style="display:block;text-align:center;margin:10px auto 0">Découvertes : 0 / 4</p>
+      
+      <!-- Conteneur d'information dynamique -->
+      <div class="card" id="explore-non-info-card" style="display:none; border-color:var(--cuivre); background:#fffefc; margin-top:14px">
+        <h3 id="explore-non-title" style="color:var(--encre); margin-bottom:8px">Clique sur un hotspot</h3>
+        <p id="explore-non-text" style="font-size:0.95rem; margin-bottom:12px"></p>
+        
+        <div id="explore-non-mini-q" style="background:#fcf8f2; padding:12px; border-radius:10px; border:1px solid var(--ligne)">
+          <p id="explore-non-question" style="font-weight:600; margin:0 0 8px; font-size:0.9rem"></p>
+          <div style="display:flex; gap:10px">
+            <button class="btn btn-ghost" id="explore-non-btn-opt1" style="padding:6px 12px; font-size:0.85rem" type="button"></button>
+            <button class="btn btn-ghost" id="explore-non-btn-opt2" style="padding:6px 12px; font-size:0.85rem" type="button"></button>
+          </div>
+          <p id="explore-non-mini-fb" style="font-size:0.85rem; margin-top:8px; display:none; font-weight:600"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « La formation du pétrole »</h4>
+    <p>Classe les 4 étapes suivantes de la formation naturelle du pétrole dans l'ordre chronologique (de 1 à 4) en cliquant sur les cartes pour leur attribuer un rang.</p>
+    <div class="atelier" style="margin-top:12px">
+      <div class="order-container" id="fossil-order">
+        <div class="order-card" data-correct-rank="2" data-current-rank="0">
+          <div class="order-badge">?</div>
+          <div class="order-text">Des couches de boue, de sable et d'autres sédiments s'accumulent au-dessus de ces débris d'organismes marins.</div>
+        </div>
+        <div class="order-card" data-correct-rank="4" data-current-rank="0">
+          <div class="order-badge">?</div>
+          <div class="order-text">L'homme installe des derricks et fore des puits très profonds sous la Terre pour extraire le pétrole brut.</div>
+        </div>
+        <div class="order-card" data-correct-rank="1" data-current-rank="0">
+          <div class="order-badge">?</div>
+          <div class="order-text">Des milliards de débris de planctons et d'algues meurent et se déposent tout au fond des océans.</div>
+        </div>
+        <div class="order-card" data-correct-rank="3" data-current-rank="0">
+          <div class="order-badge">?</div>
+          <div class="order-text">Sous le poids énorme des couches de terre supérieure, la chaleur et la pression transforment lentement la matière en pétrole liquide.</div>
+        </div>
+      </div>
+      <p class="statut off" id="order-status" style="display:block;text-align:center;margin:10px auto 0">Ordre : Non validé</p>
+      <div class="controls" style="justify-content:center">
+        <button class="btn btn-jaune" id="order-btn-check" type="button">✅ Vérifier</button>
+        <button class="btn btn-ghost" id="order-btn-reset" type="button">↺ Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>👥 En groupe-classe — « Le jeu des réserves terrestres »</h4>
+    <p>L'enseignant·e place dans un grand récipient une quantité définie de billes (les réserves de pétrole). À tour de rôle, chaque élève (représentant un pays consommateur) vient retirer des billes. Observez à quelle vitesse le stock s'effondre et débattez de la vie après le pétrole.</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🎯 Défi de groupe — « Le classement Avantages vs Inconvénients »</h4>
+    <p>Sur votre carnet, tracez deux colonnes : « Énergies Fossiles » et « Énergie Nucléaire ». Classez les étiquettes suivantes selon leurs contraintes : émission de CO₂ élevée, déchets radioactifs dangereux à stocker, épuisement rapide, production continue garantie.</p>
+    <div class="materiel"><span>Cahier d'expériences</span><span>Feuille de cartes de tri</span></div>
+  </div>
+</section>
+
+<!-- ====================== 04 DE LA SOURCE A L'AMPOULE ====================== -->
+<section class="page" id="centrales" role="tabpanel">
+  <h2><span class="pnum">04</span> De la source à l'électricité — Les centrales</h2>
+  <p class="lead">Pour transformer l'énergie brute de la nature (le vent, la chute d'eau, la vapeur brûlante) en électricité domestique, presque toutes les centrales utilisent un même duo magique : la turbine et l'alternateur.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div><dt>Turbine</dt><dd>Grande hélice mise en rotation par la force d'un fluide en mouvement (eau qui coule, vent, vapeur d'eau sous pression).</dd></div>
+      <div><dt>Alternateur (Générateur)</dt><dd>Machine rotative qui transforme l'énergie mécanique (mouvement de rotation) en énergie électrique, grâce à un aimant tournant près d'une bobine de cuivre.</dd></div>
+      <div><dt>Chaîne d'énergie</dt><dd>Schéma qui modélise le parcours de l'énergie de la source initiale jusqu'à l'objet qui la consomme.</dd></div>
+    </dl>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Construis la chaîne d'énergie »</h4>
+    <p>Reconstitue la chaîne d'énergie d'une centrale hydraulique. Clique sur les cartes du bas dans le bon ordre pour remplir les compartiments de gauche à droite.</p>
+    <div class="atelier" style="margin-top:12px">
+      
+      <!-- Les compartiments de la chaîne -->
+      <div class="chain-slots" id="chain-slots-container">
+        <div class="chain-slot" data-index="0" data-correct="Eau stockée (Source)">Slot 1 : Source</div>
+        <div class="chain-slot" data-index="1" data-correct="Turbine (Mouvement)">Slot 2 : Mouvement</div>
+        <div class="chain-slot" data-index="2" data-correct="Alternateur (Générateur)">Slot 3 : Générateur</div>
+        <div class="chain-slot" data-index="3" data-correct="Câbles (Transport)">Slot 4 : Transport</div>
+        <div class="chain-slot" data-index="4" data-correct="Console de jeux (Utilisation)">Slot 5 : Utilisation</div>
+      </div>
+      
+      <!-- Les cartes disponibles -->
+      <div class="chain-cards" id="chain-cards-container">
+        <div class="chain-card" data-text="Alternateur (Générateur)">Alternateur (Générateur)</div>
+        <div class="chain-card" data-text="Eau stockée (Source)">Eau stockée (Source)</div>
+        <div class="chain-card" data-text="Console de jeux (Utilisation)">Console de jeux (Utilisation)</div>
+        <div class="chain-card" data-text="Turbine (Mouvement)">Turbine (Mouvement)</div>
+        <div class="chain-card" data-text="Câbles (Transport)">Câbles (Transport)</div>
+      </div>
+
+      <p class="statut off" id="chain-status" style="display:block;text-align:center;margin:15px auto 0">Chaîne incomplète</p>
+      <div class="controls" style="justify-content:center">
+        <button class="btn btn-ghost" id="chain-btn-reset" type="button">↺ Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>👥 En groupe-classe — « L'alternateur mystère »</h4>
+    <p>L'enseignant·e fait la démonstration d'une dynamo de vélo ou d'une lampe de poche à manivelle. En ouvrant le mécanisme, observez l'aimant et le bobinage de cuivre. Plus on applique de force mécanique, plus l'ampoule brille.</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🎯 Défi de groupe — « L'orientation optimale du panneau solaire »</h4>
+    <p>Reliez le mini-panneau solaire photovoltaïque de la mallette de classe au petit moteur. Testez différentes inclinaisons du panneau face à la lumière naturelle ou sous une lampe de bureau. Mesurez l'angle avec le rapporteur pour identifier la position de rendement maximal.</p>
+    <div class="materiel"><span>Mini-panneau solaire</span><span>Moteur électrique + hélice</span><span>Rapporteur d'angle</span><span>Câbles de connexion</span></div>
+  </div>
+</section>
+
+<!-- ====================== 05 EFFET DE SERRE ====================== -->
+<section class="page" id="climat" role="tabpanel">
+  <h2><span class="pnum">05</span> Climat &amp; Effet de serre — La couverture terrestre</h2>
+  <p class="lead">Notre Terre a la chance d'être entourée d'une couche protectrice de gaz. Mais l'utilisation excessive de combustibles fossiles dérègle cet équilibre fragile.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div><dt>Atmosphère</dt><dd>La couche de gaz protectrice qui enveloppe la Terre, filtre les rayonnements solaires dangereux et contient l'air que nous respirons.</dd></div>
+      <div><dt>Effet de serre naturel</dt><dd>Phénomène thermique bénéfique par lequel certains gaz de l'atmosphère piègent une partie de la chaleur du Soleil, maintenant la Terre à 15°C de moyenne (sans lui, il ferait -18°C !).</dd></div>
+      <div><dt>Dioxyde de carbone (CO₂)</dt><dd>Principal gaz à effet de serre rejeté en excès dans l'air lorsque l'on brûle du pétrole, du charbon ou du gaz (transports, usines, chauffage).</dd></div>
+      <div><dt>Réchauffement climatique</dt><dd>L'augmentation rapide de la température moyenne de la surface terrestre causée par l'accumulation anormale de gaz à effet de serre.</dd></div>
+    </dl>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Le mécanisme de l'effet de serre »</h4>
+    <p>Clique sur les 4 repères numérotés de 1 à 4 pour comprendre comment la Terre se réchauffe sous l'effet de nos activités.</p>
+    <div class="atelier" style="margin-top:12px">
+      <div style="display:flex;justify-content:center">
+        <div class="scene-wrap">
+          <img src="effet_de_serre.png" alt="Schéma explicatif de l'effet de serre">
+          <!-- Hotspots numérotés sur l'image -->
+          <div class="hotspot-number" id="hot-serre-1" style="left:80%; top:20%">1</div>
+          <div class="hotspot-number" id="hot-serre-2" style="left:40%; top:55%">2</div>
+          <div class="hotspot-number" id="hot-serre-3" style="left:52%; top:26%">3</div>
+          <div class="hotspot-number" id="hot-serre-4" style="left:20%; top:70%">4</div>
+        </div>
+      </div>
+      <p class="statut off" id="serre-status" style="display:block;text-align:center;margin:10px auto 0">Points examinés : 0 / 4</p>
+      
+      <!-- Boîte d'info dynamique -->
+      <div class="card" id="serre-info-card" style="display:none; border-color:var(--rouge); background:var(--rouge-clair); margin-top:14px">
+        <h3 id="serre-title" style="color:var(--encre); margin-bottom:6px">Titre de l'étape</h3>
+        <p id="serre-text" style="font-size:0.95rem; margin:0"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>👥 En groupe-classe — « L'expérience de la mini-serre »</h4>
+    <p>Nous disposons de deux pots contenant chacun un thermomètre exposés sous une lampe. Le pot A est recouvert d'une cloche étanche en verre, tandis que le pot B est à l'air libre. Relevez la température toutes les deux minutes. Comparez l'évolution des deux thermomètres.</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🎯 Défi de groupe — « Le schéma de la grosse couverture »</h4>
+    <p>Sur votre carnet de chercheur, dessinez la Terre. Représentez l'atmosphère naturelle comme une couverture légère, et le CO₂ produit par l'homme comme une grosse couverture de laine très épaisse qui étouffe la Terre. Ajoutez des légendes explicatives.</p>
+    <div class="materiel"><span>Cahier d'expériences</span><span>Crayons de couleur</span></div>
+  </div>
+</section>
+
+<!-- ====================== 06 ECO GESTES ====================== -->
+<section class="page" id="eco-gestes" role="tabpanel">
+  <h2><span class="pnum">06</span> Éco-gestes — Chasse au gaspillage !</h2>
+  <p class="lead">La meilleure énergie est celle que l'on ne consomme pas ! En évitant les gaspillages du quotidien, nous pouvons réduire notre impact sur le réchauffement climatique.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div><dt>Éco-geste</dt><dd>Geste quotidien, simple et efficace, qui permet de préserver l'environnement et d'économiser l'énergie.</dd></div>
+      <div><dt>Veille (appareil électrique)</dt><dd>État de repos d'un téléviseur ou d'une console de jeux qui reste branché et continue à consommer de l'électricité inutilement.</dd></div>
+      <div><dt>Isolation thermique</dt><dd>Dispositif (double vitrage, laine de roche dans les murs) destiné à empêcher la chaleur du chauffage de s'échapper vers l'extérieur de la maison.</dd></div>
+    </dl>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Détecteur de gaspillages »</h4>
+    <p>Trouve les 7 comportements énergivores qui gaspillent l'énergie dans cette maison. Clique dessus pour y remédier !</p>
+    <div class="atelier" style="margin-top:12px">
+      <div style="display:flex;justify-content:center">
+        <div class="scene-wrap" id="waste-scene-wrap">
+          <img src="maison_gaspillage_energie_v3.jpg" alt="Maison des gaspillages d'énergie" id="waste-main-img">
+          <!-- Hotspots invisibles au début, révélés en vert une fois trouvés -->
+          <div class="hotspot-waste" id="waste-1" style="left:60.5%; top:84%" role="button" aria-label="Télévision allumée"></div>
+          <div class="hotspot-waste" id="waste-2" style="left:80%; top:74.6%" role="button" aria-label="Ordinateur et lumière"></div>
+          <div class="hotspot-waste" id="waste-3" style="left:74.3%; top:54.7%" role="button" aria-label="Fuite d'eau"></div>
+          <div class="hotspot-waste" id="waste-4" style="left:53.9%; top:39%" role="button" aria-label="Chambre vide allumée"></div>
+          <div class="hotspot-waste" id="waste-5" style="left:22.5%; top:50.1%" role="button" aria-label="Fenêtre et radiateur"></div>
+          <div class="hotspot-waste" id="waste-6" style="left:50%; top:20.2%" role="button" aria-label="Fenêtre grenier"></div>
+          <div class="hotspot-waste" id="waste-7" style="left:67.4%; top:10.5%" role="button" aria-label="Toit non isolé"></div>
+          
+          <!-- Draggable targets for calibration, hidden by default -->
+          <div id="calibration-targets" style="display:none">
+            <div class="calib-target" data-target="waste-1" style="position:absolute; left:60.5%; top:84%; width:44px; height:44px; border-radius:50%; background:rgba(239, 68, 68, 0.9); border:2.5px solid #fff; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:bold; cursor:move; transform:translate(-50%,-50%); z-index:100; box-shadow:0 3px 10px rgba(0,0,0,0.3)">1</div>
+            <div class="calib-target" data-target="waste-2" style="position:absolute; left:80%; top:74.6%; width:44px; height:44px; border-radius:50%; background:rgba(239, 68, 68, 0.9); border:2.5px solid #fff; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:bold; cursor:move; transform:translate(-50%,-50%); z-index:100; box-shadow:0 3px 10px rgba(0,0,0,0.3)">2</div>
+            <div class="calib-target" data-target="waste-3" style="position:absolute; left:74.3%; top:54.7%; width:44px; height:44px; border-radius:50%; background:rgba(239, 68, 68, 0.9); border:2.5px solid #fff; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:bold; cursor:move; transform:translate(-50%,-50%); z-index:100; box-shadow:0 3px 10px rgba(0,0,0,0.3)">3</div>
+            <div class="calib-target" data-target="waste-4" style="position:absolute; left:53.9%; top:39%; width:44px; height:44px; border-radius:50%; background:rgba(239, 68, 68, 0.9); border:2.5px solid #fff; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:bold; cursor:move; transform:translate(-50%,-50%); z-index:100; box-shadow:0 3px 10px rgba(0,0,0,0.3)">4</div>
+            <div class="calib-target" data-target="waste-5" style="position:absolute; left:22.5%; top:50.1%; width:44px; height:44px; border-radius:50%; background:rgba(239, 68, 68, 0.9); border:2.5px solid #fff; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:bold; cursor:move; transform:translate(-50%,-50%); z-index:100; box-shadow:0 3px 10px rgba(0,0,0,0.3)">5</div>
+            <div class="calib-target" data-target="waste-6" style="position:absolute; left:50%; top:20.2%; width:44px; height:44px; border-radius:50%; background:rgba(239, 68, 68, 0.9); border:2.5px solid #fff; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:bold; cursor:move; transform:translate(-50%,-50%); z-index:100; box-shadow:0 3px 10px rgba(0,0,0,0.3)">6</div>
+            <div class="calib-target" data-target="waste-7" style="position:absolute; left:67.4%; top:10.5%; width:44px; height:44px; border-radius:50%; background:rgba(239, 68, 68, 0.9); border:2.5px solid #fff; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:bold; cursor:move; transform:translate(-50%,-50%); z-index:100; box-shadow:0 3px 10px rgba(0,0,0,0.3)">7</div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <p class="statut off" id="waste-status" style="display:block;text-align:center;margin:10px auto 0">Gaspillages trouvés : 0 / 7</p>
+
+      <!-- Message d'information sur le gaspillage corrigé -->
+      <div class="card" id="waste-info-card" style="display:none; border-color:var(--vert); background:var(--vert-clair); margin-top:14px">
+        <h3 id="waste-title" style="color:var(--encre); margin-bottom:6px">Gaspillage corrigé !</h3>
+        <p id="waste-text" style="font-size:0.95rem; margin:0"></p>
+      </div>
+
+      <!-- Bouton et panneau de calibrage -->
+      <div style="margin-top:14px; text-align:center">
+        <button class="btn btn-ghost" id="btn-waste-calib" type="button">🛠️ Activer le mode calibrage</button>
+      </div>
+
+      <div class="card" id="waste-calib-panel" style="display:none; margin-top:14px; border-color:var(--cuivre); background:#fffefb">
+        <h4 style="color:var(--encre)">Outil de calibrage des cibles</h4>
+        <p style="font-size:0.85rem; color:var(--ardoise)">Fais glisser les numéros 1 à 7 sur l'image ci-dessus pour les placer sur les gaspillages. Les coordonnées se mettent à jour automatiquement. Copie ensuite le texte ci-dessous pour me le transmettre :</p>
+        <textarea id="waste-calib-output" style="width:100%; height:120px; font-family:'Space Mono',monospace; font-size:0.85rem; padding:8px; border:1px solid var(--ligne); border-radius:8px" readonly></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>👥 En groupe-classe — « L'audit énergétique de la classe »</h4>
+    <p>Faites le tour de l'école avec votre enseignant·e. Vérifiez ensemble si des fenêtres sont ouvertes alors que le radiateur est allumé, si les éclairages sont allumés alors qu'il fait plein jour, ou si les ordinateurs restent sous tension pendant les récréations.</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🎯 Défi de groupe — « La charte de notre classe »</h4>
+    <p>Sur une feuille A3 cartonnée, rédigez les 5 règles d'or de l'énergie pour la classe (ex. « Nous éteignons le tableau interactif dès qu'on sort en récréation »). Illustrez-la et affichez-la près de l'interrupteur principal.</p>
+    <div class="materiel"><span>Une feuille blanche A3 cartonnée</span><span>Marqueurs colorés</span></div>
+  </div>
+</section>
+
+<!-- ====================== 07 ÉCOUTE & COMPRÉHENSION ====================== -->
+<section class="page" id="audio-listening" role="tabpanel">
+  <h2><span class="pnum">07</span> Écoute collective — L'énergie et les rouages du climat</h2>
+  <p class="lead">Installez-vous confortablement. Écoutez attentivement l'audio de 24 minutes projeté au tableau par votre enseignant·e, puis répondez aux 10 questions pour valider votre compréhension.</p>
+
+  <div class="card" style="border-color:var(--bleu); background:var(--bleu-clair)">
+    <span class="tag tag-q">📻 Lecteur Audio de Classe</span>
+    <h3 style="margin-top:6px; color:var(--encre)">L'énergie et les rouages du climat</h3>
+    <p style="font-size:0.92rem; color:var(--ardoise); margin:4px 0 12px">Cliquez sur lecture pour lancer l'écoute collective sur le TBI.</p>
+    <audio controls style="width:100%; border-radius:8px">
+      <source src="L_energie_et_les_rouages_du_climat.m4a" type="audio/mp4">
+      Votre navigateur ne prend pas en charge la lecture de cet audio.
+    </audio>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Questionnaire de compréhension »</h4>
+    <p>Répondez aux 10 questions suivantes basées sur l'écoute de l'audio. Chaque question comporte uniquement deux options (A ou B).</p>
+    <div class="atelier" style="margin-top:12px" id="audio-quiz-container">
+      <div id="audio-quiz-questions-area"></div>
+      
+      <div class="scorebar" id="audio-quiz-scorebar" style="display:none">
+        <span id="audio-quiz-score-message">Complète toutes les questions !</span>
+        <span>Score : <b id="audio-quiz-score-num">0</b> / 10</span>
+      </div>
+      <div class="controls" style="justify-content:center; margin-top:15px">
+        <button class="btn btn-jaune" id="audio-quiz-btn-reset" style="display:none" type="button">↺ Recommencer le questionnaire</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 08 BILAN & EVALUATION ====================== -->
+<section class="page" id="bilan" role="tabpanel">
+  <h2><span class="pnum">08</span> Le grand bilan — Prêt pour le quiz ?</h2>
+  <p class="lead">Bravo chercheur·euse ! Tu as exploré en détail le carnet d'investigation. Relisons ensemble ce que l'on doit absolument retenir avant de lancer le grand quiz final !</p>
+
+  <div class="card" style="text-align:center">
+    <span class="tag tag-classe">📋 Le Guide de l'Éco-Citoyen</span>
+    <p class="lead" style="margin-top:8px; margin-left:auto; margin-right:auto">Voici un magnifique poster récapitulatif pour t'aider à adopter les bons réflexes au quotidien. **Clique sur l'image pour l'agrandir** en plein écran !</p>
+    <div style="cursor:zoom-in; max-width:480px; margin:15px auto; border:1px solid var(--ligne); border-radius:12px; overflow:hidden; box-shadow:var(--ombre); transition:0.15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+      <img src="Guide_de_l_eco-citoyen.png" alt="Guide de l'éco-citoyen" style="width:100%; display:block" id="guide-poster-img">
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Ce qu'on retient</span>
+    <dl class="lex">
+      <div><dt>Les formes d'énergie</dt><dd>L'énergie prend différents visages : le mouvement (mécanique), la chaleur (thermique), la lumière (lumineuse), le courant (électrique) ou les stocks d'énergie (chimique, nucléaire). L'énergie peut être stockée, transportée et transformée, mais ne disparaît jamais.</dd></div>
+      <div><dt>Renouvelables ou non ?</dt><dd>Les énergies renouvelables (soleil, vent, eau, biomasse, géothermie) sont propres et inépuisables. Les énergies non renouvelables (pétrole, charbon, gaz naturel, uranium) s'épuisent rapidement et polluent notre environnement.</dd></div>
+      <div><dt>Le climat en danger</dt><dd>Brûler du pétrole, du charbon ou du gaz libère du dioxyde de carbone (CO₂) dans le ciel. Ce gaz épaissit la couche protectrice de l'effet de serre naturel, empêchant la chaleur de s'échapper de la Terre. C'est cela qui réchauffe notre planète.</dd></div>
+    </dl>
+  </div>
+
+  <div class="callout c-online">
+    <h4>💻 Atelier en ligne — « Le Grand Quiz final »</h4>
+    <p>Valide tes connaissances de chercheur en répondant à ces 10 questions de synthèse !</p>
+    <div class="atelier" style="margin-top:12px" id="final-quiz-container">
+      <!-- Les questions seront générées dynamiquement en JS pour éviter les répétitions de balises -->
+      <div id="quiz-questions-area"></div>
+      
+      <div class="scorebar" id="quiz-scorebar" style="display:none">
+        <span id="quiz-score-message">Complète toutes les questions !</span>
+        <span>Score : <b id="quiz-score-num">0</b> / 10</span>
+      </div>
+      <div class="controls" style="justify-content:center; margin-top:15px">
+        <button class="btn btn-jaune" id="quiz-btn-reset" style="display:none" type="button">↺ Recommencer le quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-classe">✅ Mon auto-évaluation</span>
+    <div class="auto-eval">
+      <label><input type="checkbox"> Je sais identifier 3 formes d'énergie autour de moi.</label>
+      <label><input type="checkbox"> Je peux nommer 4 sources d'énergie renouvelable et 3 non renouvelables.</label>
+      <label><input type="checkbox"> Je sais expliquer le rôle d'une turbine et d'un alternateur.</label>
+      <label><input type="checkbox"> Je sais schématiser la chaîne d'énergie d'une ampoule.</label>
+      <label><input type="checkbox"> Je sais expliquer pourquoi le CO₂ épaissit la couverture thermique terrestre.</label>
+      <label><input type="checkbox"> J'applique au moins 3 éco-gestes au quotidien en classe.</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-defi">🗂️ Pour l'enseignant·e — récapitulatif des activités</span>
+    <div class="obj-grid">
+      <div>
+        <h4 style="margin:6px 0;color:var(--vert)">👥 En groupe-classe</h4>
+        <ul class="checklist">
+          <li><b>Le mime des énergies</b> (Onglet 01) - Mimes physiques collectifs.</li>
+          <li><b>Notre météo énergétique</b> (Onglet 02) - Débat sur l'intermittence locale.</li>
+          <li><b>Le jeu des réserves</b> (Onglet 03) - Jeu de haricots/billes pour l'épuisement.</li>
+          <li><b>L'alternateur mystère</b> (Onglet 04) - Démonstration d'une dynamo de vélo.</li>
+          <li><b>La mini-serre de table</b> (Onglet 05) - Mesure de température comparative.</li>
+          <li><b>L'audit de l'école</b> (Onglet 06) - Parcours des locaux scolaires.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="margin:6px 0;color:var(--cuivre)">🎯 Défis pratiques en îlot</h4>
+        <ul class="checklist">
+          <li><b>Le saut de la bille</b> (Onglet 01) - Transformation mécanique d'élastique.</li>
+          <li><b>La turbine à eau</b> (Onglet 02) - Maquette de roue à cuillères.</li>
+          <li><b>Avantages vs Inconvénients</b> (Onglet 03) - Tri de cartes argumentatif.</li>
+          <li><b>L'angle du panneau solaire</b> (Onglet 04) - Mesure au rapporteur.</li>
+          <li><b>La BD de la couverture</b> (Onglet 05) - Schématisation métaphorique.</li>
+          <li><b>La charte de la classe</b> (Onglet 06) - Affiche collective d'éco-gestes.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="print-tip">Tous les onglets sont configurés pour être imprimés pour la trace papier des élèves (utilisez la fonction Impression du navigateur).</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 <b>Classe de Mr Lejoly</b> — Éveil Scientifique (Sciences et Technologies). Conçu pour le tronc commun en Fédération Wallonie-Bruxelles.</p>
+</footer>
+
+<script>
+/* ============ NAVIGATION ONGLETS ============ */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const pages = document.querySelectorAll('.page');
+tabBtns.forEach(b=>b.addEventListener('click',()=>{
+  tabBtns.forEach(x=>x.classList.remove('active'));
+  pages.forEach(p=>p.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+/* ============ RÉVÉLATION (œil) DES CADRES DE SYNTHÈSE ============ */
+(function(){
+  const sel='.callout.c-classe, .callout.c-defi, .callout.c-mot';
+  document.querySelectorAll(sel).forEach(box=>{
+    if(box.dataset.noToggle)return;
+    const h4=box.querySelector('h4');
+    if(!h4)return;
+    // regroupe tout le contenu après le h4 dans un conteneur masquable
+    const wrap=document.createElement('div');
+    wrap.className='hideable hidden';
+    while(h4.nextSibling)wrap.appendChild(h4.nextSibling);
+    box.appendChild(wrap);
+    // indice visible quand c'est masqué
+    const hint=document.createElement('p');
+    hint.className='eye-hint';
+    hint.textContent = "👁️ Clique sur l\u2019œil pour révéler ce cadre.";
+    box.appendChild(hint);
+    // bouton œil
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='eye-toggle';
+    btn.setAttribute('aria-label','Afficher ou cacher ce cadre');
+    btn.textContent='👁️';
+    btn.addEventListener('click',()=>{
+      const show=wrap.classList.contains('hidden');
+      wrap.classList.toggle('hidden',!show);
+      hint.classList.toggle('hidden',show);
+      btn.textContent=show?'🙈':'👁️';
+      btn.setAttribute('aria-pressed',show?'true':'false');
+    });
+    h4.appendChild(btn);
+  });
+})();
+
+/* ============ ATELIER 01 : ASSOCIATION FORMES ============ */
+(function(){
+  const matchContainer = document.getElementById("formes-match");
+  if(!matchContainer) return;
+  const items = matchContainer.querySelectorAll(".match-item");
+  const statusLabel = document.getElementById("formes-match-status");
+  const resetBtn = document.getElementById("formes-match-reset");
+
+  let selectedLeft = null;
+  let selectedRight = null;
+  let matchesCount = 0;
+
+  items.forEach(item => {
+    item.addEventListener("click", () => {
+      // Si déjà validé, rien faire
+      if(item.classList.contains("done")) return;
+
+      const isLeft = item.hasAttribute("data-id");
+
+      if(isLeft) {
+        // Désélectionne l'ancienne sélection de gauche
+        matchContainer.querySelectorAll(".match-col:first-child .match-item").forEach(i => i.classList.remove("sel"));
+        selectedLeft = item;
+        item.classList.add("sel");
+      } else {
+        // Désélectionne l'ancienne sélection de droite
+        matchContainer.querySelectorAll(".match-col:last-child .match-item").forEach(i => i.classList.remove("sel"));
+        selectedRight = item;
+        item.classList.add("sel");
+      }
+
+      // Si les deux côtés sont sélectionnés, on vérifie
+      if(selectedLeft && selectedRight) {
+        const leftId = selectedLeft.getAttribute("data-id");
+        const rightMatch = selectedRight.getAttribute("data-match");
+
+        if(leftId === rightMatch) {
+          // Succès : association correcte
+          selectedLeft.classList.remove("sel");
+          selectedRight.classList.remove("sel");
+          selectedLeft.classList.add("done");
+          selectedRight.classList.add("done");
+
+          // Ajout d'un numéro d'association commun pour s'y retrouver
+          const badge = document.createElement("span");
+          badge.className = "match-badge";
+          badge.textContent = leftId;
+          selectedLeft.prepend(badge);
+
+          const badge2 = document.createElement("span");
+          badge2.className = "match-badge";
+          badge2.textContent = leftId;
+          selectedRight.prepend(badge2);
+
+          selectedLeft = null;
+          selectedRight = null;
+          matchesCount++;
+          statusLabel.textContent = "Associations : " + matchesCount + " / 6";
+
+          if(matchesCount === 6) {
+            statusLabel.textContent = "Félicitations ! Toutes les associations sont correctes ! 🎉";
+            statusLabel.className = "statut on";
+          }
+        } else {
+          // Erreur : on flash en rouge brièvement puis on réinitialise la sélection
+          const tempLeft = selectedLeft;
+          const tempRight = selectedRight;
+          tempLeft.style.borderColor = "var(--rouge)";
+          tempRight.style.borderColor = "var(--rouge)";
+          
+          setTimeout(() => {
+            tempLeft.classList.remove("sel");
+            tempRight.classList.remove("sel");
+            tempLeft.style.borderColor = "";
+            tempRight.style.borderColor = "";
+          }, 400);
+
+          selectedLeft = null;
+          selectedRight = null;
+        }
+      }
+    });
+  });
+
+  resetBtn.addEventListener("click", () => {
+    selectedLeft = null;
+    selectedRight = null;
+    matchesCount = 0;
+    statusLabel.textContent = "Associations : 0 / 6";
+    statusLabel.className = "statut off";
+    items.forEach(item => {
+      item.classList.remove("done", "sel");
+      item.style.borderColor = "";
+      const b = item.querySelector(".match-badge");
+      if(b) b.remove();
+    });
+  });
+})();
+
+/* ============ ATELIER 02 : LANDSCAPE EXPLORATION ============ */
+(function(){
+  const infoCard = document.getElementById("explore-info-card");
+  const infoTitle = document.getElementById("explore-title");
+  const infoText = document.getElementById("explore-text");
+  const exploreStatus = document.getElementById("explore-status");
+
+  const qContainer = document.getElementById("explore-mini-q");
+  const qTitle = document.getElementById("explore-question");
+  const qBtn1 = document.getElementById("explore-btn-opt1");
+  const qBtn2 = document.getElementById("explore-btn-opt2");
+  const qFb = document.getElementById("explore-mini-fb");
+
+  const hotspots = {
+    "hot-eo": {
+      title: "🌬️ L'énergie éolienne",
+      text: "Le vent souffle sur les pales géantes de l'éolienne, ce qui les fait tourner. Cette rotation actionne un alternateur dans la cabine du sommet pour créer de l'électricité. C'est propre, mais cela produit uniquement lorsqu'il y a du vent !",
+      question: "Cette énergie est-elle intermittente (qui dépend du vent) ?",
+      opt1: "Oui, tout à fait",
+      opt2: "Non, elle produit tout le temps",
+      correct: 1,
+      feedback: "Exactement ! Sans vent, pas de rotation, c'est pourquoi il nous faut d'autres sources complémentaires."
+    },
+    "hot-sol": {
+      title: "☀️ L'énergie solaire",
+      text: "Les cellules de silicium sur les panneaux solaires photovoltaïques réagissent avec la lumière du Soleil pour déplacer des électrons et fabriquer directement du courant électrique continu. Très efficace en journée et en été !",
+      question: "De quoi le panneau solaire a-t-il besoin pour créer de l'électricité ?",
+      opt1: "De la chaleur uniquement",
+      opt2: "De la lumière de notre étoile",
+      correct: 2,
+      feedback: "Bravo ! C'est bien la lumière solaire (photons) qui active la réaction électrique, pas la chaleur."
+    },
+    "hot-hyd": {
+      title: "💧 L'énergie hydraulique",
+      text: "Le barrage retient une énorme masse d'eau. Quand on ouvre les vannes, l'eau s'écoule dans de gros tuyaux à forte pression et fait tourner une puissante turbine située en bas, entraînant l'alternateur. C'est une énergie disponible sur demande !",
+      question: "Quel appareil est actionné par le jet d'eau sous pression ?",
+      opt1: "Une turbine",
+      opt2: "Un piston",
+      correct: 1,
+      feedback: "Parfait ! L'eau pousse les pales de la turbine, créant le mouvement nécessaire au générateur."
+    },
+    "hot-bio": {
+      title: "🪵 La biomasse",
+      text: "En brûlant le bois ou en transformant les déchets organiques (matières agricoles, restes de repas), on dégage de la chaleur pour réchauffer les bâtiments ou faire tourner des générateurs à vapeur. C'est une ressource renouvelable si on prend soin de replanter les forêts exploitées.",
+      question: "Pourquoi la biomasse est-elle renouvelable ?",
+      opt1: "Parce que le bois met des millions d'années à pousser",
+      opt2: "Parce que la matière organique se recrée à notre échelle",
+      correct: 2,
+      feedback: "Bien vu ! Les arbres et les déchets végétaux se renouvellent en quelques années seulement."
+    },
+    "hot-geo": {
+      title: "⚙️ La géothermie",
+      text: "La chaleur stockée sous nos pieds dans la roche terrestre peut être récupérée. On injecte de l'eau en profondeur pour qu'elle se réchauffe et revienne sous forme de vapeur d'eau très chaude, faisant tourner des turbines pour produire de l'électricité ou alimenter des chauffages urbains.",
+      question: "D'où provient l'énergie de la géothermie ?",
+      opt1: "Du noyau et des roches de la Terre",
+      opt2: "De la combustion du bois",
+      correct: 1,
+      feedback: "Bravo ! C'est bien la chaleur de la Terre (« géo » veut dire Terre, « thermie » veut dire chaleur) qui est exploitée."
+    }
+  };
+
+  let foundHotspots = new Set();
+  let currentHotspotId = null;
+
+  Object.keys(hotspots).forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    el.addEventListener("click", () => {
+      currentHotspotId = id;
+      const data = hotspots[id];
+
+      // Affiche les informations de la zone
+      infoTitle.textContent = data.title;
+      infoText.textContent = data.text;
+      infoCard.style.display = "block";
+
+      // Prépare le mini-quiz
+      qTitle.textContent = data.question;
+      qBtn1.textContent = data.opt1;
+      qBtn2.textContent = data.opt2;
+      qBtn1.disabled = false;
+      qBtn2.disabled = false;
+      qBtn1.className = "btn btn-ghost";
+      qBtn2.className = "btn btn-ghost";
+      qFb.style.display = "none";
+
+      // Si cette zone a déjà été validée auparavant, affiche le succès
+      if(foundHotspots.has(id)) {
+        qBtn1.disabled = true;
+        qBtn2.disabled = true;
+        const correctBtn = data.correct === 1 ? qBtn1 : qBtn2;
+        correctBtn.className = "btn btn-jaune";
+        qFb.textContent = data.feedback;
+        qFb.className = "fb show";
+        qFb.style.color = "var(--vert)";
+      }
+
+      // Fait défiler jusqu'à la carte d'info
+      infoCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+
+  // Gestion de la réponse au mini-quiz
+  [qBtn1, qBtn2].forEach((btn, idx) => {
+    btn.addEventListener("click", () => {
+      const data = hotspots[currentHotspotId];
+      const answerIdx = idx + 1;
+
+      qBtn1.disabled = true;
+      qBtn2.disabled = true;
+
+      if(answerIdx === data.correct) {
+        btn.className = "btn btn-jaune";
+        qFb.textContent = "✅ Correct ! " + data.feedback;
+        qFb.className = "fb show";
+        qFb.style.color = "var(--vert)";
+
+        // Enregistre la découverte
+        foundHotspots.add(currentHotspotId);
+        document.getElementById(currentHotspotId).classList.add("found");
+
+        // Met à jour le compteur global
+        const count = foundHotspots.size;
+        exploreStatus.textContent = "Découvertes : " + count + " / 5";
+        if(count === 5) {
+          exploreStatus.textContent = "Félicitations ! Paysage entièrement exploré ! 🌳✨";
+          exploreStatus.className = "statut on";
+        }
+      } else {
+        btn.className = "btn btn-ghost";
+        const otherBtn = idx === 0 ? qBtn2 : qBtn1;
+        otherBtn.className = "btn btn-jaune";
+        qFb.textContent = "❌ Essaie encore ! Ce n'est pas tout à fait ça.";
+        qFb.className = "fb show";
+        qFb.style.color = "var(--rouge)";
+        
+        setTimeout(() => {
+          qBtn1.disabled = false;
+          qBtn2.disabled = false;
+          qBtn1.className = "btn btn-ghost";
+          qBtn2.className = "btn btn-ghost";
+          qFb.style.display = "none";
+        }, 1500);
+      }
+    });
+  });
+})();
+
+/* ============ ATELIER 03 : PAYSAGE ENERGIES NON RENOUVELABLES ============ */
+(function(){
+  const infoCard = document.getElementById("explore-non-info-card");
+  const infoTitle = document.getElementById("explore-non-title");
+  const infoText = document.getElementById("explore-non-text");
+  const exploreStatus = document.getElementById("explore-non-status");
+
+  const qContainer = document.getElementById("explore-non-mini-q");
+  const qTitle = document.getElementById("explore-non-question");
+  const qBtn1 = document.getElementById("explore-non-btn-opt1");
+  const qBtn2 = document.getElementById("explore-non-btn-opt2");
+  const qFb = document.getElementById("explore-non-mini-fb");
+
+  const hotspots = {
+    "hot-charbon": {
+      title: "🪨 Le Charbon",
+      text: "Le charbon est une roche combustible de couleur noire. Il s'est formé par l'accumulation et la décomposition de forêts préhistoriques ensevelies sous le sable et la boue pendant plus de 300 millions d'années. Brûler du charbon produit de l'électricité mais rejette d'immenses quantités de CO₂.",
+      question: "D'où provient la matière d'origine qui a formé le charbon ?",
+      opt1: "De restes de plantes et d'arbres préhistoriques",
+      opt2: "De restes d'animaux marins géants",
+      correct: 1,
+      feedback: "Exact ! Le charbon est d'origine végétale (arbres et plantes fossilisés)."
+    },
+    "hot-petrole": {
+      title: "🛢️ Le Pétrole",
+      text: "Le pétrole est un liquide visqueux noir emprisonné dans les roches sous la Terre. Il provient de la transformation lente sur des millions d'années d'organismes marins (planctons). On en tire l'essence, le diesel, le kérosène et le plastique. C'est l'énergie fossile la plus consommée.",
+      question: "Quelle forme de matière vivante est à l'origine du pétrole ?",
+      opt1: "De petites plantes et planctons marins",
+      opt2: "Des arbres et du bois de chauffage",
+      correct: 1,
+      feedback: "Bravo ! Le pétrole s'est formé dans les océans anciens à partir de planctons microscopiques."
+    },
+    "hot-gaz": {
+      title: "🔥 Le Gaz naturel",
+      text: "Le gaz naturel est un gaz combustible piégé sous haute pression dans les couches rocheuses terrestres. Il se forme souvent aux mêmes endroits que le pétrole. On l'utilise principalement pour le chauffage des maisons, la cuisson et dans les centrales thermiques.",
+      question: "Dans quel état physique se trouve le gaz naturel dans le gisement ?",
+      opt1: "Liquide",
+      opt2: "Gazeux",
+      correct: 2,
+      feedback: "Bien vu ! Il s'agit bien d'un mélange de gaz gazeux (méthane principalement) piégé sous pression."
+    },
+    "hot-nucl": {
+      title: "⚛️ L'Uranium (Énergie nucléaire)",
+      text: "L'uranium est un métal lourd naturellement présent dans certaines roches terrestres. Sa division dégage une chaleur colossale qui produit de la vapeur pour faire tourner des turbines. Elle ne rejette pas de gaz à effet de serre mais pose le problème des déchets radioactifs toxiques pendant des milliers d'années.",
+      question: "L'énergie nucléaire contribue-t-elle directement à l'effet de serre en rejetant du CO₂ ?",
+      opt1: "Oui, comme le charbon",
+      opt2: "Non, elle ne produit pas de CO₂ en fonctionnant",
+      correct: 2,
+      feedback: "C'est juste ! Le nucléaire ne produit pas de CO₂ en fonctionnant, mais il produit des déchets radioactifs très encombrants."
+    }
+  };
+
+  let foundHotspots = new Set();
+  let currentHotspotId = null;
+
+  Object.keys(hotspots).forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    el.addEventListener("click", () => {
+      currentHotspotId = id;
+      const data = hotspots[id];
+
+      infoTitle.textContent = data.title;
+      infoText.textContent = data.text;
+      infoCard.style.display = "block";
+
+      qTitle.textContent = data.question;
+      qBtn1.textContent = data.opt1;
+      qBtn2.textContent = data.opt2;
+      qBtn1.disabled = false;
+      qBtn2.disabled = false;
+      qBtn1.className = "btn btn-ghost";
+      qBtn2.className = "btn btn-ghost";
+      qFb.style.display = "none";
+
+      if(foundHotspots.has(id)) {
+        qBtn1.disabled = true;
+        qBtn2.disabled = true;
+        const correctBtn = data.correct === 1 ? qBtn1 : qBtn2;
+        correctBtn.className = "btn btn-jaune";
+        qFb.textContent = data.feedback;
+        qFb.className = "fb show";
+        qFb.style.color = "var(--vert)";
+      }
+
+      infoCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+
+  [qBtn1, qBtn2].forEach((btn, idx) => {
+    btn.addEventListener("click", () => {
+      const data = hotspots[currentHotspotId];
+      const answerIdx = idx + 1;
+
+      qBtn1.disabled = true;
+      qBtn2.disabled = true;
+
+      if(answerIdx === data.correct) {
+        btn.className = "btn btn-jaune";
+        qFb.textContent = "✅ Correct ! " + data.feedback;
+        qFb.className = "fb show";
+        qFb.style.color = "var(--vert)";
+
+        foundHotspots.add(currentHotspotId);
+        document.getElementById(currentHotspotId).classList.add("found");
+
+        const count = foundHotspots.size;
+        exploreStatus.textContent = "Découvertes : " + count + " / 4";
+        if(count === 4) {
+          exploreStatus.textContent = "Félicitations ! Les énergies non renouvelables ont été entièrement explorées ! 🛢️⚛️";
+          exploreStatus.className = "statut on";
+        }
+      } else {
+        btn.className = "btn btn-ghost";
+        const otherBtn = idx === 0 ? qBtn2 : qBtn1;
+        otherBtn.className = "btn btn-jaune";
+        qFb.textContent = "❌ Essaie encore ! Ce n'est pas tout à fait ça.";
+        qFb.className = "fb show";
+        qFb.style.color = "var(--rouge)";
+        
+        setTimeout(() => {
+          qBtn1.disabled = false;
+          qBtn2.disabled = false;
+          qBtn1.className = "btn btn-ghost";
+          qBtn2.className = "btn btn-ghost";
+          qFb.style.display = "none";
+        }, 1500);
+      }
+    });
+  });
+})();
+
+/* ============ ATELIER 03 : TIMELINE FOSSILES ============ */
+(function(){
+  const container = document.getElementById("fossil-order");
+  if(!container) return;
+  const cards = container.querySelectorAll(".order-card");
+  const checkBtn = document.getElementById("order-btn-check");
+  const resetBtn = document.getElementById("order-btn-reset");
+  const statusLabel = document.getElementById("order-status");
+
+  let nextRank = 1;
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const currentRank = parseInt(card.getAttribute("data-current-rank"), 10);
+
+      if(currentRank === 0) {
+        // Assigne le numéro suivant si non encore numéroté
+        if(nextRank <= 4) {
+          card.setAttribute("data-current-rank", nextRank);
+          card.querySelector(".order-badge").textContent = nextRank;
+          card.classList.add("numbered");
+          nextRank++;
+        }
+      } else {
+        // Si cliqué à nouveau, on enlève le numéro et on réinitialise les numéros supérieurs
+        card.setAttribute("data-current-rank", 0);
+        card.querySelector(".order-badge").textContent = "?";
+        card.classList.remove("numbered");
+        
+        // Ajuste nextRank
+        nextRank = 1;
+        cards.forEach(c => {
+          const r = parseInt(c.getAttribute("data-current-rank"), 10);
+          if (r > 0) {
+            c.setAttribute("data-current-rank", 0);
+            c.querySelector(".order-badge").textContent = "?";
+            c.classList.remove("numbered");
+          }
+        });
+      }
+    });
+  });
+
+  checkBtn.addEventListener("click", () => {
+    let allNumbered = true;
+    let correct = true;
+
+    cards.forEach(card => {
+      const current = parseInt(card.getAttribute("data-current-rank"), 10);
+      const correctRank = parseInt(card.getAttribute("data-correct-rank"), 10);
+
+      if(current === 0) {
+        allNumbered = false;
+      }
+      if(current !== correctRank) {
+        correct = false;
+      }
+    });
+
+    if(!allNumbered) {
+      statusLabel.textContent = "Attention : attribue un rang de 1 à 4 à toutes les cartes d'abord !";
+      statusLabel.className = "statut off";
+      return;
+    }
+
+    if(correct) {
+      statusLabel.textContent = "Félicitations ! C'est le bon ordre de formation géologique ! 🛢️💎";
+      statusLabel.className = "statut on";
+      cards.forEach(c => {
+        c.style.borderColor = "var(--vert)";
+      });
+    } else {
+      statusLabel.textContent = "Aïe, l'ordre est incorrect. Relis bien les étapes et recommence.";
+      statusLabel.className = "statut off";
+      cards.forEach(c => {
+        c.style.borderColor = "var(--rouge)";
+      });
+      setTimeout(() => {
+        cards.forEach(c => {
+          c.style.borderColor = "";
+        });
+      }, 1500);
+    }
+  });
+
+  resetBtn.addEventListener("click", () => {
+    nextRank = 1;
+    statusLabel.textContent = "Ordre : Non validé";
+    statusLabel.className = "statut off";
+    cards.forEach(c => {
+      c.setAttribute("data-current-rank", 0);
+      c.querySelector(".order-badge").textContent = "?";
+      c.classList.remove("numbered");
+      c.style.borderColor = "";
+    });
+  });
+})();
+
+/* ============ ATELIER 04 : CONSTRUCTEUR DE CHAINE D'ENERGIE ============ */
+(function(){
+  const slotsContainer = document.getElementById("chain-slots-container");
+  const cardsContainer = document.getElementById("chain-cards-container");
+  if(!slotsContainer) return;
+
+  const slots = slotsContainer.querySelectorAll(".chain-slot");
+  const cards = cardsContainer.querySelectorAll(".chain-card");
+  const statusLabel = document.getElementById("chain-status");
+  const resetBtn = document.getElementById("chain-btn-reset");
+
+  let filledCount = 0;
+
+  // Clic sur une carte pour la placer dans le premier compartiment vide
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      if(card.classList.contains("used")) return;
+
+      // Cherche le premier slot libre
+      let targetSlot = null;
+      for(let i=0; i<slots.length; i++) {
+        if(!slots[i].classList.contains("filled")) {
+          targetSlot = slots[i];
+          break;
+        }
+      }
+
+      if(targetSlot) {
+        const text = card.getAttribute("data-text");
+        targetSlot.textContent = text;
+        targetSlot.classList.add("filled");
+        card.classList.add("used");
+        filledCount++;
+
+        // Si tout est rempli, on valide immédiatement
+        if(filledCount === 5) {
+          verifyChain();
+        }
+      }
+    });
+  });
+
+  // Clic sur un slot rempli pour retirer la carte
+  slots.forEach(slot => {
+    slot.addEventListener("click", () => {
+      if(!slot.classList.contains("filled")) return;
+
+      const text = slot.textContent;
+      
+      // Libère le slot
+      const index = slot.getAttribute("data-index");
+      slot.textContent = "Slot " + (parseInt(index, 10) + 1) + " : " + getSlotRoleName(index);
+      slot.classList.remove("filled");
+      slot.style.borderColor = "";
+
+      // Réactive la carte
+      const matchedCard = cardsContainer.querySelector(`.chain-card[data-text="${text}"]`);
+      if(matchedCard) {
+        matchedCard.classList.remove("used");
+      }
+
+      filledCount--;
+      statusLabel.textContent = "Chaîne incomplète";
+      statusLabel.className = "statut off";
+    });
+  });
+
+  function getSlotRoleName(index) {
+    const roles = ["Source", "Mouvement", "Générateur", "Transport", "Utilisation"];
+    return roles[index];
+  }
+
+  function verifyChain() {
+    let correct = true;
+    slots.forEach(slot => {
+      const text = slot.textContent;
+      const correctText = slot.getAttribute("data-correct");
+      if(text !== correctText) {
+        correct = false;
+        slot.style.borderColor = "var(--rouge)";
+      } else {
+        slot.style.borderColor = "var(--vert)";
+      }
+    });
+
+    if(correct) {
+      statusLabel.textContent = "Génial ! La chaîne énergétique fonctionne, l'ampoule s'allume ! 💡⚡";
+      statusLabel.className = "statut on";
+    } else {
+      statusLabel.textContent = "Erreur dans les transformations. Clique sur un bloc rouge pour le retirer.";
+      statusLabel.className = "statut off";
+    }
+  }
+
+  resetBtn.addEventListener("click", () => {
+    filledCount = 0;
+    statusLabel.textContent = "Chaîne incomplète";
+    statusLabel.className = "statut off";
+    slots.forEach(slot => {
+      const idx = slot.getAttribute("data-index");
+      slot.textContent = "Slot " + (parseInt(idx, 10) + 1) + " : " + getSlotRoleName(idx);
+      slot.classList.remove("filled");
+      slot.style.borderColor = "";
+    });
+    cards.forEach(card => {
+      card.classList.remove("used");
+    });
+  });
+})();
+
+/* ============ ATELIER 05 : HOTSPOTS EFFET DE SERRE ============ */
+(function(){
+  const statusLabel = document.getElementById("serre-status");
+  const infoCard = document.getElementById("serre-info-card");
+  const infoTitle = document.getElementById("serre-title");
+  const infoText = document.getElementById("serre-text");
+
+  const descriptions = {
+    "hot-serre-1": {
+      title: "1️⃣ Le rayonnement solaire",
+      text: "Le Soleil envoie ses rayons lumineux vers la Terre. La majeure partie traverse facilement l'atmosphère protectrice pour venir chauffer directement la surface solide et liquide de notre globe."
+    },
+    "hot-serre-2": {
+      title: "2️⃣ Le renvoi de chaleur (Infrarouges)",
+      text: "La Terre, réchauffée par le Soleil, réémet de l'énergie vers l'espace sous forme de rayons invisibles : les rayons infrarouges (la chaleur)."
+    },
+    "hot-serre-3": {
+      title: "3️⃣ L'effet de serre naturel (La couverture)",
+      text: "Les gaz à effet de serre (comme la vapeur d'eau) retiennent naturellement une partie de cette chaleur montante. Sans cela, toute la chaleur s'échapperait dans le vide de l'espace et la Terre gèlerait complètement !"
+    },
+    "hot-serre-4": {
+      title: "4️⃣ L'impact humain (L'effet renforcé)",
+      text: "En brûlant du charbon, du pétrole et du gaz, nos usines et voitures rejettent du CO₂ en quantité industrielle. Ce gaz épaissit artificiellement la couverture atmosphérique : trop de chaleur reste bloquée, causant le réchauffement global."
+    }
+  };
+
+  let visitedHotspots = new Set();
+
+  Object.keys(descriptions).forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    el.addEventListener("click", () => {
+      // Met en surbrillance le bouton actif
+      document.querySelectorAll(".hotspot-number").forEach(h => h.classList.remove("active"));
+      el.classList.add("active");
+
+      // Affiche les informations correspondantes
+      const data = descriptions[id];
+      infoTitle.textContent = data.title;
+      infoText.textContent = data.text;
+      infoCard.style.display = "block";
+
+      // Enregistre le clic
+      visitedHotspots.add(id);
+      
+      // Compteur
+      const count = visitedHotspots.size;
+      statusLabel.textContent = "Points examinés : " + count + " / 4";
+
+      if(count === 4) {
+        statusLabel.textContent = "Félicitations ! Tu as analysé le mécanisme complet de l'effet de serre ! 🌡️🌍";
+        statusLabel.className = "statut on";
+      }
+
+      infoCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+})();
+
+/* ============ ATELIER 06 : MAISON DES GASPILLAGES ============ */
+(function(){
+  const statusLabel = document.getElementById("waste-status");
+  const infoCard = document.getElementById("waste-info-card");
+  const infoTitle = document.getElementById("waste-title");
+  const infoText = document.getElementById("waste-text");
+
+  const btnCalib = document.getElementById("btn-waste-calib");
+  const calibPanel = document.getElementById("waste-calib-panel");
+  const calibTargets = document.getElementById("calibration-targets");
+  const calibOutput = document.getElementById("waste-calib-output");
+  const sceneWrap = document.getElementById("waste-scene-wrap");
+
+  const gaspillages = {
+    "waste-1": {
+      title: "1️⃣ Télévision restée allumée",
+      text: "La télévision est un vieux modèle qui consomme énormément d'énergie. De plus, elle est restée allumée."
+    },
+    "waste-2": {
+      title: "2️⃣ Bureau resté allumé",
+      text: "L'ordinateur est resté allumé ainsi que la lumière alors que la pièce est vide."
+    },
+    "waste-3": {
+      title: "3️⃣ Fuite d'eau",
+      text: "Les robinets fuient, il y a des pertes d'eau."
+    },
+    "waste-4": {
+      title: "4️⃣ Chambre restée allumée",
+      text: "La lumière est allumée alors que la chambre est vide."
+    },
+    "waste-5": {
+      title: "5️⃣ Fenêtre ouverte et radiateur",
+      text: "La fenêtre est ouverte et le radiateur est resté allumé."
+    },
+    "waste-6": {
+      title: "6️⃣ Fenêtre du grenier vétuste",
+      text: "La fenêtre est très vieille et laisse entrer le froid dans le grenier."
+    },
+    "waste-7": {
+      title: "7️⃣ Toit non isolé et percé",
+      text: "Le toit est percé et il n'est pas isolé. Il y a de grosses pertes de chaleur."
+    }
+  };
+
+  let foundWastes = new Set();
+  let calibActive = false;
+  let activeTarget = null;
+
+  // Mode Jeu normal : Clic sur les hotspots
+  Object.keys(gaspillages).forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    el.addEventListener("click", (e) => {
+      if(calibActive) return; // Désactivé en mode calibrage
+      if(foundWastes.has(id)) return;
+
+      foundWastes.add(id);
+      el.classList.add("found");
+
+      const data = gaspillages[id];
+      infoTitle.textContent = "Trouvé (" + foundWastes.size + "/7) : " + data.title;
+      infoText.textContent = data.text;
+      infoCard.style.display = "block";
+
+      const count = foundWastes.size;
+      statusLabel.textContent = "Gaspillages trouvés : " + count + " / 7";
+
+      if(count === 7) {
+        statusLabel.textContent = "Fantastique ! Tu as démasqué les 7 gaspillages de la maison ! 🏆🌿";
+        statusLabel.className = "statut on";
+      }
+
+      infoCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+
+  // Bascule du mode calibrage
+  if(btnCalib && calibPanel && calibTargets && sceneWrap) {
+    btnCalib.addEventListener("click", () => {
+      calibActive = !calibActive;
+      btnCalib.textContent = calibActive ? "🎮 Revenir au mode jeu" : "🛠️ Activer le mode calibrage";
+      btnCalib.classList.toggle("btn-jaune", calibActive);
+      btnCalib.classList.toggle("btn-ghost", !calibActive);
+      calibPanel.style.display = calibActive ? "block" : "none";
+      calibTargets.style.display = calibActive ? "block" : "none";
+
+      if(calibActive) {
+        updateCalibOutput();
+      }
+    });
+
+    // Gestion du Drag-and-Drop des cibles de calibrage
+    sceneWrap.addEventListener("pointerdown", (e) => {
+      if(!calibActive) return;
+      const target = e.target.closest(".calib-target");
+      if(target) {
+        activeTarget = target;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+
+    sceneWrap.addEventListener("pointermove", (e) => {
+      if(!calibActive || !activeTarget) return;
+      const rect = sceneWrap.getBoundingClientRect();
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+
+      if(x < 0) x = 0;
+      if(x > rect.width) x = rect.width;
+      if(y < 0) y = 0;
+      if(y > rect.height) y = rect.height;
+
+      const left = (x / rect.width * 100).toFixed(1) + "%";
+      const top = (y / rect.height * 100).toFixed(1) + "%";
+
+      activeTarget.style.left = left;
+      activeTarget.style.top = top;
+
+      // Met à jour la position du vrai hotspot associé
+      const tId = activeTarget.getAttribute("data-target");
+      const hotspot = document.getElementById(tId);
+      if(hotspot) {
+        hotspot.style.left = left;
+        hotspot.style.top = top;
+      }
+
+      updateCalibOutput();
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    document.addEventListener("pointerup", () => {
+      activeTarget = null;
+    });
+  }
+
+  function updateCalibOutput() {
+    if(!calibOutput) return;
+    const coords = {};
+    const targets = calibTargets.querySelectorAll(".calib-target");
+    targets.forEach(t => {
+      const id = t.getAttribute("data-target");
+      coords[id] = {
+        left: t.style.left,
+        top: t.style.top
+      };
+    });
+    calibOutput.value = JSON.stringify(coords, null, 2);
+  }
+})();
+
+/* ============ ATELIER 07 : QUESTIONNAIRE DE COMPREHENSION AUDIO ============ */
+(function(){
+  const questionsArea = document.getElementById("audio-quiz-questions-area");
+  const scorebar = document.getElementById("audio-quiz-scorebar");
+  const scoreNum = document.getElementById("audio-quiz-score-num");
+  const scoreMessage = document.getElementById("audio-quiz-score-message");
+  const resetBtn = document.getElementById("audio-quiz-btn-reset");
+
+  if(!questionsArea) return;
+
+  const quizData = [
+    {
+      q: "1. Le climat de la Terre est-il resté exactement le même tout au long de son histoire ?",
+      options: [
+        "A. Oui, il a toujours été identique",
+        "B. Non, il a connu des variations naturelles majeures"
+      ],
+      correct: 1,
+      fb: "Le climat terrestre a connu des alternances de périodes glaciaires et de périodes très chaudes bien avant l'apparition de l'homme."
+    },
+    {
+      q: "2. L'effet de serre naturel est-il un phénomène dangereux qu'il faut éliminer ?",
+      options: [
+        "A. Oui, il réchauffe dangereusement la planète",
+        "B. Non, il est indispensable pour retenir la chaleur et permettre la vie"
+      ],
+      correct: 1,
+      fb: "L'effet de serre naturel est bénéfique : sans lui, la température moyenne de la Terre serait de -18°C !"
+    },
+    {
+      q: "3. Quelle catégorie d'énergie libère du CO₂ dans l'atmosphère lorsqu'on l'utilise ?",
+      options: [
+        "A. Les combustibles fossiles (comme le pétrole et le charbon)",
+        "B. Les énergies de flux naturels (comme le vent et le soleil)"
+      ],
+      correct: 0,
+      fb: "En brûlant le charbon, le pétrole et le gaz naturel, l'homme rejette le carbone emprisonné sous terre depuis des millions d'années."
+    },
+    {
+      q: "4. Les océans jouent-ils un rôle protecteur face à nos émissions de CO₂ et de chaleur ?",
+      options: [
+        "A. Oui, ils absorbent une grande partie du CO₂ et de la chaleur",
+        "B. Non, ils rejettent directement le CO₂ sous forme de vapeur"
+      ],
+      correct: 0,
+      fb: "Les océans régulent le climat en absorbant environ un quart du CO₂ produit par l'homme et la majorité de l'excès de chaleur."
+    },
+    {
+      q: "5. Pourquoi la couverture atmosphérique retient-elle plus de chaleur aujourd'hui ?",
+      options: [
+        "A. Parce que l'activité du Soleil a soudainement doublé",
+        "B. Parce que nos rejets de CO₂ ont rendu cette couverture plus épaisse"
+      ],
+      correct: 1,
+      fb: "Plus il y a de CO₂ dans l'atmosphère, plus la couverture est épaisse, empêchant la chaleur de repartir vers l'espace."
+    },
+    {
+      q: "6. L'énergie nucléaire rejette-t-elle de grandes quantités de CO₂ lors de son fonctionnement ?",
+      options: [
+        "A. Oui, à cause de la vapeur qui s'échappe des grandes tours",
+        "B. Non, car elle n'utilise pas de combustion pour chauffer l'eau"
+      ],
+      correct: 1,
+      fb: "La centrale nucléaire produit de l'électricité sans rejeter de CO₂. La vapeur d'eau blanche qui s'échappe des tours n'est pas un gaz à effet de serre."
+    },
+    {
+      q: "7. Les ressources d'énergies renouvelables risquent-elles de s'épuiser d'ici 50 ans ?",
+      options: [
+        "A. Oui, leurs stocks sous-terrains se vident vite",
+        "B. Non, elles dépendent de forces naturelles inépuisables"
+      ],
+      correct: 1,
+      fb: "Le soleil brille et le vent souffle de façon continue. Ces ressources se renouvellent plus vite que notre rythme de consommation."
+    },
+    {
+      q: "8. Quelle est la conséquence de la fonte des glaciers terrestres et des calottes glaciaires ?",
+      options: [
+        "A. Une montée progressive du niveau général des océans",
+        "B. Une baisse du niveau de la mer car l'eau s'évapore dans le sol"
+      ],
+      correct: 0,
+      fb: "L'eau issue de la fonte des glaces situées sur la terre ferme s'écoule vers les océans, ce qui fait monter le niveau des mers."
+    },
+    {
+      q: "9. Isoler les murs et fenêtres d'un bâtiment permet-il d'économiser de l'énergie ?",
+      options: [
+        "A. Oui, cela retient la chaleur à l'intérieur en hiver",
+        "B. Non, cela ne sert qu'à bloquer le bruit extérieur"
+      ],
+      correct: 0,
+      fb: "Une maison bien isolée nécessite beaucoup moins de chauffage en hiver et reste plus fraîche en été."
+    },
+    {
+      q: "10. Les petits gestes individuels (éteindre les veilles, couper l'eau) sont-ils inutiles ?",
+      options: [
+        "A. Oui, car une seule personne ne peut rien changer",
+        "B. Non, car c'est l'accumulation des gestes de millions de personnes qui compte"
+      ],
+      correct: 1,
+      fb: "C'est la somme de tous nos gestes du quotidien (sobriété énergétique) qui permet d'alléger de façon massive la demande en énergie."
+    }
+  ];
+
+  let answers = new Array(quizData.length).fill(null);
+
+  function generateQuiz() {
+    questionsArea.innerHTML = "";
+    quizData.forEach((qObj, qIdx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "quiz-q";
+
+      const pText = document.createElement("p");
+      pText.className = "qtext";
+      pText.textContent = qObj.q;
+      qDiv.appendChild(pText);
+
+      qObj.options.forEach((optText, optIdx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "opt";
+        btn.textContent = optText;
+        
+        btn.addEventListener("click", () => {
+          if(answers[qIdx] !== null) return;
+
+          answers[qIdx] = optIdx;
+
+          qDiv.querySelectorAll(".opt").forEach((b, idx) => {
+            b.disabled = true;
+            if(idx === qObj.correct) {
+              b.classList.add("correct");
+            } else if(idx === optIdx) {
+              b.classList.add("wrong");
+            }
+          });
+
+          const fbDiv = qDiv.querySelector(".fb");
+          if(fbDiv) {
+            fbDiv.classList.add("show");
+          }
+
+          checkQuizProgress();
+        });
+
+        qDiv.appendChild(btn);
+      });
+
+      const fbDiv = document.createElement("div");
+      fbDiv.className = "fb";
+      fbDiv.textContent = qObj.fb;
+      qDiv.appendChild(fbDiv);
+
+      questionsArea.appendChild(qDiv);
+    });
+  }
+
+  function checkQuizProgress() {
+    const answeredCount = answers.filter(a => a !== null).length;
+
+    if(answeredCount === quizData.length) {
+      let score = 0;
+      answers.forEach((ans, idx) => {
+        if(ans === quizData[idx].correct) score++;
+      });
+
+      scoreNum.textContent = score;
+      
+      let msg = "";
+      if(score >= 9) {
+        msg = "Félicitations ! L'écoute a été très attentive, tu as parfaitement compris les enjeux du climat ! 🏆🎙️";
+      } else if(score >= 6) {
+        msg = "Très bien ! Tu as retenu la majorité des concepts clés de l'enregistrement. 📻🌟";
+      } else {
+        msg = "C'est un bon début ! Tu pourras réécouter certains passages de l'audio pour bien assimiler ces notions. 📻📖";
+      }
+      
+      scoreMessage.textContent = msg;
+      scorebar.style.display = "flex";
+      resetBtn.style.display = "inline-flex";
+
+      scorebar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  resetBtn.addEventListener("click", () => {
+    answers.fill(null);
+    scorebar.style.display = "none";
+    resetBtn.style.display = "none";
+    generateQuiz();
+  });
+
+  generateQuiz();
+})();
+
+/* ============ ATELIER 08 : GRAND QUIZ FINAL ============ */
+(function(){
+  const questionsArea = document.getElementById("quiz-questions-area");
+  const scorebar = document.getElementById("quiz-scorebar");
+  const scoreNum = document.getElementById("quiz-score-num");
+  const scoreMessage = document.getElementById("quiz-score-message");
+  const resetBtn = document.getElementById("quiz-btn-reset");
+
+  if(!questionsArea) return;
+
+  const quizData = [
+    {
+      q: "1. Quelle forme d'énergie est stockée dans les aliments, les piles et les combustibles ?",
+      options: [
+        "A. L'énergie chimique",
+        "B. L'énergie électrique",
+        "C. L'énergie thermique"
+      ],
+      correct: 0,
+      fb: "L'énergie chimique est stockée dans les liaisons de la matière (nos aliments, la pile, le charbon). Notre corps la transforme ensuite en mouvement et en chaleur !"
+    },
+    {
+      q: "2. Parmi ces sources d'énergie, laquelle est non renouvelable ?",
+      options: [
+        "A. Le vent",
+        "B. Le gaz naturel",
+        "C. La biomasse"
+      ],
+      correct: 1,
+      fb: "Le gaz naturel est un combustible fossile extrait du sous-sol. Son stock sur Terre est limité et ne se recrée pas à notre échelle de temps."
+    },
+    {
+      q: "3. Quel composant d'une centrale électrique produit le courant grâce à un aimant qui tourne près d'une bobine ?",
+      options: [
+        "A. La turbine",
+        "B. L'alternateur",
+        "C. La chaudière"
+      ],
+      correct: 1,
+      fb: "C'est bien l'alternateur (ou générateur) qui effectue cette transformation magique du mouvement mécanique en électricité."
+    },
+    {
+      q: "4. Pourquoi la combustion des énergies fossiles contribue-t-elle au réchauffement climatique ?",
+      options: [
+        "A. Elle rejette du dioxyde de carbone (CO₂) qui retient la chaleur dans l'atmosphère",
+        "B. Elle refroidit brutalement les océans de la planète",
+        "C. Elle détruit directement le Soleil"
+      ],
+      correct: 0,
+      fb: "La combustion du pétrole, du charbon ou du gaz libère du CO₂. Ce gaz à effet de serre piège le rayonnement de chaleur de la Terre."
+    },
+    {
+      q: "5. Qu'est-ce que l'effet de serre naturel ?",
+      options: [
+        "A. Un phénomène dangereux qu'il faut éliminer complètement",
+        "B. Un phénomène naturel indispensable pour maintenir une température moyenne clémente de 15°C sur Terre",
+        "C. Un dôme de verre construit par les humains au pôle Nord"
+      ],
+      correct: 1,
+      fb: "L'effet de serre naturel maintient notre Terre à une température moyenne agréable. Sans lui, il ferait -18°C et la vie serait impossible !"
+    },
+    {
+      q: "6. Quelle source d'énergie renouvelable tire sa force directement de la chaleur interne de la Terre ?",
+      options: [
+        "A. La biomasse",
+        "B. La géothermie",
+        "C. L'énergie solaire"
+      ],
+      correct: 1,
+      fb: "La géothermie (géo = Terre, thermie = chaleur) exploite la chaleur naturelle des roches et des nappes d'eau souterraines."
+    },
+    {
+      q: "7. Que se passe-t-il dans un panneau solaire photovoltaïque ?",
+      options: [
+        "A. La lumière se transforme en électricité",
+        "B. La chaleur se transforme en vent",
+        "C. L'électricité produit de la lumière"
+      ],
+      correct: 0,
+      fb: "Le panneau photovoltaïque capte la lumière (les photons) et la convertit directement en électricité continue."
+    },
+    {
+      q: "8. Quel appareil continue de consommer de l'énergie s'il n'est pas complètement débranché ou coupé ?",
+      options: [
+        "A. Une télévision restée en mode veille",
+        "B. Un cahier d'exercices fermé sur un bureau",
+        "C. Une ampoule complètement débranchée"
+      ],
+      correct: 0,
+      fb: "Le mode veille (témoin lumineux allumé) continue à consommer du courant silencieusement. Il est conseillé d'utiliser des multiprises avec interrupteur."
+    },
+    {
+      q: "9. Laquelle de ces actions est un véritable éco-geste pour préserver le climat ?",
+      options: [
+        "A. Laisser couler l'eau chaude pendant qu'on se savonne sous la douche",
+        "B. Baisser le chauffage de la classe d'un degré et enfiler un pull",
+        "C. Laisser les fenêtres de la maison grandes ouvertes avec le chauffage allumé"
+      ],
+      correct: 1,
+      fb: "Réduire le chauffage de 1°C permet de diminuer de 7% notre consommation énergétique de chauffage ! C'est un geste très efficace."
+    },
+    {
+      q: "10. Quelle est la règle d'or pour préserver les ressources d'énergie de notre planète ?",
+      options: [
+        "A. « La meilleure énergie est celle que l'on ne consomme pas »",
+        "B. « Consommer le maximum d'électricité la nuit »",
+        "C. « Brûler du plastique pour réchauffer les maisons »"
+      ],
+      correct: 0,
+      fb: "C'est le principe de la sobriété et de l'efficacité énergétique : limiter le besoin et éviter le gaspillage à la source !"
+    }
+  ];
+
+  let answers = new Array(quizData.length).fill(null);
+
+  function generateQuiz() {
+    questionsArea.innerHTML = "";
+    quizData.forEach((qObj, qIdx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "quiz-q";
+
+      const pText = document.createElement("p");
+      pText.className = "qtext";
+      pText.textContent = qObj.q;
+      qDiv.appendChild(pText);
+
+      qObj.options.forEach((optText, optIdx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "opt";
+        btn.textContent = optText;
+        
+        btn.addEventListener("click", () => {
+          if(answers[qIdx] !== null) return; // Déjà répondu
+
+          answers[qIdx] = optIdx;
+
+          // Désactive toutes les options de cette question et colore la réponse
+          qDiv.querySelectorAll(".opt").forEach((b, idx) => {
+            b.disabled = true;
+            if(idx === qObj.correct) {
+              b.classList.add("correct");
+            } else if(idx === optIdx) {
+              b.classList.add("wrong");
+            }
+          });
+
+          // Affiche le feedback explicatif
+          const fbDiv = qDiv.querySelector(".fb");
+          if(fbDiv) {
+            fbDiv.classList.add("show");
+          }
+
+          checkQuizProgress();
+        });
+
+        qDiv.appendChild(btn);
+      });
+
+      const fbDiv = document.createElement("div");
+      fbDiv.className = "fb";
+      fbDiv.textContent = qObj.fb;
+      qDiv.appendChild(fbDiv);
+
+      questionsArea.appendChild(qDiv);
+    });
+  }
+
+  function checkQuizProgress() {
+    const answeredCount = answers.filter(a => a !== null).length;
+
+    if(answeredCount === quizData.length) {
+      // Toutes les réponses ont été données
+      let score = 0;
+      answers.forEach((ans, idx) => {
+        if(ans === quizData[idx].correct) score++;
+      });
+
+      scoreNum.textContent = score;
+      
+      let msg = "";
+      if(score >= 9) {
+        msg = "Félicitations ! Tu es un·e véritable champion·ne de l'énergie et du climat ! 🏆🌍";
+      } else if(score >= 6) {
+        msg = "Bravo ! Tu as bien compris l'essentiel du cours. N'hésite pas à relire les fiches pour être parfait. 🌟";
+      } else {
+        msg = "C'est un bon début ! Prends le temps de relire les onglets et d'expérimenter à nouveau avec la mallette. 📖";
+      }
+      
+      scoreMessage.textContent = msg;
+      scorebar.style.display = "flex";
+      resetBtn.style.display = "inline-flex";
+
+      scorebar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  resetBtn.addEventListener("click", () => {
+    answers.fill(null);
+    scorebar.style.display = "none";
+    resetBtn.style.display = "none";
+    generateQuiz();
+  });
+
+  // Initialisation
+  generateQuiz();
+})();
+</script>
+
+<!-- Modal pour agrandir le poster -->
+<div id="posterModal" class="modal">
+  <span class="close-modal" id="closeModalBtn">&times;</span>
+  <img class="modal-content" id="modalImg" src="Guide_de_l_eco-citoyen.png" alt="Poster Agrandi">
+</div>
+
+<script>
+/* ============ MODAL AGRANDISSEMENT POSTER ============ */
+(function(){
+  const modal = document.getElementById("posterModal");
+  const img = document.getElementById("guide-poster-img");
+  const modalImg = document.getElementById("modalImg");
+  const closeBtn = document.getElementById("closeModalBtn");
+
+  if(img && modal) {
+    img.addEventListener("click", () => {
+      modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    modal.addEventListener("click", (e) => {
+      if(e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && modal.style.display === "block") {
+        modal.style.display = "none";
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
