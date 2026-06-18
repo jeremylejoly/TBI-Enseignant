@@ -431,6 +431,25 @@
     border-color: #4f46e5 !important;
 }
 
+/* Poignée de redimensionnement pour les images mobiles */
+.movable-image-box .resize-handle {
+    position: absolute;
+    right: -7px;
+    bottom: -7px;
+    width: 16px;
+    height: 16px;
+    background-color: #4f46e5;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    cursor: nwse-resize;
+    z-index: 20;
+    display: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.movable-image-box:hover .resize-handle {
+    display: block;
+}
+
 /* --- HORAIRE / SEMAINIER STYLES --- */
 .horaire-container {
     width: 100%;

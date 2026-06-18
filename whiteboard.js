@@ -2109,20 +2109,37 @@ function handleGlobalPaste(e) {
             reader.onload = function(event) {
                 const src = event.target.result;
                 
-                // Centrer l'image collée dans le viewport
-                const viewport = document.getElementById('whiteboard-viewport');
-                const scrollLeft = viewport ? viewport.scrollLeft : 0;
-                const scrollTop = viewport ? viewport.scrollTop : 0;
-                const clientWidth = viewport ? viewport.clientWidth : 800;
-                const clientHeight = viewport ? viewport.clientHeight : 600;
-                
-                const w = 300; // largeur par défaut
-                const h = 200; // hauteur par défaut
-                const x = (scrollLeft + clientWidth / 2 - w / 2) / zoomScale;
-                const y = (scrollTop + clientHeight / 2 - h / 2) / zoomScale;
-                
-                createMovableImage(x, y, w, h, src);
-                saveActiveTabTextboxes();
+                const img = new Image();
+                img.onload = function() {
+                    const originalW = img.width;
+                    const originalH = img.height;
+                    
+                    // Centrer l'image collée dans le viewport
+                    const viewport = document.getElementById('whiteboard-viewport');
+                    const scrollLeft = viewport ? viewport.scrollLeft : 0;
+                    const scrollTop = viewport ? viewport.scrollTop : 0;
+                    const clientWidth = viewport ? viewport.clientWidth : 800;
+                    const clientHeight = viewport ? viewport.clientHeight : 600;
+                    
+                    let displayW = originalW;
+                    let displayH = originalH;
+                    
+                    // Ajuster pour qu'elle tienne dans 80% du viewport au maximum au départ
+                    const maxW = clientWidth * 0.8;
+                    const maxH = clientHeight * 0.8;
+                    if (displayW > maxW || displayH > maxH) {
+                        const ratio = Math.min(maxW / displayW, maxH / displayH);
+                        displayW = Math.round(displayW * ratio);
+                        displayH = Math.round(displayH * ratio);
+                    }
+                    
+                    const x = (scrollLeft + clientWidth / 2 - displayW / 2) / zoomScale;
+                    const y = (scrollTop + clientHeight / 2 - displayH / 2) / zoomScale;
+                    
+                    createMovableImage(x, y, displayW, displayH, src);
+                    saveActiveTabTextboxes();
+                };
+                img.src = src;
             };
             reader.readAsDataURL(file);
             imageFound = true;
@@ -2215,6 +2232,11 @@ function makeTextBoxDraggable(el) {
         // Convert dragged position back to 1x coordinates space
         el.dataset.x = el.offsetLeft / zoomScale;
         el.dataset.y = el.offsetTop / zoomScale;
+        
+        if (el.classList.contains('movable-image-box')) {
+            el.dataset.w = el.offsetWidth / zoomScale;
+            el.dataset.h = el.offsetHeight / zoomScale;
+        }
         
         saveActiveTabTextboxes();
     }
@@ -2536,21 +2558,37 @@ function loadImageAsMovable(file) {
     const reader = new FileReader();
     reader.onload = function(event) {
         const src = event.target.result;
-        
-        // Centrer l'image dans le viewport
-        const viewport = document.getElementById('whiteboard-viewport');
-        const scrollLeft = viewport ? viewport.scrollLeft : 0;
-        const scrollTop = viewport ? viewport.scrollTop : 0;
-        const clientWidth = viewport ? viewport.clientWidth : 800;
-        const clientHeight = viewport ? viewport.clientHeight : 600;
-        
-        const w = 300;
-        const h = 200;
-        const x = (scrollLeft + clientWidth / 2 - w / 2) / zoomScale;
-        const y = (scrollTop + clientHeight / 2 - h / 2) / zoomScale;
-        
-        createMovableImage(x, y, w, h, src);
-        saveActiveTabTextboxes();
+        const img = new Image();
+        img.onload = function() {
+            const originalW = img.width;
+            const originalH = img.height;
+            
+            // Centrer l'image dans le viewport
+            const viewport = document.getElementById('whiteboard-viewport');
+            const scrollLeft = viewport ? viewport.scrollLeft : 0;
+            const scrollTop = viewport ? viewport.scrollTop : 0;
+            const clientWidth = viewport ? viewport.clientWidth : 800;
+            const clientHeight = viewport ? viewport.clientHeight : 600;
+            
+            let displayW = originalW;
+            let displayH = originalH;
+            
+            // Ajuster pour qu'elle tienne dans 80% du viewport au maximum au départ
+            const maxW = clientWidth * 0.8;
+            const maxH = clientHeight * 0.8;
+            if (displayW > maxW || displayH > maxH) {
+                const ratio = Math.min(maxW / displayW, maxH / displayH);
+                displayW = Math.round(displayW * ratio);
+                displayH = Math.round(displayH * ratio);
+            }
+            
+            const x = (scrollLeft + clientWidth / 2 - displayW / 2) / zoomScale;
+            const y = (scrollTop + clientHeight / 2 - displayH / 2) / zoomScale;
+            
+            createMovableImage(x, y, displayW, displayH, src);
+            saveActiveTabTextboxes();
+        };
+        img.src = src;
     };
     reader.readAsDataURL(file);
 }
@@ -3250,6 +3288,73 @@ function createMovableImage(x, y, w, h, src) {
     
     layer.appendChild(imgBox);
     makeTextBoxDraggable(imgBox);
+    makeMovableImageResizable(imgBox);
+}
+
+function makeMovableImageResizable(imgBox) {
+    if (imgBox.querySelector('.resize-handle')) return;
+    
+    const handle = document.createElement('div');
+    handle.className = 'resize-handle';
+    imgBox.appendChild(handle);
+    
+    let isResizing = false;
+    let startWidth = 0;
+    let startHeight = 0;
+    let startX = 0;
+    let startY = 0;
+    
+    handle.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = imgBox.offsetWidth;
+        startHeight = imgBox.offsetHeight;
+        
+        handle.setPointerCapture(e.pointerId);
+        
+        document.addEventListener('pointermove', onPointerMove);
+        document.addEventListener('pointerup', onPointerUp);
+        document.addEventListener('pointercancel', onPointerUp);
+    });
+    
+    function onPointerMove(e) {
+        if (!isResizing) return;
+        e.preventDefault();
+        
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        
+        // Redimensionnement proportionnel (garder le ratio d'aspect)
+        const newW = Math.max(30, startWidth + dx);
+        const ratio = startHeight / startWidth;
+        const newH = newW * ratio;
+        
+        imgBox.style.width = `${newW}px`;
+        imgBox.style.height = `${newH}px`;
+    }
+    
+    function onPointerUp(e) {
+        if (!isResizing) return;
+        isResizing = false;
+        
+        try {
+            handle.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+        
+        document.removeEventListener('pointermove', onPointerMove);
+        document.removeEventListener('pointerup', onPointerUp);
+        document.removeEventListener('pointercancel', onPointerUp);
+        
+        // Enregistrer la nouvelle taille en coordonnées 1x
+        imgBox.dataset.w = imgBox.offsetWidth / zoomScale;
+        imgBox.dataset.h = imgBox.offsetHeight / zoomScale;
+        
+        saveActiveTabTextboxes();
+    }
 }
 
 function cropWhiteboardArea(x1, y1, x2, y2) {
