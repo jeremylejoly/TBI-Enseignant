@@ -179,7 +179,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     
     // --- GESTION DU ZOOM ET PINCH-TO-ZOOM ---
-    const viewport = document.getElementById('whiteboard-viewport');
     if (viewport) {
         // Bloquer le zoom de pincement global du navigateur
         document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
