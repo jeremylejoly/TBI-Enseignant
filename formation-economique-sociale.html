@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La formation économique et sociale — Carnet d'investigation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --encre:#1e293b;        /* ardoise foncée, structure / titres */
+  --courant:#10b981;      /* émeraude signature - économie, production, vert */
+  --courant-fonce:#059669;
+  --cuivre:#f59e0b;       /* ambre - travail, humain, social */
+  --cuivre-fonce:#d97706;
+  --papier:#f8fafc;       /* fond papier frais */
+  --papier-2:#ffffff;
+  --ardoise:#64748b;      /* texte secondaire */
+  --ligne:#cbd5e1;        /* filets */
+  --vert:#0d9488;         /* succès / OK */
+  --vert-clair:#ccfbf1;
+  --rouge:#e11d48;        /* alerte / danger */
+  --rouge-clair:#ffe4e6;
+  --bleu:#3b82f6;         /* information */
+  --bleu-clair:#dbeafe;
+  --ombre:0 6px 22px rgba(30,41,59,.06);
+  --ombre-forte:0 14px 40px rgba(30,41,59,.12);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--encre);
+  background:
+    radial-gradient(circle at 1px 1px, rgba(30,41,59,.03) 1px, transparent 0) 0 0/26px 26px,
+    var(--papier);
+  line-height:1.6;
+}
+h1,h2,h3,h4{font-family:'Baloo 2',system-ui,sans-serif;line-height:1.15;margin:0}
+.mono{font-family:'Space Mono',monospace}
+
+/* ---------- EN-TÊTE ---------- */
+header.site{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#fff;position:relative;overflow:hidden;
+  border-bottom:4px solid var(--courant);
+}
+header.site::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 20%, rgba(16,185,129,.15), transparent 60%);
+  pointer-events:none;
+}
+.head-inner{max-width:1100px;margin:0 auto;padding:34px 22px 28px;position:relative}
+header.site h1{font-size:clamp(1.6rem,4vw,2.4rem)}
+header.site h1 .spark{color:var(--courant)}
+.head-sub{margin-top:8px;max-width:680px;color:#cbd5e1;font-size:.98rem}
+
+/* ---------- NAVIGATION ONGLETS ---------- */
+nav.tabs{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--ligne);box-shadow:var(--ombre)}
+.tabs-inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:6px 10px;scrollbar-width:thin}
+.tab-btn{
+  flex:0 0 auto;display:flex;align-items:center;gap:8px;
+  background:transparent;border:none;border-radius:12px;padding:10px 14px;
+  font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.92rem;color:var(--ardoise);
+  cursor:pointer;white-space:nowrap;transition:.15s;
+}
+.tab-btn:hover{background:var(--papier)}
+.tab-btn.active{background:var(--encre);color:#fff}
+.tab-btn .num{font-family:'Space Mono',monospace;font-size:.74rem;background:rgba(16,185,129,.15);color:var(--courant-fonce);border-radius:6px;padding:2px 6px}
+.tab-btn.active .num{background:var(--courant);color:var(--encre)}
+
+/* ---------- CONTENU / PAGES ---------- */
+main{max-width:1100px;margin:0 auto;padding:26px 22px 60px}
+.page{display:none;animation:fade .25s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.page h2{font-size:clamp(1.3rem,3vw,1.8rem);display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.pnum{font-family:'Space Mono',monospace;font-size:.85rem;background:var(--encre);color:#fff;border-radius:8px;padding:3px 9px}
+.lead{color:var(--ardoise);font-size:1rem;max-width:760px;margin:6px 0 18px}
+
+/* cartes génériques */
+.card{background:#fff;border:1px solid var(--ligne);border-radius:var(--radius);padding:18px 20px;margin:16px 0;box-shadow:var(--ombre)}
+
+/* étiquettes de bloc pédagogique */
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;padding:5px 12px;border-radius:999px;margin-bottom:4px}
+.tag-q{background:var(--bleu-clair);color:var(--bleu)}
+.tag-online{background:#efe9fb;color:#6b46c1}
+.tag-classe{background:var(--vert-clair);color:var(--vert)}
+.tag-defi{background:#fff1dc;color:var(--cuivre-fonce)}
+.tag-secu{background:var(--rouge-clair);color:var(--rouge)}
+.tag-mot{background:#fff7e0;color:var(--cuivre-fonce)}
+
+/* démarche / étapes */
+.demarche{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.demarche .step{flex:1 1 160px;background:var(--papier);border:1px dashed var(--ligne);border-radius:14px;padding:12px 14px}
+.demarche .step b{font-family:'Baloo 2',sans-serif;display:block;color:var(--encre)}
+.demarche .step .s{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--courant-fonce)}
+
+/* callouts (cadres pédagogiques) */
+.callout{border-radius:14px;padding:16px 18px;margin:16px 0;border-left:5px solid}
+.c-online{background:#f6f2fe;border-color:#6b46c1}
+.c-classe{background:var(--vert-clair);border-color:var(--vert)}
+.c-defi{background:#fff7ee;border-color:var(--cuivre)}
+.c-secu{background:var(--rouge-clair);border-color:var(--rouge)}
+.c-mot{background:#fffaf0;border-color:var(--cuivre)}
+.callout h4{font-size:1.05rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.callout p,.callout li{font-size:.96rem}
+.callout ul,.callout ol{margin:8px 0 0;padding-left:20px}
+.callout li{margin:4px 0}
+
+.materiel{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.materiel span{background:#fff;border:1px solid var(--ligne);border-radius:8px;padding:5px 10px;font-size:.84rem}
+
+/* ---------- RÉVÉLATION (œil) ---------- */
+.eye-toggle{
+  flex:0 0 auto;border:1px solid var(--ligne);background:#fff;cursor:pointer;
+  border-radius:10px;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:1rem;line-height:1;transition:.15s;color:var(--ardoise);
+}
+.eye-toggle:hover{border-color:var(--courant-fonce);color:var(--encre)}
+.eye-toggle:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.hideable{margin-top:8px}
+.hideable.hidden{display:none}
+.eye-hint{font-size:.82rem;color:var(--ardoise);font-style:italic;margin:6px 0 0}
+.eye-hint.hidden{display:none}
+
+/* lexique */
+.lex{display:grid;gap:10px}
+.lex dt{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--encre)}
+.lex dd{margin:2px 0 0;color:var(--ardoise);font-size:.96rem}
+dl.lex > div{padding:12px 14px;background:var(--papier);border-radius:12px;border:1px solid var(--ligne)}
+
+/* ---------- ATELIERS ---------- */
+.atelier{background:linear-gradient(180deg,#fbfdff,#f4f7fb);border:1px solid var(--ligne);border-radius:var(--radius);padding:20px;box-shadow:var(--ombre)}
+.atelier-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.atelier-head h3{font-size:1.2rem}
+
+.btn{font-family:'Baloo 2',sans-serif;font-weight:700;border:none;border-radius:12px;padding:11px 18px;cursor:pointer;font-size:.95rem;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.btn-primary{background:var(--encre);color:#fff}
+.btn-primary:hover{background:#22405f}
+.btn-jaune{background:var(--courant);color:var(--encre)}
+.btn-jaune:hover{background:var(--courant-fonce)}
+.btn-ghost{background:#fff;color:var(--encre);border:1px solid var(--ligne)}
+.btn-ghost:hover{border-color:var(--ardoise)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+
+/* QCM générique */
+.quiz-q{margin:14px 0;padding:16px;background:#fff;border:1px solid var(--ligne);border-radius:14px}
+.quiz-q p.qtext{font-weight:600;margin:0 0 10px}
+.opt{display:block;width:100%;text-align:left;background:var(--papier);border:1px solid var(--ligne);border-radius:10px;padding:11px 14px;margin:6px 0;cursor:pointer;font-size:.94rem;transition:.12s;font-family:inherit}
+.opt:hover{border-color:var(--courant)}
+.opt.correct{background:var(--vert-clair);border-color:var(--vert)}
+.opt.wrong{background:var(--rouge-clair);border-color:var(--rouge)}
+.opt:disabled{cursor:default}
+.opt:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.fb{font-size:.9rem;margin-top:8px;display:none}
+.fb.show{display:block}
+.scorebar{background:var(--encre);color:#fff;border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:18px}
+.scorebar b{color:var(--courant);font-size:1.3rem;font-family:'Baloo 2',sans-serif}
+
+/* objectifs / listes à cocher */
+.obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.obj-grid{grid-template-columns:1fr}}
+.checklist{list-style:none;padding:0;margin:8px 0 0}
+.checklist li{padding:7px 0 7px 30px;position:relative;border-bottom:1px dashed var(--ligne);font-size:.95rem}
+.checklist li:last-child{border-bottom:none}
+.checklist li::before{content:"";position:absolute;left:0;top:11px;width:16px;height:16px;border:2px solid var(--cuivre);border-radius:5px}
+.auto-eval label{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--ligne);font-size:.94rem;cursor:pointer}
+.auto-eval input{width:20px;height:20px;accent-color:var(--vert)}
+
+.print-tip{font-size:.82rem;color:var(--ardoise);font-style:italic;margin-top:6px}
+
+/* association / matching (générique) */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:680px){.match-grid{grid-template-columns:1fr}}
+.match-col h4{margin-bottom:8px;text-align:center;font-size:.95rem}
+.match-item{background:#fff;border:2px solid var(--ligne);border-radius:12px;padding:10px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.15s;font-weight:600;font-size:.9rem}
+.match-item:hover{border-color:var(--courant)}
+.match-item.sel{border-color:var(--bleu);background:var(--bleu-clair)}
+.match-item.done{border-color:var(--vert);background:var(--vert-clair);cursor:default;opacity:.85}
+.match-item.linked{border-color:var(--courant-fonce)}
+.match-item:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.match-badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--courant);color:var(--encre);font-family:'Space Mono',monospace;font-weight:700;font-size:.78rem}
+
+footer.site{max-width:1100px;margin:0 auto;padding:28px 22px 60px;color:var(--ardoise);font-size:.86rem;border-top:1px solid var(--ligne)}
+footer.site b{color:var(--encre)}
+
+/* ---------- DESSINS SVG ET COMPOSANTS INDIVIDUELS ATELIERS ---------- */
+/* Tri des besoins */
+.tri-container{max-width:500px;margin:0 auto;text-align:center}
+.tri-card{background:#fff;border:2px solid var(--ligne);border-radius:16px;padding:20px;margin-bottom:15px;box-shadow:var(--ombre);transition:transform 0.2s}
+.tri-illustr{height:90px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.tri-title{font-family:'Baloo 2',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:6px}
+.tri-desc{color:var(--ardoise);font-size:0.92rem;margin-bottom:12px}
+.tri-buttons{display:flex;gap:10px;justify-content:center}
+.tri-feedback{margin-top:15px;padding:12px;border-radius:10px;font-size:0.94rem;display:none}
+
+/* Lecteur audio personnalisé */
+.audio-card{background:#1e293b;color:#fff;border-radius:14px;padding:16px 20px;margin:12px 0;display:flex;align-items:center;gap:16px;box-shadow:var(--ombre)}
+.audio-icon-wrap{width:46px;height:46px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;color:var(--courant)}
+.audio-info{flex:1}
+.audio-info h5{margin:0;font-size:1rem;font-family:'Baloo 2',sans-serif}
+.audio-info p{margin:2px 0 0;font-size:0.78rem;color:#cbd5e1}
+.audio-player-element{background:none;border:none;cursor:pointer;padding:8px 12px;background:var(--courant);color:var(--encre);border-radius:10px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.9rem;transition:0.15s;display:flex;align-items:center;gap:6px}
+.audio-player-element:hover{background:var(--courant-fonce)}
+
+/* Fiche de paie interactive */
+.paie-sheet{background:#fff;border:2px solid var(--encre);border-radius:10px;padding:15px;max-width:550px;margin:0 auto;box-shadow:var(--ombre);position:relative}
+.paie-header{border-bottom:2px solid var(--encre);padding-bottom:10px;margin-bottom:12px;text-align:center}
+.paie-header h5{font-size:1rem;color:var(--encre);text-transform:uppercase;letter-spacing:0.05em}
+.paie-header p{margin:2px 0 0;font-size:0.75rem;color:var(--ardoise)}
+.paie-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.paie-table th, .paie-table td{padding:8px;text-align:left;border-bottom:1px solid var(--ligne)}
+.paie-table th{font-weight:700;background:var(--papier)}
+.paie-table tr.total{font-weight:800;border-top:2px solid var(--encre)}
+.paie-table tr.deduct{color:var(--rouge)}
+.paie-hotspot{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--bleu);color:#fff;font-weight:700;font-size:0.75rem;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 2px var(--bleu);transition:0.15s}
+.paie-hotspot:hover, .paie-hotspot.active{background:var(--encre);box-shadow:0 0 0 2px var(--encre)}
+.paie-info-box{margin-top:14px;background:var(--bleu-clair);border-left:4px solid var(--bleu);padding:10px 12px;border-radius:0 8px 8px 0;font-size:0.9rem;display:none}
+
+/* Simulateur fiscal */
+.fiscal-header{display:flex;align-items:center;justify-content:between;margin-bottom:15px;background:#fff;border:1px solid var(--ligne);border-radius:12px;padding:12px;gap:12px;flex-wrap:wrap}
+.fiscal-toggle-label{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:0.98rem}
+.fiscal-switch{position:relative;display:inline-block;width:60px;height:30px}
+.fiscal-switch input{opacity:0;width:0;height:0}
+.fiscal-slider{position:absolute;cursor:pointer;inset:0;background-color:var(--rouge);transition:.3s;border-radius:34px}
+.fiscal-slider:before{position:absolute;content:"";height:22px;width:22px;left:4px;bottom:4px;background-color:white;transition:.3s;border-radius:50%}
+input:checked + .fiscal-slider{background-color:var(--courant)}
+input:checked + .fiscal-slider:before{transform:translateX(30px)}
+.fiscal-status-badge{font-family:'Space Mono',monospace;font-size:0.85rem;padding:4px 8px;border-radius:6px;font-weight:700}
+.fiscal-table{width:100%;border-collapse:collapse;margin-top:10px}
+.fiscal-table th, .fiscal-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--ligne);font-size:0.9rem}
+.fiscal-table th{background:var(--encre);color:#fff}
+.fiscal-table td.cell-impact{transition:all 0.3s;font-weight:500}
+.fiscal-table tr.inactive td{color:var(--ardoise);background:rgba(225,29,72,0.02)}
+.fiscal-table tr.active td{background:rgba(16,185,129,0.02)}
+
+/* Empreinte d'assiette */
+.plate-selector{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:680px){.plate-selector{grid-template-columns:1fr}}
+.plate-card{background:#fff;border:2px solid var(--ligne);border-radius:16px;padding:16px;cursor:pointer;transition:0.18s;box-shadow:var(--ombre);text-align:center}
+.plate-card:hover{border-color:var(--courant)}
+.plate-card.active{border-color:var(--courant);box-shadow:0 0 0 3px rgba(16,185,129,0.15)}
+.plate-graphic{height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.plate-card h5{font-family:'Baloo 2',sans-serif;font-size:1.1rem;margin-bottom:4px}
+.plate-card p{font-size:0.82rem;color:var(--ardoise);margin:0}
+.gauge-container{background:#fff;border:1px solid var(--ligne);border-radius:14px;padding:16px;margin-top:15px;box-shadow:var(--ombre)}
+.gauge-row{margin-bottom:12px}
+.gauge-row:last-child{margin-bottom:0}
+.gauge-label{display:flex;justify-content:between;font-size:0.88rem;font-weight:600;margin-bottom:4px}
+.gauge-bg{background:var(--papier);height:14px;border-radius:7px;overflow:hidden;border:1px solid var(--ligne)}
+.gauge-fill{height:100%;border-radius:7px;transition:width 0.6s cubic-bezier(0.1, 0.8, 0.3, 1)}
+.gauge-co2 .gauge-fill{background:linear-gradient(90deg, var(--vert), var(--cuivre), var(--rouge))}
+.gauge-social .gauge-fill{background:linear-gradient(90deg, var(--rouge), var(--cuivre), var(--vert))}
+.gauge-cost .gauge-fill{background:linear-gradient(90deg, var(--vert), var(--cuivre))}
+.plate-explanation{margin-top:15px;padding:14px;background:var(--papier);border-radius:10px;border:1px solid var(--ligne);font-size:0.92rem;display:none}
+
+@media print{
+  nav.tabs,.controls,.btn,header.site::after,.tri-buttons,.fiscal-header,.plate-selector{display:none!important}
+  .page{display:block!important}
+  body{background:#fff}
+  .card,.atelier,.paie-sheet,.fiscal-table{box-shadow:none;break-inside:avoid}
+}
+@media (prefers-reduced-motion: reduce){
+  .page,.gauge-fill{animation:none;transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-inner">
+    <h1>La formation économique et sociale <span class="spark">FHGES</span></h1>
+    <p class="head-sub">Un carnet d'investigation active pour comprendre le fonctionnement des entreprises, les diverses formes de travail, le rôle du budget de l'État et les choix de consommation durable.</p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Onglets du module">
+  <div class="tabs-inner" id="tabBar">
+    <button class="tab-btn active" data-tab="accueil"><span class="num">00</span>Accueil</button>
+    <button class="tab-btn" data-tab="besoins"><span class="num">01</span>Besoins &amp; Envies</button>
+    <button class="tab-btn" data-tab="entreprise"><span class="num">02</span>L'Entreprise &amp; Production</button>
+    <button class="tab-btn" data-tab="travail"><span class="num">03</span>Le Monde du travail</button>
+    <button class="tab-btn" data-tab="voyage-paie"><span class="num">04</span>Le voyage de la paie</button>
+    <button class="tab-btn" data-tab="etat"><span class="num">05</span>L'État &amp; l'Impôt</button>
+    <button class="tab-btn" data-tab="durable"><span class="num">06</span>Consommer durable</button>
+    <button class="tab-btn" data-tab="bilan"><span class="num">07</span>Bilan &amp; Quiz</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ====================== 00 ACCUEIL ====================== -->
+<section class="page active" id="accueil" role="tabpanel">
+  <h2><span class="pnum">00</span> Bienvenue dans votre enquête économique et sociale</h2>
+  <p class="lead">L'économie n'est pas seulement une question de chiffres et de banques. C'est l'étude de la manière dont les humains s'organisent pour répondre à leurs besoins, travailler ensemble et partager les ressources de notre planète.</p>
+
+  <div class="card">
+    <span class="tag tag-q">Démarche d'investigation active</span>
+    <div class="demarche">
+      <div class="step"><span class="s">ÉTAPE 1</span><b>Je questionne</b>Qu'est-ce que je cherche à comprendre ?</div>
+      <div class="step"><span class="s">ÉTAPE 2</span><b>Je fais une hypothèse</b>Qu'est-ce que je pense au départ ?</div>
+      <div class="step"><span class="s">ÉTAPE 3</span><b>J'enquête</b>J'analyse des documents ou des situations.</div>
+      <div class="step"><span class="s">ÉTAPE 4</span><b>Je conclus</b>Mon hypothèse était-elle exacte ? Pourquoi ?</div>
+      <div class="step"><span class="s">ÉTAPE 5</span><b>Je retiens</b>Je note le vocabulaire et la synthèse.</div>
+    </div>
+  </div>
+
+  <div class="obj-grid">
+    <div class="card">
+      <span class="tag tag-classe">Ce que je saurai FAIRE</span>
+      <ul class="checklist">
+        <li>Distinguer un besoin fondamental d'une simple envie.</li>
+        <li>Décoder la structure d'une entreprise et sa création de richesse.</li>
+        <li>Identifier les différentes formes de travail et leurs droits.</li>
+        <li>Expliquer d'où provient l'argent public et comment il est utilisé.</li>
+        <li>Évaluer l'impact social et environnemental d'un bien de consommation.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag tag-mot">Ce que je vais COMPRENDRE</span>
+      <ul class="checklist">
+        <li>Le fonctionnement du marché et la rencontre de l'offre et de la demande.</li>
+        <li>Le circuit économique reliant les ménages, les entreprises et l'État.</li>
+        <li>La différence entre le salaire brut, les cotisations et le salaire net.</li>
+        <li>Le principe de la citoyenneté fiscale et du financement collectif.</li>
+        <li>Les principes fondamentaux de l'économie circulaire.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-classe">La mallette d'expériences de la classe</span>
+    <div class="materiel">
+      <span>Fiches d'investigation</span>
+      <span>Jeu de cartes produits et besoins</span>
+      <span>Modèles de fiches de paie simplifiées</span>
+      <span>Faux billets du circuit économique</span>
+      <span>Plateau de répartition du budget communal</span>
+      <span>Fiches d'activité sur le T-shirt mondialisé</span>
+    </div>
+    <p class="print-tip">Conseil d'organisation : Les activités se déroulent par îlots de 3 à 4 élèves. Ce carnet d'accueil peut être imprimé pour introduire le dossier d'éveil.</p>
+  </div>
+
+  <div class="callout c-secu">
+    <h4>Règle d'or des discussions économiques et sociales</h4>
+    <p>Au cours de ce module, nous allons aborder des sujets comme l'argent, les choix de consommation et les conditions de vie. Chaque famille a une situation et des réalités différentes. Il est interdit d'émettre des jugements de valeur ou des moqueries. Toutes les discussions se font avec le plus grand respect et une écoute attentive.</p>
+  </div>
+</section>
+
+<!-- ====================== 01 BESOINS & ENVIES ====================== -->
+<section class="page" id="besoins" role="tabpanel">
+  <h2><span class="pnum">01</span> La fabrique des besoins et des envies</h2>
+  <p class="lead">Avant de produire ou d'acheter, tout commence par une question humaine : de quoi avons-nous réellement besoin pour vivre ?</p>
+
+  <div class="card">
+    <span class="tag tag-mot">Vocabulaire de base</span>
+    <dl class="lex">
+      <div>
+        <dt>Besoin essentiel</dt>
+        <dd>Une nécessité fondamentale pour survivre et vivre dignement dans notre société (se nourrir, se loger, se soigner, s'éduquer).</dd>
+      </div>
+      <div>
+        <dt>Envie</dt>
+        <dd>Un désir d'obtenir quelque chose de non essentiel qui apporte du confort ou du plaisir, mais dont on peut se passer sans danger pour sa vie.</dd>
+      </div>
+      <div>
+        <dt>Bien</dt>
+        <dd>Un objet physique, matériel, que l'on peut toucher et conserver (ex: un vêtement, un pain, un ordinateur).</dd>
+      </div>
+      <div>
+        <dt>Service</dt>
+        <dd>Une prestation immatérielle, une action fournie par quelqu'un sans création d'un objet physique (ex: un transport en bus, une coupe de cheveux, un cours d'école).</dd>
+      </div>
+      <div>
+        <dt>Consommateur</dt>
+        <dd>Un acteur économique qui utilise des biens et des services pour satisfaire ses besoins ou ses envies.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="callout c-online" data-no-toggle="true">
+    <h4>Atelier en ligne — Le tri des besoins et des envies</h4>
+    <p>Observez chaque dessin ci-dessous et déterminez s'il s'agit d'un besoin essentiel ou d'une envie de consommation.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div class="tri-container">
+        <div class="tri-card" id="triCard">
+          <div class="tri-illustr" id="triIllustr">
+            <!-- Rempli en JS -->
+          </div>
+          <div class="tri-title" id="triTitle">Nom de l'objet</div>
+          <div class="tri-desc" id="triDesc">Description de l'objet</div>
+          
+          <div class="tri-buttons" id="triButtons">
+            <button class="btn btn-jaune" onclick="checkTri('besoin')">Besoin essentiel</button>
+            <button class="btn btn-primary" onclick="checkTri('envie')">Envie de confort</button>
+          </div>
+          
+          <div class="tri-feedback" id="triFeedback">
+            <!-- Rempli en JS -->
+          </div>
+        </div>
+        <div id="triProgress" class="mono" style="font-size:0.85rem;color:var(--ardoise)">Carte 1 / 6</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>En groupe-classe — Le catalogue décrypté</h4>
+    <p>À partir de publicités découpées dans des magazines ou trouvées en ligne, nous analysons les techniques utilisées par les marques :</p>
+    <ul>
+      <li>Comment l'image et le texte tentent-ils de nous faire croire qu'une envie (un objet de luxe, un jeu) est un besoin essentiel ?</li>
+      <li>Quelles promesses sont associées à l'objet (bonheur, amitié, force) ?</li>
+      <li>Pourquoi les entreprises cherchent-elles à influencer nos choix de cette manière ?</li>
+    </ul>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>Défi en îlot — Notre boîte à besoins</h4>
+    <p>Chaque groupe reçoit 15 cartes d'objets variés. Les élèves doivent se mettre d'accord pour les classer dans deux boîtes : les besoins indispensables et les envies. Les élèves débattent ensuite des cas limites (comme le téléphone portable ou la voiture) en argumentant leur point de vue.</p>
+    <div class="materiel">
+      <span>Boîtes de tri</span>
+      <span>15 cartes-produits</span>
+      <span>Feuille de synthèse des critères</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 02 L'ENTREPRISE & PRODUCTION ====================== -->
+<section class="page" id="entreprise" role="tabpanel">
+  <h2><span class="pnum">02</span> Dans les coulisses de l'entreprise</h2>
+  <p class="lead">Pour répondre aux besoins et aux envies des consommateurs, les entreprises produisent des biens et des services en organisant la production.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">Vocabulaire de la production</span>
+    <dl class="lex">
+      <div>
+        <dt>Entreprise</dt>
+        <dd>Une organisation qui produit des biens ou des services pour les vendre sur un marché afin de réaliser un profit.</dd>
+      </div>
+      <div>
+        <dt>Facteurs de production</dt>
+        <dd>Les éléments combinés pour fabriquer un produit : le travail (la main d'œuvre), le capital technique (les machines, outils, bâtiments) et les matières premières.</dd>
+      </div>
+      <div>
+        <dt>Profit (bénéfice)</dt>
+        <dd>La différence positive entre les recettes d'une entreprise (ce qu'elle gagne en vendant ses produits) et ses dépenses (les salaires, les matières, les impôts).</dd>
+      </div>
+      <div>
+        <dt>Le Marché</dt>
+        <dd>Le lieu de rencontre entre l'offre (les entreprises qui vendent) et la demande (les ménages qui veulent acheter). C'est cette rencontre qui fixe le prix du produit.</dd>
+      </div>
+      <div>
+        <dt>Valeur ajoutée</dt>
+        <dd>La valeur supplémentaire apportée à une matière première à chaque étape de sa transformation grâce au travail et aux machines.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="callout c-online" data-no-toggle="true">
+    <h4>Atelier en ligne — Les facteurs de production</h4>
+    <p>Pour construire une table en bois solide, un menuisier combine différents facteurs. Reliez chaque élément à sa catégorie de facteur de production correspondante.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div class="match-grid" id="prodMatchGrid">
+        <div class="match-col" id="colLeft">
+          <h4>Ressources nécessaires</h4>
+          <div class="match-item" data-left="1" tabindex="0" role="button">Bois brut de forêt</div>
+          <div class="match-item" data-left="2" tabindex="0" role="button">Travail de découpe de l'artisan</div>
+          <div class="match-item" data-left="3" tabindex="0" role="button">Scie électrique et raboteuse</div>
+          <div class="match-item" data-left="4" tabindex="0" role="button">Atelier (bâtiment de fabrication)</div>
+        </div>
+        <div class="match-col" id="colRight">
+          <h4>Facteurs de production</h4>
+          <div class="match-item" data-right="matiere" tabindex="0" role="button">Matière première</div>
+          <div class="match-item" data-right="travail" tabindex="0" role="button">Travail (main-d'œuvre)</div>
+          <div class="match-item" data-right="capital" tabindex="0" role="button">Capital technique</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn btn-jaune" onclick="verifyMatching()">Vérifier les liaisons</button>
+        <button class="btn btn-ghost" onclick="resetMatching()">Réinitialiser</button>
+      </div>
+      <div id="matchFeedback" class="mono" style="margin-top:12px;font-size:0.9rem;text-align:center"></div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>En groupe-classe — La vie d'un objet (Le T-shirt en coton)</h4>
+    <p>Nous analysons des documents retraçant les étapes de fabrication d'un T-shirt vendu 15 € en Belgique :</p>
+    <ol>
+      <li>Récolte du coton brut dans un champ en Ouzbékistan (Matière première).</li>
+      <li>Filature et tissage dans des usines géantes au Bangladesh (Travail et Capital).</li>
+      <li>Transport maritime mondial dans des porte-conteneurs (Services logistiques).</li>
+      <li>Vente finale dans une boutique de centre-ville.</li>
+    </ol>
+    <p>Nous discutons de la valeur ajoutée à chaque étape et de la répartition finale de ces 15 € (quelle part revient au cultivateur de coton, aux ouvriers textiles, à la marque de vêtements et à l'État ?).</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>Défi en îlot — Monter sa mini-entreprise de cookies</h4>
+    <p>Par groupes de 4, les élèves simulent la création d'une mini-boulangerie artisanale. Ils doivent lister leurs besoins (farine, pépites de chocolat, four, électricité, heures de préparation), calculer le coût de revient d'un cookie et fixer son prix de vente pour couvrir les frais et faire un petit bénéfice. Ils débattent ensuite : comment répartir ce bénéfice de manière juste ?</p>
+    <div class="materiel">
+      <span>Fiche de calcul de prix de revient</span>
+      <span>Calculatrices d'îlot</span>
+      <span>Fiche de décisions collectives</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 03 LE MONDE DU TRAVAIL ====================== -->
+<section class="page" id="travail" role="tabpanel">
+  <h2><span class="pnum">03</span> Le travail et ses formes de reconnaissance</h2>
+  <p class="lead">Le travail est une activité humaine essentielle qui produit de la valeur et permet de structurer nos rapports sociaux.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">Vocabulaire du travail</span>
+    <dl class="lex">
+      <div>
+        <dt>Travail salarié</dt>
+        <dd>Activité rémunérée effectuée pour un employeur. Le lien est défini par un contrat de travail fixant les droits et les devoirs de chacun.</dd>
+      </div>
+      <div>
+        <dt>Travail indépendant</dt>
+        <dd>Activité exercée par une personne pour son propre compte (artisan, médecin libéral, avocat, commerçant). Il n'a pas de patron.</dd>
+      </div>
+      <div>
+        <dt>Bénévolat</dt>
+        <dd>Travail volontaire et gratuit pour le compte d'une association ou d'une cause sociale, sans contrat de travail ni rémunération.</dd>
+      </div>
+      <div>
+        <dt>Travail domestique</dt>
+        <dd>Toutes les tâches accomplies au sein du ménage pour la vie quotidienne (ménage, vaisselle, soins aux enfants). C'est un travail invisible et non payé.</dd>
+      </div>
+      <div>
+        <dt>Cotisations sociales</dt>
+        <dd>Sommes d'argent prélevées sur le salaire pour financer la sécurité sociale (maladie, retraite, allocations familiales, chômage).</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-q">Discussion audio — Où va l'argent de ton salaire ?</span>
+    <p>Écoutez cette explication audio et observez la fiche de paie de Jean Dupont ci-dessous pour comprendre chaque prélèvement et versement.</p>
+    
+    <div class="audio-card" style="display:flex; flex-direction:column; gap:12px; align-items:stretch;">
+      <div style="display:flex; align-items:center; gap:16px; width:100%;">
+        <div class="audio-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8"/>
+          </svg>
+        </div>
+        <div class="audio-info" style="flex:1;">
+          <h5 style="margin:0;">Où va l'argent de ton salaire ?</h5>
+          <p style="margin:2px 0 0; font-size:0.78rem; color:#cbd5e1;">Fichier source : Où_va_l_argent_de_ton_salaire.m4a</p>
+        </div>
+        <button class="audio-player-element" id="playAudioBtn" onclick="togglePlayAudio()" style="align-self:center;">
+          <span>Écouter</span>
+        </button>
+      </div>
+      
+      <!-- Barre de progression et temps -->
+      <div style="display:flex; align-items:center; gap:10px; font-size:0.75rem; color:#cbd5e1; font-family:'Space Mono',monospace;">
+        <span id="audioCurrentTime">0:00</span>
+        <input type="range" id="audioProgressBar" min="0" max="100" value="0" step="0.1" style="flex:1; cursor:pointer; accent-color:var(--courant); height:6px; border-radius:3px; background:#475569; border:none; outline:none;" oninput="seekAudio(this.value)">
+        <span id="audioDuration">0:00</span>
+      </div>
+    </div>
+    
+    <!-- Élément audio caché -->
+    <audio id="lessonAudio" src="Où_va_l_argent_de_ton_salaire.m4a" preload="metadata"></audio>
+    
+    <div class="callout c-mot" style="margin-top:10px">
+      <h4>Transcription de l'explication</h4>
+      <p><b>Maxime (élève)</b> : Julie, j'ai regardé la fiche de paie de Jean Dupont. Son salaire brut de base est de 3 000 euros, mais son salaire net final n'est que de 2 201,20 euros. Où est passée la différence ?</p>
+      <p><b>Julie (conseillère)</b> : Bonjour Maxime ! Cette différence correspond aux diverses cotisations de solidarité et aux impôts. Sur son salaire brut, l'employeur retient d'abord 13,07 % de cotisations ONSS, soit 392,10 euros, pour financer la sécurité sociale (soins médicaux, pensions, chômage). Ensuite, l'État retient le précompte professionnel pour les services publics, soit 421,50 euros.</p>
+      <p><b>Maxime</b> : Et pourquoi y a-t-il des chèques-repas et une indemnité de transport ?</p>
+      <p><b>Julie</b> : L'employeur lui retire 21,80 euros pour sa part personnelle des chèques-repas, mais lui rembourse 60,00 euros pour ses déplacements. Quand on fait la somme de tout cela, il reste 2 201,20 euros nets versés sur son compte bancaire.</p>
+    </div>
+  </div>
+
+  <div class="callout c-online" data-no-toggle="true">
+    <h4>Atelier en ligne — La fiche de paie de Jean Dupont</h4>
+    <p>Cette fiche de paie reprend les données réelles du fichier d'apprentissage. Cliquez sur les numéros bleus pour décrypter chaque rubrique.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div class="paie-sheet" style="font-family:inherit;">
+        <div class="paie-header">
+          <h4 style="font-size:1.15rem; color:var(--encre); text-transform:uppercase;">Fiche de Rémunération (Loonbrief)</h4>
+          <p style="font-size:0.75rem; color:var(--ardoise); margin:0;">Période de paie : Juin 2026 | Statut : Salarié Employé (CP 200)</p>
+        </div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.75rem; background:var(--papier); padding:8px; border-radius:8px; margin-bottom:10px; border:1px solid var(--ligne)">
+          <div>
+            <b>EMPLOYEUR :</b><br>
+            Belgique Services S.A.<br>
+            Rue de la Loi 16, 1000 Bruxelles<br>
+            N° d'entreprise : BE 0123.456.789
+          </div>
+          <div>
+            <b>TRAVAILLEUR :</b><br>
+            Jean Dupont<br>
+            Rue des Longues Haies 42, 1050 Ixelles<br>
+            N° compte : BE96 0012 3456 7890
+          </div>
+        </div>
+
+        <div style="font-size:0.8rem; background:var(--papier); padding:6px 8px; border-radius:6px; margin-bottom:10px; border:1px solid var(--ligne); display:flex; justify-content:space-between; flex-wrap:wrap;">
+          <span><b>Salaire Brut de base :</b> 3 000,00 €</span>
+          <span><b>Temps de travail :</b> 38h/sem (100%)</span>
+          <span><b>Jours prestés :</b> 22 jours / 152h</span>
+        </div>
+
+        <table class="paie-table">
+          <thead>
+            <tr>
+              <th>Rubrique</th>
+              <th>Base (€)</th>
+              <th>Retenue (-)</th>
+              <th>Versement (+)</th>
+              <th>Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1000 - Rémunération de base (normal)</td>
+              <td>3 000,00</td>
+              <td>-</td>
+              <td>3 000,00 €</td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('brut', this)" tabindex="0" role="button">1</div></td>
+            </tr>
+            <tr class="deduct">
+              <td>2000 - Cotisation ONSS (13,07%)</td>
+              <td>3 000,00</td>
+              <td>392,10 €</td>
+              <td>-</td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('onss', this)" tabindex="0" role="button">2</div></td>
+            </tr>
+            <tr style="background:#f1f5f9; font-weight:bold;">
+              <td>2500 - SOUS-TOTAL : SALAIRE IMPOSABLE</td>
+              <td>2 607,90</td>
+              <td>-</td>
+              <td>-</td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('imposable', this)" tabindex="0" role="button">3</div></td>
+            </tr>
+            <tr class="deduct">
+              <td>3000 - Précompte professionnel</td>
+              <td>2 607,90</td>
+              <td>421,50 €</td>
+              <td>-</td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('precompte', this)" tabindex="0" role="button">4</div></td>
+            </tr>
+            <tr class="deduct">
+              <td>3100 - Cotisation spéciale CSSS</td>
+              <td>-</td>
+              <td>23,40 €</td>
+              <td>-</td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('csss', this)" tabindex="0" role="button">5</div></td>
+            </tr>
+            <tr>
+              <td>4100 - Indemnité de transport</td>
+              <td>-</td>
+              <td>-</td>
+              <td>60,00 €</td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('transport', this)" tabindex="0" role="button">6</div></td>
+            </tr>
+            <tr class="deduct">
+              <td>4500 - Retenue Chèques-Repas</td>
+              <td>20 jours</td>
+              <td>21,80 €</td>
+              <td>-</td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('repas', this)" tabindex="0" role="button">7</div></td>
+            </tr>
+            <tr class="total">
+              <td><b>SALAIRE NET À PAYER</b></td>
+              <td>-</td>
+              <td><b>858,80 €</b></td>
+              <td><b>3 060,00 €</b></td>
+              <td><div class="paie-hotspot" onclick="showPaieInfo('net', this)" tabindex="0" role="button">8</div></td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="paie-info-box" id="paieInfoBox" style="margin-top:10px;">
+          Choisissez un numéro pour afficher l'explication.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-online" data-no-toggle="true" style="margin-top:20px">
+    <h4>Atelier en ligne — Le grand questionnaire de la fiche de paie de Jean Dupont</h4>
+    <p>Répondez aux 10 questions suivantes pour vérifier votre compréhension de la fiche de paie et de l'explication audio.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div id="paieQuizContainer">
+        <!-- Rempli en JS -->
+      </div>
+      <div class="scorebar" id="paieQuizScorebar" style="display:none">
+        <span>Vérification terminée !</span>
+        <span>Votre score : <b id="paieQuizFinalScore">0</b> / 10</span>
+        <button class="btn btn-jaune" onclick="resetPaieQuiz()" style="padding:6px 12px;font-size:0.85rem">↺ Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>En groupe-classe — Déconstruire les stéréotypes sur les métiers</h4>
+    <p>L'enseignant affiche des fiches métiers sans mention de genre (Chirurgien, Infirmier, Éboueur, Assistant maternel, Dirigeant d'entreprise, Ingénieur informatique).</p>
+    <ul>
+      <li>À quoi ressemblent les professionnels que vous imaginez pour ces métiers ? Hommes ou femmes ?</li>
+      <li>Existe-t-il des métiers réservés à un genre en fonction de la force physique ou de la sensibilité ?</li>
+      <li>Quelles sont les inégalités de salaire constatées aujourd'hui en Belgique entre les hommes et les femmes pour un travail égal ? Comment les expliquer et les combattre ?</li>
+    </ul>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>Défi en îlot — Qui fait quoi ?</h4>
+    <p>Chaque groupe reçoit des cartes décrivant une situation de travail (ex: un pompier professionnel, un bénévole de la Croix-Rouge, un parent au foyer qui prépare le repas, un agriculteur qui vend ses pommes de terre). Les élèves doivent classer ces cartes selon le type de travail (salarié, indépendant, bénévole ou domestique) et identifier la forme de rémunération (salaire, bénéfice, honoraires ou reconnaissance non monétaire).</p>
+    <div class="materiel">
+      <span>Cartes-situations de travail</span>
+      <span>Tableau de classement</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 04 LE VOYAGE DE LA PAIE ====================== -->
+<section class="page" id="voyage-paie" role="tabpanel">
+  <h2><span class="pnum">04</span> Le voyage de ton salaire</h2>
+  <p class="lead">Découvrez en images comment la solidarité s'organise à partir du salaire brut de départ grâce à deux métaphores visuelles complémentaires.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">Métaphore 1 : L'histoire du Grand Gâteau Collectif</span>
+    <p>Cette image explique le partage de la richesse sous la forme d'un gâteau découpé en parts pour la collectivité et pour l'État.</p>
+    <div style="text-align:center; margin: 12px 0;">
+      <img src="Le_voyage_de_ton_salaire.png" alt="Le voyage de ton salaire - Gâteau collectif" style="max-width:100%; max-height:600px; border-radius:12px; border:2px solid var(--encre); box-shadow:var(--ombre);">
+    </div>
+
+    <div class="callout c-online" data-no-toggle="true" style="margin-top:15px">
+      <h4>Atelier en ligne — L'histoire du grand gâteau collectif</h4>
+      <p>Répondez aux questions suivantes à l'aide de l'image du gâteau ci-dessus.</p>
+      
+      <div class="atelier" style="margin-top:12px">
+        <div class="quiz-q" id="vp-q-1">
+          <p class="qtext">1. Que représente le « gâteau entier » au tout début de cette histoire ?</p>
+          <button class="opt" type="button" onclick="checkVP(1, 'A')">A. Le salaire net que le travailleur reçoit sur sa table.</button>
+          <button class="opt" type="button" onclick="checkVP(1, 'B')">B. Le salaire brut promis au départ, avant tout partage.</button>
+          <button class="opt" type="button" onclick="checkVP(1, 'C')">C. Les cotisations des grands-parents.</button>
+          <div class="fb" id="vp-fb-1"></div>
+        </div>
+        
+        <div class="quiz-q" id="vp-q-2">
+          <p class="qtext">2. Que reste-t-il du gâteau après avoir rempli le pot de la solidarité (L'ONSS) ?</p>
+          <button class="opt" type="button" onclick="checkVP(2, 'A')">A. Le salaire net final.</button>
+          <button class="opt" type="button" onclick="checkVP(2, 'B')">B. Le salaire imposable, sur lequel l'État va calculer les impôts.</button>
+          <button class="opt" type="button" onclick="checkVP(2, 'C')">C. Les frais de transport de l'employeur.</button>
+          <div class="fb" id="vp-fb-2"></div>
+        </div>
+        
+        <div class="quiz-q" id="vp-q-3">
+          <p class="qtext">3. Dans l'histoire du gâteau, à quoi sert « la part pour l'État » (le précompte) ?</p>
+          <button class="opt" type="button" onclick="checkVP(3, 'A')">A. À financer les professeurs, les écoles, les parcs et les routes de Belgique.</button>
+          <button class="opt" type="button" onclick="checkVP(3, 'B')">B. À préparer un autre gâteau plus grand.</button>
+          <button class="opt" type="button" onclick="checkVP(3, 'C')">C. À augmenter le profit des banques privées.</button>
+          <div class="fb" id="vp-fb-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <span class="tag tag-mot">Métaphore 2 : L'entonnoir et le pot de solidarité (ONSS)</span>
+    <p>Cette image montre le circuit financier précis : d'où vient l'argent de l'ONSS et comment il est redistribué aux citoyens.</p>
+    <div style="text-align:center; margin: 12px 0;">
+      <img src="Voyage_de_la_fiche_paie.png" alt="Le voyage de la fiche de paie - Entonnoir" style="max-width:100%; max-height:600px; border-radius:12px; border:2px solid var(--encre); box-shadow:var(--ombre);">
+    </div>
+
+    <div class="callout c-online" data-no-toggle="true" style="margin-top:15px">
+      <h4>Atelier en ligne — L'entonnoir de la sécurité sociale</h4>
+      <p>Répondez aux questions suivantes à l'aide de l'image de l'entonnoir ci-dessus.</p>
+      
+      <div class="atelier" style="margin-top:12px">
+        <div class="quiz-q" id="vp-q-4">
+          <p class="qtext">4. Quel est le pourcentage exact prélevé sur le salaire brut pour l'ONSS selon cette infographie ?</p>
+          <button class="opt" type="button" onclick="checkVP(4, 'A')">A. 21,00 %</button>
+          <button class="opt" type="button" onclick="checkVP(4, 'B')">B. 13,07 %</button>
+          <button class="opt" type="button" onclick="checkVP(4, 'C')">C. 35,50 %</button>
+          <div class="fb" id="vp-fb-4"></div>
+        </div>
+        
+        <div class="quiz-q" id="vp-q-5">
+          <p class="qtext">5. Citez les trois principaux piliers financés par le pot commun de l'ONSS montrés sur la droite :</p>
+          <button class="opt" type="button" onclick="checkVP(5, 'A')">A. Les salaires bruts, le prix du gâteau et les publicités.</button>
+          <button class="opt" type="button" onclick="checkVP(5, 'B')">B. La santé et les médecins, les pensions des aînés, et l'aide au chômage.</button>
+          <button class="opt" type="button" onclick="checkVP(5, 'C')">C. Les banques privées, l'achat de téléphones portables et les parcs de loisirs payants.</button>
+          <div class="fb" id="vp-fb-5"></div>
+        </div>
+        
+        <div class="quiz-q" id="vp-q-6">
+          <p class="qtext">6. Qu'est-ce que « le bonus à l'emploi » décrit dans cette infographie ?</p>
+          <button class="opt" type="button" onclick="checkVP(6, 'A')">A. Une réduction de cotisations pour aider les petits salaires à garder plus d'argent net.</button>
+          <button class="opt" type="button" onclick="checkVP(6, 'B')">B. Une prime en argent offerte pour acheter des jeux vidéo.</button>
+          <button class="opt" type="button" onclick="checkVP(6, 'C')">C. Une taxe supplémentaire sur le transport.</button>
+          <div class="fb" id="vp-fb-6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 05 L'ÉTAT & L'IMPÔT ====================== -->
+<section class="page" id="etat" role="tabpanel">
+  <h2><span class="pnum">05</span> L'État et la citoyenneté fiscale</h2>
+  <p class="lead">L'État et les communes sont des acteurs économiques essentiels. Ils gèrent les services collectifs et assurent la solidarité nationale.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">Vocabulaire civique et fiscal</span>
+    <dl class="lex">
+      <div>
+        <dt>État</dt>
+        <dd>L'organisation publique qui gère les règles, la justice, la sécurité et le bien-être des habitants d'un pays ou d'une région.</dd>
+      </div>
+      <div>
+        <dt>Impôt</dt>
+        <dd>Une somme d'art prélévée obligatoirement sur les revenus des personnes et des entreprises pour financer les services publics.</dd>
+      </div>
+      <div>
+        <dt>Service public</dt>
+        <dd>Une activité d'intérêt général gérée ou financée par l'État pour répondre aux besoins essentiels de la population (ex: écoles, routes, parcs publics, bibliothèques).</dd>
+      </div>
+      <div>
+        <dt>Citoyenneté fiscale</dt>
+        <dd>Le fait de comprendre pourquoi on paie des impôts et de participer au financement de la société pour garantir l'accès à tous aux services de base.</dd>
+      </div>
+      <div>
+        <dt>Bien commun</dt>
+        <dd>Une ressource, un service ou un lieu partagé qui appartient à tout le monde et profite à l'intérêt général.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="callout c-online" data-no-toggle="true">
+    <h4>Atelier en ligne — Le simulateur fiscal : Ma journée avec ou sans l'État</h4>
+    <p>Découvrez comment les impôts financent notre quotidien. Utilisez l'interrupteur pour voir ce qui se passe si l'on supprimait les impôts et les services publics.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div class="fiscal-header">
+        <span class="fiscal-toggle-label">Budget de l'État et des Communes :</span>
+        <label class="fiscal-switch">
+          <input type="checkbox" id="fiscalToggle" checked onchange="updateFiscalSimulator()">
+          <span class="fiscal-slider"></span>
+        </label>
+        <span id="fiscalBadge" class="fiscal-status-badge" style="background:var(--vert-clair);color:var(--vert)">IMPÔTS ACTIFS (Services publics financés)</span>
+      </div>
+      
+      <table class="fiscal-table">
+        <thead>
+          <tr>
+            <th>Mon activité de la journée</th>
+            <th>Service public correspondant</th>
+            <th>Financement &amp; Conséquences</th>
+          </tr>
+        </thead>
+        <tbody id="fiscalTableBody">
+          <!-- Rempli dynamiquement en JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>En groupe-classe — Le Conseil communal des élèves</h4>
+    <p>Nous divisons la classe en groupes de conseillers municipaux. Chaque groupe reçoit une enveloppe budgétaire fictive de 100 000 € pour la commune. Ils doivent la répartir entre différents projets :</p>
+    <ul>
+      <li>Rénover la cour d'école communale (30 000 €).</li>
+      <li>Créer une piste cyclable sécurisée (40 000 €).</li>
+      <li>Acheter de nouveaux livres pour la bibliothèque (10 000 €).</li>
+      <li>Aménager un parc naturel public (20 000 €).</li>
+      <li>Organiser une fête de quartier (10 000 €).</li>
+    </ul>
+    <p>Chaque groupe expose ses choix et la classe vote pour la meilleure répartition démocratique du budget.</p>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>Défi en îlot — L'inventaire des services publics locaux</h4>
+    <p>À l'aide d'un plan imprimé du quartier de l'école, les élèves identifient et colorient tous les services publics et biens communs financés par l'impôt (école, trottoirs, éclairage public, poubelles communales, arrêt de bus, parc de jeux). Ils rédigent une affiche expliquant leur utilité.</p>
+    <div class="materiel">
+      <span>Plan du quartier de l'école</span>
+      <span>Crayons de couleur</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 05 CONSUMER DURABLE ====================== -->
+<section class="page" id="durable" role="tabpanel">
+  <h2><span class="pnum">06</span> Consommation responsable et développement durable</h2>
+  <p class="lead">Chaque acte d'achat est un choix. Les consommateurs ont le pouvoir d'orienter la production vers des modèles plus respectueux des personnes et de la nature.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">Vocabulaire écologique et solidaire</span>
+    <dl class="lex">
+      <div>
+        <dt>Consommation responsable</dt>
+        <dd>Acheter des produits fabriqués selon des critères éthiques (respect des travailleurs) et environnementaux (protection des ressources de la planète).</dd>
+      </div>
+      <div>
+        <dt>Économie circulaire</dt>
+        <dd>Un modèle économique qui remplace le circuit linéaire "extraire, fabriquer, jeter" par un cercle vertueux : réduire les déchets, réparer, réutiliser et recycler.</dd>
+      </div>
+      <div>
+        <dt>Commerce équitable</dt>
+        <dd>Un commerce garantissant aux producteurs des pays en développement un prix minimum juste pour leur travail, leur permettant de vivre dignement et de protéger l'environnement.</dd>
+      </div>
+      <div>
+        <dt>Externalité négative</dt>
+        <dd>Un effet néfaste causé par la production d'une entreprise mais qui n'est pas payé par elle (ex: la pollution d'une rivière par une usine textile, nettoyée par l'État).</dd>
+      </div>
+      <div>
+        <dt>Écolabel</dt>
+        <dd>Un logo officiel sur un produit certifiant qu'il respecte un cahier des charges écologique strict tout au long de sa fabrication.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="callout c-online" data-no-toggle="true">
+    <h4>Atelier en ligne — L'empreinte de mon assiette</h4>
+    <p>Sélectionnez un type de repas ci-dessous pour analyser son empreinte écologique et sociale à travers les jauges de performance.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div class="plate-selector">
+        <div class="plate-card" id="plateA" onclick="selectPlate('industriel')" tabindex="0" role="button">
+          <div class="plate-graphic">
+            <svg width="80" height="80" viewBox="0 0 100 100">
+              <!-- Burger -->
+              <path d="M20,55 C20,38 80,38 80,55 Z" fill="none" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
+              <rect x="18" y="55" width="64" height="6" rx="2" fill="#d97706"/>
+              <path d="M20,61 C20,70 80,70 80,61 Z" fill="none" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Gobelet Soda -->
+              <path d="M68,18 L82,18 L78,50 L72,50 Z" fill="none" stroke="#1e293b" stroke-width="3"/>
+              <path d="M75,12 L85,25" stroke="#e11d48" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h5>L'assiette industrielle</h5>
+          <p>Steak importé, soda industriel, frites sous plastique jetable.</p>
+        </div>
+        <div class="plate-card" id="plateB" onclick="selectPlate('durable')" tabindex="0" role="button">
+          <div class="plate-graphic">
+            <svg width="80" height="80" viewBox="0 0 100 100">
+              <!-- Salade bol -->
+              <path d="M15,48 C15,75 70,75 70,48 Z" fill="none" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M22,42 C27,34 38,42 43,38 C48,42 59,34 64,42" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+              <!-- Pomme -->
+              <circle cx="75" cy="50" r="12" fill="none" stroke="#1e293b" stroke-width="3"/>
+              <path d="M75,38 C75,34 78,34 78,34" fill="none" stroke="#1e293b" stroke-width="2"/>
+            </svg>
+          </div>
+          <h5>L'assiette éco-responsable</h5>
+          <p>Légumes bio et locaux, pain du boulanger du village, eau filtrée.</p>
+        </div>
+      </div>
+      
+      <div class="gauge-container">
+        <div class="gauge-row gauge-co2">
+          <div class="gauge-label">
+            <span>Pollution et émissions de CO2 (Plus bas = meilleur)</span>
+            <span id="gaugeCo2Val" class="mono">0%</span>
+          </div>
+          <div class="gauge-bg">
+            <div class="gauge-fill" id="gaugeCo2Fill" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="gauge-row gauge-social">
+          <div class="gauge-label">
+            <span>Respect des droits des travailleurs (Plus haut = meilleur)</span>
+            <span id="gaugeSocialVal" class="mono">0%</span>
+          </div>
+          <div class="gauge-bg">
+            <div class="gauge-fill" id="gaugeSocialFill" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="gauge-row gauge-cost">
+          <div class="gauge-label">
+            <span>Coût global pour la société (Plus bas = meilleur)</span>
+            <span id="gaugeCostVal" class="mono">0%</span>
+          </div>
+          <div class="gauge-bg">
+            <div class="gauge-fill" id="gaugeCostFill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="plate-explanation" id="plateExplanation">
+        <!-- Rempli en JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-classe">
+    <h4>En groupe-classe — Transformer la ligne en boucle</h4>
+    <p>Nous schématisons au tableau le cycle de vie d'un téléphone portable. Nous listons les étapes : extraction des métaux rares dans des mines, assemblage en usine, transport, utilisation de 2 ans, mise au tiroir ou à la poubelle.</p>
+    <ul>
+      <li>Où se situent les externalités négatives (destruction de la nature, pollution) ?</li>
+      <li>Comment transformer ce parcours linéaire en économie circulaire ? (Réparation des téléphones en panne, reprise des composants usagés, recyclage des métaux rares).</li>
+    </ul>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>Défi en îlot — Le marché de troc de livres</h4>
+    <p>Pour expérimenter des modèles alternatifs au marché de consommation classique, chaque îlot prépare une mini-bourse d'échange de livres de seconde main. Les élèves établissent un règlement : pas d'argent utilisé, chaque livre apporté donne droit à un jeton d'échange. Ils analysent ensuite l'intérêt économique et écologique de ce système.</p>
+    <div class="materiel">
+      <span>Jetons de troc fictifs</span>
+      <span>Livres de lecture de la classe</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 06 BILAN & QUIZ ====================== -->
+<section class="page" id="bilan" role="tabpanel">
+  <h2><span class="pnum">07</span> Bilan d'investigation et évaluation</h2>
+  <p class="lead">Faisons le point sur les connaissances acquises et testons notre compréhension globale.</p>
+
+  <div class="card">
+    <span class="tag tag-mot">Ce qu'on retient</span>
+    <dl class="lex">
+      <div>
+        <dt>1. Besoins et consommation</dt>
+        <dd>La consommation doit d'abord répondre à nos besoins vitaux (nourriture, santé, logement) avant de satisfaire nos envies (loisirs superflus, luxe). Un consommateur lucide sait distinguer les deux.</dd>
+      </div>
+      <div>
+        <dt>2. Richesse et entreprise</dt>
+        <dd>Les entreprises produisent en combinant des matières premières, du travail humain et du capital technique. Elles génèrent de la valeur ajoutée et font du bénéfice pour continuer leur activité.</dd>
+      </div>
+      <div>
+        <dt>3. Solidarité par le travail</dt>
+        <dd>Le travail n'est pas uniquement salarié ; il peut être indépendant, bénévole ou domestique. Les cotisations prélevées sur le travail financent la sécurité sociale pour protéger tous les citoyens.</dd>
+      </div>
+      <div>
+        <dt>4. Citoyenneté et services publics</dt>
+        <dd>L'impôt n'est pas une punition. C'est une contribution citoyenne nécessaire pour financer les services publics collectifs (écoles, hôpitaux, sécurité) et entretenir les biens communs.</dd>
+      </div>
+      <div>
+        <dt>5. Durabilité future</dt>
+        <dd>La production et la consommation doivent devenir circulaires (réduire, réparer, recycler) et équitables pour garantir de bonnes conditions de vie à l'ensemble des humains et préserver les ressources.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-classe">Auto-évaluation</span>
+    <div class="auto-eval">
+      <label><input type="checkbox"> Je sais distinguer un besoin essentiel d'une envie de consommation.</label>
+      <label><input type="checkbox"> Je peux citer les trois facteurs de production d'une entreprise.</label>
+      <label><input type="checkbox"> Je connais la différence entre le salaire brut et le salaire net d'un travailleur.</label>
+      <label><input type="checkbox"> Je comprends à quoi servent les cotisations et la sécurité sociale.</label>
+      <label><input type="checkbox"> Je peux expliquer pourquoi nous payons des impôts pour les services publics.</label>
+      <label><input type="checkbox"> Je sais comment fonctionne l'économie circulaire par rapport à l'économie linéaire.</label>
+    </div>
+  </div>
+
+  <div class="callout c-online" data-no-toggle="true">
+    <h4>Quiz final — Évaluez vos connaissances</h4>
+    <p>Répondez aux 8 questions à choix multiples pour tester votre niveau.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div id="quizContainer">
+        <!-- Rempli en JS -->
+      </div>
+      
+      <div class="scorebar" id="quizScorebar" style="display:none">
+        <span>Vérification terminée !</span>
+        <span>Votre score : <b id="quizFinalScore">0</b> / 8</span>
+        <button class="btn btn-jaune" onclick="resetQuiz()" style="padding:6px 12px;font-size:0.85rem">↺ Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-defi">Pour l'enseignant·e — Liste des activités et défis réels</span>
+    <div class="obj-grid">
+      <div>
+        <h4 style="margin:6px 0;color:var(--vert)">Activités en classe</h4>
+        <ul class="checklist">
+          <li>Onglet 01 : Analyse de publicités réelles (Le catalogue décrypté).</li>
+          <li>Onglet 02 : Étude de cas sur le parcours d'un T-shirt en coton.</li>
+          <li>Onglet 03 : Débat argumenté sur la déconstruction des stéréotypes liés au genre dans les métiers.</li>
+          <li>Onglet 04 : Jeu de rôle de répartition d'un budget communal.</li>
+          <li>Onglet 05 : Conception d'un schéma d'économie circulaire.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="margin:6px 0;color:var(--cuivre-fonce)">Défis pratiques en îlots</h4>
+        <ul class="checklist">
+          <li>Onglet 01 : Classement physique de cartes de produits.</li>
+          <li>Onglet 02 : Calculs de coût et de vente pour la mini-boulangerie.</li>
+          <li>Onglet 03 : Association de profils de travailleurs à leur statut légal.</li>
+          <li>Onglet 04 : Cartographie des services publics du quartier de l'école.</li>
+          <li>Onglet 05 : Simulation concrète d'une bourse d'échange de livres.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="print-tip">Note d'impression : Toutes les pages de ce carnet d'investigation sont optimisées pour l'impression en noir et blanc ou couleur pour constituer le classeur de traces de l'élève.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <span>Module d'Éveil FHGES — Fédération Wallonie-Bruxelles (Tronc commun)</span>
+    <span>Classe de <b>Mr. Lejoly</b></span>
+  </div>
+</footer>
+
+<script>
+/* ============ NAVIGATION ONGLETS ============ */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const pages = document.querySelectorAll('.page');
+tabBtns.forEach(b=>b.addEventListener('click',()=>{
+  tabBtns.forEach(x=>x.classList.remove('active'));
+  pages.forEach(p=>p.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+/* ============ RÉVÉLATION (œil) DES CADRES DE SYNTHÈSE ============ */
+(function(){
+  const sel='.callout.c-classe, .callout.c-defi, .callout.c-mot';
+  document.querySelectorAll(sel).forEach(box=>{
+    if(box.dataset.noToggle)return;
+    const h4=box.querySelector('h4');
+    if(!h4)return;
+    const wrap=document.createElement('div');
+    wrap.className='hideable hidden';
+    while(h4.nextSibling)wrap.appendChild(h4.nextSibling);
+    box.appendChild(wrap);
+    const hint=document.createElement('p');
+    hint.className='eye-hint';
+    hint.textContent='👁️ Cliquez sur l\u2019œil pour révéler cette activité.';
+    box.appendChild(hint);
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='eye-toggle';
+    btn.setAttribute('aria-label','Afficher ou cacher ce cadre');
+    btn.textContent='👁️';
+    btn.addEventListener('click',()=>{
+      const show=wrap.classList.contains('hidden');
+      wrap.classList.toggle('hidden',!show);
+      hint.classList.toggle('hidden',show);
+      btn.textContent=show?'🙈':'👁️';
+      btn.setAttribute('aria-pressed',show?'true':'false');
+    });
+    h4.appendChild(btn);
+  });
+})();
+
+/* ============ ATELIER ONGLET 01 : TRI DES BESOINS ============ */
+const triItems = [
+  {
+    name: "L'eau potable du robinet",
+    type: "besoin",
+    desc: "Eau nécessaire pour s'hydrater et cuisiner au quotidien.",
+    illustr: `<svg width="80" height="80" viewBox="0 0 100 100">
+      <path d="M35,20 L65,20 L58,80 L42,80 Z" fill="none" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M37,35 L63,35 L58,80 L42,80 Z" fill="#3b82f6" opacity="0.6"/>
+      <path d="M40,55 C45,52 50,58 55,55" fill="none" stroke="#2563eb" stroke-width="2"/>
+    </svg>`,
+    explanation: "Correct ! L'eau potable est indispensable à la vie. On ne peut pas survivre plus de quelques jours sans s'hydrater."
+  },
+  {
+    name: "Un smartphone de grande marque",
+    type: "envie",
+    desc: "Le dernier modèle de téléphone intelligent pour jouer et communiquer.",
+    illustr: `<svg width="80" height="80" viewBox="0 0 100 100">
+      <rect x="30" y="15" width="40" height="70" rx="8" fill="none" stroke="#1e293b" stroke-width="4"/>
+      <rect x="34" y="20" width="32" height="52" rx="4" fill="#64748b" opacity="0.2"/>
+      <circle cx="50" cy="78" r="4" fill="none" stroke="#1e293b" stroke-width="3"/>
+      <line x1="45" y1="18" x2="55" y2="18" stroke="#1e293b" stroke-width="2"/>
+    </svg>`,
+    explanation: "Exact ! Communiquer est important, mais posséder un smartphone de marque très cher est une envie de confort. Un téléphone basique ou fixe suffit."
+  },
+  {
+    name: "Des médicaments contre la maladie",
+    type: "besoin",
+    desc: "Un traitement prescrit par un médecin pour guérir d'une grosse fièvre.",
+    illustr: `<svg width="80" height="80" viewBox="0 0 100 100">
+      <rect x="25" y="25" width="50" height="50" rx="6" fill="none" stroke="#1e293b" stroke-width="4"/>
+      <line x1="50" y1="35" x2="50" y2="65" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/>
+      <line x1="35" y1="50" x2="65" y2="50" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/>
+    </svg>`,
+    explanation: "Correct ! Se soigner et préserver sa santé est un besoin fondamental pour protéger sa vie."
+  },
+  {
+    name: "Un sweat de marque de créateur",
+    type: "envie",
+    desc: "Un vêtement haut de gamme recherché pour son logo à la mode.",
+    illustr: `<svg width="80" height="80" viewBox="0 0 100 100">
+      <path d="M20,30 L35,20 L40,25 L45,20 L60,20 L65,25 L70,20 L85,30 L75,45 L68,40 L68,80 L32,80 L32,40 L25,45 Z" fill="none" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
+      <polygon points="50,38 53,45 60,45 55,49 57,56 50,52 43,56 45,49 40,45 47,45" fill="#f59e0b"/>
+    </svg>`,
+    explanation: "Exact ! S'habiller pour se protéger du froid est un besoin essentiel, mais vouloir une marque spécifique de luxe est une envie de prestige."
+  },
+  {
+    name: "Du pain frais de la boulangerie",
+    type: "besoin",
+    desc: "Aliment de base quotidien pour se nourrir.",
+    illustr: `<svg width="80" height="80" viewBox="0 0 100 100">
+      <path d="M20,55 C15,45 25,30 50,30 C75,30 85,45 80,55 C75,65 25,65 20,55 Z" fill="none" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
+      <line x1="35" y1="38" x2="45" y2="52" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+      <line x1="50" y1="38" x2="60" y2="52" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+      <line x1="65" y1="38" x2="75" y2="52" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+    </svg>`,
+    explanation: "Correct ! S'alimenter pour donner de l'énergie et maintenir son corps en bonne santé est un besoin vital."
+  },
+  {
+    name: "Une console de jeux vidéo portable",
+    type: "envie",
+    desc: "Appareil électronique dédié au divertissement.",
+    illustr: `<svg width="80" height="80" viewBox="0 0 100 100">
+      <rect x="20" y="30" width="60" height="40" rx="12" fill="none" stroke="#1e293b" stroke-width="4"/>
+      <path d="M30,50 L40,50 M35,45 L35,55" stroke="#1e293b" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="62" cy="46" r="3" fill="#e11d48"/>
+      <circle cx="68" cy="54" r="3" fill="#3b82f6"/>
+      <circle cx="45" cy="60" r="4" fill="none" stroke="#1e293b" stroke-width="2"/>
+      <circle cx="55" cy="60" r="4" fill="none" stroke="#1e293b" stroke-width="2"/>
+    </svg>`,
+    explanation: "Exact ! Jouer et se détendre est sain, mais la console de jeux est un outil superflu de loisir dont on peut se passer. C'est une envie."
+  }
+];
+
+let triIndex = 0;
+function renderTriCard() {
+  const item = triItems[triIndex];
+  document.getElementById("triIllustr").innerHTML = item.illustr;
+  document.getElementById("triTitle").textContent = item.name;
+  document.getElementById("triDesc").textContent = item.desc;
+  document.getElementById("triFeedback").style.display = "none";
+  document.getElementById("triButtons").style.display = "flex";
+  document.getElementById("triProgress").textContent = "Carte " + (triIndex + 1) + " / " + triItems.length;
+}
+
+function checkTri(selectedType) {
+  const item = triItems[triIndex];
+  const fb = document.getElementById("triFeedback");
+  fb.style.display = "block";
+  document.getElementById("triButtons").style.display = "none";
+  
+  if (selectedType === item.type) {
+    fb.style.background = "var(--vert-clair)";
+    fb.style.color = "var(--vert)";
+    fb.style.border = "1px solid var(--vert)";
+    fb.innerHTML = "<b>Bravo !</b> " + item.explanation;
+  } else {
+    fb.style.background = "var(--rouge-clair)";
+    fb.style.color = "var(--rouge)";
+    fb.style.border = "1px solid var(--rouge)";
+    fb.innerHTML = "<b>Attention :</b> En réalité, c'est une " + (item.type === "besoin" ? "nécessité essentielle." : "envie de confort.") + "<br>" + item.explanation;
+  }
+
+  // Création du bouton suivant
+  const btnNext = document.createElement("button");
+  btnNext.className = "btn btn-primary";
+  btnNext.style.marginTop = "10px";
+  btnNext.style.display = "block";
+  btnNext.style.marginLeft = "auto";
+  btnNext.style.marginRight = "auto";
+  
+  if (triIndex < triItems.length - 1) {
+    btnNext.textContent = "Suivant";
+    btnNext.onclick = () => {
+      triIndex++;
+      renderTriCard();
+    };
+  } else {
+    btnNext.textContent = "Recommencer le tri";
+    btnNext.onclick = () => {
+      triIndex = 0;
+      renderTriCard();
+    };
+  }
+  fb.appendChild(btnNext);
+}
+renderTriCard();
+
+/* ============ ATELIER ONGLET 02 : MATCHING DES FACTEURS ============ */
+let selectedLeftElement = null;
+const correctAssociations = {
+  "1": "matiere",
+  "2": "travail",
+  "3": "capital",
+  "4": "capital"
+};
+let currentLinks = {};
+
+document.querySelectorAll("#colLeft .match-item").forEach(item => {
+  item.addEventListener("click", () => {
+    document.querySelectorAll("#colLeft .match-item").forEach(x => x.classList.remove("sel"));
+    item.classList.add("sel");
+    selectedLeftElement = item;
+  });
+});
+
+document.querySelectorAll("#colRight .match-item").forEach(item => {
+  item.addEventListener("click", () => {
+    if (!selectedLeftElement) {
+      document.getElementById("matchFeedback").textContent = "Sélectionnez d'abord une ressource dans la colonne de gauche !";
+      document.getElementById("matchFeedback").style.color = "var(--rouge)";
+      return;
+    }
+    const leftVal = selectedLeftElement.getAttribute("data-left");
+    const rightVal = item.getAttribute("data-right");
+    
+    // Supprimer d'anciennes liaisons sur cette clé gauche
+    delete currentLinks[leftVal];
+    
+    // Assigner le lien
+    currentLinks[leftVal] = rightVal;
+    
+    // Nettoyage visuel et mise à jour
+    updateMatchingVisuals();
+    selectedLeftElement = null;
+    document.getElementById("matchFeedback").textContent = "";
+  });
+});
+
+function updateMatchingVisuals() {
+  // Retirer les classes temporaires
+  document.querySelectorAll(".match-item").forEach(x => {
+    x.classList.remove("sel");
+    x.classList.remove("linked");
+    // Enlever les anciens badges
+    const badge = x.querySelector(".match-badge");
+    if (badge) badge.remove();
+  });
+  
+  // Appliquer les badges sur les éléments reliés
+  let index = 1;
+  for (const [lKey, rVal] of Object.entries(currentLinks)) {
+    const leftNode = document.querySelector(`#colLeft .match-item[data-left="${lKey}"]`);
+    const rightNodes = document.querySelectorAll(`#colRight .match-item[data-right="${rVal}"]`);
+    
+    if (leftNode) {
+      leftNode.classList.add("linked");
+      const b = document.createElement("span");
+      b.className = "match-badge";
+      b.textContent = index;
+      leftNode.appendChild(b);
+    }
+    
+    // Pour la droite, on cherche celui qui correspond
+    rightNodes.forEach(node => {
+      // Pour éviter d'attribuer le badge à tous les doublons de droite, on crée une identification logique
+      // Dans le cas de 'capital' qui a deux sources, on veut marquer le lien
+    });
+    
+    // Version simple : on affiche les liaisons créées dans le texte d'aide ou un badge spécifique
+    index++;
+  }
+}
+
+function verifyMatching() {
+  let allLinked = true;
+  let correctCount = 0;
+  
+  document.querySelectorAll("#colLeft .match-item").forEach(item => {
+    const leftVal = item.getAttribute("data-left");
+    if (!currentLinks[leftVal]) {
+      allLinked = false;
+    } else if (currentLinks[leftVal] === correctAssociations[leftVal]) {
+      correctCount++;
+    }
+  });
+  
+  const fb = document.getElementById("matchFeedback");
+  if (!allLinked) {
+    fb.textContent = "Veuillez associer l'ensemble des ressources de gauche avant de vérifier !";
+    fb.style.color = "var(--cuivre)";
+    return;
+  }
+  
+  if (correctCount === 4) {
+    fb.textContent = "Félicitations ! Toutes vos associations sont correctes.";
+    fb.style.color = "var(--vert)";
+    document.querySelectorAll(".match-item").forEach(x => {
+      if (x.classList.contains("linked") || x.parentNode.id === "colRight") {
+        x.classList.add("done");
+      }
+    });
+  } else {
+    fb.textContent = "Certaines associations sont incorrectes. (" + correctCount + " / 4 correctes). Cliquez sur Réinitialiser pour réessayer.";
+    fb.style.color = "var(--rouge)";
+  }
+}
+
+function resetMatching() {
+  currentLinks = {};
+  selectedLeftElement = null;
+  document.querySelectorAll(".match-item").forEach(x => {
+    x.className = "match-item";
+    const badge = x.querySelector(".match-badge");
+    if (badge) badge.remove();
+  });
+  document.getElementById("matchFeedback").textContent = "";
+}
+
+/* ============ ATELIER ONGLET 03 : AUDIO & FICHE DE PAIE ============ */
+const lessonAudio = document.getElementById("lessonAudio");
+const playBtn = document.getElementById("playAudioBtn");
+const progressBar = document.getElementById("audioProgressBar");
+const currentTimeEl = document.getElementById("audioCurrentTime");
+const durationEl = document.getElementById("audioDuration");
+
+function formatTime(secs) {
+  if (isNaN(secs)) return "0:00";
+  const mins = Math.floor(secs / 60);
+  const remainingSecs = Math.floor(secs % 60);
+  return mins + ":" + (remainingSecs < 10 ? "0" : "") + remainingSecs;
+}
+
+lessonAudio.addEventListener("loadedmetadata", () => {
+  if (lessonAudio.duration && !isNaN(lessonAudio.duration)) {
+    progressBar.max = lessonAudio.duration;
+    durationEl.textContent = formatTime(lessonAudio.duration);
+  }
+});
+
+lessonAudio.addEventListener("timeupdate", () => {
+  if (lessonAudio.duration && !isNaN(lessonAudio.duration) && progressBar.max != lessonAudio.duration) {
+    progressBar.max = lessonAudio.duration;
+    durationEl.textContent = formatTime(lessonAudio.duration);
+  }
+  if (!lessonAudio.seeking) {
+    progressBar.value = lessonAudio.currentTime;
+  }
+  currentTimeEl.textContent = formatTime(lessonAudio.currentTime);
+});
+
+lessonAudio.addEventListener("durationchange", () => {
+  if (lessonAudio.duration && !isNaN(lessonAudio.duration)) {
+    progressBar.max = lessonAudio.duration;
+    durationEl.textContent = formatTime(lessonAudio.duration);
+  }
+});
+
+function togglePlayAudio() {
+  if (lessonAudio.paused) {
+    lessonAudio.play();
+    playBtn.textContent = "Pause";
+    playBtn.style.background = "var(--encre)";
+    playBtn.style.color = "#fff";
+  } else {
+    lessonAudio.pause();
+    playBtn.textContent = "Écouter";
+    playBtn.style.background = "var(--courant)";
+    playBtn.style.color = "var(--encre)";
+  }
+}
+
+function seekAudio(value) {
+  lessonAudio.currentTime = value;
+}
+
+lessonAudio.addEventListener("ended", () => {
+  playBtn.textContent = "Écouter";
+  playBtn.style.background = "var(--courant)";
+  playBtn.style.color = "var(--encre)";
+  progressBar.value = 0;
+});
+
+const paieInfoText = {
+  brut: "<b>1. 1000 - Rémunération de base (3 000,00 €) :</b> C'est le salaire brut de base prévu dans le contrat de travail de Jean Dupont pour ses 22 jours de travail dans le mois.",
+  onss: "<b>2. 2000 - Cotisation ONSS (392,10 €) :</b> Une retenue obligatoire de 13,07 % sur le salaire brut, versée directement à la sécurité sociale pour le pot commun de solidarité (remboursement de médecin, allocations, retraite, chômage).",
+  imposable: "<b>3. 2500 - Salaire Imposable (2 607,90 €) :</b> C'est le salaire brut après déduction des cotisations ONSS (3 000,00 € - 392,10 €). C'est sur ce montant que l'impôt de l'État sera calculé.",
+  precompte: "<b>4. 3000 - Précompte professionnel (421,50 €) :</b> C'est l'impôt sur le revenu (environ 16,16 % du salaire imposable) prélevé à la source pour financer l'État, les écoles publiques, les routes et la sécurité.",
+  csss: "<b>5. 3100 - Cotisation spéciale CSSS (23,40 €) :</b> Un prélèvement solidaire supplémentaire sur les revenus des travailleurs salariés pour aider à financer la sécurité sociale.",
+  transport: "<b>6. 4100 - Indemnité de transport (+60,00 €) :</b> Un remboursement payé par l'employeur à Jean Dupont pour participer à ses frais de déplacement de sa maison à son travail.",
+  repas: "<b>7. 4500 - Retenue Chèques-Repas (21,80 €) :</b> La part payée par le travailleur (1,09 € par jour travaillé) pour bénéficier de ses chèques-repas de la journée.",
+  net: "<b>8. SALAIRE NET À PAYER (2 201,20 €) :</b> C'est la somme finale et réelle que Jean Dupont reçoit sur son compte en banque. Elle est calculée ainsi : Versements (3 060,00 €) - Retenues (858,80 €) = 2 201,20 €."
+};
+
+function showPaieInfo(type, element) {
+  document.querySelectorAll(".paie-hotspot").forEach(x => x.classList.remove("active"));
+  element.classList.add("active");
+  const box = document.getElementById("paieInfoBox");
+  box.style.display = "block";
+  box.innerHTML = paieInfoText[type];
+}
+
+/* ============ ATELIER ONGLET 04 : SIMULATEUR FISCAL ============ */
+const simulatorData = [
+  {
+    activity: "Se rendre à l'école le matin",
+    service: "École communale obligatoire",
+    activeDesc: "Gratuite pour tous (financée par les impôts des citoyens). L'accès est garanti à chaque enfant.",
+    inactiveDesc: "L'école devient payante (300 € / mois par enfant). Les enfants des familles en difficulté ne peuvent plus s'y inscrire.",
+    activeClass: "var(--vert)",
+    inactiveClass: "var(--rouge)"
+  },
+  {
+    activity: "Prendre le bus de la commune",
+    service: "Transports en commun publics",
+    activeDesc: "Le ticket est subventionné (0,50 €). Les lignes de bus desservent même les petits villages éloignés.",
+    inactiveDesc: "Le réseau est vendu. Le ticket passe à 5,00 € par trajet. Les trajets peu rentables dans les petits villages sont supprimés.",
+    activeClass: "var(--vert)",
+    inactiveClass: "var(--rouge)"
+  },
+  {
+    activity: "Jouer au football après la classe",
+    service: "Parc et plaine de jeux municipaux",
+    activeDesc: "Parc public gratuit, propre, entretenu et sécurisé par les agents communaux.",
+    inactiveDesc: "Le terrain est privatisé. L'accès est fermé par des barrières et coûte 2 € de l'heure par enfant.",
+    activeClass: "var(--vert)",
+    inactiveClass: "var(--rouge)"
+  },
+  {
+    activity: "Soigner une blessure à la jambe",
+    service: "Hôpital public et mutuelles",
+    activeDesc: "Soins médicaux de qualité presque entièrement remboursés. Reste à charge minime (10 €).",
+    inactiveDesc: "Aucun remboursement. L'hôpital réclame une facture directe de 800 € pour les soins. Refus de soigner sans paiement préalable.",
+    activeClass: "var(--vert)",
+    inactiveClass: "var(--rouge)"
+  },
+  {
+    activity: "Emprunter un roman policier",
+    service: "Bibliothèque de la ville",
+    activeDesc: "Inscription gratuite. Des milliers de livres, CD et ordinateurs accessibles librement pour étudier.",
+    inactiveDesc: "Fermeture définitive de la bibliothèque pour cause de budget nul. Les livres sont vendus.",
+    activeClass: "var(--vert)",
+    inactiveClass: "var(--rouge)"
+  }
+];
+
+function updateFiscalSimulator() {
+  const isActive = document.getElementById("fiscalToggle").checked;
+  const badge = document.getElementById("fiscalBadge");
+  const tbody = document.getElementById("fiscalTableBody");
+  
+  if (isActive) {
+    badge.textContent = "IMPÔTS ACTIFS (Services publics financés)";
+    badge.style.background = "var(--vert-clair)";
+    badge.style.color = "var(--vert)";
+  } else {
+    badge.textContent = "IMPÔTS NULS (Services privatisés ou fermés)";
+    badge.style.background = "var(--rouge-clair)";
+    badge.style.color = "var(--rouge)";
+  }
+  
+  tbody.innerHTML = "";
+  simulatorData.forEach(item => {
+    const tr = document.createElement("tr");
+    tr.className = isActive ? "active" : "inactive";
+    
+    const tdAct = document.createElement("td");
+    tdAct.innerHTML = `<b>${item.activity}</b>`;
+    
+    const tdServ = document.createElement("td");
+    tdServ.textContent = item.service;
+    
+    const tdImpact = document.createElement("td");
+    tdImpact.className = "cell-impact";
+    
+    if (isActive) {
+      tdImpact.innerHTML = `<span style="color:var(--vert); font-weight:bold">✔</span> ${item.activeDesc}`;
+    } else {
+      tdImpact.innerHTML = `<span style="color:var(--rouge); font-weight:bold">✘</span> ${item.inactiveDesc}`;
+    }
+    
+    tr.appendChild(tdAct);
+    tr.appendChild(tdServ);
+    tr.appendChild(tdImpact);
+    tbody.appendChild(tr);
+  });
+}
+updateFiscalSimulator();
+
+/* ============ ATELIER ONGLET 05 : EMPREINTE DE L'ASSIETTE ============ */
+const plateData = {
+  industriel: {
+    co2: 85,
+    social: 20,
+    cost: 90,
+    text: "<b>Assiette industrielle :</b> Les ingrédients proviennent de fermes intensives mondialisées (déforestation au Brésil pour le bœuf, pesticides). Les emballages en plastique génèrent des déchets majeurs. Les conditions de travail et salaires des employés agricoles dans ces circuits géants sont souvent très mauvaises. De plus, les externalités négatives (dépollution de l'eau, santé) sont supportées par la société."
+  },
+  durable: {
+    co2: 12,
+    social: 95,
+    cost: 35,
+    text: "<b>Assiette éco-responsable :</b> Le circuit court réduit le transport et la pollution CO2. L'agriculture biologique protège la biodiversité. Acheter chez le producteur local garantit qu'il reçoive un revenu juste pour son travail. Le coût réel (environnemental et de santé) pour la société est extrêmement faible, encourageant l'économie circulaire."
+  }
+};
+
+function selectPlate(type) {
+  document.querySelectorAll(".plate-card").forEach(x => x.classList.remove("active"));
+  if (type === "industriel") {
+    document.getElementById("plateA").classList.add("active");
+  } else {
+    document.getElementById("plateB").classList.add("active");
+  }
+  
+  const data = plateData[type];
+  
+  // Animation des jauges
+  document.getElementById("gaugeCo2Fill").style.width = data.co2 + "%";
+  document.getElementById("gaugeCo2Val").textContent = data.co2 + "%";
+  
+  document.getElementById("gaugeSocialFill").style.width = data.social + "%";
+  document.getElementById("gaugeSocialVal").textContent = data.social + "%";
+  
+  document.getElementById("gaugeCostFill").style.width = data.cost + "%";
+  document.getElementById("gaugeCostVal").textContent = data.cost + "%";
+  
+  const expBox = document.getElementById("plateExplanation");
+  expBox.style.display = "block";
+  expBox.innerHTML = data.text;
+}
+
+/* ============ ATELIER ONGLET 06 : GRAND QUIZ FINAL ============ */
+const quizQuestions = [
+  {
+    num: 1,
+    q: "Qu'est-ce qu'un besoin essentiel pour l'humain ?",
+    options: {
+      A: "Une envie de posséder des objets superflus pour s'amuser.",
+      B: "Une nécessité fondamentale pour survivre et vivre dignement (s'alimenter, se soigner).",
+      C: "Une prestation de luxe proposée par de grands commerces."
+    },
+    correct: "B",
+    explanation: "Correct ! Les besoins essentiels sont indispensables à la survie et à la dignité : se nourrir, se soigner, se loger, s'éduquer."
+  },
+  {
+    num: 2,
+    q: "Quelle est la différence fondamentale entre un bien et un service ?",
+    options: {
+      A: "Un bien est un objet matériel physique ; un service est une prestation immatérielle sans fabrication d'objet.",
+      B: "Un bien est toujours gratuit ; un service est payant.",
+      C: "Un bien est fourni par l'État ; un service est uniquement privé."
+    },
+    correct: "A",
+    explanation: "Bravo ! Le pain est un bien (physique), alors que la leçon de l'instituteur ou le transport en bus sont des services (prestations)."
+  },
+  {
+    num: 3,
+    q: "Qu'appelle-t-on les « facteurs de production » d'une entreprise ?",
+    options: {
+      A: "La publicité, les clients et la concurrence.",
+      B: "Les éléments indispensables pour produire : les matières premières, le travail humain et le capital technique.",
+      C: "Les impôts versés aux communes par les usines."
+    },
+    correct: "B",
+    explanation: "Exact ! Une entreprise a besoin de matières premières, de main-d'œuvre (travail) et d'outils/machines (capital) pour fabriquer."
+  },
+  {
+    num: 4,
+    q: "Sur une fiche de paie, qu'est-ce que le salaire net ?",
+    options: {
+      A: "La valeur totale payée par l'employeur avant le retrait des taxes.",
+      B: "La somme finale versée sur le compte bancaire du travailleur après déduction des cotisations de solidarité.",
+      C: "La somme que l'employé doit payer à sa banque."
+    },
+    correct: "B",
+    explanation: "Correct ! Le salaire net est l'argent restant dans la poche du travailleur après prélèvement des cotisations sociales."
+  },
+  {
+    num: 5,
+    q: "À quoi servent les cotisations sociales prélevées sur les salaires ?",
+    options: {
+      A: "À remplir une cagnotte de sécurité sociale pour financer la santé, les retraites et le chômage.",
+      B: "À enrichir les propriétaires de l'entreprise.",
+      C: "À financer les publicités des marques sur internet."
+    },
+    correct: "A",
+    explanation: "Excellent ! Les cotisations sociales alimentent la sécurité sociale, un système solidaire protégeant les citoyens face aux accidents de la vie."
+  },
+  {
+    num: 6,
+    q: "Pourquoi paye-t-on des impôts à l'État et aux communes ?",
+    options: {
+      A: "Pour priver les citoyens de leur argent inutilement.",
+      B: "Pour financer les services publics collectifs (écoles, routes, parcs) et gérer le bien commun.",
+      C: "Pour acheter uniquement des cadeaux aux citoyens."
+    },
+    correct: "B",
+    explanation: "Bravo ! L'impôt permet le financement des services qui profitent à tous les citoyens de façon équitable."
+  },
+  {
+    num: 7,
+    q: "Qu'est-ce que le principe de l'économie circulaire ?",
+    options: {
+      A: "Acheter un objet, l'utiliser très peu de temps et le jeter pour en acheter un neuf.",
+      B: "Réduire les déchets, réparer ce qui est en panne, réutiliser et recycler les matériaux pour préserver les ressources.",
+      C: "Vendre des objets ronds sur des marchés locaux."
+    },
+    correct: "B",
+    explanation: "Correct ! L'économie circulaire évite le gaspillage des ressources en réutilisant et en recyclant en boucle."
+  },
+  {
+    num: 8,
+    q: "Laquelle de ces propositions décrit un stéréotype dans le monde du travail ?",
+    options: {
+      A: "Penser qu'un métier est réservé aux hommes ou aux femmes à cause de représentations sociales traditionnelles.",
+      B: "Signer un contrat stipulant un travail spécifique.",
+      C: "Payer le même salaire pour un poste de travail identique."
+    },
+    correct: "A",
+    explanation: "Exact ! Penser que les femmes ne peuvent être ingénieures ou que les hommes ne peuvent travailler en crèche est un stéréotype qu'il faut déconstruire."
+  }
+];
+
+let userAnswers = {};
+
+function renderQuiz() {
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = "";
+  
+  quizQuestions.forEach(q => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "quiz-q";
+    qDiv.id = "quiz-q-" + q.num;
+    
+    const qText = document.createElement("p");
+    qText.className = "qtext";
+    qText.textContent = q.num + ". " + q.q;
+    qDiv.appendChild(qText);
+    
+    for (const [key, value] of Object.entries(q.options)) {
+      const optBtn = document.createElement("button");
+      optBtn.type = "button";
+      optBtn.className = "opt";
+      optBtn.setAttribute("data-q", q.num);
+      optBtn.setAttribute("data-opt", key);
+      optBtn.textContent = key + ". " + value;
+      optBtn.onclick = () => selectQuizOption(q.num, key);
+      qDiv.appendChild(optBtn);
+    }
+    
+    const fbDiv = document.createElement("div");
+    fbDiv.className = "fb";
+    fbDiv.id = "quiz-fb-" + q.num;
+    qDiv.appendChild(fbDiv);
+    
+    container.appendChild(qDiv);
+  });
+}
+
+function selectQuizOption(qNum, selectedKey) {
+  if (userAnswers[qNum]) return; // déjà répondu
+  
+  userAnswers[qNum] = selectedKey;
+  const q = quizQuestions.find(x => x.num === qNum);
+  const qDiv = document.getElementById("quiz-q-" + qNum);
+  const fb = document.getElementById("quiz-fb-" + qNum);
+  
+  // Désactiver toutes les options de cette question et colorer
+  qDiv.querySelectorAll(".opt").forEach(btn => {
+    btn.disabled = true;
+    const optKey = btn.getAttribute("data-opt");
+    if (optKey === q.correct) {
+      btn.classList.add("correct");
+    } else if (optKey === selectedKey) {
+      btn.classList.add("wrong");
+    }
+  });
+  
+  // Afficher feedback
+  fb.classList.add("show");
+  if (selectedKey === q.correct) {
+    fb.style.color = "var(--vert)";
+    fb.innerHTML = "<b>Correct !</b> " + q.explanation;
+  } else {
+    fb.style.color = "var(--rouge)";
+    fb.innerHTML = "<b>Incorrect.</b> La bonne réponse était la " + q.correct + ".<br>" + q.explanation;
+  }
+  
+  checkQuizCompletion();
+}
+
+function checkQuizCompletion() {
+  const answeredCount = Object.keys(userAnswers).length;
+  if (answeredCount === quizQuestions.length) {
+    let score = 0;
+    quizQuestions.forEach(q => {
+      if (userAnswers[q.num] === q.correct) {
+        score++;
+      }
+    });
+    
+    document.getElementById("quizFinalScore").textContent = score;
+    document.getElementById("quizScorebar").style.display = "flex";
+  }
+}
+
+function resetQuiz() {
+  userAnswers = {};
+  document.getElementById("quizScorebar").style.display = "none";
+  renderQuiz();
+}
+
+renderQuiz();
+
+/* ============ ATELIER : LE VOYAGE DE LA PAIE ============ */
+const vpAnswers = {
+  1: {
+    correct: "B",
+    explanation: "C'est exact ! Le gâteau entier représente le salaire brut de départ, c'est-à-dire la valeur totale promise avant tout prélèvement."
+  },
+  2: {
+    correct: "B",
+    explanation: "Bravo ! Le salaire imposable est la part de gâteau restante après avoir retiré la cotisation ONSS pour la solidarité."
+  },
+  3: {
+    correct: "A",
+    explanation: "Tout à fait ! La part d'impôt (le précompte) prélevée pour l'État sert à financer les services publics qui profitent à tous (écoles, parcs, routes)."
+  },
+  4: {
+    correct: "B",
+    explanation: "Exact ! L'entonnoir ONSS indique qu'un prélèvement de 13,07 % est effectué sur le salaire brut pour alimenter le pot commun."
+  },
+  5: {
+    correct: "B",
+    explanation: "C'est juste ! Le pot de l'ONSS est redistribué pour rembourser les frais de médecin et de santé, payer les pensions des retraités, et soutenir les travailleurs sans emploi."
+  },
+  6: {
+    correct: "A",
+    explanation: "Excellent ! Le bonus à l'emploi réduit les charges sur les bas salaires pour leur laisser une plus grande somme d'argent net dans leur poche."
+  }
+};
+let vpUserAnswers = {};
+
+function checkVP(qNum, selectedKey) {
+  if (vpUserAnswers[qNum]) return;
+  vpUserAnswers[qNum] = selectedKey;
+  
+  const q = vpAnswers[qNum];
+  const qDiv = document.getElementById("vp-q-" + qNum);
+  const fb = document.getElementById("vp-fb-" + qNum);
+  
+  qDiv.querySelectorAll(".opt").forEach(btn => {
+    btn.disabled = true;
+    const optLetter = btn.textContent.trim().charAt(0);
+    if (optLetter === q.correct) {
+      btn.classList.add("correct");
+    } else if (optLetter === selectedKey) {
+      btn.classList.add("wrong");
+    }
+  });
+  
+  fb.classList.add("show");
+  if (selectedKey === q.correct) {
+    fb.style.color = "var(--vert)";
+    fb.innerHTML = "<b>Correct !</b> " + q.explanation;
+  } else {
+    fb.style.color = "var(--rouge)";
+    fb.innerHTML = "<b>Incorrect.</b> La réponse correcte était la " + q.correct + ".<br>" + q.explanation;
+  }
+}
+
+/* ============ ATELIER : QCM FICHE DE PAIE JEAN DUPONT ============ */
+const paieQuizQuestions = [
+  {
+    num: 1,
+    q: "Qui est le travailleur concerné par cette fiche de rémunération ?",
+    options: {
+      A: "Belgique Services S.A.",
+      B: "Julie la conseillère.",
+      C: "Jean Dupont."
+    },
+    correct: "C",
+    explanation: "Jean Dupont est le travailleur salarié, comme indiqué dans l'encadré « TRAVAILLEUR »."
+  },
+  {
+    num: 2,
+    q: "Quel est le salaire brut de base (normal) de Jean Dupont ?",
+    options: {
+      A: "2 201,20 €",
+      B: "3 000,00 €",
+      C: "2 607,90 €"
+    },
+    correct: "B",
+    explanation: "Le salaire brut de base (rubrique 1000) s'élève à 3 000,00 €."
+  },
+  {
+    num: 3,
+    q: "Quelle somme est prélevée pour la sécurité sociale (ONSS) ?",
+    options: {
+      A: "421,50 €",
+      B: "392,10 €",
+      C: "23,40 €"
+    },
+    correct: "B",
+    explanation: "La cotisation personnelle ONSS représente 13,07 % du salaire brut, soit une retenue de 392,10 €."
+  },
+  {
+    num: 4,
+    q: "Quelle est la base sur laquelle l'impôt (le précompte professionnel) est calculé ?",
+    options: {
+      A: "Le salaire brut de base (3 000,00 €).",
+      B: "Le salaire net net à payer (2 201,20 €).",
+      C: "Le salaire imposable (2 607,90 €)."
+    },
+    correct: "C",
+    explanation: "L'impôt est calculé sur le salaire imposable (rubrique 2500), c'est-à-dire le brut diminué de la cotisation ONSS."
+  },
+  {
+    num: 5,
+    q: "Quel est le montant de l'impôt retenu à la source pour l'État (le précompte professionnel) ?",
+    options: {
+      A: "421,50 €",
+      B: "392,10 €",
+      C: "60,00 €"
+    },
+    correct: "A",
+    explanation: "Le précompte professionnel (rubrique 3000) s'élève à 421,50 € de retenue."
+  },
+  {
+    num: 6,
+    q: "À quoi sert la cotisation ONSS prélevée sur la fiche de paie ?",
+    options: {
+      A: "À financer le remboursement des soins de santé, les pensions de retraite et les allocations de chômage.",
+      B: "À payer le carburant des camions de transport de l'employeur.",
+      C: "À financer directement la construction des écoles et des routes publiques."
+    },
+    correct: "A",
+    explanation: "Les cotisations ONSS financent la sécurité sociale, tandis que l'impôt (précompte) gère les infrastructures publiques."
+  },
+  {
+    num: 7,
+    q: "Pourquoi Jean Dupont reçoit-il un versement de 60,00 € (rubrique 4100) ?",
+    options: {
+      A: "C'est une prime offerte par l'État pour récompenser son travail.",
+      B: "C'est un remboursement de l'employeur pour ses frais de déplacement domicile-travail.",
+      C: "C'est sa part de bénéfice sur les ventes de l'entreprise."
+    },
+    correct: "B",
+    explanation: "L'indemnité de transport (rubrique 4100) est un remboursement de l'employeur pour ses déplacements."
+  },
+  {
+    num: 8,
+    q: "Combien Jean Dupont paie-t-il pour ses chèques-repas (rubrique 4500) ?",
+    options: {
+      A: "60,00 €",
+      B: "Gratuit.",
+      C: "21,80 € pour 20 jours prestés."
+    },
+    correct: "C",
+    explanation: "La fiche indique une retenue personnelle de 21,80 € (soit 1,09 € par jour) pour ses chèques-repas."
+  },
+  {
+    num: 9,
+    q: "Quel est le salaire net à payer (le montant final versé sur le compte) de Jean Dupont ?",
+    options: {
+      A: "2 201,20 €",
+      B: "3 060,00 €",
+      C: "2 607,90 €"
+    },
+    correct: "A",
+    explanation: "Le salaire net final de Jean Dupont (totaux/net) est de 2 201,20 €."
+  },
+  {
+    num: 10,
+    q: "Quel est le calcul simplifié permettant de trouver ce salaire net à payer ?",
+    options: {
+      A: "Salaire Brut - Cotisations ONSS - Précompte - Autres retenues + Versements (Transports).",
+      B: "Salaire Brut + Cotisations ONSS + Impôts.",
+      C: "Uniquement le Salaire Brut divisé par 2."
+    },
+    correct: "A",
+    explanation: "Le salaire net correspond à l'ensemble des versements (dont le brut et les transports) moins l'ensemble des retenues (ONSS, impôt précompte, CSSS, chèques-repas)."
+  }
+];
+
+let paieUserAnswers = {};
+
+function renderPaieQuiz() {
+  const container = document.getElementById("paieQuizContainer");
+  container.innerHTML = "";
+  
+  paieQuizQuestions.forEach(q => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "quiz-q";
+    qDiv.id = "paie-q-" + q.num;
+    
+    const qText = document.createElement("p");
+    qText.className = "qtext";
+    qText.textContent = q.num + ". " + q.q;
+    qDiv.appendChild(qText);
+    
+    for (const [key, value] of Object.entries(q.options)) {
+      const optBtn = document.createElement("button");
+      optBtn.type = "button";
+      optBtn.className = "opt";
+      optBtn.setAttribute("data-q", q.num);
+      optBtn.setAttribute("data-opt", key);
+      optBtn.textContent = key + ". " + value;
+      optBtn.onclick = () => selectPaieQuizOption(q.num, key);
+      qDiv.appendChild(optBtn);
+    }
+    
+    const fbDiv = document.createElement("div");
+    fbDiv.className = "fb";
+    fbDiv.id = "paie-fb-" + q.num;
+    qDiv.appendChild(fbDiv);
+    
+    container.appendChild(qDiv);
+  });
+}
+
+function selectPaieQuizOption(qNum, selectedKey) {
+  if (paieUserAnswers[qNum]) return;
+  
+  paieUserAnswers[qNum] = selectedKey;
+  const q = paieQuizQuestions.find(x => x.num === qNum);
+  const qDiv = document.getElementById("paie-q-" + qNum);
+  const fb = document.getElementById("paie-fb-" + qNum);
+  
+  qDiv.querySelectorAll(".opt").forEach(btn => {
+    btn.disabled = true;
+    const optKey = btn.getAttribute("data-opt");
+    if (optKey === q.correct) {
+      btn.classList.add("correct");
+    } else if (optKey === selectedKey) {
+      btn.classList.add("wrong");
+    }
+  });
+  
+  fb.classList.add("show");
+  if (selectedKey === q.correct) {
+    fb.style.color = "var(--vert)";
+    fb.innerHTML = "<b>Correct !</b> " + q.explanation;
+  } else {
+    fb.style.color = "var(--rouge)";
+    fb.innerHTML = "<b>Incorrect.</b> La bonne réponse était la " + q.correct + ".<br>" + q.explanation;
+  }
+  
+  checkPaieQuizCompletion();
+}
+
+function checkPaieQuizCompletion() {
+  const answeredCount = Object.keys(paieUserAnswers).length;
+  if (answeredCount === paieQuizQuestions.length) {
+    let score = 0;
+    paieQuizQuestions.forEach(q => {
+      if (paieUserAnswers[q.num] === q.correct) {
+        score++;
+      }
+    });
+    
+    document.getElementById("paieQuizFinalScore").textContent = score;
+    document.getElementById("paieQuizScorebar").style.display = "flex";
+  }
+}
+
+function resetPaieQuiz() {
+  paieUserAnswers = {};
+  document.getElementById("paieQuizScorebar").style.display = "none";
+  renderPaieQuiz();
+}
+
+renderPaieQuiz();
+</script>
+
+</body>
+</html>
