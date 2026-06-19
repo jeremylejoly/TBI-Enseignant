@@ -12,6 +12,9 @@
     --color-chuchotement: #10b981;
     --color-groupe: #f59e0b;
     --color-presentation: #ef4444;
+    
+    /* Zoom du Semainier */
+    --schedule-zoom: 1;
 }
 
 /* --- LOGIQUE DES ONGLETS (TABS) --- */
@@ -465,7 +468,6 @@
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
     font-family: 'Fredoka', sans-serif;
     table-layout: fixed;
-    --schedule-zoom: 1;
 }
 
 .schedule-table th, 
@@ -553,6 +555,11 @@
 
 /* Print Styles */
 @media print {
+    :root, 
+    html {
+        --schedule-zoom: 1 !important;
+    }
+    
     /* Hide layout parts */
     header, 
     nav, 

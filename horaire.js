@@ -2,7 +2,8 @@
 
 let tbiWeeks = [];
 let activeWeekId = null;
-let scheduleZoom = parseFloat(localStorage.getItem('tbi_schedule_zoom')) || 1.0;
+let rawZoom = parseFloat(localStorage.getItem('tbi_schedule_zoom'));
+let scheduleZoom = isNaN(rawZoom) || rawZoom <= 0 ? 1.0 : rawZoom;
 
 const TIME_SLOTS = [
     { time: "8h30 - 9h20", type: "course" },
@@ -52,6 +53,8 @@ function initHoraireApp() {
     loadWeeks();
     populateWeekSelect();
     
+    document.documentElement.style.setProperty('--schedule-zoom', scheduleZoom);
+    
     const label = document.getElementById('schedule-zoom-label');
     if (label) {
         label.textContent = Math.round(scheduleZoom * 100) + '%';
@@ -72,10 +75,8 @@ function zoomSchedule(delta) {
     scheduleZoom = parseFloat(scheduleZoom.toFixed(1));
     localStorage.setItem('tbi_schedule_zoom', scheduleZoom);
     
-    const table = document.querySelector('.schedule-table');
-    if (table) {
-        table.style.setProperty('--schedule-zoom', scheduleZoom);
-    }
+    document.documentElement.style.setProperty('--schedule-zoom', scheduleZoom);
+    
     const label = document.getElementById('schedule-zoom-label');
     if (label) {
         label.textContent = Math.round(scheduleZoom * 100) + '%';
@@ -133,7 +134,7 @@ function renderScheduleTable(week) {
     container.style.position = 'relative';
     
     let html = `
-        <table class="schedule-table" style="--schedule-zoom: ${scheduleZoom};">
+        <table class="schedule-table">
             <thead>
                 <tr>
                     <th class="time-col-header">HEURES</th>
