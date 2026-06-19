@@ -1541,12 +1541,36 @@
     <script src="app.js"></script>
 
     <script>
-      // Enregistrement du service worker pour le mode hors-ligne
+      // Enregistrement du service worker pour le mode hors-ligne avec détection de mise à jour
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('sw.js')
-            .then(function(reg) { console.log('✅ Service Worker de la Console TBI enregistré !', reg); })
+            .then(function(reg) {
+              console.log('✅ Service Worker de la Console TBI enregistré !', reg);
+              
+              // Détecter les mises à jour en cours
+              reg.onupdatefound = () => {
+                const installingWorker = reg.installing;
+                installingWorker.onstatechange = () => {
+                  if (installingWorker.state === 'installed') {
+                    if (navigator.serviceWorker.controller) {
+                      console.log('🔄 Nouveau Service Worker disponible, rechargement automatique...');
+                      window.location.reload();
+                    }
+                  }
+                };
+              };
+            })
             .catch(function(err) { console.error('❌ Échec enregistrement Service Worker TBI :', err); });
+            
+          // Forcer le rechargement dès que le nouveau worker prend le contrôle
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+              refreshing = true;
+              window.location.reload();
+            }
+          });
         });
       }
     </script>
