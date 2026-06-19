@@ -458,19 +458,20 @@
 }
 
 .schedule-table {
-    width: 100%;
+    width: calc(100% * var(--schedule-zoom, 1));
     border-collapse: collapse;
     border: 3px solid #0f172a;
     background-color: #ffffff;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
     font-family: 'Fredoka', sans-serif;
     table-layout: fixed;
+    --schedule-zoom: 1;
 }
 
 .schedule-table th, 
 .schedule-table td {
     border: 2px solid #0f172a;
-    padding: 10px;
+    padding: calc(10px * var(--schedule-zoom, 1));
     vertical-align: middle;
     text-align: center;
     font-family: 'Outfit', sans-serif;
@@ -482,27 +483,27 @@
     font-weight: 800;
     color: #0f172a;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: calc(13px * var(--schedule-zoom, 1));
     letter-spacing: 0.5px;
-    padding: 12px 10px;
+    padding: calc(12px * var(--schedule-zoom, 1)) calc(10px * var(--schedule-zoom, 1));
 }
 
 .schedule-table th.time-col-header {
-    width: 80px;
+    width: calc(80px * var(--schedule-zoom, 1));
 }
 
 .schedule-time-cell {
     font-family: 'Fredoka', sans-serif;
     font-weight: bold;
-    font-size: 11px;
+    font-size: calc(11px * var(--schedule-zoom, 1));
     color: #475569;
     background-color: #f8fafc;
-    width: 80px;
+    width: calc(80px * var(--schedule-zoom, 1));
 }
 
 .schedule-course-cell {
-    min-height: 50px;
-    font-size: 13px;
+    min-height: calc(50px * var(--schedule-zoom, 1));
+    font-size: calc(13px * var(--schedule-zoom, 1));
     font-weight: 600;
     color: #1e293b;
     outline: none;
@@ -526,8 +527,8 @@
     background-color: #f8fafc !important;
     font-family: 'Fredoka', sans-serif;
     font-weight: 900;
-    font-size: 13px;
-    letter-spacing: 4px;
+    font-size: calc(13px * var(--schedule-zoom, 1));
+    letter-spacing: calc(4px * var(--schedule-zoom, 1));
     color: #0f172a;
 }
 
@@ -535,8 +536,8 @@
     background-color: #f8fafc !important;
     font-family: 'Fredoka', sans-serif;
     font-weight: 950;
-    font-size: 15px;
-    letter-spacing: 6px;
+    font-size: calc(15px * var(--schedule-zoom, 1));
+    letter-spacing: calc(6px * var(--schedule-zoom, 1));
     color: #0f172a;
 }
 
