@@ -581,6 +581,8 @@
     }
     
     .schedule-table {
+        width: 100% !important;
+        --schedule-zoom: 1 !important;
         box-shadow: none !important;
         border-width: 2px !important;
         page-break-inside: avoid;
