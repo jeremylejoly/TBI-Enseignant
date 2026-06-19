@@ -1076,6 +1076,19 @@
                             <select id="devoirs-week-select" onchange="selectDevoirsWeek(this.value)" class="text-sm bg-neutral-100 border-2 border-neutral-900 rounded-xl p-2 font-bold text-neutral-800 outline-none cursor-pointer">
                                 <!-- Les options seront injectées dynamiquement -->
                             </select>
+                            <span class="w-px h-6 bg-neutral-300 mx-1"></span>
+                            <div class="flex items-center gap-1">
+                                <button onclick="zoomDevoirs(-0.1)" class="w-8 h-8 bg-neutral-50 hover:bg-neutral-100 text-neutral-800 border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Zoom arrière">
+                                    <i data-lucide="zoom-out" class="w-4 h-4"></i>
+                                </button>
+                                <span id="devoirs-zoom-label" class="text-xs font-mono font-bold px-1.5 min-w-[42px] text-center">100%</span>
+                                <button onclick="zoomDevoirs(0.1)" class="w-8 h-8 bg-neutral-50 hover:bg-neutral-100 text-neutral-800 border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Zoom avant">
+                                    <i data-lucide="zoom-in" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="zoomDevoirs(0)" class="px-2.5 h-8 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Réinitialiser le zoom">
+                                    Réinit.
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="flex flex-wrap gap-2.5">

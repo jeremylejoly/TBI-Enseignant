@@ -2,6 +2,8 @@
 
 let tbiDevoirsWeeks = [];
 let activeDevoirsWeekId = null;
+let rawDevoirsZoom = parseFloat(localStorage.getItem('tbi_devoirs_zoom'));
+let devoirsZoom = isNaN(rawDevoirsZoom) || rawDevoirsZoom <= 0 ? 1.0 : rawDevoirsZoom;
 
 const DAYS_LIST = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
@@ -10,9 +12,39 @@ function initDevoirsApp() {
     loadDevoirs();
     populateDevoirsWeekSelect();
     
+    document.documentElement.style.setProperty('--devoirs-zoom', devoirsZoom);
+    
+    const label = document.getElementById('devoirs-zoom-label');
+    if (label) {
+        label.textContent = Math.round(devoirsZoom * 100) + '%';
+    }
+    
     const currentWeek = tbiDevoirsWeeks.find(w => w.id === activeDevoirsWeekId);
     if (currentWeek) {
         renderDevoirsTable(currentWeek);
+    }
+}
+
+function zoomDevoirs(delta) {
+    if (delta === 0) {
+        devoirsZoom = 1.0;
+    } else {
+        devoirsZoom = Math.max(0.6, Math.min(2.0, devoirsZoom + delta));
+    }
+    devoirsZoom = parseFloat(devoirsZoom.toFixed(1));
+    localStorage.setItem('tbi_devoirs_zoom', devoirsZoom);
+    
+    document.documentElement.style.setProperty('--devoirs-zoom', devoirsZoom);
+    
+    const label = document.getElementById('devoirs-zoom-label');
+    if (label) {
+        label.textContent = Math.round(devoirsZoom * 100) + '%';
+    }
+    
+    // Auto-resize textareas as text box dimensions might change on zoom
+    const container = document.getElementById('devoirs-table-container');
+    if (container) {
+        container.querySelectorAll('.devoirs-input-text').forEach(ta => autoResizeTextarea(ta));
     }
 }
 
