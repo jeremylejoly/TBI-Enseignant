@@ -77,7 +77,7 @@
     background: #ffffff;
     width: 210mm;
     height: 297mm;
-    padding: 12mm 16mm;
+    padding: 10mm 16mm;
     margin-bottom: 30px;
     border: 3px solid var(--border);
     box-shadow: 6px 6px 0px var(--border);
@@ -89,7 +89,7 @@
 
   .page-footer {
     position: absolute;
-    bottom: 8mm;
+    bottom: 6mm;
     left: 16mm;
     right: 16mm;
     display: flex;
@@ -97,7 +97,7 @@
     font-size: 9pt;
     font-weight: bold;
     border-top: 2px solid #ccc;
-    padding-top: 6px;
+    padding-top: 4px;
     color: #777;
   }
 
@@ -105,22 +105,22 @@
   .header-box {
     border: 3px solid var(--border);
     border-radius: 12px;
-    padding: 12px 16px;
+    padding: 10px 14px;
     background: #FDFBF7;
     box-shadow: 4px 4px 0 var(--border);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .header-title-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     border-bottom: 3px dashed var(--border);
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
   .header-title-row h1 {
     font-family: 'Fredoka', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: 800;
   }
   .header-fields {
@@ -133,7 +133,7 @@
   .score-badge {
     background: var(--p2);
     border: 2px solid var(--border);
-    padding: 4px 10px;
+    padding: 2px 8px;
     border-radius: 8px;
     font-size: 11pt;
     font-weight: bold;
@@ -144,21 +144,21 @@
   .consigne {
     font-size: 14px;
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.5;
     background: #f4f2ec;
     border-left: 5px solid var(--border);
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 4px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .question-block {
-    margin-bottom: 10px;
+    margin-bottom: 7px;
     page-break-inside: avoid;
   }
   .question-text {
     font-size: 12px;
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.5;
     margin-bottom: 4px;
   }
 
@@ -166,14 +166,14 @@
   .qcm-options {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 4px;
+    gap: 3px;
     padding-left: 10px;
     margin-top: 2px;
   }
   .qcm-option {
     font-size: 12px;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.5;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -212,9 +212,9 @@
   /* Éléments de réponse ouverte (Lignes d'écriture Seyès / réglées) */
   .writing-lines {
     background-image: linear-gradient(#ccc 1px, transparent 1px);
-    background-size: 100% 22px;
-    line-height: 22px;
-    height: 45px; /* 2 lignes */
+    background-size: 100% 20px;
+    line-height: 20px;
+    height: 40px; /* 2 lignes */
     margin-top: 4px;
     border-bottom: 1px solid #ccc;
     margin-left: 10px;
@@ -232,18 +232,18 @@
     width: 47%;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
   .match-item {
     border: 2px solid var(--border);
-    padding: 5px 8px;
+    padding: 3px 6px;
     border-radius: 8px;
     background: #fff;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     line-height: 1.2;
     position: relative;
-    min-height: 34px;
+    min-height: 28px;
     display: flex;
     align-items: center;
   }
@@ -311,7 +311,7 @@
   <div class="header-box">
     <div class="header-title-row">
       <h1>📜 ENQUÊTE SUR LA FRISE HISTORIQUE</h1>
-      <div class="score-badge">Score : ______ / 30</div>
+      <div class="score-badge">Score : ______ / 45</div>
     </div>
     <div class="header-fields">
       <div>Nom : ____________________</div>
@@ -378,6 +378,44 @@
     </div>
   </div>
 
+  <!-- Q6 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">6. Les peintures rupestres préhistoriques dessinées sur les parois des grottes (comme à Lascaux) représentent principalement des animaux sauvages et des scènes de chasse.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q7 : QCM -->
+  <div class="question-block">
+    <div class="question-text">7. Quelle espèce d'humain est considérée comme le tout premier artisan à fabriquer des outils taillés en pierre (choppers) vers −2 600 000 av. J.-C. ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Homo erectus</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Homo habilis</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. L'homme de Néandertal</div>
+    </div>
+  </div>
+
+  <!-- Q8 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">8. L'Homo sapiens est apparu en Afrique il y a environ 200 000 à 300 000 ans avant de migrer pour peupler l'ensemble de la Terre.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q9 : QCM -->
+  <div class="question-block">
+    <div class="question-text">9. Quel événement climatique naturel majeur s'est produit aux alentours de −12 000 av. J.-C., marquant la transition vers la fin du Paléolithique ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Une terrible période glaciaire qui a tout gelé.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. La fin de la dernière glaciation et le réchauffement du climat.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Une sécheresse mondiale qui a fait disparaître les forêts.</div>
+    </div>
+  </div>
+
   <div class="page-footer">
     <span>Classe de P5/P6 – Histoire FWB</span>
     <span>Page 1 / 4</span>
@@ -386,15 +424,15 @@
 
 <!-- ====================== PAGE 2 ====================== -->
 <div class="page" id="page-2">
-  <!-- Q6 : Question ouverte -->
+  <!-- Q10 : Question ouverte -->
   <div class="question-block">
-    <div class="question-text">6. Les agriculteurs du Néolithique ont construit de gigantesques monuments en pierre. Où se situe le plus grand site de mégalithes de Belgique (contenant des dolmens), et dans quelle province wallonne est-il situé ?</div>
+    <div class="question-text">10. Les agriculteurs du Néolithique ont construit de gigantesques monuments en pierre. Où se situe le plus grand site de mégalithes de Belgique (contenant des dolmens), et dans quelle province wallonne est-il situé ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q7 : QCM Explicite -->
+  <!-- Q11 : QCM -->
   <div class="question-block">
-    <div class="question-text">7. D'après l'événement de -3300, de quels métaux est composé le bronze, ce nouvel alliage solide qui marque le début de la Protohistoire ?</div>
+    <div class="question-text">11. D'après l'événement de -3300, de quels métaux est composé le bronze, ce nouvel alliage solide qui marque le début de la Protohistoire ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. De fer et de charbon</div>
       <div class="qcm-option"><span class="checkbox"></span> B. De cuivre et d'étain</div>
@@ -402,24 +440,24 @@
     </div>
   </div>
 
-  <!-- Q8 : Vrai ou Faux -->
+  <!-- Q12 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">8. Les dolmens néolithiques en pierre servaient principalement de tombes collectives (sépultures).</div>
+    <div class="question-text">12. Les dolmens néolithiques en pierre servaient principalement de tombes collectives (sépultures).</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q9 : Question ouverte sur image -->
+  <!-- Q13 : Question ouverte sur image -->
   <div class="question-block">
-    <div class="question-text">9. Observe l'Illustration B de la Préhistoire (le village lacustre de Paladru). Cite deux activités artisanales ou agricoles pratiquées par les habitants sur ce dessin.</div>
+    <div class="question-text">13. Observe l'Illustration B de la Préhistoire (le village lacustre de Paladru). Cite deux activités artisanales ou agricoles pratiquées par les habitants sur ce dessin.</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q10 : QCM Implicite -->
+  <!-- Q14 : QCM -->
   <div class="question-block">
-    <div class="question-text">10. Pourquoi l'invention de la poterie en terre cuite au Néolithique a-t-elle été indispensable aux premiers paysans ?</div>
+    <div class="question-text">14. Pourquoi l'invention de la poterie en terre cuite au Néolithique a-t-elle été indispensable aux premiers paysans ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Pour faire cuire les silex afin de les polir plus facilement.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Pour stocker et conserver les surplus de récoltes agricoles (grains) et l'eau.</div>
@@ -427,27 +465,62 @@
     </div>
   </div>
 
-  <!-- Q11 : Vrai ou Faux -->
+  <!-- Q15 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">11. L'Âge du Fer (qui correspond à l'époque des Celtes) s'achève avec la conquête romaine en l'an 476.</div>
+    <div class="question-text">15. L'Âge du Fer (qui correspond à l'époque des Celtes) s'achève avec la conquête romaine en l'an 476.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q12 : Question ouverte -->
+  <!-- Q16 : Question ouverte -->
   <div class="question-block">
-    <div class="question-text">12. Quelle brillante civilisation se répand en Europe occidentale au cours de l'Âge du Fer ? Quels étaient les rôles de leurs prêtres, appelés druides ?</div>
+    <div class="question-text">16. Quelle brillante civilisation se répand en Europe occidentale au cours de l'Âge du Fer ? Quels étaient les rôles de leurs prêtres, appelés druides ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q13 : Vrai ou Faux (Nouvelle question pour remplir la page 2) -->
+  <!-- Q17 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">13. La découverte du bronze a permis de développer un commerce à longue distance pour transporter l'étain nécessaire à sa fabrication.</div>
+    <div class="question-text">17. La découverte du bronze a permis de développer un commerce à longue distance pour transporter l'étain nécessaire à sa fabrication.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q18 : QCM -->
+  <div class="question-block">
+    <div class="question-text">18. Pour quelle raison le Néolithique est-il appelé "l'âge de la pierre polie" par les historiens ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Les humains ponçaient leurs outils en silex pour les rendre plus tranchants et robustes.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Les pierres polies servaient de monnaie d'échange pour le commerce.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. La pierre polie était indispensable pour allumer les feux de campement.</div>
+    </div>
+  </div>
+
+  <!-- Q19 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">19. En Belgique, les premières communautés d'agriculteurs et d'éleveurs sédentaires se sont installées aux alentours de 5 000 av. J.-C.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q20 : Question ouverte -->
+  <div class="question-block">
+    <div class="question-text">20. Explique pourquoi le passage du mode de vie nomade au mode de vie sédentaire au Néolithique est considéré comme une véritable "révolution".</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q21 : QCM -->
+  <div class="question-block">
+    <div class="question-text">21. À l'Âge du Bronze, quel type d'organisation de la société se renforce et s'impose avec l'apparition de chefs guerriers et le développement d'armes redoutables ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Une société parfaitement égalitaire et sans lois.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Une hiérarchie sociale avec des dirigeants puissants au sommet.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Un retour complet au mode de vie nomade du Paléolithique.</div>
     </div>
   </div>
 
@@ -459,15 +532,15 @@
 
 <!-- ====================== PAGE 3 ====================== -->
 <div class="page" id="page-3">
-  <!-- Q14 : Question ouverte -->
+  <!-- Q22 : Question ouverte -->
   <div class="question-block">
-    <div class="question-text">14. Dans nos régions (Belgique), à quelle date précise débute l'Antiquité ? Quel événement historique local et quel célèbre général romain provoquent cette rupture ?</div>
+    <div class="question-text">22. Dans nos régions (Belgique), à quelle date précise débute l'Antiquité ? Quel événement historique local et quel célèbre général romain provoquent cette rupture ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q15 : QCM Explicite -->
+  <!-- Q23 : QCM -->
   <div class="question-block">
-    <div class="question-text">15. D'après la frise chronologique, quelles sont les deux plus anciennes villes romaines créées sur notre sol et encore existantes aujourd'hui ?</div>
+    <div class="question-text">23. D'après la frise chronologique, quelles sont les deux plus anciennes villes romaines créées sur notre sol et encore existantes aujourd'hui ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Bruxelles et Liège</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Tongres (Atuatuca Tungrorum) et Arlon (Orolaunum)</div>
@@ -475,24 +548,24 @@
     </div>
   </div>
 
-  <!-- Q16 : Vrai ou Faux -->
+  <!-- Q24 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">16. Ambiorix est le chef celte de la tribu des Éburons qui a résisté à Jules César en détruisant une légion romaine en -54.</div>
+    <div class="question-text">24. Ambiorix est le chef celte de la tribu des Éburons qui a résisté à Jules César en détruisant une légion romaine en -54.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q17 : Question ouverte sur image -->
+  <!-- Q25 : Question ouverte sur image -->
   <div class="question-block">
-    <div class="question-text">17. Regarde l'Illustration A de l'Antiquité (villa gallo-romaine). Décris la différence entre la "pars urbana" et la "pars rustica". Comment la maison de maître était-elle chauffée ?</div>
+    <div class="question-text">25. Regarde l'Illustration A de l'Antiquité (villa gallo-romaine). Décris la différence entre la "pars urbana" et la "pars rustica". Comment la maison de maître était-elle chauffée ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q18 : Association vocabulaire -->
+  <!-- Q26 : Association vocabulaire -->
   <div class="question-block">
-    <div class="question-text">18. Relie chaque terme historique à sa définition correspondante :</div>
+    <div class="question-text">26. Relie chaque terme historique à sa définition correspondante :</div>
     <div class="match-container">
       <div class="match-col match-left">
         <div class="match-item">Romanisation</div>
@@ -509,9 +582,9 @@
     </div>
   </div>
 
-  <!-- Q19 : QCM Implicite -->
+  <!-- Q27 : QCM -->
   <div class="question-block">
-    <div class="question-text">19. En observant l'Illustration B de l'Antiquité (légionnaire et guerrier gaulois), quel élément de vêtements ou d'équipement permet d'identifier à coup sûr le guerrier celte ?</div>
+    <div class="question-text">27. En observant l'Illustration B de l'Antiquité (légionnaire et guerrier gaulois), quel élément de vêtements ou d'équipement permet d'identifier à coup sûr le guerrier celte ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Il porte une armure segmentée en plaques de fer.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Il porte des braies (pantalons) à carreaux, un torque en bronze et un bouclier ovale.</div>
@@ -519,22 +592,60 @@
     </div>
   </div>
 
-  <!-- Q20 : Vrai ou Faux (Nouvelle question pour remplir la page 3) -->
+  <!-- Q28 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">20. L'écriture cunéiforme et les hiéroglyphes sont apparus vers −3000 av. J.-C. en Égypte et en Mésopotamie.</div>
+    <div class="question-text">28. L'écriture cunéiforme et les hiéroglyphes sont apparus vers −3000 av. J.-C. en Égypte et en Mésopotamie.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q21 : QCM (Nouvelle question pour remplir la page 3) -->
+  <!-- Q29 : QCM -->
   <div class="question-block">
-    <div class="question-text">21. Dans la démocratie directe d'Athènes au Ve s. av. J.-C., qui avait le droit de participer à l'assemblée pour voter les lois ?</div>
+    <div class="question-text">29. Dans la démocratie directe d'Athènes au Ve s. av. J.-C., qui avait le droit de participer à l'assemblée pour voter les lois ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Absolument tous les habitants, y compris les femmes et les esclaves.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Uniquement les hommes libres nés de parents athéniens (les citoyens).</div>
       <div class="qcm-option"><span class="checkbox"></span> C. Uniquement l'empereur et ses généraux.</div>
+    </div>
+  </div>
+
+  <!-- Q30 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">30. Durant la "Pax Romana", l'Empire romain a fait bâtir de nombreuses chaussées pavées en Gaule belgique pour faciliter le passage des troupes et du commerce.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q31 : QCM -->
+  <div class="question-block">
+    <div class="question-text">31. Quel célèbre chef romain, successeur de César, est devenu le tout premier Empereur romain en 27 av. J.-C. ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Auguste</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Romulus Augustule</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Clovis</div>
+    </div>
+  </div>
+
+  <!-- Q32 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">32. La naissance de Jésus de Nazareth, événement fondateur du calendrier chrétien, marque le début de notre ère (l'an 1).</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q33 : QCM -->
+  <div class="question-block">
+    <div class="question-text">33. Quel roi des Francs unifie les territoires belges et français actuels et choisit Tournai comme première capitale avant de se convertir au christianisme ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Charlemagne</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Clovis Ier</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Jules César</div>
     </div>
   </div>
 
@@ -546,33 +657,27 @@
 
 <!-- ====================== PAGE 4 ====================== -->
 <div class="page" id="page-4">
-  <!-- Q22 : Question ouverte -->
+  <!-- Q34 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">22. Au Moyen Âge, quel roi des Francs unifie les territoires et choisit Tournai comme capitale avant de se convertir au christianisme ?</div>
-    <div class="writing-lines"></div>
-  </div>
-
-  <!-- Q23 : Vrai ou Faux (Nouvelle question pour remplir la page 4) -->
-  <div class="question-block">
-    <div class="question-text">23. Charlemagne, couronné empereur en 800 apr. J.-C., a créé des écoles dans les monastères pour y faire enseigner la lecture et l'écriture.</div>
+    <div class="question-text">34. Charlemagne, couronné empereur en 800 apr. J.-C., a créé des écoles dans les monastères pour y faire enseigner la lecture et l'écriture.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q24 : Vrai ou Faux -->
+  <!-- Q35 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">24. En 1302, la bataille des Éperons d'Or a vu la défaite écrasante des artisans et miliciens flamands face à la chevalerie française.</div>
+    <div class="question-text">35. En 1302, la bataille des Éperons d'Or a vu la défaite écrasante des artisans et miliciens flamands face à la chevalerie française.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q25 : QCM (Nouvelle question pour remplir la page 4) -->
+  <!-- Q36 : QCM -->
   <div class="question-block">
-    <div class="question-text">25. Quelle terrible épidémie s'est répandue sur les routes commerciales de l'Europe entre 1347 et 1353, décimant des villes entières ?</div>
+    <div class="question-text">36. Quelle terrible épidémie s'est répandue sur les routes commerciales de l'Europe entre 1347 et 1353, décimant des villes entières ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. La grippe espagnole</div>
       <div class="qcm-option"><span class="checkbox"></span> B. La Peste Noire</div>
@@ -580,9 +685,9 @@
     </div>
   </div>
 
-  <!-- Q26 : QCM Explicite -->
+  <!-- Q37 : QCM -->
   <div class="question-block">
-    <div class="question-text">26. Quel grand événement historique a eu lieu en 1492, marquant la rupture et le passage aux Temps Modernes ?</div>
+    <div class="question-text">37. Quel grand événement historique a eu lieu en 1492, marquant la rupture et le passage aux Temps Modernes ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. La publication des thèses de Martin Luther.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. La découverte de l'Amérique par Christophe Colomb.</div>
@@ -590,21 +695,21 @@
     </div>
   </div>
 
-  <!-- Q27 : Question ouverte (Nouvelle question pour remplir la page 4) -->
+  <!-- Q38 : Question ouverte -->
   <div class="question-block">
-    <div class="question-text">27. Qui a inventé l'imprimerie à caractères mobiles en Europe vers 1450, et pourquoi cela a-t-il révolutionné la diffusion des sciences et de la culture ?</div>
+    <div class="question-text">38. Qui a inventé l'imprimerie à caractères mobiles en Europe vers 1450, et pourquoi cela a-t-il révolutionné la diffusion des sciences et de la culture ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q28 : Question ouverte sur image -->
+  <!-- Q39 : Question ouverte sur image -->
   <div class="question-block">
-    <div class="question-text">28. Observe l'Illustration B des Temps Modernes (travail des mineurs). Comment appelle-t-on le jeune garçon qui pousse le wagonnet ? Quel événement social s'est produit en Belgique en 1886 ?</div>
+    <div class="question-text">39. Observe l'Illustration B des Temps Modernes (travail des mineurs). Comment appelle-t-on le jeune garçon qui pousse le wagonnet ? Quel événement social s'est produit en Belgique en 1886 ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q29 : Association vocabulaire -->
+  <!-- Q40 : Association vocabulaire -->
   <div class="question-block">
-    <div class="question-text">29. Relie chaque concept moderne/contemporain à sa définition :</div>
+    <div class="question-text">40. Relie chaque concept moderne/contemporain à sa définition :</div>
     <div class="match-container">
       <div class="match-col match-left">
         <div class="match-item">Féodalité</div>
@@ -621,13 +726,48 @@
     </div>
   </div>
 
-  <!-- Q30 : QCM Implicite -->
+  <!-- Q41 : QCM -->
   <div class="question-block">
-    <div class="question-text">30. En observant l'Illustration A de l'Époque Contemporaine (cuisine de 1960), quels équipements d'électroménager typiques illustrent l'apparition de la "société de consommation" ?</div>
+    <div class="question-text">41. En observant l'Illustration A de l'Époque Contemporaine (cuisine de 1960), quels équipements d'électroménager typiques illustrent l'apparition de la "société de consommation" ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Une cheminée de pierre et un four à pain en briques.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Un réfrigérateur blanc moderne et un transistor radio.</div>
       <div class="qcm-option"><span class="checkbox"></span> C. Une berline de charbon et une machine à vapeur.</div>
+    </div>
+  </div>
+
+  <!-- Q42 : QCM -->
+  <div class="question-block">
+    <div class="question-text">42. Napoléon Bonaparte, qui a réformé les lois avec son célèbre Code Civil appliqué en Belgique, est définitivement vaincu en l'an 1815 lors de quelle bataille sur notre territoire ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. La bataille de Courtrai</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. La bataille de Waterloo</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. La bataille des Éperons d'Or</div>
+    </div>
+  </div>
+
+  <!-- Q43 : QCM -->
+  <div class="question-block">
+    <div class="question-text">43. Quel est le nom du tout premier Roi des Belges, qui a prêté serment sur la Constitution en juillet 1831, après l'indépendance de 1830 ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Léopold Ier</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Albert Ier</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Baudouin</div>
+    </div>
+  </div>
+
+  <!-- Q44 : Question ouverte -->
+  <div class="question-block">
+    <div class="question-text">44. Explique brièvement ce qu'est la décolonisation et cite le nom du pays d'Afrique qui a obtenu son indépendance vis-à-vis de la Belgique le 30 juin 1960.</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q45 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">45. C'est au cours de réformes de l'État s'étalant de 1970 à 1993 que la Belgique s'est progressivement transformée pour devenir officiellement un État fédéral.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
