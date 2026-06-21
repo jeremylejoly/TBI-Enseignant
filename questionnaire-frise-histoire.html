@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire d'Enquête Historique – Ligne du Temps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Fredoka:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --border: #1A1A2E;
+    --text: #1A1A2E;
+    --p1: #B5732E;
+    --p2: #D9A521;
+    --p3: #9C2F3A;
+    --p4: #2F6E8F;
+    --p5: #3F8C5C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+    color: var(--text);
+    background: #F4F2EC;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Bouton d'impression */
+  .no-print-zone {
+    margin-bottom: 20px;
+    width: 210mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 15px 25px;
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--border);
+  }
+  .no-print-zone p {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #555;
+  }
+  .print-btn {
+    background: var(--p5);
+    color: #fff;
+    border: 3px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--border);
+    transition: all 0.1s ease;
+    font-family: 'Comic Neue', cursive, sans-serif;
+  }
+  .print-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--border);
+  }
+  .print-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 var(--border);
+  }
+
+  /* Structure des pages A4 */
+  .page {
+    background: #ffffff;
+    width: 210mm;
+    height: 297mm;
+    padding: 15mm 20mm;
+    margin-bottom: 30px;
+    border: 3px solid var(--border);
+    box-shadow: 6px 6px 0px var(--border);
+    position: relative;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-footer {
+    position: absolute;
+    bottom: 12mm;
+    left: 20mm;
+    right: 20mm;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+    font-weight: bold;
+    border-top: 2px solid #ccc;
+    padding-top: 6px;
+    color: #777;
+  }
+
+  /* Header de la page 1 */
+  .header-box {
+    border: 3px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    background: #FDFBF7;
+    box-shadow: 4px 4px 0 var(--border);
+    margin-bottom: 16px;
+  }
+  .header-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    border-bottom: 3px dashed var(--border);
+    padding-bottom: 10px;
+  }
+  .header-title-row h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
+  }
+  .header-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    font-size: 11pt;
+    font-weight: 700;
+  }
+  .score-badge {
+    background: var(--p2);
+    border: 2px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11pt;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  /* Titres de sections */
+  .section-title {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+    background: var(--border);
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+
+  /* Consignes et Questions */
+  .consigne {
+    font-size: 14px; /* Remplacé en px pour garantir la taille demandée */
+    font-weight: 700;
+    line-height: 1.5;
+    background: #f4f2ec;
+    border-left: 5px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  .question-block {
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+  .question-text {
+    font-size: 12px; /* Remplacé en px pour la taille demandée */
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+
+  /* Éléments de réponse QCM */
+  .qcm-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding-left: 10px;
+    margin-top: 4px;
+  }
+  .qcm-option {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .checkbox {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* Éléments de réponse Vrai/Faux */
+  .vf-options {
+    display: flex;
+    gap: 20px;
+    padding-left: 10px;
+    margin-top: 4px;
+  }
+  .vf-option {
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .circle {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* Éléments de réponse ouverte (Lignes d'écriture Seyès / réglées) */
+  .writing-lines {
+    background-image: linear-gradient(#ccc 1px, transparent 1px);
+    background-size: 100% 22px;
+    line-height: 22px;
+    height: 45px; /* 2 lignes */
+    margin-top: 6px;
+    border-bottom: 1px solid #ccc;
+    margin-left: 10px;
+  }
+
+  /* Grille de correspondance (relier les mots) */
+  .match-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    gap: 30px;
+    padding: 0 10px;
+  }
+  .match-col {
+    width: 47%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .match-item {
+    border: 2px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+    position: relative;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+  }
+  .match-left .match-item::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--border);
+    border-radius: 50%;
+  }
+  .match-right .match-item {
+    font-weight: 500;
+  }
+  .match-right .match-item::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--border);
+    border-radius: 50%;
+  }
+
+  /* Print Stylesheet Overrides */
+  @media print {
+    body {
+      background: #ffffff;
+      padding: 0;
+    }
+    .no-print-zone {
+      display: none;
+    }
+    .page {
+      page-break-after: always;
+      page-break-inside: avoid;
+      margin: 0;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      height: 297mm;
+      width: 210mm;
+      /* Ajustement fin pour forcer l'imprimante à respecter la hauteur */
+      max-height: 297mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print-zone">
+  <div>
+    <h2>📄 Questionnaire Prêt pour l'Impression</h2>
+    <p>Ouvrez ce fichier dans Google Chrome ou Safari, puis faites Cmd+P (ou Ctrl+P) et choisissez "Enregistrer au format PDF" ou "Imprimer".</p>
+  </div>
+  <button class="print-btn" onclick="window.print()">🖨️ Imprimer le PDF</button>
+</div>
+
+<!-- ====================== PAGE 1 ====================== -->
+<div class="page" id="page-1">
+  <div class="header-box">
+    <div class="header-title-row">
+      <h1>📜 ENQUÊTE SUR LA FRISE HISTORIQUE</h1>
+      <div class="score-badge">Score : ______ / 24</div>
+    </div>
+    <div class="header-fields">
+      <div>Nom : ____________________</div>
+      <div>Prénom : __________________</div>
+      <div>Date : ____________________</div>
+    </div>
+  </div>
+
+  <div class="consigne">
+    Consigne : Navigue sur la frise chronologique interactive (examine les illustrations, clique sur les périodes et les événements) pour retrouver les indices et répondre aux questions ci-dessous.
+  </div>
+
+  <div class="section-title" style="background: var(--p1);">🦴 Première Partie : Paléolithique & Mésolithique</div>
+
+  <!-- Q1 : QCM Explicite -->
+  <div class="question-block">
+    <div class="question-text">1. D'après la frise chronologique, dans quel pays d'Afrique et en quelle année a été découverte le squelette de notre célèbre ancêtre australopithèque "Lucy" ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. En Égypte, en 1922</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. En Éthiopie, en 1974</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. En Afrique du Sud, en 1990</div>
+    </div>
+  </div>
+
+  <!-- Q2 : Question ouverte sur image -->
+  <div class="question-block">
+    <div class="question-text">2. Observe l'Illustration A de la Préhistoire (le campement d'Étiolles). De quoi sont faites les tentes des humains préhistoriques ? Pourquoi devaient-ils vivre dans des abris démontables ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q3 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">3. L'Homo habilis est la première espèce d'humains à avoir maîtrisé et produit le feu.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q4 : QCM Implicite -->
+  <div class="question-block">
+    <div class="question-text">4. Au Mésolithique, quel changement climatique a contraint les humains à chasser du gibier forestier plus petit (cerfs, sangliers) et à fabriquer des flèches avec de minuscules silex (les microlithes) ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Une terrible glaciation qui a recouvert l'Europe de glace.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Un réchauffement naturel du climat qui a favorisé le développement des forêts.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. La découverte de la métallurgie qui a détruit la nature.</div>
+    </div>
+  </div>
+
+  <!-- Q5 : Association vocabulaire -->
+  <div class="question-block">
+    <div class="question-text">5. Relie par un trait chaque mot de vocabulaire de la Préhistoire à sa définition :</div>
+    <div class="match-container">
+      <div class="match-col match-left">
+        <div class="match-item">Nomade</div>
+        <div class="match-item">Microlithe</div>
+        <div class="match-item">Lacustre</div>
+        <div class="match-item">Sédentaire</div>
+      </div>
+      <div class="match-col match-right">
+        <div class="match-item">Qui a un habitat fixe et vit au même endroit.</div>
+        <div class="match-item">Qui se déplace sans cesse pour suivre le gibier.</div>
+        <div class="match-item">Très petite pierre de silex taillée pour armer les flèches.</div>
+        <div class="match-item">Construit sur pilotis au bord d'un lac (comme à Paladru).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Classe de P5/P6 – Histoire FWB</span>
+    <span>Page 1 / 4</span>
+  </div>
+</div>
+
+<!-- ====================== PAGE 2 ====================== -->
+<div class="page" id="page-2">
+  <div class="section-title" style="background: var(--p1);">🌾 Deuxième Partie : Le Néolithique & la Protohistoire</div>
+
+  <!-- Q6 : Question ouverte -->
+  <div class="question-block">
+    <div class="question-text">6. Les agriculteurs du Néolithique ont construit de gigantesques monuments en pierre. Où se situe le plus grand site de mégalithes de Belgique (contenant des dolmens), et dans quelle province wallonne est-il situé ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q7 : QCM Explicite -->
+  <div class="question-block">
+    <div class="question-text">7. D'après l'événement de -3300, de quels métaux est composé le bronze, ce nouvel alliage solide qui marque le début de la Protohistoire ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. De fer et de charbon</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. De cuivre et d'étain</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. D'or et de bronze</div>
+    </div>
+  </div>
+
+  <!-- Q8 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">8. Les dolmens néolithiques en pierre servaient principalement de tombes collectives (sépultures).</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q9 : Question ouverte sur image -->
+  <div class="question-block">
+    <div class="question-text">9. Observe l'Illustration B de la Préhistoire (le village lacustre de Paladru). Cite deux activités artisanales ou agricoles pratiquées par les habitants sur ce dessin.</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q10 : QCM Implicite -->
+  <div class="question-block">
+    <div class="question-text">10. Pourquoi l'invention de la poterie en terre cuite au Néolithique a-t-elle été indispensable aux premiers paysans ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Pour faire cuire les silex afin de les polir plus facilement.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Pour stocker et conserver les surplus de récoltes agricoles (grains) et l'eau.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Pour transporter les marchandises lors des voyages de migration nomade.</div>
+    </div>
+  </div>
+
+  <!-- Q11 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">11. L'Âge du Fer (qui correspond à l'époque des Celtes) s'achève avec la conquête romaine en l'an 476.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q12 : Question ouverte -->
+  <div class="question-block">
+    <div class="question-text">12. Quelle brillante civilisation se répand en Europe occidentale au cours de l'Âge du Fer ? Quels étaient les rôles de leurs prêtres, appelés druides ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <div class="page-footer">
+    <span>Classe de P5/P6 – Histoire FWB</span>
+    <span>Page 2 / 4</span>
+  </div>
+</div>
+
+<!-- ====================== PAGE 3 ====================== -->
+<div class="page" id="page-3">
+  <div class="section-title" style="background: var(--p2); color: #1A1A2E;">🏛️ Troisième Partie : L'Antiquité gallo-romaine</div>
+
+  <!-- Q13 : Question ouverte -->
+  <div class="question-block">
+    <div class="question-text">13. Dans nos régions (Belgique), à quelle date précise débute l'Antiquité ? Quel événement historique local et quel célèbre général romain provoquent cette rupture ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q14 : QCM Explicite -->
+  <div class="question-block">
+    <div class="question-text">14. D'après la frise chronologique, quelles sont les deux plus anciennes villes romaines créées sur notre sol et encore existantes aujourd'hui ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Bruxelles et Liège</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Tongres (Atuatuca Tungrorum) et Arlon (Orolaunum)</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Tournai et Gand</div>
+    </div>
+  </div>
+
+  <!-- Q15 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">15. Ambiorix est le chef celte de la tribu des Éburons qui a résisté à Jules César en détruisant une légion romaine en -54.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q16 : Question ouverte sur image -->
+  <div class="question-block">
+    <div class="question-text">16. Regarde l'Illustration A de l'Antiquité (villa gallo-romaine). Décris la différence entre la "pars urbana" et la "pars rustica". Comment la maison de maître était-elle chauffée ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q17 : Association vocabulaire -->
+  <div class="question-block">
+    <div class="question-text">17. Relie chaque terme historique à sa définition correspondante :</div>
+    <div class="match-container">
+      <div class="match-col match-left">
+        <div class="match-item">Romanisation</div>
+        <div class="match-item">Cunéiforme</div>
+        <div class="match-item">Hypocauste</div>
+        <div class="match-item">Démocratie</div>
+      </div>
+      <div class="match-col match-right">
+        <div class="match-item">Système romain de chauffage central circulant par le sol.</div>
+        <div class="match-item">Adoption de la langue latine et de la culture de Rome.</div>
+        <div class="match-item">Régime inventé par les Grecs où le peuple vote les lois.</div>
+        <div class="match-item">Première écriture en forme de coins inventée en Mésopotamie.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q18 : QCM Implicite -->
+  <div class="question-block">
+    <div class="question-text">18. En observant l'Illustration B de l'Antiquité (légionnaire et guerrier gaulois), quel élément de vêtements ou d'équipement permet d'identifier à coup sûr le guerrier celte ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Il porte une armure segmentée en plaques de fer.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Il porte des braies (pantalons) à carreaux, un torque en bronze et un bouclier ovale.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Il combat entièrement nu avec un casque orné d'un aigle romain.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Classe de P5/P6 – Histoire FWB</span>
+    <span>Page 3 / 4</span>
+  </div>
+</div>
+
+<!-- ====================== PAGE 4 ====================== -->
+<div class="page" id="page-4">
+  <div class="section-title" style="background: var(--p3);">🏰 Quatrième Partie : Du Moyen Âge à nos jours</div>
+
+  <!-- Q19 : Question ouverte -->
+  <div class="question-block">
+    <div class="question-text">19. Au Moyen Âge, quel roi des Francs unifie les territoires et choisit Tournai comme capitale avant de se convertir au christianisme ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q20 : Vrai ou Faux -->
+  <div class="question-block">
+    <div class="question-text">20. En 1302, la bataille des Éperons d'Or a vu la défaite écrasante des artisans et miliciens flamands face à la chevalerie française.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q21 : QCM Explicite -->
+  <div class="question-block">
+    <div class="question-text">21. Quel grand événement historique a eu lieu en 1492, marquant la rupture et le passage aux Temps Modernes ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. La publication des thèses de Martin Luther.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. La découverte de l'Amérique par Christophe Colomb.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Le couronnement de Charlemagne par le Pape.</div>
+    </div>
+  </div>
+
+  <!-- Q22 : Question ouverte sur image -->
+  <div class="question-block">
+    <div class="question-text">22. Observe l'Illustration B des Temps Modernes (travail des mineurs). Comment appelle-t-on le jeune garçon qui pousse le wagonnet ? Quel événement social s'est produit en Belgique en 1886 ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q23 : Association vocabulaire -->
+  <div class="question-block">
+    <div class="question-text">23. Relie chaque concept moderne/contemporain à sa définition :</div>
+    <div class="match-container">
+      <div class="match-col match-left">
+        <div class="match-item">Féodalité</div>
+        <div class="match-item">Trente Glorieuses</div>
+        <div class="match-item">Héliocentrisme</div>
+        <div class="match-item">Rev. Industrielle</div>
+      </div>
+      <div class="match-col match-right">
+        <div class="match-item">Passage d'un travail artisanal à une production mécanique.</div>
+        <div class="match-item">Découverte montrant que la Terre tourne autour du Soleil.</div>
+        <div class="match-item">Système basé sur le serment de fidélité entre seigneurs.</div>
+        <div class="match-item">Période de forte croissance économique de 1945 à 1973.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q24 : QCM Implicite -->
+  <div class="question-block">
+    <div class="question-text">24. En observant l'Illustration A de l'Époque Contemporaine (cuisine de 1960), quels équipements d'électroménager typiques illustrent l'apparition de la "société de consommation" ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Une cheminée de pierre et un four à pain en briques.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Un réfrigérateur blanc moderne et un transistor radio.</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Une berline de charbon et une machine à vapeur.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Classe de P5/P6 – Histoire FWB</span>
+    <span>Page 4 / 4</span>
+  </div>
+</div>
+
+</body>
+</html>
