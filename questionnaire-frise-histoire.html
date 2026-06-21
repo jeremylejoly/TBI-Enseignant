@@ -77,7 +77,7 @@
     background: #ffffff;
     width: 210mm;
     height: 297mm;
-    padding: 15mm 20mm;
+    padding: 12mm 16mm;
     margin-bottom: 30px;
     border: 3px solid var(--border);
     box-shadow: 6px 6px 0px var(--border);
@@ -89,9 +89,9 @@
 
   .page-footer {
     position: absolute;
-    bottom: 12mm;
-    left: 20mm;
-    right: 20mm;
+    bottom: 8mm;
+    left: 16mm;
+    right: 16mm;
     display: flex;
     justify-content: space-between;
     font-size: 9pt;
@@ -105,22 +105,22 @@
   .header-box {
     border: 3px solid var(--border);
     border-radius: 12px;
-    padding: 14px 18px;
+    padding: 12px 16px;
     background: #FDFBF7;
     box-shadow: 4px 4px 0 var(--border);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .header-title-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     border-bottom: 3px dashed var(--border);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
   }
   .header-title-row h1 {
     font-family: 'Fredoka', sans-serif;
-    font-size: 1.55rem;
+    font-size: 1.5rem;
     font-weight: 800;
   }
   .header-fields {
@@ -140,54 +140,40 @@
     text-align: center;
   }
 
-  /* Titres de sections */
-  .section-title {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #fff;
-    background: var(--border);
-    padding: 6px 14px;
-    border-radius: 8px;
-    border: 2px solid var(--border);
-    margin-bottom: 12px;
-    display: inline-block;
-  }
-
   /* Consignes et Questions */
   .consigne {
-    font-size: 14px; /* Remplacé en px pour garantir la taille demandée */
+    font-size: 14px;
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.4;
     background: #f4f2ec;
     border-left: 5px solid var(--border);
     padding: 8px 12px;
     border-radius: 4px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .question-block {
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     page-break-inside: avoid;
   }
   .question-text {
-    font-size: 12px; /* Remplacé en px pour la taille demandée */
+    font-size: 12px;
     font-weight: 700;
-    line-height: 1.5;
-    margin-bottom: 6px;
+    line-height: 1.4;
+    margin-bottom: 4px;
   }
 
   /* Éléments de réponse QCM */
   .qcm-options {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 5px;
+    gap: 4px;
     padding-left: 10px;
-    margin-top: 4px;
+    margin-top: 2px;
   }
   .qcm-option {
     font-size: 12px;
     font-weight: 500;
-    line-height: 1.5;
+    line-height: 1.4;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -206,7 +192,7 @@
     display: flex;
     gap: 20px;
     padding-left: 10px;
-    margin-top: 4px;
+    margin-top: 2px;
   }
   .vf-option {
     font-size: 12px;
@@ -229,7 +215,7 @@
     background-size: 100% 22px;
     line-height: 22px;
     height: 45px; /* 2 lignes */
-    margin-top: 6px;
+    margin-top: 4px;
     border-bottom: 1px solid #ccc;
     margin-left: 10px;
   }
@@ -238,7 +224,7 @@
   .match-container {
     display: flex;
     justify-content: space-between;
-    margin-top: 8px;
+    margin-top: 6px;
     gap: 30px;
     padding: 0 10px;
   }
@@ -246,18 +232,18 @@
     width: 47%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
   .match-item {
     border: 2px solid var(--border);
-    padding: 6px 10px;
+    padding: 5px 8px;
     border-radius: 8px;
     background: #fff;
     font-size: 11px;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.2;
     position: relative;
-    min-height: 38px;
+    min-height: 34px;
     display: flex;
     align-items: center;
   }
@@ -305,7 +291,6 @@
       border-radius: 0;
       height: 297mm;
       width: 210mm;
-      /* Ajustement fin pour forcer l'imprimante à respecter la hauteur */
       max-height: 297mm;
     }
   }
@@ -326,7 +311,7 @@
   <div class="header-box">
     <div class="header-title-row">
       <h1>📜 ENQUÊTE SUR LA FRISE HISTORIQUE</h1>
-      <div class="score-badge">Score : ______ / 24</div>
+      <div class="score-badge">Score : ______ / 30</div>
     </div>
     <div class="header-fields">
       <div>Nom : ____________________</div>
@@ -338,8 +323,6 @@
   <div class="consigne">
     Consigne : Navigue sur la frise chronologique interactive (examine les illustrations, clique sur les périodes et les événements) pour retrouver les indices et répondre aux questions ci-dessous.
   </div>
-
-  <div class="section-title" style="background: var(--p1);">🦴 Première Partie : Paléolithique & Mésolithique</div>
 
   <!-- Q1 : QCM Explicite -->
   <div class="question-block">
@@ -403,8 +386,6 @@
 
 <!-- ====================== PAGE 2 ====================== -->
 <div class="page" id="page-2">
-  <div class="section-title" style="background: var(--p1);">🌾 Deuxième Partie : Le Néolithique & la Protohistoire</div>
-
   <!-- Q6 : Question ouverte -->
   <div class="question-block">
     <div class="question-text">6. Les agriculteurs du Néolithique ont construit de gigantesques monuments en pierre. Où se situe le plus grand site de mégalithes de Belgique (contenant des dolmens), et dans quelle province wallonne est-il situé ?</div>
@@ -461,6 +442,15 @@
     <div class="writing-lines"></div>
   </div>
 
+  <!-- Q13 : Vrai ou Faux (Nouvelle question pour remplir la page 2) -->
+  <div class="question-block">
+    <div class="question-text">13. La découverte du bronze a permis de développer un commerce à longue distance pour transporter l'étain nécessaire à sa fabrication.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
   <div class="page-footer">
     <span>Classe de P5/P6 – Histoire FWB</span>
     <span>Page 2 / 4</span>
@@ -469,17 +459,15 @@
 
 <!-- ====================== PAGE 3 ====================== -->
 <div class="page" id="page-3">
-  <div class="section-title" style="background: var(--p2); color: #1A1A2E;">🏛️ Troisième Partie : L'Antiquité gallo-romaine</div>
-
-  <!-- Q13 : Question ouverte -->
+  <!-- Q14 : Question ouverte -->
   <div class="question-block">
-    <div class="question-text">13. Dans nos régions (Belgique), à quelle date précise débute l'Antiquité ? Quel événement historique local et quel célèbre général romain provoquent cette rupture ?</div>
+    <div class="question-text">14. Dans nos régions (Belgique), à quelle date précise débute l'Antiquité ? Quel événement historique local et quel célèbre général romain provoquent cette rupture ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q14 : QCM Explicite -->
+  <!-- Q15 : QCM Explicite -->
   <div class="question-block">
-    <div class="question-text">14. D'après la frise chronologique, quelles sont les deux plus anciennes villes romaines créées sur notre sol et encore existantes aujourd'hui ?</div>
+    <div class="question-text">15. D'après la frise chronologique, quelles sont les deux plus anciennes villes romaines créées sur notre sol et encore existantes aujourd'hui ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Bruxelles et Liège</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Tongres (Atuatuca Tungrorum) et Arlon (Orolaunum)</div>
@@ -487,24 +475,24 @@
     </div>
   </div>
 
-  <!-- Q15 : Vrai ou Faux -->
+  <!-- Q16 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">15. Ambiorix est le chef celte de la tribu des Éburons qui a résisté à Jules César en détruisant une légion romaine en -54.</div>
+    <div class="question-text">16. Ambiorix est le chef celte de la tribu des Éburons qui a résisté à Jules César en détruisant une légion romaine en -54.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q16 : Question ouverte sur image -->
+  <!-- Q17 : Question ouverte sur image -->
   <div class="question-block">
-    <div class="question-text">16. Regarde l'Illustration A de l'Antiquité (villa gallo-romaine). Décris la différence entre la "pars urbana" et la "pars rustica". Comment la maison de maître était-elle chauffée ?</div>
+    <div class="question-text">17. Regarde l'Illustration A de l'Antiquité (villa gallo-romaine). Décris la différence entre la "pars urbana" et la "pars rustica". Comment la maison de maître était-elle chauffée ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q17 : Association vocabulaire -->
+  <!-- Q18 : Association vocabulaire -->
   <div class="question-block">
-    <div class="question-text">17. Relie chaque terme historique à sa définition correspondante :</div>
+    <div class="question-text">18. Relie chaque terme historique à sa définition correspondante :</div>
     <div class="match-container">
       <div class="match-col match-left">
         <div class="match-item">Romanisation</div>
@@ -521,13 +509,32 @@
     </div>
   </div>
 
-  <!-- Q18 : QCM Implicite -->
+  <!-- Q19 : QCM Implicite -->
   <div class="question-block">
-    <div class="question-text">18. En observant l'Illustration B de l'Antiquité (légionnaire et guerrier gaulois), quel élément de vêtements ou d'équipement permet d'identifier à coup sûr le guerrier celte ?</div>
+    <div class="question-text">19. En observant l'Illustration B de l'Antiquité (légionnaire et guerrier gaulois), quel élément de vêtements ou d'équipement permet d'identifier à coup sûr le guerrier celte ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Il porte une armure segmentée en plaques de fer.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Il porte des braies (pantalons) à carreaux, un torque en bronze et un bouclier ovale.</div>
       <div class="qcm-option"><span class="checkbox"></span> C. Il combat entièrement nu avec un casque orné d'un aigle romain.</div>
+    </div>
+  </div>
+
+  <!-- Q20 : Vrai ou Faux (Nouvelle question pour remplir la page 3) -->
+  <div class="question-block">
+    <div class="question-text">20. L'écriture cunéiforme et les hiéroglyphes sont apparus vers −3000 av. J.-C. en Égypte et en Mésopotamie.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q21 : QCM (Nouvelle question pour remplir la page 3) -->
+  <div class="question-block">
+    <div class="question-text">21. Dans la démocratie directe d'Athènes au Ve s. av. J.-C., qui avait le droit de participer à l'assemblée pour voter les lois ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. Absolument tous les habitants, y compris les femmes et les esclaves.</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. Uniquement les hommes libres nés de parents athéniens (les citoyens).</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Uniquement l'empereur et ses généraux.</div>
     </div>
   </div>
 
@@ -539,26 +546,43 @@
 
 <!-- ====================== PAGE 4 ====================== -->
 <div class="page" id="page-4">
-  <div class="section-title" style="background: var(--p3);">🏰 Quatrième Partie : Du Moyen Âge à nos jours</div>
-
-  <!-- Q19 : Question ouverte -->
+  <!-- Q22 : Question ouverte -->
   <div class="question-block">
-    <div class="question-text">19. Au Moyen Âge, quel roi des Francs unifie les territoires et choisit Tournai comme capitale avant de se convertir au christianisme ?</div>
+    <div class="question-text">22. Au Moyen Âge, quel roi des Francs unifie les territoires et choisit Tournai comme capitale avant de se convertir au christianisme ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q20 : Vrai ou Faux -->
+  <!-- Q23 : Vrai ou Faux (Nouvelle question pour remplir la page 4) -->
   <div class="question-block">
-    <div class="question-text">20. En 1302, la bataille des Éperons d'Or a vu la défaite écrasante des artisans et miliciens flamands face à la chevalerie française.</div>
+    <div class="question-text">23. Charlemagne, couronné empereur en 800 apr. J.-C., a créé des écoles dans les monastères pour y faire enseigner la lecture et l'écriture.</div>
     <div class="vf-options">
       <div class="vf-option"><span class="circle"></span> Vrai</div>
       <div class="vf-option"><span class="circle"></span> Faux</div>
     </div>
   </div>
 
-  <!-- Q21 : QCM Explicite -->
+  <!-- Q24 : Vrai ou Faux -->
   <div class="question-block">
-    <div class="question-text">21. Quel grand événement historique a eu lieu en 1492, marquant la rupture et le passage aux Temps Modernes ?</div>
+    <div class="question-text">24. En 1302, la bataille des Éperons d'Or a vu la défaite écrasante des artisans et miliciens flamands face à la chevalerie française.</div>
+    <div class="vf-options">
+      <div class="vf-option"><span class="circle"></span> Vrai</div>
+      <div class="vf-option"><span class="circle"></span> Faux</div>
+    </div>
+  </div>
+
+  <!-- Q25 : QCM (Nouvelle question pour remplir la page 4) -->
+  <div class="question-block">
+    <div class="question-text">25. Quelle terrible épidémie s'est répandue sur les routes commerciales de l'Europe entre 1347 et 1353, décimant des villes entières ?</div>
+    <div class="qcm-options">
+      <div class="qcm-option"><span class="checkbox"></span> A. La grippe espagnole</div>
+      <div class="qcm-option"><span class="checkbox"></span> B. La Peste Noire</div>
+      <div class="qcm-option"><span class="checkbox"></span> C. Le choléra</div>
+    </div>
+  </div>
+
+  <!-- Q26 : QCM Explicite -->
+  <div class="question-block">
+    <div class="question-text">26. Quel grand événement historique a eu lieu en 1492, marquant la rupture et le passage aux Temps Modernes ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. La publication des thèses de Martin Luther.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. La découverte de l'Amérique par Christophe Colomb.</div>
@@ -566,15 +590,21 @@
     </div>
   </div>
 
-  <!-- Q22 : Question ouverte sur image -->
+  <!-- Q27 : Question ouverte (Nouvelle question pour remplir la page 4) -->
   <div class="question-block">
-    <div class="question-text">22. Observe l'Illustration B des Temps Modernes (travail des mineurs). Comment appelle-t-on le jeune garçon qui pousse le wagonnet ? Quel événement social s'est produit en Belgique en 1886 ?</div>
+    <div class="question-text">27. Qui a inventé l'imprimerie à caractères mobiles en Europe vers 1450, et pourquoi cela a-t-il révolutionné la diffusion des sciences et de la culture ?</div>
     <div class="writing-lines"></div>
   </div>
 
-  <!-- Q23 : Association vocabulaire -->
+  <!-- Q28 : Question ouverte sur image -->
   <div class="question-block">
-    <div class="question-text">23. Relie chaque concept moderne/contemporain à sa définition :</div>
+    <div class="question-text">28. Observe l'Illustration B des Temps Modernes (travail des mineurs). Comment appelle-t-on le jeune garçon qui pousse le wagonnet ? Quel événement social s'est produit en Belgique en 1886 ?</div>
+    <div class="writing-lines"></div>
+  </div>
+
+  <!-- Q29 : Association vocabulaire -->
+  <div class="question-block">
+    <div class="question-text">29. Relie chaque concept moderne/contemporain à sa définition :</div>
     <div class="match-container">
       <div class="match-col match-left">
         <div class="match-item">Féodalité</div>
@@ -591,9 +621,9 @@
     </div>
   </div>
 
-  <!-- Q24 : QCM Implicite -->
+  <!-- Q30 : QCM Implicite -->
   <div class="question-block">
-    <div class="question-text">24. En observant l'Illustration A de l'Époque Contemporaine (cuisine de 1960), quels équipements d'électroménager typiques illustrent l'apparition de la "société de consommation" ?</div>
+    <div class="question-text">30. En observant l'Illustration A de l'Époque Contemporaine (cuisine de 1960), quels équipements d'électroménager typiques illustrent l'apparition de la "société de consommation" ?</div>
     <div class="qcm-options">
       <div class="qcm-option"><span class="checkbox"></span> A. Une cheminée de pierre et un four à pain en briques.</div>
       <div class="qcm-option"><span class="checkbox"></span> B. Un réfrigérateur blanc moderne et un transistor radio.</div>
