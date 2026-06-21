@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v78';
+const CACHE_NAME = 'tbi-enseignant-cache-v79';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -48,6 +48,16 @@ const ASSETS_TO_CACHE = [
     './Le_voyage_de_ton_salaire.png',
     './Voyage_de_la_fiche_paie.png',
     './fiche-de-paie-belge.pdf',
+    './lecon_frise_historique.html',
+    './photos/doc_etiolles.png',
+    './photos/doc_paladru.png',
+    './photos/doc_villa_romaine.png',
+    './photos/doc_voie_romaine.png',
+    './photos/doc_charrue.png',
+    './photos/doc_sceaux_corporations.png',
+    './photos/doc_reglement_cockerill.png',
+    './photos/doc_fusillade_roux.png',
+    './photos/doc_biodiversite.png',
     // External CDN script and style dependencies cached for 100% offline capability
     'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
     'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js',

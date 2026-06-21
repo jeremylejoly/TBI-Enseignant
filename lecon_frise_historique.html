@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le grand voyage du Temps — Carnet d'investigation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --encre:#14253d;        /* bleu-encre, structure / titres */
+  --courant:#ffc233;      /* jaune signature */
+  --courant-fonce:#f5a800;
+  --cuivre:#c9722f;       /* accent secondaire */
+  --papier:#f6f8fb;       /* fond papier frais */
+  --papier-2:#ffffff;
+  --ardoise:#56657f;      /* texte secondaire */
+  --ligne:#dce3ee;        /* filets */
+  --vert:#2e9e6b;         /* succès / OK */
+  --vert-clair:#e4f5ec;
+  --rouge:#d64545;        /* alerte / danger */
+  --rouge-clair:#fbe6e6;
+  --bleu:#2f6fb0;
+  --bleu-clair:#e7f0fa;
+  --ombre:0 6px 22px rgba(20,37,61,.08);
+  --ombre-forte:0 14px 40px rgba(20,37,61,.16);
+  --radius:18px;
+
+  /* Couleurs spécifiques des périodes historiques */
+  --p1: #B5732E;        /* Préhistoire — ocre */
+  --p1-light: #FDF4E9;
+  --p2: #D9A521;        /* Antiquité — or */
+  --p2-light: #FEF9E6;
+  --p3: #9C2F3A;        /* Moyen Âge — grenat */
+  --p3-light: #FDF1F2;
+  --p4: #2F6E8F;        /* Temps Modernes — bleu */
+  --p4-light: #F1F8FC;
+  --p5: #3F8C5C;        /* Contemporaine — vert */
+  --p5-light: #F2FAF5;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--encre);
+  background:
+    radial-gradient(circle at 1px 1px, rgba(20,37,61,.05) 1px, transparent 0) 0 0/26px 26px,
+    var(--papier);
+  line-height:1.6;
+}
+h1,h2,h3,h4{font-family:'Baloo 2',system-ui,sans-serif;line-height:1.15;margin:0}
+.mono{font-family:'Space Mono',monospace}
+
+/* ---------- EN-TÊTE ---------- */
+header.site{
+  background:linear-gradient(135deg,#102036,#1b3a5e);
+  color:#fff;position:relative;overflow:hidden;
+  border-bottom:4px solid var(--courant);
+}
+header.site::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 20%, rgba(255,194,51,.25), transparent 60%);
+  pointer-events:none;
+}
+.head-inner{max-width:1100px;margin:0 auto;padding:34px 22px 28px;position:relative}
+header.site h1{font-size:clamp(1.6rem,4vw,2.4rem)}
+header.site h1 .spark{color:var(--courant)}
+.head-sub{margin-top:8px;max-width:680px;color:#cfe0f5;font-size:.98rem}
+
+/* ---------- NAVIGATION ONGLETS ---------- */
+nav.tabs{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--ligne);box-shadow:var(--ombre)}
+.tabs-inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;padding:6px 10px;scrollbar-width:thin}
+.tab-btn{
+  flex:0 0 auto;display:flex;align-items:center;gap:8px;
+  background:transparent;border:none;border-radius:12px;padding:10px 14px;
+  font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.92rem;color:var(--ardoise);
+  cursor:pointer;white-space:nowrap;transition:.15s;
+}
+.tab-btn:hover{background:var(--papier)}
+.tab-btn.active{background:var(--encre);color:#fff}
+.tab-btn .num{font-family:'Space Mono',monospace;font-size:.74rem;background:rgba(20,37,61,0.08);color:var(--encre);border-radius:6px;padding:2px 6px}
+.tab-btn.active .num{background:var(--courant);color:var(--encre)}
+
+/* Custom tab colors for periods when active */
+.tab-btn.active[data-tab="prehistoire"] { background: var(--p1); }
+.tab-btn.active[data-tab="prehistoire"] .num { background: #fff; color: var(--p1); }
+.tab-btn.active[data-tab="antiquite"] { background: var(--p2); color: #3A2C05; }
+.tab-btn.active[data-tab="antiquite"] .num { background: #3A2C05; color: var(--p2); }
+.tab-btn.active[data-tab="moyenage"] { background: var(--p3); }
+.tab-btn.active[data-tab="moyenage"] .num { background: #fff; color: var(--p3); }
+.tab-btn.active[data-tab="modernes"] { background: var(--p4); }
+.tab-btn.active[data-tab="modernes"] .num { background: #fff; color: var(--p4); }
+.tab-btn.active[data-tab="contemporaine"] { background: var(--p5); }
+.tab-btn.active[data-tab="contemporaine"] .num { background: #fff; color: var(--p5); }
+
+/* ---------- CONTENU / PAGES ---------- */
+main{max-width:1100px;margin:0 auto;padding:26px 22px 60px}
+.page{display:none;animation:fade .25s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.page h2{font-size:clamp(1.3rem,3vw,1.8rem);display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.pnum{font-family:'Space Mono',monospace;font-size:.85rem;background:var(--encre);color:#fff;border-radius:8px;padding:3px 9px}
+.lead{color:var(--ardoise);font-size:1rem;max-width:760px;margin:6px 0 18px}
+
+/* cartes génériques */
+.card{background:#fff;border:1px solid var(--ligne);border-radius:var(--radius);padding:18px 20px;margin:16px 0;box-shadow:var(--ombre)}
+
+/* étiquettes de bloc pédagogique */
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;padding:5px 12px;border-radius:999px;margin-bottom:4px}
+.tag-q{background:var(--bleu-clair);color:var(--bleu)}
+.tag-online{background:#efe9fb;color:#6b46c1}
+.tag-classe{background:var(--vert-clair);color:var(--vert)}
+.tag-defi{background:#fff1dc;color:var(--cuivre)}
+.tag-secu{background:var(--rouge-clair);color:var(--rouge)}
+.tag-mot{background:#fff7e0;color:var(--courant-fonce)}
+
+/* démarche / étapes */
+.demarche{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.demarche .step{flex:1 1 160px;background:var(--papier);border:1px dashed var(--ligne);border-radius:14px;padding:12px 14px}
+.demarche .step b{font-family:'Baloo 2',sans-serif;display:block;color:var(--encre)}
+.demarche .step .s{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--courant-fonce)}
+
+/* callouts (cadres pédagogiques) */
+.callout{border-radius:14px;padding:16px 18px;margin:16px 0;border-left:5px solid}
+.c-online{background:#f6f2fe;border-color:#6b46c1}
+.c-classe{background:var(--vert-clair);border-color:var(--vert)}
+.c-defi{background:#fff7ee;border-color:var(--cuivre)}
+.c-secu{background:var(--rouge-clair);border-color:var(--rouge)}
+.c-mot{background:#fffaf0;border-color:var(--courant-fonce)}
+.callout h4{font-size:1.05rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.callout p,.callout li{font-size:.96rem}
+.callout ul,.callout ol{margin:8px 0 0;padding-left:20px}
+.callout li{margin:4px 0}
+
+/* ---------- RÉVÉLATION (œil) ---------- */
+.eye-toggle{
+  flex:0 0 auto;border:1px solid var(--ligne);background:#fff;cursor:pointer;
+  border-radius:10px;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:1rem;line-height:1;transition:.15s;color:var(--ardoise);
+}
+.eye-toggle:hover{border-color:var(--courant-fonce);color:var(--encre)}
+.eye-toggle:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.hideable{margin-top:8px}
+.hideable.hidden{display:none}
+.eye-hint{font-size:.82rem;color:var(--ardoise);font-style:italic;margin:6px 0 0}
+.eye-hint.hidden{display:none}
+
+/* lexique */
+.lex{display:grid;gap:10px}
+.lex dt{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--encre)}
+.lex dd{margin:2px 0 0;color:var(--ardoise);font-size:.96rem}
+dl.lex > div{padding:12px 14px;background:var(--papier);border-radius:12px;border:1px solid var(--ligne)}
+
+/* ---------- ATELIERS (squelette générique) ---------- */
+.atelier{background:linear-gradient(180deg,#fbfdff,#f4f7fb);border:1px solid var(--ligne);border-radius:var(--radius);padding:20px;box-shadow:var(--ombre)}
+.atelier-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.atelier-head h3{font-size:1.2rem}
+
+.btn{font-family:'Baloo 2',sans-serif;font-weight:700;border:none;border-radius:12px;padding:11px 18px;cursor:pointer;font-size:.95rem;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.btn-primary{background:var(--encre);color:#fff}
+.btn-primary:hover{background:#22405f}
+.btn-jaune{background:var(--courant);color:var(--encre)}
+.btn-jaune:hover{background:var(--courant-fonce)}
+.btn-ghost{background:#fff;color:var(--encre);border:1px solid var(--ligne)}
+.btn-ghost:hover{border-color:var(--ardoise)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+
+/* QCM générique */
+.quiz-q{margin:14px 0;padding:16px;background:#fff;border:2px solid var(--ligne);border-radius:14px;transition: border-color 0.2s;}
+.quiz-q p.qtext{font-weight:700;margin:0 0 10px}
+.opt{display:block;width:100%;text-align:left;background:var(--papier);border:1px solid var(--ligne);border-radius:10px;padding:11px 14px;margin:6px 0;cursor:pointer;font-size:.94rem;transition:.12s;font-family:inherit;font-weight:600;}
+.opt:hover{border-color:var(--courant)}
+.opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert);font-weight:700;}
+.opt.wrong{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.opt:disabled{cursor:default}
+.opt:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.fb{font-size:.9rem;margin-top:8px;display:none}
+.fb.show{display:block}
+.scorebar{background:var(--encre);color:#fff;border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:18px}
+.scorebar b{color:var(--courant);font-size:1.3rem;font-family:'Baloo 2',sans-serif}
+
+/* Quiz block feedback correct / wrong border highlights */
+.quiz-q.answered.q-correct { border-color: var(--vert); }
+.quiz-q.answered.q-wrong { border-color: var(--rouge); }
+
+/* objectifs / listes à cocher */
+.obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.obj-grid{grid-template-columns:1fr}}
+.checklist{list-style:none;padding:0;margin:8px 0 0}
+.checklist li{padding:7px 0 7px 30px;position:relative;border-bottom:1px dashed var(--ligne);font-size:.95rem}
+.checklist li:last-child{border-bottom:none}
+.checklist li::before{content:"";position:absolute;left:0;top:11px;width:16px;height:16px;border:2px solid var(--courant-fonce);border-radius:5px}
+.auto-eval label{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--ligne);font-size:.94rem;cursor:pointer}
+.auto-eval input{width:20px;height:20px;accent-color:var(--vert)}
+
+/* association / matching (générique) */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:680px){.match-grid{grid-template-columns:1fr}}
+.match-col h4{margin-bottom:8px;text-align:center;font-size:.95rem}
+.match-item{background:#fff;border:2px solid var(--ligne);border-radius:12px;padding:10px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.15s;font-weight:600;font-size:.9rem}
+.match-item:hover{border-color:var(--courant)}
+.match-item.sel{border-color:var(--bleu);background:var(--bleu-clair)}
+.match-item.done{border-color:var(--vert);background:var(--vert-clair);cursor:default;opacity:.85}
+.match-item.wrong{border-color:var(--rouge);background:var(--rouge-clair)}
+.match-item.linked{border-color:var(--courant-fonce)}
+.match-item:focus-visible{outline:3px solid var(--courant);outline-offset:2px}
+.match-badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--papier);color:var(--encre);font-weight:700;font-size:.85rem}
+
+footer.site{max-width:1100px;margin:0 auto;padding:28px 22px 60px;color:var(--ardoise);font-size:.86rem;border-top:1px solid var(--ligne)}
+footer.site b{color:var(--encre)}
+
+@media print{
+  nav.tabs,.controls,.btn,header.site::after{display:none!important}
+  .page{display:block!important}
+  body{background:#fff}
+  .card,.atelier{box-shadow:none;break-inside:avoid}
+}
+@media (prefers-reduced-motion: reduce){
+  .page{animation:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-inner">
+    <h1>🏛️ Le grand voyage du Temps : <span class="spark">La Ligne du Temps</span></h1>
+    <p class="head-sub">Explore les 5 grandes périodes historiques de l'humanité, comprends comment les humains vivaient à chaque époque et teste tes connaissances avec nos enquêtes interactives.</p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Onglets du module">
+  <div class="tabs-inner" id="tabBar">
+    <button class="tab-btn active" data-tab="accueil"><span class="num">00</span>Accueil</button>
+    <button class="tab-btn" data-tab="prehistoire"><span class="num">01</span>1. La Préhistoire</button>
+    <button class="tab-btn" data-tab="antiquite"><span class="num">02</span>2. L'Antiquité</button>
+    <button class="tab-btn" data-tab="moyenage"><span class="num">03</span>3. Le Moyen Âge</button>
+    <button class="tab-btn" data-tab="modernes"><span class="num">04</span>4. Les Temps Modernes</button>
+    <button class="tab-btn" data-tab="contemporaine"><span class="num">05</span>5. L'Époque contemporaine</button>
+    <button class="tab-btn" data-tab="resume"><span class="num">06</span>6. Frise &amp; Résumé</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ====================== 00 ACCUEIL ====================== -->
+<section class="page active" id="accueil" role="tabpanel">
+  <h2><span class="pnum">00</span> Bienvenue, jeune historien·ne !</h2>
+  <p class="lead">L'Histoire de l'humanité est une immense aventure. Pour ne pas s'y perdre, les historiens ont divisé le temps en **5 grandes périodes**. Prêt à relever le défi de notre carnet d'investigation ?</p>
+
+  <div class="card">
+    <span class="tag tag-q">🕵️ Notre méthode d'historien</span>
+    <div class="demarche">
+      <div class="step"><span class="s">ÉTAPE 1</span><b>J'observe les traces</b>Je lis les textes et observe les documents.</div>
+      <div class="step"><span class="s">ÉTAPE 2</span><b>Je comprends le mode de vie</b>Comment mangeait-on, travaillait-on à cette époque ?</div>
+      <div class="step"><span class="s">ÉTAPE 3</span><b>Je repère les dates clés</b>Quels événements font basculer les époques ?</div>
+      <div class="step"><span class="s">ÉTAPE 4</span><b>Je teste mes connaissances</b>Je réponds aux questions d'enquête.</div>
+      <div class="step"><span class="s">ÉTAPE 5</span><b>Je retiens la synthèse</b>Je sais ordonner les périodes dans ma tête.</div>
+    </div>
+  </div>
+
+  <div class="obj-grid">
+    <div class="card">
+      <span class="tag tag-classe">✋ Ce que je saurai FAIRE</span>
+      <ul class="checklist">
+        <li>Citer les 5 grandes périodes historiques dans l'ordre chronologique.</li>
+        <li>Situer les événements charnières et leurs dates (écriture, chute de Rome, etc.).</li>
+        <li>Placer un événement historique sur une frise chronologique.</li>
+        <li>Différencier le mode de vie nomade et sédentaire.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag tag-mot">🧠 Ce que je vais COMPRENDRE</span>
+      <ul class="checklist">
+        <li>Comment l'agriculture a bouleversé la vie des humains préhistoriques.</li>
+        <li>L'apport culturel et technique de la conquête romaine dans nos régions.</li>
+        <li>Le fonctionnement féodal et l'essor des grandes villes au Moyen Âge.</li>
+        <li>L'impact des grandes découvertes et de l'imprimerie.</li>
+        <li>Comment la révolution industrielle a façonné notre société moderne.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 01 LA PREHISTOIRE ====================== -->
+<section class="page" id="prehistoire" role="tabpanel">
+  <h2><span class="pnum">01</span> La Préhistoire (~3 000 000 à −3 000 av. J.-C.)</h2>
+  <p class="lead">La Préhistoire est la période la plus longue de l'humanité. Elle s'étend de l'apparition des premiers humains en Afrique jusqu'à l'invention de l'écriture en Mésopotamie.</p>
+
+  <!-- MINI FRISE DE SITUATION -->
+  <div class="card" style="overflow-x: auto; padding: 15px 10px; margin: 12px 0;">
+    <div style="min-width: 760px; position: relative; margin: 18px 0 8px 0;">
+      <!-- Timeline Bar -->
+      <div style="height: 28px; border: 3px solid var(--encre); border-radius: 8px; display: flex; overflow: hidden; box-shadow: 3px 3px 0 var(--encre); background: #fff;">
+        <div style="width: 30%; background: var(--p1); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem;">🦴 Préhistoire</div>
+        <div style="width: 20%; background: var(--p2); display: flex; align-items: center; justify-content: center; color: #3A2C05; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏺 Antiquité</div>
+        <div style="width: 18%; background: var(--p3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏰 Moyen Âge</div>
+        <div style="width: 16%; background: var(--p4); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚓ Temps Modernes</div>
+        <div style="width: 16%; background: var(--p5); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚙️ Contemporaine</div>
+      </div>
+      <!-- Markers -->
+      <div style="position: absolute; width: 100%; top: -20px; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 0 4px; pointer-events: none;">
+        <span style="transform: translateX(-5%);">~3M av. J.-C.</span>
+        <span style="position: absolute; left: 30%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">-3 000</span>
+        <span style="position: absolute; left: 50%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">476</span>
+        <span style="position: absolute; left: 68%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1492</span>
+        <span style="position: absolute; left: 84%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1789</span>
+        <span style="transform: translateX(5%);">Aujourd'hui</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div>
+        <dt>Nomade (Paléolithique)</dt>
+        <dd>Se dit d'un groupe humain qui n'a pas d'habitat fixe et se déplace constamment pour suivre le gibier et cueillir les ressources naturelles.</dd>
+      </div>
+      <div>
+        <dt>Sédentaire (Néolithique)</dt>
+        <dd>Se dit d'une personne qui s'établit de façon permanente dans un lieu fixe, y construit des maisons solides et cultive la terre.</dd>
+      </div>
+      <div>
+        <dt>Mégalithe</dt>
+        <dd>Un monument construit à l'aide de très grandes pierres dressées (comme les dolmens pour les tombes ou les menhirs).</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-q">📖 L'essentiel de la Préhistoire</span>
+    <p>La Préhistoire se divise en deux grandes époques principales :</p>
+    <ul>
+      <li><strong>Le Paléolithique (L'âge de la pierre taillée) :</strong> Les humains sont nomades (chasseurs-cueilleurs) et pratiquent une <strong>économie de prédation</strong>. Pour se nourrir, ils chassent le renne (à l'aide de propulseurs et sagaies), pêchent à la foëne et collectent les ressources. Ils s'abritent sous des tentes de peaux de type *Pincevent* (comme sur le site d'<strong>Étiolles</strong>) ou sous des abris rocheux. Ils fabriquent des outils en pierre taillée ou en os de renne (sagaies, harpons) et créent des parures d'ocre et d'ivoire de mammouth. C'est aussi l'époque de la <strong>maîtrise du feu</strong>.</li>
+      <li><strong>Le Néolithique (L'âge de la pierre polie) :</strong> C'est le passage à une <strong>économie de production</strong> (agriculture et élevage). Ce grand tournant est provoqué par deux facteurs majeurs : le <strong>réchauffement climatique</strong> (fin de la dernière glaciation) et la <strong>migration de populations néolithiques</strong> venues d'Asie du Sud-Ouest. Ils deviennent sédentaires, construisent des villages de maisons en bois et d'argile (comme le village lacustre de <strong>Paladru</strong>), et inventent le tissage du lin, la poterie (céramiques en argile cuite), et la pierre polie (haches d'abattage, meules et molettes à grains).</li>
+    </ul>
+    <p>Vers −3000 en Orient et plus tard dans nos régions, la maîtrise des métaux (bronze puis fer) s'impose. Nos ancêtres celtes développent une métallurgie du fer très réputée en Europe.</p>
+  </div>
+
+  <!-- Eye toggle local connection -->
+  <div class="callout c-defi">
+    <h4>🇧🇪 Traces préhistoriques dans nos régions</h4>
+    <p>Notre pays recèle des gisements archéologiques majeurs :</p>
+    <ul>
+      <li><strong>La grotte de Spy (Namur) :</strong> Un des sites les plus importants au monde pour l'étude de l'Homme de Néandertal.</li>
+      <li><strong>Les Dolmens de Wéris (Luxembourg) :</strong> Le plus grand alignement mégalithique de Belgique, érigé par les agriculteurs du Néolithique vers 3000 av. J.-C.</li>
+    </ul>
+  </div>
+
+  <!-- DOSSIER DOCUMENTAIRE DE LA CLASSE -->
+  <div class="card" style="margin-top: 15px;">
+    <span class="tag tag-classe">📁 Documents de classe à analyser</span>
+    <p style="margin-top: 8px;">Consulte les documents officiels étudiés en classe :</p>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+      <!-- Doc A -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration A : Chasseurs-cueilleurs du Paléolithique (Campement d'Étiolles)
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_etiolles.png" alt="Illustration Étiolles" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration A : Groupe de chasseurs-cueilleurs du Paléolithique (Campement d\'Étiolles)')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer la vie nomade autour du feu de camp.</p>
+        </div>
+      </div>
+      <!-- Doc B -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration B : Village d'agriculteurs sédentaires (Lac de Paladru)
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_paladru.png" alt="Illustration Paladru" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration B : Village d\'agriculteurs sédentaires du Néolithique (Lac de Paladru)')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer le village sur pilotis et l'agriculture.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="callout c-online">
+    <h4>💻 Enquête interactive — Teste tes connaissances (10 questions)</h4>
+    <p>Réponds aux questions pour évaluer ta compréhension de la Préhistoire.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <!-- Q1 -->
+      <div class="quiz-q">
+        <p class="qtext">1. Quel site mégalithique de dolmens et de menhirs du Néolithique se trouve en Belgique (province de Luxembourg) ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La grotte de Spy est célèbre pour les fossiles de Néandertal.')">A. La grotte de Spy</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Wéris abrite des alignements de menhirs et des dolmens érigés il y a environ 5000 ans.')">B. Les dolmens de Wéris</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le Lion de Waterloo est un monument commémorant une bataille de 1815.')">C. Le Lion de Waterloo</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-q">
+        <p class="qtext">2. Si tu observes l'Illustration A représentant le campement nomade d'Étiolles au Paléolithique, quel mode de vie caractérise ces chasseurs-cueilleurs ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Sédentaire signifie rester vivre au même endroit (Néolithique).')">A. Sédentaire</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les nomades changent de campement pour suivre le gibier et les ressources végétales.')">B. Nomade</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le mode de vie urbain concerne les habitants des villes (plus tard).')">C. Urbain</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-q">
+        <p class="qtext">3. Quelle célèbre grotte belge située en province de Namur a révélé des restes osseux fossiles majeurs pour l'étude de l'Homme de Néandertal ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La grotte de Spy est mondialement célèbre depuis la découverte d\'ossements néandertaliens très bien conservés en 1886.')">A. La grotte de Spy</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Han-sur-Lesse est célèbre pour ses stalactites et son attrait touristique, pas pour des fossiles humains de référence mondiale.')">B. Les grottes de Han</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Remouchamps possède de magnifiques galeries, mais Spy reste la référence pour Néandertal.')">C. La grotte de Remouchamps</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-q">
+        <p class="qtext">4. Quels sont les deux types de métaux successifs qui ont donné leur nom aux deux âges métalliques terminant la Préhistoire ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'or et l\'argent ont servi de monnaies, pas d\'âges technologiques.')">A. L'or et l'argent</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le cuivre ouvre l\'ère des métaux, mais l\'acier moderne apparaît bien plus tard.')">B. Le cuivre et l'acier</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'L\'Âge du Bronze (alliage de cuivre et d\'étain) commence vers −3000, suivi par l\'Âge du Fer vers −1200.')">C. Le bronze et le fer</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-q">
+        <p class="qtext">5. Quel est le point de départ chronologique de l'aventure humaine, marquant le tout début de la Préhistoire il y a environ 3 millions d'années ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La Préhistoire débute avec l\'apparition des premiers hominidés bipèdes (premiers humains) en Afrique.')">A. L'apparition des premiers humains (hominidés)</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le premier outil taillé apparaît plus tard, vers −2 600 000 av. J.-C.')">B. La fabrication du premier outil en pierre taillée</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'écriture marque la fin de la Préhistoire (vers −3000).')">C. L'invention de l'écriture en Mésopotamie</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-q">
+        <p class="qtext">6. Quelle est la différence de mode de vie majeure entre le Paléolithique (âge de la pierre taillée) et le Néolithique (pierre polie) ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'C\'est l\'inverse. Les nomades vivaient au Paléolithique.')">A. Au Paléolithique, les humains étaient sédentaires et au Néolithique ils sont devenus nomades.</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le grand changement est le passage du nomadisme (Paléolithique) à la sédentarisation (Néolithique) liée à l\'agriculture.')">B. Au Paléolithique, les humains étaient nomades (chasseurs-cueilleurs) et au Néolithique ils sont devenus sédentaires (agriculteurs-éleveurs).</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les humains fabriquaient déjà des outils en pierre aux deux périodes.')">C. Au Paléolithique, les humains ne fabriquaient aucun outil alors qu'au Néolithique ils ont inventé le silex.</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-q">
+        <p class="qtext">7. Pourquoi la maîtrise du feu par Homo erectus (il y a environ 400 000 ans) est-elle considérée comme une révolution vitale ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'argile a été cuite plus tard (Néolithique), et le fer requiert des fours très chauds.')">A. Elle a permis de cuire la terre pour faire des briques et de fondre le fer.</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le feu a changé la santé (cuisson de la viande), la sécurité (éloignement des prédateurs) et la vie sociale (réunion autour du foyer).')">B. Elle a permis de cuire la nourriture (facilitant la digestion), de s'éclairer, de se réchauffer et d'éloigner les fauves.</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le feu n\'a aucun rapport avec l\'invention de l\'écriture.')">C. Elle a été utilisée pour envoyer des signaux de fumée afin de concevoir la première écriture.</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-q">
+        <p class="qtext">8. Si tu observes l'Illustration B du village lacustre de Paladru avec ses habitations en dur sur pilotis, son métier à tisser et son araire agricole, de quelle grande période s'agit-il ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Au Paléolithique, les tentes de peaux et l\'absence d\'habitat en dur caractérisent le nomadisme.')">A. Le Paléolithique</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le Néolithique se caractérise par la sédentarisation, la construction de maisons durables, l\'agriculture et le tissage.')">B. Le Néolithique</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les maisons en pierre et l\'industrie caractérisent des époques beaucoup plus tardives.')">C. L'Époque contemporaine</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-q">
+        <p class="qtext">9. Quelles sont les deux grandes causes du passage entre le Paléolithique (nomade) et le Néolithique (sédentaire) ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La maîtrise du feu est bien antérieure, et l\'écriture marque la fin de la Préhistoire.')">A. L'invention de l'écriture et la maîtrise du feu.</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le réchauffement climatique suite à la fin de la période glaciaire et la migration de nouvelles populations néolithiques venues d\'Orient ont provoqué ce changement de mode de vie.')">B. La fin de la période glaciaire (réchauffement climatique) et la migration de populations néolithiques vers l'Europe.</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'arrivée des légions romaines marque la transition vers l\'Antiquité.')">C. L'invention du fer et l'invasion romaine.</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q10 -->
+      <div class="quiz-q">
+        <p class="qtext">10. Parmi les ensembles d'objets suivants, lequel est composé exclusivement d'objets inventés au Néolithique ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La hache polie, le lin tissé et la meule de grès pour le blé sont des innovations typiques du Néolithique.')">A. Une hache polie, un tissu en lin et une meule en pierre à grains</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La sagaie en os de renne et la figurine en ivoire de mammouth sont des outils et œuvres d\'art du Paléolithique (chasseurs-cueilleurs).')">B. Une pointe de sagaie en os de renne et une tête humaine en ivoire de mammouth</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le pilum (javelot) et la cotte de mailles en fer sont des armes de soldats romains de l\'Antiquité.')">C. Un javelot (pilum), une cotte de mailles en fer et un torque en or</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Scorebar -->
+      <div class="scorebar" id="score-prehistoire" style="display:none">
+        <span>🎉 Bravo ! Tu as terminé le quiz de la Préhistoire.</span>
+        <span>Ton score : <b class="score-val">0</b> / 10</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 02 L'ANTIQUITE ====================== -->
+<section class="page" id="antiquite" role="tabpanel">
+  <h2><span class="pnum">02</span> L'Antiquité (−3000 à 476 apr. J.-C.)</h2>
+  <p class="lead">L'Antiquité commence avec la naissance de l'écriture. Elle se caractérise par le développement de grandes civilisations et se termine lors de la chute de l'Empire romain d'Occident.</p>
+
+  <!-- MINI FRISE DE SITUATION -->
+  <div class="card" style="overflow-x: auto; padding: 15px 10px; margin: 12px 0;">
+    <div style="min-width: 760px; position: relative; margin: 18px 0 8px 0;">
+      <!-- Timeline Bar -->
+      <div style="height: 28px; border: 3px solid var(--encre); border-radius: 8px; display: flex; overflow: hidden; box-shadow: 3px 3px 0 var(--encre); background: #fff;">
+        <div style="width: 30%; background: var(--p1); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; opacity: 0.3; filter: grayscale(70%);">🦴 Préhistoire</div>
+        <div style="width: 20%; background: var(--p2); display: flex; align-items: center; justify-content: center; color: #3A2C05; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre);">🏺 Antiquité</div>
+        <div style="width: 18%; background: var(--p3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏰 Moyen Âge</div>
+        <div style="width: 16%; background: var(--p4); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚓ Temps Modernes</div>
+        <div style="width: 16%; background: var(--p5); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚙️ Contemporaine</div>
+      </div>
+      <!-- Markers -->
+      <div style="position: absolute; width: 100%; top: -20px; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 0 4px; pointer-events: none;">
+        <span style="transform: translateX(-5%);">~3M av. J.-C.</span>
+        <span style="position: absolute; left: 30%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">-3 000</span>
+        <span style="position: absolute; left: 50%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">476</span>
+        <span style="position: absolute; left: 68%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1492</span>
+        <span style="position: absolute; left: 84%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1789</span>
+        <span style="transform: translateX(5%);">Aujourd'hui</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div>
+        <dt>Romanisation</dt>
+        <dd>L'adoption par les peuples conquis par Rome (comme les Celtes/Gaulois) de la culture romaine : la langue latine, les monuments (thermes, forums), la religion et les lois.</dd>
+      </div>
+      <div>
+        <dt>Cunéiforme</dt>
+        <dd>Écriture en forme de « coins » ou de « clous » tracée sur des tablettes d'argile humide. C'est l'une des plus anciennes écritures connues, inventée en Mésopotamie.</dd>
+      </div>
+      <div>
+        <dt>Pax Romana</dt>
+        <dd>Période de paix relative imposée par l'Empire romain sur l'ensemble de ses territoires, favorisant le commerce et la construction de routes.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-q">📖 L'essentiel de l'Antiquité et de la Romanisation</span>
+    <p>L'Antiquité s'ouvre avec la naissance de l'écriture en Orient (~3000 av. J.-C.). Mais dans nos régions, le grand événement de rupture est la <strong>conquête de la Gaule</strong> par <strong>Jules César</strong> (qui s'achève par la défaite de Vercingétorix à Alésia en −52 et la victoire romaine finale en −51). C'est le début de la période gallo-romaine, caractérisée par la <strong>romanisation</strong> de nos régions (de −50 au Ve siècle).</p>
+    <ul>
+      <li><strong>Équipement des combattants :</strong> 
+        <ul>
+          <li>Le <em>légionnaire romain</em> possède un équipement standardisé et technique : un casque en bronze/cuivre surmonté d'un panache de plumes, une cotte de mailles en fer, un grand bouclier rectangulaire, un javelot lourd (le *pilum*) et un glaive court en fer trempé (acier).</li>
+          <li>Le <em>guerrier gaulois</em> combat avec une grande épée en fer, une pique et un bouclier oblong. Il porte des vêtements typiques : un pantalon appelé <strong>braies</strong>, un manteau de laine épais appelé <strong>saie</strong>, et un collier métallique appelé <strong>torque</strong> (souvent en or ou en cuivre).</li>
+        </ul>
+      </li>
+      <li><strong>Le cadre de vie de la Villa gallo-romaine :</strong> Les campagnes s'organisent autour de la <strong>villa gallo-romaine</strong>, un grand domaine agricole situé en plaine fertile. Elle comprend une cour avec des bâtiments de travail (étables, granges, ateliers) et une maison de maître très confortable, décorée de colonnes de pierre, de mosaïques au sol, de fresques murales, et équipée de bains privés (thermes) chauffés par le sol à l'aide d'un système d'<strong>hypocauste</strong> (foyer souterrain diffusant de l'air chaud).</li>
+      <li><strong>Artisanat et réseaux commerciaux :</strong> L'artisanat se spécialise dans la verrerie, la céramique et la taille de la pierre. La Belgique romaine exploite des mines (fer, plomb, zinc, cuivre). Le commerce se fait par voies terrestres (les chaussées romaines pavées empruntées par des chariots à bœufs), fluviales (barges plates tirées par halage sur la Meuse ou le Rhin) et maritimes.</li>
+    </ul>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🇧🇪 Jules César et les Belges de l'Antiquité</h4>
+    <p>Au Ier siècle av. J.-C. (vers −52), la Belgique actuelle est envahie par les légions romaines de <strong>Jules César</strong>. Notre territoire était habité par des Celtes, appelés « Gaulois » par les Romains.</p>
+    <ul>
+      <li><strong>Ambiorix :</strong> Le chef de la tribu des Éburons. Il tend un piège aux Romains en −54 et détruit une légion entière. Il est aujourd'hui un héros légendaire de notre pays.</li>
+      <li><strong>« Les Belges sont les plus courageux » :</strong> Phrase écrite par Jules César dans ses mémoires pour désigner la résistance farouche de nos ancêtres.</li>
+      <li><strong>Tongres et Arlon :</strong> Fondées par les Romains, ce sont les deux plus anciennes villes de Belgique. Elles étaient reliées par une grande chaussée en pierre (la chaussée romaine).</li>
+    </ul>
+  </div>
+
+  <!-- DOSSIER DOCUMENTAIRE DE LA CLASSE -->
+  <div class="card" style="margin-top: 15px;">
+    <span class="tag tag-classe">📁 Documents de classe à analyser</span>
+    <p style="margin-top: 8px;">Consulte les documents officiels étudiés en classe :</p>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+      <!-- Doc A -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration A : Villa gallo-romaine et son domaine agricole
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_villa_romaine.png" alt="Illustration Villa" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration A : Grande villa gallo-romaine et son domaine agricole')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer l'organisation du grand domaine agricole.</p>
+        </div>
+      </div>
+      <!-- Doc B -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration B : Légionnaire romain et Guerrier gaulois
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_voie_romaine.png" alt="Illustration Voie" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration B : Légionnaire romain et guerrier gaulois sur une voie romaine')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer l'équipement des combattants.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="callout c-online">
+    <h4>💻 Enquête interactive — Teste tes connaissances (10 questions)</h4>
+    <p>Réponds aux questions pour évaluer ta compréhension de l'Antiquité.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <!-- Q1 -->
+      <div class="quiz-q">
+        <p class="qtext">1. Quel chef de la tribu celte des Éburons a résisté à Jules César en détruisant une de ses légions en −54 ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Clovis était un roi des Francs au Moyen Âge.')">A. Clovis</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Charlemagne est un empereur du Moyen Âge couronné en 800.')">B. Charlemagne</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Ambiorix est le chef celte emblématique qui a battu les troupes de Jules César lors de la révolte de −54 av. J.-C.')">C. Ambiorix</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-q">
+        <p class="qtext">2. Quel événement historique majeur marque la fin de l'Antiquité en 476 apr. J.-C. ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La découverte de l\'Amérique date de 1492.')">A. La découverte de l'Amérique</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La déposition de Romulus Augustule en 476 marque l\'effondrement de l\'Empire romain d\'Occident et le début du Moyen Âge.')">B. La chute de l'Empire romain d'Occident</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La Révolution française a eu lieu en 1789.')">C. La Révolution française</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-q">
+        <p class="qtext">3. Quelles sont les deux plus anciennes villes de Belgique, créées sous l'occupation romaine ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Bruxelles et Liège sont des fondations médiévales.')">A. Bruxelles et Liège</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Atuatuca Tungrorum (Tongres) et Orolaunum (Arlon) sont les deux cités romaines les plus anciennes sur notre sol.')">B. Tongres et Arlon</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Tournai a des racines romaines, mais pas Namur.')">C. Namur et Tournai</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-q">
+        <p class="qtext">4. Où et à quelle date approximative l'écriture a-t-elle été inventée pour la première fois ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'L\'écriture naît indépendamment en Mésopotamie et en Égypte vers 3000 av. J.-C., marquant l\'entrée dans l\'Antiquité.')">A. En Mésopotamie et en Égypte, vers −3000 av. J.-C.</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La Grèce a développé son alphabet plus tard, vers −800.')">B. En Grèce antique, vers −500 av. J.-C.</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Rome a diffusé le latin, mais ne l\'a pas inventé en −52.')">C. À Rome, en −52 av. J.-C.</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-q">
+        <p class="qtext">5. Quel général et écrivain romain a mené la conquête de la Gaule belgique et mentionné le courage des Belges dans ses écrits ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Auguste est le premier Empereur romain, successeur de César.')">A. L'empereur Auguste</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Jules César a conquis la Gaule (de −58 à −51) et a écrit le livre *De Bello Gallico* (La Guerre des Gaules).')">B. Jules César</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Romulus Augustule est le dernier empereur, mort en 476.')">C. Romulus Augustule</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-q">
+        <p class="qtext">6. Si tu compares le légionnaire romain et le guerrier gaulois sur l'Illustration B, quel combattant porte des braies (pantalons) et un torque (collier d'or) ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le légionnaire romain portait la tunique rouge, la cotte de mailles et le casque à panache.')">A. Le légionnaire romain</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le guerrier gaulois portait des braies, une saie en laine et le torque en or ou en cuivre autour du cou.')">B. Le guerrier gaulois</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le chevalier médiéval portait une armure lourde de fer, bien plus tard.')">C. Le chevalier du Moyen Âge</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-q">
+        <p class="qtext">7. Qu'est-ce que le processus de « romanisation » des populations conquises par l'Empire romain ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La romanisation est l\'assimilation de la culture de Rome (langue latine, architecture, thermes, citoyenneté) par les Gaulois et Celtes.')">A. L'adoption de la langue latine, des lois romaines, de la religion et des coutumes de Rome par les peuples conquis.</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les Romains ont conquis, ils n\'ont pas adopté la culture des vaincus.')">B. L'obligation pour les généraux romains d'adopter le mode de vie des Gaulois.</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La construction de châteaux forts date du Moyen Âge.')">C. La destruction de toutes les villes de pierre pour construire des châteaux forts.</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-q">
+        <p class="qtext">8. Si tu observes l'Illustration A représentant la villa gallo-romaine, quel est le nom du système de chauffage par le sol qui réchauffait la maison de maître en pierre ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La cheminée médiévale apparaît plus tard au Moyen Âge.')">A. La cheminée à foyer ouvert</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'L\'hypocauste est un système gallo-romain de chauffage central par le sol où l\'air chaud produit par un foyer extérieur circulait sous les planchers surélevés.')">B. L'hypocauste</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le poêle à charbon Cockerill date du XIXe siècle.')">C. Le poêle à charbon</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-q">
+        <p class="qtext">9. Quels étaient les deux principaux moyens de transport commerciaux utilisés pour acheminer les marchandises (vin, céréales, verrerie) en Gaule romaine ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le chemin de fer à vapeur a été inventé au XIXe siècle.')">A. Les trains à vapeur et les camions routiers</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les gallo-romains transportaient les marchandises par terre (chariots à bœufs sur les chaussées romaines) et par eau (barques plates tirées par halage sur les fleuves).')">B. Les chariots à bœufs sur les chaussées romaines pavées, et les barques plates tirées par halage sur les fleuves</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les brouettes étaient locales, pas de transport de masse.')">C. Les brouettes manuelles et les caravanes de chameaux</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q10 -->
+      <div class="quiz-q">
+        <p class="qtext">10. Quelle grande cité de l'Antiquité grecque a inventé le concept de « démocratie », où le pouvoir appartient aux citoyens qui votent ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Athènes crée la démocratie directe au Ve siècle av. J.-C., même si les femmes, métèques et esclaves en étaient exclus.')">A. Athènes</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Sparte était une cité guerrière oligarchique, pas démocratique.')">B. Sparte</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Rome était une république puis un empire autoritaire.')">C. Rome</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Scorebar -->
+      <div class="scorebar" id="score-antiquite" style="display:none">
+        <span>🎉 Bravo ! Tu as terminé le quiz de l'Antiquité.</span>
+        <span>Ton score : <b class="score-val">0</b> / 10</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 03 LE MOYEN AGE ====================== -->
+<section class="page" id="moyenage" role="tabpanel">
+  <h2><span class="pnum">03</span> Le Moyen Âge (476 à 1492)</h2>
+  <p class="lead">Le Moyen Âge s'étend sur mille ans. C'est l'époque de la chevalerie, des châteaux forts, du développement des villes commerçantes et des grandes cathédrales.</p>
+
+  <!-- MINI FRISE DE SITUATION -->
+  <div class="card" style="overflow-x: auto; padding: 15px 10px; margin: 12px 0;">
+    <div style="min-width: 760px; position: relative; margin: 18px 0 8px 0;">
+      <!-- Timeline Bar -->
+      <div style="height: 28px; border: 3px solid var(--encre); border-radius: 8px; display: flex; overflow: hidden; box-shadow: 3px 3px 0 var(--encre); background: #fff;">
+        <div style="width: 30%; background: var(--p1); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; opacity: 0.3; filter: grayscale(70%);">🦴 Préhistoire</div>
+        <div style="width: 20%; background: var(--p2); display: flex; align-items: center; justify-content: center; color: #3A2C05; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏺 Antiquité</div>
+        <div style="width: 18%; background: var(--p3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre);">🏰 Moyen Âge</div>
+        <div style="width: 16%; background: var(--p4); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚓ Temps Modernes</div>
+        <div style="width: 16%; background: var(--p5); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚙️ Contemporaine</div>
+      </div>
+      <!-- Markers -->
+      <div style="position: absolute; width: 100%; top: -20px; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 0 4px; pointer-events: none;">
+        <span style="transform: translateX(-5%);">~3M av. J.-C.</span>
+        <span style="position: absolute; left: 30%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">-3 000</span>
+        <span style="position: absolute; left: 50%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">476</span>
+        <span style="position: absolute; left: 68%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1492</span>
+        <span style="position: absolute; left: 84%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1789</span>
+        <span style="transform: translateX(5%);">Aujourd'hui</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div>
+        <dt>Féodalité</dt>
+        <dd>Organisation de la société médiévale où le roi et les grands seigneurs distribuent des terres (fiefs) à des vassaux (seigneurs locaux, chevaliers) en échange de protection militaire et de fidélité.</dd>
+      </div>
+      <div>
+        <dt>Gothique</dt>
+        <dd>Style architectural du Moyen Âge tardif (XIIe-XVe s.) caractérisé par des voûtes en ogive, des arcs-boutants et de grands vitraux colorés (ex: les cathédrales).</dd>
+      </div>
+      <div>
+        <dt>Drap / Drapier</dt>
+        <dd>Le tissu de laine. L'artisanat du drap a fait la richesse économique de la Flandre et des villes belges médiévales.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-q">📖 L'essentiel du Moyen Âge : Seigneuries, Villes et Royaume Franc</span>
+    <p>Le Moyen Âge s'étend de 476 à 1492. C'est une longue période de mille ans marquée par de profondes évolutions politiques, sociales et économiques :</p>
+    <ul>
+      <li><strong>Les Dynasties Franques (Royaumes barbares - P6) :</strong> 
+        <ul>
+          <li>Les <em>Mérovingiens</em> (Ve-VIIIe s.), fondés par Clovis Ier, qui unifie les Francs. Son royaume d'origine était centré sur <strong>Tournai</strong> (Belgique). Il se convertit au christianisme en 496.</li>
+          <li>Les <em>Carolingiens</em> (VIIIe-Xe s.), illustrés par <strong>Charlemagne</strong>, couronné Empereur en <strong>800</strong>. Il met en place des administrateurs (*missi dominici*) et des écoles. En <strong>843</strong>, le <strong>Traité de Verdun</strong> divise son Empire entre ses trois petits-fils.</li>
+        </ul>
+      </li>
+      <li><strong>La Seigneurie et les Villages (P5) :</strong> À partir de l'an mil, la société féodale se structure en <strong>trois ordres</strong> : les gens de prière (*oratores*), les guerriers (*bellatores*) et les travailleurs/paysans (*laboratores*). Les paysans cultivent les terres du seigneur (la réserve) lors de dures <strong>corvées</strong> gratuites ou exploitent des tenures en payant des redevances comme le <strong>cens</strong> (taxe fixe sur la terre), le <strong>champart</strong> (part des récoltes de blé) et le <strong>fournage</strong> (taxe pour cuire son pain au four banal du seigneur). L'alimentation paysanne de base se compose de bouillie et de pain noir d'avoine ou de seigle, alors que les riches mangent du pain blanc, du poisson et de la volaille.</li>
+      <li><strong>Les Innovations Agricoles (P5) :</strong> La production augmente grâce à l'introduction d'outils en fer complexes : la <strong>charrue à roues et soc de fer</strong> (pour retourner les sols lourds), la <strong>herse</strong> (pour enfouir les semences), le <strong>collier d'épaule</strong> pour le cheval de trait (décuplant sa force de traction), l'<strong>assolement triennal</strong> et le <strong>moulin à vent</strong> (attesté au XIIe s.).</li>
+      <li><strong>L'Essor des Villes et des Libertés Communales (P5) :</strong> Les villes se développent comme <strong>Bruges</strong> (autour d'un château et d'un pont fortifié "brugghe") ou <strong>Liège</strong> (sous l'évêque Notger vers l'an mil). Les commerçants vendent leurs draps et métaux dans des <strong>halles</strong> (comme à Dinant en 1263) et les artisans s'organisent en corporations de métiers (comme les 32 métiers à Liège). Les bourgeois s'unissent pour obtenir des seigneurs des **chartes de libertés/franchises** qui leur accordent l'autonomie politique et judiciaire. La justice est rendue par des échevins bourgeois au sein de l'hôtel de ville, souvent flanqué d'un **beffroi** (tour civique contenant la charte, le sceau commun, des cloches pour rythmer la vie civile et des prisons à l'étage inférieur).</li>
+    </ul>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🇧🇪 Notre histoire médiévale</h4>
+    <p>Des événements majeurs se sont déroulés sur notre sol :</p>
+    <ul>
+      <li><strong>Godefroid de Bouillon :</strong> Seigneur de nos régions Ardennaises, il devient l'un des chefs de la première Croisade (1096) visant à prendre Jérusalem.</li>
+      <li><strong>La Bataille des Éperons d'Or (1302) :</strong> À Courtrai, les milices d'artisans et de bourgeois flamands écrasent la puissante armée de chevaliers du Roi de France. C'est un symbole historique de liberté communale face au pouvoir royal, aujourd'hui célébré le 11 juillet.</li>
+    </ul>
+  </div>
+
+  <!-- DOSSIER DOCUMENTAIRE DE LA CLASSE -->
+  <div class="card" style="margin-top: 15px;">
+    <span class="tag tag-classe">📁 Documents de classe à analyser</span>
+    <p style="margin-top: 8px;">Consulte les documents officiels étudiés en classe :</p>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+      <!-- Doc A -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration A : Chevaliers en armure devant un château fort
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_charrue.png" alt="Illustration Chevaliers" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration A : Chevaliers en armure devant un château fort')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer les chevaliers et les remparts du château.</p>
+        </div>
+      </div>
+      <!-- Doc B -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration B : Ville médiévale fortifiée et son beffroi
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_sceaux_corporations.png" alt="Illustration Ville Médiévale" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration B : Ville médiévale animée, pont en pierre et beffroi communal')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer le pont et le grand beffroi de la ville.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="callout c-online">
+    <h4>💻 Enquête interactive — Teste tes connaissances (10 questions)</h4>
+    <p>Réponds aux questions pour évaluer ta compréhension du Moyen Âge.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <!-- Q1 -->
+      <div class="quiz-q">
+        <p class="qtext">1. Quel roi des Francs s'est converti au christianisme vers 496 et a établi sa capitale d'origine à Tournai ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Bruxelles est devenue capitale bien plus tard.')">A. Bruxelles</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Clovis Ier régnait à Tournai, berceau historique de la dynastie mérovingienne.')">B. Clovis Ier</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Charlemagne avait sa cour à Aix-la-Chapelle.')">C. Charlemagne</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-q">
+        <p class="qtext">2. En quelle année le roi des Francs Charlemagne a-t-il été sacré Empereur d'Occident par le pape à Rome ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, '476 marque la chute de Rome.')">A. 476</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Charlemagne est sacré empereur à Rome le jour de Noël de l\'an 800.')">B. 800</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, '1492 marque le début des Temps Modernes.')">C. 1492</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-q">
+        <p class="qtext">3. Quel traité signé en 843 par les trois petits-fils de Charlemagne a divisé son immense empire en trois parts distinctes ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le traité de Verdun en 843 divise l\'empire en Francie occidentale, Francie orientale et Lotharingie, à l\'origine des frontières européennes.')">A. Le traité de Verdun</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le traité de Rome a été signé en 1957 pour créer la CEE.')">B. Le traité de Rome</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le traité de Versailles a mis fin à la Première Guerre mondiale en 1919.')">C. Le traité de Versailles</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-q">
+        <p class="qtext">4. Quelle dynastie de rois francs, réputée pour ses longs cheveux et dont Clovis fait partie, a régné avant les Carolingiens ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La dynastie mérovingienne (fondée par Mérovée, grand-père de Clovis) a dirigé le royaume franc du Ve siècle au milieu du VIIIe siècle.')">A. Les Mérovingiens</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les Carolingiens succèdent aux Mérovingiens avec Pépin le Bref en 751.')">B. Les Carolingiens</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les Habsbourg sont une dynastie autrichienne/espagnole beaucoup plus tardive.')">C. Les Habsbourg</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-q">
+        <p class="qtext">5. En observant les chevaliers en armure devant le château fort sur l'Illustration A, à laquelle des trois catégories de la société féodale médiévale (oratores, bellatores, laboratores) appartenaient ces combattants ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les laboratores sont les paysans et artisans qui travaillent pour nourrir la société.')">A. Les laboratores (ceux qui travaillent)</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les bellatores représentent l\'ordre des guerriers nobles chargés d\'assurer la protection de la société féodale.')">B. Les bellatores (ceux qui combattent)</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les oratores représentent les hommes d\'Église chargés de prier pour le salut des âmes.')">C. Les oratores (ceux qui prient)</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-q">
+        <p class="qtext">6. Quelle taxe féodale correspondait à l'obligation pour le paysan de payer son seigneur pour faire cuire son pain dans le four banal ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le cens est la taxe fixe en argent payée pour la location de la tenure.')">A. Le cens</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le champart est un pourcentage de gerbes de blé prélevé directement sur la récolte.')">B. Le champart</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le fournage est la taxe payée par les familles paysannes pour utiliser le four banal (seigneurial).')">C. Le fournage</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-q">
+        <p class="qtext">7. Quelle innovation technique médiévale dans le domaine de l'agriculture a décuplé la force de traction des chevaux de trait ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le moulin à vent moud le grain, il n\'aide pas à labourer.')">A. Le moulin à vent banal</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le collier d\'épaule reporte la force de traction sur les épaules solides du cheval au lieu de son cou, lui permettant de tirer des charges lourdes.')">B. Le collier d'épaule</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La herse sert à recouvrir les graines après les semailles.')">C. La herse en bois</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-q">
+        <p class="qtext">8. D'après le texte historique de Jean le Long, comment la grande ville de Bruges s'est-elle développée à partir du Xe siècle ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le comte de Flandre a bâti un château/pont. Les marchands et taverniers s\'y sont installés pour commercer, créant une ville nommée Bruges (\'brugghe\' = pont).')">A. Autour d'un château fort et de son pont fortifié où affluaient les marchands et taverniers</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'industrie n\'existait pas encore au Xe siècle.')">B. Grâce à l'installation d'une grande mine de charbon et de hauts-fourneaux</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Bruges a été construite par les légions de Jules César.')">C. Par les légions de Jules César pour y installer une garnison militaire</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-q">
+        <p class="qtext">9. Quel droit fondamental la Charte des franchises accordée par le prince-évêque Albert de Cuyck en 1196 offrait-elle aux bourgeois de Liège ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le suffrage universel apparaît bien plus tard, au XXe siècle.')">A. Le droit de voter au suffrage universel pour élire le roi de France</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La charte de 1196 exempte les Liégeois de corvées/tailles, protège l\'héritage des serfs, et interdit toute arrestation sans jugement préalable des échevins.')">B. L'exemption de corvées et taxes arbitraires, et l'interdiction d'être arrêté sans jugement préalable des échevins</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les chartes protégeaient les droits des citadins face à la noblesse, sans lien avec l\'Église.')">C. L'obligation d'offrir la moitié de leurs richesses au Pape de Rome</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q10 -->
+      <div class="quiz-q">
+        <p class="qtext">10. Si tu observes l'Illustration B représentant la ville médiévale, quel monument en pierre s'élève au centre pour symboliser les libertés des bourgeois et abriter la charte de la commune ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La cathédrale gothique symbolise le pouvoir spirituel et religieux de l\'Église.')">A. La cathédrale gothique</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La villa gallo-romaine était une grande ferme de l\'Antiquité.')">B. La villa gallo-romaine</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le beffroi est la tour civique qui conserve la charte communale, son sceau et ses archives, et sert de guet.')">C. Le beffroi de l'hôtel de ville</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Scorebar -->
+      <div class="scorebar" id="score-moyenage" style="display:none">
+        <span>🎉 Bravo ! Tu as terminé le quiz du Moyen Âge.</span>
+        <span>Ton score : <b class="score-val">0</b> / 10</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 04 LES TEMPS MODERNES ====================== -->
+<section class="page" id="modernes" role="tabpanel">
+  <h2><span class="pnum">04</span> Les Temps Modernes (Explorations &amp; Révolution Industrielle)</h2>
+  <p class="lead">Cette époque s'ouvre historiquement par les grandes explorations et s'étend jusqu'à la Révolution industrielle. C'est le temps des voyages reliant les continents, mais aussi des usines et de la machine à vapeur.</p>
+
+  <!-- MINI FRISE DE SITUATION -->
+  <div class="card" style="overflow-x: auto; padding: 15px 10px; margin: 12px 0;">
+    <div style="min-width: 760px; position: relative; margin: 18px 0 8px 0;">
+      <!-- Timeline Bar -->
+      <div style="height: 28px; border: 3px solid var(--encre); border-radius: 8px; display: flex; overflow: hidden; box-shadow: 3px 3px 0 var(--encre); background: #fff;">
+        <div style="width: 30%; background: var(--p1); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; opacity: 0.3; filter: grayscale(70%);">🦴 Préhistoire</div>
+        <div style="width: 20%; background: var(--p2); display: flex; align-items: center; justify-content: center; color: #3A2C05; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏺 Antiquité</div>
+        <div style="width: 18%; background: var(--p3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏰 Moyen Âge</div>
+        <div style="width: 16%; background: var(--p4); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre);">⚓ Temps Modernes</div>
+        <div style="width: 16%; background: var(--p5); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚙️ Contemporaine</div>
+      </div>
+      <!-- Markers -->
+      <div style="position: absolute; width: 100%; top: -20px; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 0 4px; pointer-events: none;">
+        <span style="transform: translateX(-5%);">~3M av. J.-C.</span>
+        <span style="position: absolute; left: 30%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">-3 000</span>
+        <span style="position: absolute; left: 50%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">476</span>
+        <span style="position: absolute; left: 68%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1492</span>
+        <span style="position: absolute; left: 84%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1789</span>
+        <span style="transform: translateX(5%);">Aujourd'hui</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div>
+        <dt>Grandes Explorations (P6)</dt>
+        <dd>Voyages maritimes menés du XVe au XVIIe siècle par les Européens (Colomb, Magellan...) reliant l'Ancien et le Nouveau Monde, amorçant la colonisation et l'échange de produits (pommes de terre, maïs).</dd>
+      </div>
+      <div>
+        <dt>Révolution industrielle (P5)</dt>
+        <dd>Passage d'une société artisanale et agricole à une société de production mécanique en usine, initiée par l'invention de la machine à vapeur.</dd>
+      </div>
+      <div>
+        <dt>Bourgeoisie vs. Prolétariat (P5)</dt>
+        <dd>La bourgeoisie possède les moyens de production (usines, mines) et de grandes richesses. Le prolétariat (classe ouvrière) ne possède que sa force de travail vendue contre un salaire.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-q">📖 L'essentiel : Les grandes découvertes et l'Industrialisation</span>
+    <ul>
+      <li><strong>Les explorations et colonisations (P6 - Rupture) :</strong> À partir de la fin du XVe siècle, de nouvelles routes maritimes sont ouvertes : <strong>Christophe Colomb (1492)</strong> débarque aux Caraïbes, <strong>Vasco de Gama (1498)</strong> atteint l'Inde par mer, et <strong>Ferdinand de Magellan (1519-1522)</strong> lance le premier tour de la Terre (circumnavigation). <strong>Amerigo Vespucci</strong> comprend que ces terres forment un Nouveau Monde (qui portera son nom), et <strong>Jacques Cartier (1534)</strong> explore le Canada pour la France. Ces voyages s'accompagnent de colonisations (imposition de la religion et de la langue) et de l'introduction de nouveaux produits en Europe (café, chocolat, pomme de terre). La Renaissance intellectuelle est quant à elle accélérée par l'invention de l'imprimerie de <strong>Gutenberg</strong> (vers 1450).</li>
+      <li><strong>La Révolution industrielle (P5 - Rupture) :</strong> Ce changement majeur est amorcé par l'invention de la <strong>machine à vapeur par James Watt (1770)</strong>. Au XIXe siècle, les usines se développent. En Belgique, la Wallonie est pionnière grâce à ses charbonnages (Gilly, Dour) et sa métallurgie, illustrée par la fondation des usines de <strong>John Cockerill</strong> à Seraing en 1817.</li>
+      <li><strong>Les conditions de vie ouvrières et le travail des enfants :</strong> Le travail des prolétaires en usine ou dans les mines de charbon est épuisant et dangereux. Les usines imposent des règlements draconiens (le règlement intérieur de Cockerill de 1852 interdit de parler et oblige à amener du charbon pour le poêle). Les familles vivent dans des logements minuscules et insalubres. Les enfants travaillent dès 8 ou 10 ans (par ex. comme détartreurs de chaudières, ou glanant des morceaux de charbon sur les terrils comme sur le dessin de <strong>Vincent Van Gogh à Cuesmes en 1881</strong>). Le poète <strong>Victor Hugo</strong> dénonce cette exploitation dans son poème *Melancholia* (1856). Pendant ce temps, la bourgeoisie industrielle construit de luxueux hôtels particuliers (comme l'Hôtel Solvay de Victor Horta à Bruxelles).</li>
+      <li><strong>Les revendications et luttes ouvrières :</strong> Pour défendre leurs droits, les ouvriers recourent à des grèves. La <strong>Fusillade de Roux en 1886</strong> témoigne de la violence de la répression. Des manifestations éclatent à Louvain en 1902 pour réclamer le suffrage universel et les syndicats s'unissent pour revendiquer la journée des <strong>« trois huit »</strong> (8h de travail, 8h de sommeil, 8h de loisirs).</li>
+    </ul>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🇧🇪 Paysages industriels wallons et art nouveau</h4>
+    <p>Notre pays a été au cœur de cette mutation :</p>
+    <ul>
+      <li><strong>La Sambre :</strong> Le peintre wallon Pierre Paulus a immortalisé dans ses toiles sombres et grises les cheminées d'usines et le labeur des ouvriers de Charleroi.</li>
+      <li><strong>Hôtel Solvay :</strong> Chef-d'œuvre de l'architecte Victor Horta construit à Bruxelles pour le fils de l'industriel Ernest Solvay, illustrant l'opulence de la bourgeoisie de l'époque.</li>
+    </ul>
+  </div>
+
+  <!-- DOSSIER DOCUMENTAIRE DE LA CLASSE -->
+  <div class="card" style="margin-top: 15px;">
+    <span class="tag tag-classe">📁 Documents de classe à analyser</span>
+    <p style="margin-top: 8px;">Consulte les documents officiels étudiés en classe :</p>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+      <!-- Doc A -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration A : La machine à vapeur de James Watt dans une usine
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_reglement_cockerill.png" alt="Illustration Machine à Vapeur" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration A : Machine à vapeur de James Watt actionnant les machines d\'une usine')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer le fonctionnement de la machine à vapeur.</p>
+        </div>
+      </div>
+      <!-- Doc B -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration B : Mineurs au travail au fond de la mine
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_fusillade_roux.png" alt="Illustration Mineurs" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration B : Mineurs de charbon extrayant le minerai au fond d\'un puits au XIXe siècle')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer les conditions de travail des mineurs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="callout c-online">
+    <h4>💻 Enquête interactive — Teste tes connaissances (10 questions)</h4>
+    <p>Réponds aux questions pour évaluer ta compréhension des Temps Modernes.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <!-- Q1 -->
+      <div class="quiz-q">
+        <p class="qtext">1. Quel explorateur italien au service de l'Espagne est arrivé aux Amériques le 12 octobre 1492 ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Jacques Cartier a exploré le Canada en 1534.')">A. Jacques Cartier</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Christophe Colomb a navigué vers l\'Ouest et a accosté dans les Caraïbes, ouvrant l\'époque moderne.')">B. Christophe Colomb</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Vasco de Gama a navigué vers l\'Est en contournant l\'Afrique.')">C. Vasco de Gama</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-q">
+        <p class="qtext">2. Quel navigateur portugais au service de l'Espagne a mené la première expédition à réaliser le tour complet de la Terre de 1519 à 1522 ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Ferdinand de Magellan a initié le premier voyage autour du globe (circumnavigation), achevé par son équipage après sa mort en route.')">A. Ferdinand de Magellan</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Amerigo Vespucci a exploré les côtes mais n\'a pas fait le tour du globe.')">B. Amerigo Vespucci</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Christophe Colomb a fait 4 voyages mais n\'a jamais fait le tour du monde.')">C. Christophe Colomb</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-q">
+        <p class="qtext">3. Quel navigateur portugais est le premier Européen à atteindre l'Inde par mer en doublant le Cap de Bonne-Espérance en 1498 ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Jacques Cartier cherchait un passage au nord de l\'Amérique.')">A. Jacques Cartier</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Amerigo Vespucci a cartographié le sud américain.')">B. Amerigo Vespucci</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Vasco de Gama contourne l\'Afrique et jette l\'ancre à Calicut en Inde en mai 1498, ouvrant une route d\'épices cruciale.')">C. Vasco de Gama</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-q">
+        <p class="qtext">4. Quel explorateur français a exploré le fleuve Saint-Laurent en 1534 et a revendiqué ces terres canadiennes pour la France ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Jacques Cartier explore le golfe du Saint-Laurent en 1534 et fonde la Nouvelle-France (futur Canada).')">A. Jacques Cartier</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Magellan a exploré le sud du continent américain (détroit de Magellan).')">B. Ferdinand de Magellan</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Vasco de Gama naviguait vers les Indes orientales.')">C. Vasco de Gama</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-q">
+        <p class="qtext">5. Quel navigateur a donné son nom au continent américain après avoir compris que les terres découvertes par Colomb formaient un Nouveau Monde ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Christophe Colomb pensait être en Asie (Indes).')">A. Christophe Colomb</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Amerigo Vespucci écrit des lettres sur ce nouveau continent, et en 1507, un cartographe allemand le nomme "America" en son honneur.')">B. Amerigo Vespucci</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Magellan a donné son nom au détroit du sud.')">C. Ferdinand de Magellan</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-q">
+        <p class="qtext">6. Quelle invention technologique de Gutenberg (vers 1450) a révolutionné la transmission écrite en Europe ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La boussole provient d\'Asie et sert à s\'orienter.')">A. La boussole</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'L\'imprimerie typographique à caractères métalliques mobiles a permis de diffuser rapidement les livres, les idées humanistes et les sciences.')">B. L'imprimerie</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La machine à vapeur a été inventée au XVIIIe siècle.')">C. La machine à vapeur</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-q">
+        <p class="qtext">7. Si tu observes l'Illustration A, quelle invention clé de James Watt (1770) actionne par des courroies l'ensemble des métiers de cette usine ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les métiers manuels existaient avant et n\'utilisaient pas l\'énergie de la vapeur.')">A. Le métier à tisser manuel</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le train à grande vitesse est une invention récente de l\'époque contemporaine.')">B. Le train à grande vitesse</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'La machine à vapeur de James Watt permet d\'actionner les machines des usines et les locomotives en utilisant le charbon.')">C. La machine à vapeur</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-q">
+        <p class="qtext">8. Quel document historique de 1852 montre la discipline stricte imposée aux ouvriers dans les usines de John Cockerill à Seraing ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le règlement d\'usine de 1852 interdisait de chanter, de parler de politique, d\'arriver en retard sous peine d\'amende, et obligeait les ouvriers à apporter leur propre charbon.')">A. Le règlement intérieur d'usine de 1852</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les libertés ouvrières n\'étaient pas du tout reconnues dans les règlements patronaux de 1852.')">B. La charte des libertés ouvrières</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La Révolution industrielle concentre le travail dans les usines, mettant fin au travail à domicile majoritaire.')">C. Le contrat de travail à domicile</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-q">
+        <p class="qtext">9. Quelles œuvres artistiques dénoncent la misère des enfants ouvriers et des glaneuses de charbon en Wallonie ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Victor Hugo dénonce l\'exploitation des enfants dans son poème *Melancholia*, tandis que Van Gogh dessine les femmes glanant le charbon sur les terrils de Cuesmes en 1881.')">A. Le poème *Melancholia* d'Hugo et le dessin de Van Gogh à Cuesmes</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'art de la Renaissance n\'a pas traité de la misère ouvrière du XIXe siècle.')">B. Les toiles et peintures colorées de la Renaissance italienne</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les industriels ne dénonçaient pas le travail des enfants dans leurs documents officiels.')">C. Les affiches publicitaires officielles des usines Cockerill</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q10 -->
+      <div class="quiz-q">
+        <p class="qtext">10. En observant l'Illustration B montrant le travail des mineurs de charbon, quelle revendication sociale majeure et quel événement tragique marquent les luttes ouvrières belges à la fin du XIXe siècle ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les grèves sanglantes de mars 1886 à Roux et Charleroi ont poussé à l\'adoption des premières lois sociales protectrices en Belgique et à la lutte pour le suffrage universel.')">A. La grève générale de 1886 (fusillade de Roux) et la revendication du suffrage universel et de la journée des trois huit</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La signature de la charte de 1196 pour interdire le travail dans les mines.')">B. La signature de la charte de 1196 pour interdire le travail dans les mines</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'apparition du moteur à combustion pour remplacer immédiatement les mineurs.')">C. L'apparition du moteur à combustion pour remplacer immédiatement les mineurs</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Scorebar -->
+      <div class="scorebar" id="score-modernes" style="display:none">
+        <span>🎉 Bravo ! Tu as terminé le quiz des Temps Modernes.</span>
+        <span>Ton score : <b class="score-val">0</b> / 10</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 05 L'EPOQUE CONTEMPORAINE ====================== -->
+<section class="page" id="contemporaine" role="tabpanel">
+  <h2><span class="pnum">05</span> L'Époque Contemporaine (Après-guerre &amp; Consommation)</h2>
+  <p class="lead">Cette période s'ouvre après la Seconde Guerre mondiale avec les « Trente Glorieuses », caractérisées par une prospérité économique inédite et l'avènement de la société de consommation. C'est aussi l'époque des conquêtes sociales pour les droits des femmes, de l'immigration d'après-guerre et des nouveaux défis écologiques.</p>
+
+  <!-- MINI FRISE DE SITUATION -->
+  <div class="card" style="overflow-x: auto; padding: 15px 10px; margin: 12px 0;">
+    <div style="min-width: 760px; position: relative; margin: 18px 0 8px 0;">
+      <!-- Timeline Bar -->
+      <div style="height: 28px; border: 3px solid var(--encre); border-radius: 8px; display: flex; overflow: hidden; box-shadow: 3px 3px 0 var(--encre); background: #fff;">
+        <div style="width: 30%; background: var(--p1); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; opacity: 0.3; filter: grayscale(70%);">🦴 Préhistoire</div>
+        <div style="width: 20%; background: var(--p2); display: flex; align-items: center; justify-content: center; color: #3A2C05; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏺 Antiquité</div>
+        <div style="width: 18%; background: var(--p3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">🏰 Moyen Âge</div>
+        <div style="width: 16%; background: var(--p4); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre); opacity: 0.3; filter: grayscale(70%);">⚓ Temps Modernes</div>
+        <div style="width: 16%; background: var(--p5); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.85rem; border-left: 3px solid var(--encre);">⚙️ Contemporaine</div>
+      </div>
+      <!-- Markers -->
+      <div style="position: absolute; width: 100%; top: -20px; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 0 4px; pointer-events: none;">
+        <span style="transform: translateX(-5%);">~3M av. J.-C.</span>
+        <span style="position: absolute; left: 30%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">-3 000</span>
+        <span style="position: absolute; left: 50%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">476</span>
+        <span style="position: absolute; left: 68%; transform: translateX(-50%); background: #fff; border: 2px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1492</span>
+        <span style="position: absolute; left: 84%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--encre); border-radius: 4px; padding: 1px 3px; box-shadow: 1px 1px 0 var(--encre);">1789</span>
+        <span style="transform: translateX(5%);">Aujourd'hui</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-mot">⚡ Vocabulaire à connaître</span>
+    <dl class="lex">
+      <div>
+        <dt>Les Trente Glorieuses (P5)</dt>
+        <dd>Période de forte croissance économique et de prospérité dans les pays développés entre 1945 et 1973 (nommée par Jean Fourastié), caractérisée par le plein emploi et l'élévation rapide du niveau de vie.</dd>
+      </div>
+      <div>
+        <dt>Société de consommation (P5)</dt>
+        <dd>Système économique et social dans lequel les ménages sont incités à acheter des biens et des services en grande quantité (électroménager, voitures, loisirs), stimulés par la publicité et le crédit.</dd>
+      </div>
+      <div>
+        <dt>Multiculturalisme &amp; Migrations (P6)</dt>
+        <dd>Cohabitation de personnes de cultures différentes dans une même société. En Belgique, elle découle en grande partie de l'immigration d'après-guerre (conventions minières signées avec l'Italie, le Maroc, la Turquie).</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-q">📖 L'essentiel : Consommation de masse, droits et défis environnementaux</span>
+    <ul>
+      <li><strong>Les Trente Glorieuses et la consommation (P5 - Rupture) :</strong> Entre 1945 et 1973, le quotidien des familles se transforme. L'électricité et le confort moderne pénètrent les logements : les foyers s'équipent d'appareils <strong>électroménagers (Moulinex, réfrigérateur)</strong>. En <strong>1957, le premier supermarché Delhaize en libre-service</strong> ouvre à la place Flagey à Bruxelles, révolutionnant la distribution. Le temps libre se développe également : la démocratisation des congés est facilitée par l'obtention du <strong>double pécule de vacances en 1947</strong>, favorisant le départ vers de nouvelles destinations de masse (comme le <strong>Club Med</strong>).</li>
+      <li><strong>Les luttes pour les droits des femmes (P5/P6 - Rupture) :</strong> Le rôle des femmes dans la société évolue grâce à des combats majeurs. En 1966, la <strong>grève historique des ouvrières de la FN Herstal</strong> (les « Femmes-machines ») dure 11 semaines pour exiger l'application du principe européen : <strong>« À travail égal, salaire égal »</strong>. En 1973, l'arrestation du gynécologue namurois <strong>Dr Willy Peers</strong> pour avoir pratiqué des interruptions volontaires de grossesse déclenche une mobilisation populaire massive qui accélérera la légalisation de l'avortement.</li>
+      <li><strong>L'immigration d'après-guerre (P6 - Rupture) :</strong> Pour répondre au manque criant de main-d'œuvre dans la reconstruction, les mines de charbon et la sidérurgie, l'État belge conclut des accords de recrutement. C'est l'arrivée successive de vagues d'immigration : d'abord des <strong>Italiens</strong> (freinée après la catastrophe du Bois du Cazier à Marcinelle en 1956), puis des <strong>Marocains et des Turcs (conventions de 1964)</strong>. Cette immigration marque l'avènement de la Belgique multiculturelle actuelle.</li>
+      <li><strong>Le choc pétrolier de 1973 et les crises écologiques :</strong> Le quadruplement des prix du pétrole in 1973 met brutalement fin aux Trente Glorieuses, ouvrant une ère de chômage et de transition difficile. De plus, la surproduction industrielle et la consommation d'énergies fossiles nuisent gravement à notre planète : depuis 1970, les <strong>émissions mondiales de CO2 ont doublé</strong>, entraînant un réchauffement climatique accéléré. En parallèle, la faune sauvage s'effondre avec une <strong>baisse de 69% des populations de vertébrés</strong> selon l'Indice Planète Vivante, posant le défi écologique majeur du XXIe siècle.</li>
+    </ul>
+  </div>
+
+  <div class="callout c-defi">
+    <h4>🇧🇪 Jalons belges de la société contemporaine</h4>
+    <p>Quelques événements clés à retenir :</p>
+    <ul>
+      <li><strong>1947 :</strong> Instauration par la loi du double pécule de vacances pour les salariés belges.</li>
+      <li><strong>1957 :</strong> Ouverture du supermarché Delhaize de la place Flagey (libre-service).</li>
+      <li><strong>1966 :</strong> Grève des « Femmes-machines » d'Herstal pour l'égalité salariale.</li>
+      <li><strong>Juillet 2021 :</strong> Inondations dramatiques en Wallonie (Vesdre, Ourthe), rappelant l'urgence face aux événements climatiques extrêmes.</li>
+    </ul>
+  </div>
+
+  <!-- DOSSIER DOCUMENTAIRE DE LA CLASSE -->
+  <div class="card" style="margin-top: 15px;">
+    <span class="tag tag-classe">📁 Documents de classe à analyser</span>
+    <p style="margin-top: 8px;">Consulte les documents officiels étudiés en classe :</p>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+      <!-- Doc A -->
+      <div style="flex: 1; min-width: 280px; background: #fafafa; border: 2px solid var(--encre); border-radius: 8px; overflow: hidden; box-shadow: 2px 2px 0 var(--encre); display: flex; flex-direction: column;">
+        <div style="padding: 10px; background: #eee; border-bottom: 2px solid var(--encre); font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;">
+          🎨 Illustration A : La société de consommation des Trente Glorieuses
+        </div>
+        <div style="padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <img src="photos/doc_biodiversite.png" alt="Illustration Trente Glorieuses" style="max-width: 100%; max-height: 200px; border: 1.5px solid var(--encre); border-radius: 4px; cursor: zoom-in; margin: 0 auto;" onclick="openImageModal(this.src, 'Illustration A : Cuisine moderne et société de consommation des Trente Glorieuses')">
+          <p style="font-size: 0.75rem; margin-top: 12px; color: #555; font-style: italic;">Clique sur l'image pour l'agrandir et observer les nouveaux équipements de la vie quotidienne.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="callout c-online">
+    <h4>💻 Enquête interactive — Teste tes connaissances (10 questions)</h4>
+    <p>Réponds aux questions pour évaluer ta compréhension de l'Époque contemporaine.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <!-- Q1 -->
+      <div class="quiz-q">
+        <p class="qtext">1. Comment appelle-t-on la période de forte croissance économique et de prospérité vécue par les pays occidentaux entre 1945 et 1973 ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La Grande Dépression est une crise économique majeure apparue en 1929.')">A. La Grande Dépression</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les Trente Glorieuses, terme inventé par l\'économiste Jean Fourastié, désignent ces 28 années de croissance, de progrès social et de plein emploi.')">B. Les Trente Glorieuses</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La Révolution industrielle s\'est déroulée au XIXe siècle.')">C. La Révolution industrielle</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-q">
+        <p class="qtext">2. Sur l'Illustration A montrant une cuisine en 1960, quel appareil électrique emblématique de la société de consommation des Trente Glorieuses voit-on au centre ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le réfrigérateur symbolise le confort domestique moderne et le passage à la conservation longue des aliments achetés au supermarché.')">A. Le réfrigérateur (frigo) pour conserver les aliments frais</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le métier à tisser mécanique appartient à l\'époque de la Révolution industrielle.')">B. Le métier à tisser mécanique</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les ordinateurs personnels et Internet apparaissent bien plus tard, à la fin du XXe siècle.')">C. L'ordinateur personnel connecté à Internet</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-q">
+        <p class="qtext">3. Quelle innovation sociale belge de 1947 a permis de financer et démocratiser le départ en vacances des travailleurs ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La semaine de 60 heures réduisait le temps de loisirs des ouvriers.')">A. La semaine de 60 heures obligatoire</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le double pécule de vacances, créé en 1947, fournit aux salariés une somme d\'argent supplémentaire en été pour financer leurs loisirs et voyages.')">B. L'instauration du double pécule de vacances</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'État n\'a pas restreint les déplacements de sa population après la guerre.')">C. L'interdiction des voyages hors de Belgique</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-q">
+        <p class="qtext">4. Quel slogan et combat historique ont mené les 3 000 ouvrières de la Fabrique Nationale (FN) d'Herstal en 1966 lors de leur grève ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les « Femmes-machines » de la FN Herstal ont mené une grève héroïque de 11 semaines en 1966 pour réclamer l\'égalité salariale avec les hommes.')">A. « À travail égal, salaire égal » pour l'égalité des rémunérations</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le conflit ne portait pas sur la distribution de charbon gratuit.')">B. « Du charbon pour tous » pour obtenir du combustible gratuit</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La revendication des « trois huit » remonte à la fin du XIXe siècle.')">C. « Les trois huit » pour réduire le temps de travail hebdomadaire</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-q">
+        <p class="qtext">5. Quelle affaire judiciaire belge de 1973 a mobilisé l'opinion publique pour les droits des femmes et la dépénalisation de l'avortement ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'architecte Victor Horta est décédé en 1947.')">A. La condamnation de l'architecte Victor Horta</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'L\'arrestation du gynécologue Willy Peers en janvier 1973 à Namur a déclenché d\'immenses manifestations populaires qui ont accéléré la dépénalisation de l\'avortement en Belgique.')">B. L'arrestation du gynécologue Willy Peers pour avoir pratiqué des avortements</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le conflit judiciaire n\'impliquait pas des ouvrières de Cockerill.')">C. Le procès des ouvrières de Cockerill</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-q">
+        <p class="qtext">6. Quel événement survenu en 1973 marque le coup d'arrêt de la croissance économique des Trente Glorieuses ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'La machine à vapeur de James Watt a été mise au point au XVIIIe siècle (1770).')">A. L'invention de la machine à vapeur</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Le choc pétrolier de 1973 a multiplié les prix du pétrole brut, provoquant de l\'inflation, du chômage de masse et la fin de l\'énergie bon marché.')">B. Le premier choc pétrolier avec la flambée des prix de l'énergie</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'L\'indépendance de la Belgique date de 1830.')">C. L'indépendance de la Belgique</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-q">
+        <p class="qtext">7. Pourquoi la Belgique a-t-elle signé des conventions avec l'Italie, le Maroc et la Turquie après 1945, et quel en a été l'impact ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Ces accords visaient à attirer des travailleurs et non à fermer les frontières.')">A. Pour former une alliance militaire et fermer ses frontières</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Face au manque de bras dans ses mines de charbon et ses aciéries, la Belgique a fait appel à l\'immigration italienne, marocaine et turque, jetant les bases d\'une société multiculturelle.')">B. Pour faire venir de la main-d'œuvre pour les mines et les usines, créant une société multiculturelle</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le but premier était le recrutement de travailleurs immigrés.')">C. Pour vendre des machines industrielles Cockerill à ces pays</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-q">
+        <p class="qtext">8. Quelle a été l'évolution des émissions mondiales de dioxyde de carbone (CO2) issues de la combustion d'énergies fossiles depuis 1970 ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les énergies fossiles sont restées très dominantes et les émissions continuent d\'augmenter.')">A. Elles ont diminué de moitié grâce aux centrales solaires</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les émissions annuelles de CO2 ont doublé depuis 1970, accentuant l\'effet de serre et le dérèglement du climat mondial.')">B. Elles ont doublé, accélérant l'effet de serre et le dérèglement climatique</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les émissions ont considérablement augmenté à l\'échelle mondiale.')">C. Elles sont restées parfaitement stables</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-q">
+        <p class="qtext">9. D'après le Living Planet Index, quelle proportion moyenne des populations de vertébrés sauvages a disparu dans le monde depuis 1970 ?</p>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'L\'Indice Planète Vivante estime un effondrement moyen de 69% des populations de vertébrés sauvages en 50 ans, causé par la destruction des habitats et la pollution.')">A. Environ 69% des populations de vertébrés sauvages ont décliné</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Ce chiffre sous-estimerait gravement la crise d\'extinction globale actuelle.')">B. Moins de 2% des espèces de vertébrés</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Les parcs ne peuvent empêcher l\'effondrement de la faune à l\'état sauvage.')">C. Aucune, car les zoos protègent tous les animaux sauvages</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Q10 -->
+      <div class="quiz-q">
+        <p class="qtext">10. Quel événement météorologique extrême a durement touché la Wallonie en juillet 2021, illustrant les menaces du réchauffement climatique ?</p>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Il s\'agissait de pluies exceptionnelles provoquant des crues, pas d\'une tempête de sable.')">A. Une tempête de sable du Sahara</button>
+        <button class="opt" type="button" data-is-correct="true" onclick="selectQuizOption(this, true, 'Les pluies torrentielles de juillet 2021 ont détruit des milliers d\'habitations et causé la mort de dizaines de personnes en Wallonie (Vesdre, Ourthe).')">B. Les inondations catastrophiques et les crues historiques de la Vesdre et de l'Ourthe</button>
+        <button class="opt" type="button" data-is-correct="false" onclick="selectQuizOption(this, false, 'Le réchauffement provoque la fonte des glaces et la montée du niveau marin.')">C. Une baisse historique du niveau des océans</button>
+        <p class="fb"></p>
+      </div>
+
+      <!-- Scorebar -->
+      <div class="scorebar" id="score-contemporaine" style="display:none">
+        <span>🎉 Bravo ! Tu as terminé le quiz de l'Époque contemporaine.</span>
+        <span>Ton score : <b class="score-val">0</b> / 10</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== 06 FRISE & RESUME ====================== -->
+<section class="page" id="resume" role="tabpanel">
+  <h2><span class="pnum">06</span> Synthèse Chronologique</h2>
+  <p class="lead">Voici la frise récapitulative des 5 grandes périodes de notre histoire. Les repères chronologiques indiquent les dates clés de passage d'une époque à l'autre.</p>
+
+  <!-- GRAPHICAL TIMELINE 3D FLAT -->
+  <div class="card" style="overflow-x: auto; padding: 24px 10px;">
+    <span class="tag tag-defi">📅 La Frise Chronologique Globale</span>
+    <div style="min-width: 800px; position: relative; margin: 30px 0;">
+      <!-- Timeline Bar -->
+      <div style="height: 36px; border: 3px solid var(--encre); border-radius: 10px; display: flex; overflow: hidden; box-shadow: 4px 4px 0 var(--encre); background: #fff;">
+        <div style="width: 30%; background: var(--p1); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.95rem;">🦴 Préhistoire</div>
+        <div style="width: 20%; background: var(--p2); display: flex; align-items: center; justify-content: center; color: #3A2C05; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.95rem; border-left: 3px solid var(--encre);">🏺 Antiquité</div>
+        <div style="width: 18%; background: var(--p3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.95rem; border-left: 3px solid var(--encre);">🏰 Moyen Âge</div>
+        <div style="width: 16%; background: var(--p4); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.95rem; border-left: 3px solid var(--encre);">⚓ Temps Modernes</div>
+        <div style="width: 16%; background: var(--p5); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 0.95rem; border-left: 3px solid var(--encre);">⚙️ Contemporaine</div>
+      </div>
+      <!-- Markers -->
+      <div style="position: absolute; width: 100%; top: -25px; display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; padding: 0 4px; pointer-events: none;">
+        <span style="transform: translateX(-10%);">~3M av. J.-C.</span>
+        <span style="position: absolute; left: 30%; transform: translateX(-50%); background: #fff; border: 2px solid var(--encre); border-radius: 4px; padding: 1px 4px; box-shadow: 1px 1px 0 var(--encre);">-3 000 (Écriture)</span>
+        <span style="position: absolute; left: 50%; transform: translateX(-50%); background: #fff; border: 2px solid var(--encre); border-radius: 4px; padding: 1px 4px; box-shadow: 1px 1px 0 var(--encre);">476 (Chute de Rome)</span>
+        <span style="position: absolute; left: 68%; transform: translateX(-50%); background: #fff; border: 2px solid var(--encre); border-radius: 4px; padding: 1px 4px; box-shadow: 1px 1px 0 var(--encre);">1492 (Amériques)</span>
+        <span style="position: absolute; left: 84%; transform: translateX(-50%); background: #fff; border: 2px solid var(--encre); border-radius: 4px; padding: 1px 4px; box-shadow: 1px 1px 0 var(--encre);">1789 (Révolution Fr.)</span>
+        <span style="transform: translateX(10%);">Aujourd'hui</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATCHING GAME -->
+  <div class="callout c-online">
+    <h4>💻 Jeu d'association — Les grands marqueurs</h4>
+    <p>Associe chaque période historique à son événement ou son invention majeure en cliquant sur un élément à gauche, puis sa correspondance à droite.</p>
+    
+    <div class="atelier" style="margin-top:12px">
+      <div class="match-grid" id="periodMatchGrid">
+        <div class="match-col" id="matchLeftCol">
+          <h4>Période historique</h4>
+          <div class="match-item" data-left="prehistoire" tabindex="0"><span class="match-badge" style="background: var(--p1); color: #fff;">🦴</span> Préhistoire</div>
+          <div class="match-item" data-left="antiquite" tabindex="0"><span class="match-badge" style="background: var(--p2); color: #3a2c05;">🏺</span> Antiquité</div>
+          <div class="match-item" data-left="moyenage" tabindex="0"><span class="match-badge" style="background: var(--p3); color: #fff;">🏰</span> Moyen Âge</div>
+          <div class="match-item" data-left="modernes" tabindex="0"><span class="match-badge" style="background: var(--p4); color: #fff;">⚓</span> Temps Modernes</div>
+          <div class="match-item" data-left="contemporaine" tabindex="0"><span class="match-badge" style="background: var(--p5); color: #fff;">⚙️</span> Époque Contemporaine</div>
+        </div>
+        <div class="match-col" id="matchRightCol">
+          <h4>Événement ou invention clé</h4>
+          <div class="match-item" data-right="modernes" tabindex="0">Révolution industrielle, usines Cockerill et machine à vapeur</div>
+          <div class="match-item" data-right="prehistoire" tabindex="0">Passage d'une économie de prédation à une économie de production</div>
+          <div class="match-item" data-right="contemporaine" tabindex="0">Trente Glorieuses, société de consommation et migrations d'après-guerre</div>
+          <div class="match-item" data-right="antiquite" tabindex="0">Romanisation et développement des villas gallo-romaines</div>
+          <div class="match-item" data-right="moyenage" tabindex="0">Développement des seigneuries, des villages et des chartes communales</div>
+        </div>
+      </div>
+      
+      <p id="matchGameFeedback" style="text-align:center; font-weight:700; margin-top:12px; min-height:1.5em; color: var(--vert);"></p>
+      
+      <div class="controls" style="justify-content: center;">
+        <button class="btn btn-ghost" onclick="resetMatchGame()" type="button">↺ Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTO-EVALUATION -->
+  <div class="card">
+    <span class="tag tag-classe">✅ Mon auto-évaluation</span>
+    <div class="auto-eval">
+      <label><input type="checkbox"> Je sais réciter les 5 grandes périodes de l'Histoire dans le bon ordre chronologique.</label>
+      <label><input type="checkbox"> Je sais citer les dates clés de rupture (−3000, 476, 1492, 1789) et à quoi elles correspondent.</label>
+      <label><input type="checkbox"> Je peux expliquer la différence entre le mode de vie des nomades et des sédentaires.</label>
+      <label><input type="checkbox"> Je sais citer au moins un événement historique local (en Belgique) pour chaque grande période.</label>
+      <label><input type="checkbox"> J'ai réussi tous les quiz de révision avec un bon score.</label>
+    </div>
+  </div>
+</section>
+
+<!-- Modal pour zoomer sur les documents -->
+<div id="imageModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.85); align-items:center; justify-content:center; padding: 20px;">
+  <div class="card" style="max-width: 900px; width: 100%; background:#fff; position:relative; display: flex; flex-direction: column; box-shadow: 6px 6px 0 var(--encre); border: 3px solid var(--encre); border-radius: 12px; padding: 25px;">
+    <button onclick="closeImageModal()" style="position:absolute; right:15px; top:15px; background:var(--rouge); color:#fff; border:3px solid var(--encre); border-radius:8px; font-weight:800; cursor:pointer; padding:5px 12px; box-shadow: 2px 2px 0 var(--encre); font-family:'Baloo 2', sans-serif;">✕ Fermer</button>
+    <h3 id="modalTitle" style="margin-top:0; font-family:'Baloo 2', sans-serif; font-size:1.4rem; padding-right:80px; border-bottom:3px solid var(--encre); padding-bottom:10px;">Document</h3>
+    <div style="flex:1; overflow-y:auto; text-align:center; padding:15px 0;">
+      <img id="modalImg" src="" style="max-width:100%; max-height: 70vh; height:auto; border:3px solid var(--encre); border-radius:8px; box-shadow: 4px 4px 0 var(--encre);">
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ============ NAVIGATION ONGLETS ============ */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const pages = document.querySelectorAll('.page');
+tabBtns.forEach(b=>b.addEventListener('click',()=>{
+  tabBtns.forEach(x=>x.classList.remove('active'));
+  pages.forEach(p=>p.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+/* ============ QUIZ INTERACTIFS ============ */
+const quizState = {
+  prehistoire: { answered: 0, correct: 0, total: 10 },
+  antiquite: { answered: 0, correct: 0, total: 10 },
+  moyenage: { answered: 0, correct: 0, total: 10 },
+  modernes: { answered: 0, correct: 0, total: 10 },
+  contemporaine: { answered: 0, correct: 0, total: 10 }
+};
+
+function selectQuizOption(button, isCorrect, feedbackText) {
+  const quizQ = button.closest('.quiz-q');
+  if (quizQ.classList.contains('answered')) return;
+  
+  quizQ.classList.add('answered');
+  
+  // Désactive toutes les options de la question
+  const options = quizQ.querySelectorAll('.opt');
+  options.forEach(opt => {
+    opt.disabled = true;
+    // Met en valeur la réponse correcte
+    if (opt.dataset.isCorrect === 'true') {
+      opt.classList.add('correct');
+    }
+  });
+
+  // Met en valeur le choix utilisateur
+  if (isCorrect) {
+    button.classList.add('correct');
+    quizQ.classList.add('q-correct');
+  } else {
+    button.classList.add('wrong');
+    quizQ.classList.add('q-wrong');
+  }
+
+  // Affiche le feedback sous la question
+  const fb = quizQ.querySelector('.fb');
+  fb.innerHTML = (isCorrect ? '✅ <b>Correct !</b> ' : '❌ <b>Mauvaise réponse.</b> ') + feedbackText;
+  fb.classList.add('show');
+  fb.style.color = isCorrect ? 'var(--vert)' : 'var(--rouge)';
+
+  // Mise à jour de l'état du score de la page
+  const pageId = quizQ.closest('.page').id;
+  if (quizState[pageId]) {
+    quizState[pageId].answered++;
+    if (isCorrect) {
+      quizState[pageId].correct++;
+    }
+    
+    // Si toutes les questions du quiz de la page ont été répondues
+    if (quizState[pageId].answered === quizState[pageId].total) {
+      const scoreBar = document.getElementById(`score-${pageId}`);
+      if (scoreBar) {
+        scoreBar.style.display = 'flex';
+        scoreBar.querySelector('.score-val').textContent = quizState[pageId].correct;
+      }
+    }
+  }
+}
+
+/* ============ MATCHING GAME (Jeu d'association) ============ */
+let selectedLeftItem = null;
+let selectedRightItem = null;
+
+function initMatchGame() {
+  const leftItems = document.querySelectorAll('#matchLeftCol .match-item');
+  const rightItems = document.querySelectorAll('#matchRightCol .match-item');
+
+  leftItems.forEach(item => {
+    item.addEventListener('click', () => {
+      if (item.classList.contains('done')) return;
+      leftItems.forEach(x => x.classList.remove('sel'));
+      item.classList.add('sel');
+      selectedLeftItem = item;
+      checkMatchSelection();
+    });
+  });
+
+  rightItems.forEach(item => {
+    item.addEventListener('click', () => {
+      if (item.classList.contains('done')) return;
+      rightItems.forEach(x => x.classList.remove('sel'));
+      item.classList.add('sel');
+      selectedRightItem = item;
+      checkMatchSelection();
+    });
+  });
+}
+
+function checkMatchSelection() {
+  if (selectedLeftItem && selectedRightItem) {
+    const leftVal = selectedLeftItem.dataset.left;
+    const rightVal = selectedRightItem.dataset.right;
+
+    if (leftVal === rightVal) {
+      // Correct Match
+      selectedLeftItem.classList.remove('sel');
+      selectedRightItem.classList.remove('sel');
+      selectedLeftItem.classList.add('done');
+      selectedRightItem.classList.add('done');
+      selectedLeftItem = null;
+      selectedRightItem = null;
+
+      // Check if finished
+      const totalDone = document.querySelectorAll('#periodMatchGrid .match-item.done').length;
+      if (totalDone === 10) { // 5 pairs = 10 done items
+        document.getElementById('matchGameFeedback').style.color = 'var(--vert)';
+        document.getElementById('matchGameFeedback').innerHTML = '🎉 <b>Félicitations !</b> Tu as associé toutes les périodes à leurs événements clés !';
+      } else {
+        document.getElementById('matchGameFeedback').style.color = 'var(--vert)';
+        document.getElementById('matchGameFeedback').textContent = '✓ Correct !';
+        setTimeout(() => {
+          if (document.getElementById('matchGameFeedback').textContent === '✓ Correct !') {
+            document.getElementById('matchGameFeedback').textContent = '';
+          }
+        }, 1000);
+      }
+    } else {
+      // Wrong Match
+      const l = selectedLeftItem;
+      const r = selectedRightItem;
+      l.classList.add('wrong');
+      r.classList.add('wrong');
+      document.getElementById('matchGameFeedback').style.color = 'var(--rouge)';
+      document.getElementById('matchGameFeedback').textContent = '✗ Ce n\'est pas la bonne association, réessaie !';
+
+      setTimeout(() => {
+        l.classList.remove('sel', 'wrong');
+        r.classList.remove('sel', 'wrong');
+        if (document.getElementById('matchGameFeedback').textContent === '✗ Ce n\'est pas la bonne association, réessaie !') {
+          document.getElementById('matchGameFeedback').textContent = '';
+        }
+      }, 1000);
+
+      selectedLeftItem = null;
+      selectedRightItem = null;
+    }
+  }
+}
+
+function resetMatchGame() {
+  selectedLeftItem = null;
+  selectedRightItem = null;
+  document.querySelectorAll('#periodMatchGrid .match-item').forEach(x => {
+    x.classList.remove('sel', 'done', 'wrong');
+  });
+  document.getElementById('matchGameFeedback').textContent = '';
+}
+
+// Lancement du jeu
+initMatchGame();
+
+/* ============ MODAL D'IMAGES ============ */
+function openImageModal(src, title) {
+  document.getElementById('modalImg').src = src;
+  document.getElementById('modalTitle').textContent = title;
+  const modal = document.getElementById('imageModal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+  const modal = document.getElementById('imageModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Fermer en cliquant à l'extérieur des limites
+document.getElementById('imageModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('imageModal')) {
+    closeImageModal();
+  }
+});
+</script>
+
+</body>
+</html>
