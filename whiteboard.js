@@ -613,9 +613,9 @@ function saveActiveTabTextboxes() {
             text: text,
             x: parseFloat(el.dataset.x) || 0,
             y: parseFloat(el.dataset.y) || 0,
-            fontSize: parseInt(el.dataset.fontSize) || 10,
+            fontSize: parseInt(el.dataset.fontSize) || 12,
             underline: el.dataset.underline === 'true',
-            color: el.dataset.color || '#1e293b',
+            color: el.dataset.color || '#4f46e5',
             isPostIt: el.dataset.isPostIt === 'true'
         };
     });
@@ -993,11 +993,11 @@ function handlePointerDown(e) {
     // 2. TEXT MODE
     if (activeTool === 'text') {
         e.preventDefault();
-        const defaultFontSize = 10;
+        const defaultFontSize = 12;
         // Aligner précisément le curseur d'écriture avec le clic de l'utilisateur :
         // - Horizontalement : soustraire la bordure (2px) et le padding-left (12px) divisés par zoomScale = 14px
         // - Verticalement : soustraire la bordure + padding-top (8px) divisés par zoomScale, et la hauteur de la ligne (environ 80% de la taille de police = 9.6px) pour que la ligne d'écriture soit sur le clic
-        createTextbox(x - 14 / zoomScale, y - 8 / zoomScale - 0.8 * defaultFontSize, "", defaultFontSize);
+        createTextbox(x - 14 / zoomScale, y - 8 / zoomScale - 0.8 * defaultFontSize, "", defaultFontSize, false, '#4f46e5');
         return;
     }
     
@@ -1994,7 +1994,7 @@ function setBoardBackground(styleName) {
 }
 
 // --- EDITABLE ARIAL TEXT ANNOTATIONS ---
-function createTextbox(x, y, initialText = "", fontSize = 10, underline = false, color = '#1e293b', isPostIt = false) {
+function createTextbox(x, y, initialText = "", fontSize = 12, underline = false, color = '#4f46e5', isPostIt = false) {
     const layer = document.getElementById('annotations-layer');
     if (!layer) return;
     
@@ -2170,7 +2170,7 @@ function handleGlobalPaste(e) {
             const x = (scrollLeft + clientWidth / 2 - 60) / zoomScale;
             const y = (scrollTop + clientHeight / 2 - 20) / zoomScale;
             
-            createTextbox(x, y, text, 10);
+            createTextbox(x, y, text, 12, false, '#4f46e5');
             saveActiveTabTextboxes();
             e.preventDefault();
         }
@@ -2328,8 +2328,8 @@ window.addTextToWhiteboard = function(text) {
     const existing = document.querySelectorAll('.text-box').length;
     const offset = existing * 25;
     
-    // Always insert text box at center mapped back to 1x coordinate space (fontsize 10 for curriculum items)
-    createTextbox(x / zoomScale + offset, y / zoomScale + offset, text, 10);
+    // Always insert text box at center mapped back to 1x coordinate space (fontsize 12 and color blue for curriculum items)
+    createTextbox(x / zoomScale + offset, y / zoomScale + offset, text, 12, false, '#4f46e5');
     saveActiveTabTextboxes();
 };
 
@@ -3157,8 +3157,8 @@ function exportCurrentTab() {
         const y = parseFloat(el.dataset.y) + 28;
         const contentNode = el.querySelector('.text-content-node');
         const text = contentNode ? contentNode.innerText : el.innerText.replace('✕', '').trim();
-        const fontSize = parseFloat(el.dataset.fontSize) || 10;
-        const color = el.dataset.color || '#1e293b';
+        const fontSize = parseFloat(el.dataset.fontSize) || 12;
+        const color = el.dataset.color || '#4f46e5';
         const underline = el.dataset.underline === 'true';
         
         if (text && text !== "Écrivez ici...") {
