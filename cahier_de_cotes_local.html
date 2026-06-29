@@ -86,23 +86,7 @@
             transform: translateY(-4px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-        .excel-tab-group-header {
-            position: relative;
-            bottom: -2px;
-            border: 2.5px solid #171717;
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-            padding: 8px 14px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 900;
-            font-size: 13.5px;
-            letter-spacing: 0.02em;
-            cursor: default;
-            user-select: none;
-            transform: none;
-            box-shadow: none;
-        }
-        
+        /* Neubrutalism Utilities */
         /* Neubrutalism Utilities */
         .neo-btn {
             border: 2.5px solid #171717;
@@ -200,7 +184,7 @@
         <div class="neo-card bg-white rounded-3xl overflow-hidden flex flex-col flex-1 min-h-[480px]">
             
             <!-- Zone des Feuilles / Onglets (Style Excel) -->
-            <div id="tabs-container" class="no-print bg-neutral-100 border-b-[3px] border-neutral-900 px-4 pt-3 flex flex-wrap gap-1.5 select-none shrink-0">
+            <div id="tabs-container" class="no-print bg-neutral-100 border-b-[3px] border-neutral-900 px-4 pt-3 flex flex-wrap items-end gap-1.5 select-none shrink-0">
                 <!-- Rempli en JS par renderTabHeaders() -->
             </div>
 
@@ -479,7 +463,7 @@
             // --- BULLETIN TAB ---
             const activeB = activeTab === 'bulletin';
             html += `
-                <div onclick="selectTab('bulletin')" id="tab-bulletin" class="excel-tab ${activeB ? 'active opacity-100' : 'opacity-85'} bg-amber-100 text-amber-900 border-b-${activeB ? 'white' : 'neutral-100'} hover:bg-amber-200 transition-opacity duration-150">
+                <div onclick="selectTab('bulletin')" id="tab-bulletin" class="excel-tab ${activeB ? 'active opacity-100' : 'opacity-85'} bg-amber-100 text-amber-900 border-b-${activeB ? 'white' : 'neutral-100'} hover:bg-amber-200 transition-opacity duration-150 self-end">
                     Bulletin
                     ${getLockIcon('bulletin')}
                 </div>
@@ -488,13 +472,13 @@
             // --- FRANÇAIS SECTION ---
             html += `<div class="h-6 w-px bg-neutral-300 self-end mb-2 mx-1.5"></div>`;
             if (activeParent === 'fr') {
-                // Header du groupe Français
                 html += `
-                    <div class="excel-tab-group-header bg-red-200 text-red-950">
-                        Français ▾
-                    </div>
+                    <div class="flex flex-col items-center select-none self-end">
+                        <div class="px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider border-2 border-neutral-900 rounded-lg bg-red-200 text-red-950 shadow-[1px_1px_0_rgba(0,0,0,1)] pointer-events-none mb-1">
+                            Français ▾
+                        </div>
+                        <div class="flex gap-1.5">
                 `;
-                // Sub-tabs
                 const frTabs = [
                     { id: 'ecouter', name: 'Écouter' },
                     { id: 'lecture', name: 'Lire' },
@@ -504,16 +488,19 @@
                 frTabs.forEach(t => {
                     const active = activeTab === t.id;
                     html += `
-                        <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-70'} bg-red-100 text-red-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-red-200 transition-opacity duration-150 text-[12px] px-3.5 py-1.5 self-end">
+                        <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-70'} bg-red-100 text-red-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-red-200 transition-opacity duration-150 text-[12px] px-3.5 py-1.5">
                             ${t.name}
                             ${getLockIcon(t.id)}
                         </div>
                     `;
                 });
-            } else {
-                // Version fermée
                 html += `
-                    <div onclick="selectTab('ecouter')" class="excel-tab opacity-80 bg-red-100 text-red-900 border-b-neutral-100 hover:bg-red-200 transition-opacity duration-150">
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div onclick="selectTab('ecouter')" class="excel-tab opacity-80 bg-red-100 text-red-900 border-b-neutral-100 hover:bg-red-200 transition-opacity duration-150 self-end">
                         Français
                     </div>
                 `;
@@ -522,13 +509,13 @@
             // --- MATHS SECTION ---
             html += `<div class="h-6 w-px bg-neutral-300 self-end mb-2 mx-1.5"></div>`;
             if (activeParent === 'maths') {
-                // Header du groupe Maths
                 html += `
-                    <div class="excel-tab-group-header bg-sky-200 text-sky-950">
-                        Maths ▾
-                    </div>
+                    <div class="flex flex-col items-center select-none self-end">
+                        <div class="px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider border-2 border-neutral-900 rounded-lg bg-sky-200 text-sky-955 shadow-[1px_1px_0_rgba(0,0,0,1)] pointer-events-none mb-1">
+                            Mathématiques ▾
+                        </div>
+                        <div class="flex gap-1.5">
                 `;
-                // Sub-tabs
                 const mathTabs = [
                     { id: 'nomb_op', name: 'Nomb. & Op.' },
                     { id: 'grandeurs', name: 'Grandeurs' },
@@ -537,16 +524,19 @@
                 mathTabs.forEach(t => {
                     const active = activeTab === t.id;
                     html += `
-                        <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-70'} bg-sky-100 text-sky-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-sky-200 transition-opacity duration-150 text-[12px] px-3.5 py-1.5 self-end">
+                        <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-70'} bg-sky-100 text-sky-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-sky-200 transition-opacity duration-150 text-[12px] px-3.5 py-1.5">
                             ${t.name}
                             ${getLockIcon(t.id)}
                         </div>
                     `;
                 });
-            } else {
-                // Version fermée
                 html += `
-                    <div onclick="selectTab('nomb_op')" class="excel-tab opacity-80 bg-sky-100 text-sky-900 border-b-neutral-100 hover:bg-sky-200 transition-opacity duration-150">
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div onclick="selectTab('nomb_op')" class="excel-tab opacity-80 bg-sky-100 text-sky-900 border-b-neutral-100 hover:bg-sky-200 transition-opacity duration-150 self-end">
                         Mathématiques
                     </div>
                 `;
@@ -555,13 +545,13 @@
             // --- ÉVEIL SECTION ---
             html += `<div class="h-6 w-px bg-neutral-300 self-end mb-2 mx-1.5"></div>`;
             if (activeParent === 'eveil') {
-                // Header du groupe Éveil
                 html += `
-                    <div class="excel-tab-group-header bg-emerald-200 text-emerald-950">
-                        Éveil ▾
-                    </div>
+                    <div class="flex flex-col items-center select-none self-end">
+                        <div class="px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider border-2 border-neutral-900 rounded-lg bg-emerald-200 text-emerald-950 shadow-[1px_1px_0_rgba(0,0,0,1)] pointer-events-none mb-1">
+                            Éveil ▾
+                        </div>
+                        <div class="flex gap-1.5">
                 `;
-                // Sub-tabs
                 const eveilTabs = [
                     { id: 'sciences', name: 'Sciences' },
                     { id: 'hist_geo', name: 'Hist-Géo' }
@@ -569,16 +559,19 @@
                 eveilTabs.forEach(t => {
                     const active = activeTab === t.id;
                     html += `
-                        <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-70'} bg-emerald-100 text-emerald-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-emerald-200 transition-opacity duration-150 text-[12px] px-3.5 py-1.5 self-end">
+                        <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-70'} bg-emerald-100 text-emerald-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-emerald-200 transition-opacity duration-150 text-[12px] px-3.5 py-1.5">
                             ${t.name}
                             ${getLockIcon(t.id)}
                         </div>
                     `;
                 });
-            } else {
-                // Version fermée
                 html += `
-                    <div onclick="selectTab('sciences')" class="excel-tab opacity-80 bg-emerald-100 text-emerald-900 border-b-neutral-100 hover:bg-emerald-200 transition-opacity duration-150">
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div onclick="selectTab('sciences')" class="excel-tab opacity-80 bg-emerald-100 text-emerald-900 border-b-neutral-100 hover:bg-emerald-200 transition-opacity duration-150 self-end">
                         Éveil
                     </div>
                 `;
