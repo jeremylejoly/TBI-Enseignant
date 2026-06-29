@@ -632,5 +632,481 @@ function importClassData(event) {
     reader.readAsText(file);
 }
 
+}
+
+function exportYearlyArchive() {
+    const weeksRaw = localStorage.getItem('tbi_weeks');
+    const devoirsWeeksRaw = localStorage.getItem('tbi_devoirs_weeks');
+    
+    let weeks = [];
+    let devoirsWeeks = [];
+    
+    try {
+        if (weeksRaw) weeks = JSON.parse(weeksRaw);
+    } catch(e) { console.error("Erreur lors de la lecture des semainiers:", e); }
+    
+    try {
+        if (devoirsWeeksRaw) devoirsWeeks = JSON.parse(devoirsWeeksRaw);
+    } catch(e) { console.error("Erreur lors de la lecture des devoirs:", e); }
+    
+    if (weeks.length === 0 && devoirsWeeks.length === 0) {
+        alert("Aucune donnée de semainier ou de devoirs à exporter.");
+        return;
+    }
+    
+    // Échapper le HTML pour éviter les failles XSS
+    const escapeHtml = (text) => {
+        if (!text) return '';
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    };
+
+    let html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Archive de l'Année Scolaire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neutral-900: #0f172a;
+            --neutral-100: #f1f5f9;
+            --neutral-300: #cbd5e1;
+            --bg-page: #FDFBF7;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-page);
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+        .no-print-bar {
+            background-color: #ffffff;
+            border-bottom: 3px solid var(--neutral-900);
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        .no-print-bar h1 {
+            margin: 0 0 8px 0;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--neutral-900);
+        }
+        .no-print-bar p {
+            margin: 0 0 15px 0;
+            font-size: 13px;
+            color: #475569;
+            font-weight: 500;
+        }
+        .btn-print {
+            padding: 10px 22px;
+            background-color: #4f46e5;
+            color: white;
+            border: 2px solid var(--neutral-900);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+            border-radius: 12px;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+            cursor: pointer;
+            transition: all 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-print:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+        }
+        .btn-print:active {
+            transform: translate(0, 0);
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 26px;
+            border-bottom: 4px solid var(--neutral-900);
+            padding-bottom: 6px;
+            margin-top: 40px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--neutral-900);
+        }
+        .week-card {
+            background-color: #ffffff;
+            border: 3px solid var(--neutral-900);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .week-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--neutral-900);
+            border-bottom: 2px dashed var(--neutral-300);
+            padding-bottom: 8px;
+        }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 3px solid var(--neutral-900);
+            background-color: #ffffff;
+            margin-bottom: 5px;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 2px solid var(--neutral-900);
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: 600;
+            font-size: 13px;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+        th {
+            background-color: #f1f5f9;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 800;
+            color: var(--neutral-900);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        .time-col {
+            width: 85px;
+            background-color: #f8fafc;
+            font-size: 11px;
+            font-family: 'Fredoka', sans-serif;
+            color: #475569;
+            font-weight: bold;
+        }
+        .course-cell {
+            min-height: 48px;
+            white-space: pre-line;
+        }
+        .recreation-cell {
+            background-color: #f8fafc;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--neutral-900);
+        }
+        .midi-cell {
+            background-color: #f8fafc;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 950;
+            letter-spacing: 4px;
+            color: var(--neutral-900);
+        }
+        .disabled-cell {
+            background-color: #e2e8f0;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(148, 163, 184, 0.1) 10px, rgba(148, 163, 184, 0.1) 20px);
+        }
+        
+        /* Devoirs specific table styles */
+        .devoirs-table th, .devoirs-table td {
+            text-align: left;
+            vertical-align: top;
+            padding: 14px;
+        }
+        .devoirs-table th {
+            text-align: center;
+            font-size: 14px;
+        }
+        .devoirs-day-cell {
+            width: 100px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 900;
+            font-size: 18px;
+            text-align: center;
+            vertical-align: middle;
+            background-color: #f8fafc;
+            color: var(--neutral-900);
+        }
+        .devoirs-date-cell {
+            width: 110px;
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+            vertical-align: middle;
+            background-color: #f8fafc;
+            color: #475569;
+        }
+        .devoirs-text-cell {
+            background-color: #ffffff;
+            white-space: pre-wrap;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        
+        @media print {
+            .no-print-bar {
+                display: none !important;
+            }
+            body {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+            .section-title {
+                margin-top: 30px;
+                font-size: 20px;
+            }
+            .week-card {
+                border: 2px solid var(--neutral-900);
+                box-shadow: none;
+                padding: 15px;
+                margin-bottom: 25px;
+                page-break-after: always;
+                break-after: page;
+                border-radius: 12px;
+            }
+            table {
+                border-width: 2px !important;
+            }
+            th, td {
+                padding: 6px;
+                font-size: 11px;
+                border-width: 1px !important;
+            }
+            .devoirs-table th, .devoirs-table td {
+                padding: 8px;
+            }
+            .devoirs-day-cell {
+                font-size: 13px;
+                width: 75px;
+            }
+            .devoirs-date-cell {
+                font-size: 11px;
+                width: 80px;
+            }
+            .devoirs-text-cell {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print-bar">
+        <h1>Archive de l'Année Scolaire</h1>
+        <p>Ce document est une copie conforme de votre semainier et de vos devoirs de l'année. Vous pouvez le conserver, faire une recherche textuelle, ou l'enregistrer en PDF via les options d'impression du navigateur.</p>
+        <button class="btn-print" onclick="window.print()">
+            🖨️ Imprimer ou Enregistrer en PDF
+        </button>
+    </div>
+    
+    <div class="container">
+`;
+
+    // Section 1 : Semainiers
+    if (weeks.length > 0) {
+        html += `<h2 class="section-title">📅 Semainier (Emploi du temps)</h2>`;
+        
+        const TIME_SLOTS = [
+            { time: "8h30 - 9h20", type: "course" },
+            { time: "9h20 - 10h10", type: "course" },
+            { time: "10h10 - 10h25", type: "recreation" },
+            { time: "10h25 - 11h15", type: "course" },
+            { time: "11h15 - 12h05", type: "course" },
+            { time: "12h05 - 13h20", type: "midi" },
+            { time: "13h20 - 14h05", type: "course" },
+            { time: "14h05 - 14h50", type: "course" },
+            { time: "14h50 - 15h05", type: "recreation" },
+            { time: "15h05 - 15h50", type: "course" }
+        ];
+        
+        weeks.forEach(week => {
+            html += `
+            <div class="week-card">
+                <h3 class="week-title">${escapeHtml(week.name)}</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="time-col">HEURES</th>
+                            <th>LUNDI</th>
+                            <th>MARDI</th>
+                            <th>MERCREDI</th>
+                            <th>JEUDI</th>
+                            <th>VENDREDI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            TIME_SLOTS.forEach((slot, rowIndex) => {
+                html += `<tr>`;
+                html += `<td class="time-col">${slot.time}</td>`;
+                
+                for (let colIndex = 0; colIndex < 5; colIndex++) {
+                    const rowKey = `row-${rowIndex}`;
+                    const cellValue = week.gridData[rowKey] ? week.gridData[rowKey][colIndex] : "";
+                    
+                    if (cellValue === "Disabled") {
+                        html += `<td class="disabled-cell"></td>`;
+                    } else {
+                        let cellClass = "course-cell";
+                        if (slot.type === "recreation") {
+                            cellClass += " recreation-cell";
+                        } else if (slot.type === "midi") {
+                            cellClass += " midi-cell";
+                        }
+                        
+                        let text = "";
+                        let styleAttr = "";
+                        
+                        if (typeof cellValue === 'object' && cellValue !== null) {
+                            text = cellValue.text || "";
+                            const styles = [];
+                            if (cellValue.bg) styles.push(`background-color: ${cellValue.bg}`);
+                            if (cellValue.color) styles.push(`color: ${cellValue.color}`);
+                            if (styles.length > 0) {
+                                styleAttr = `style="${styles.join('; ')}"`;
+                            }
+                        } else {
+                            text = cellValue || "";
+                        }
+                        
+                        html += `<td class="${cellClass}" ${styleAttr}>${escapeHtml(text)}</td>`;
+                    }
+                }
+                html += `</tr>`;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            </div>
+            `;
+        });
+    }
+
+    // Section 2 : Devoirs
+    if (devoirsWeeks.length > 0) {
+        html += `<h2 class="section-title">📝 Carnet de Devoirs</h2>`;
+        
+        const DAYS_LIST = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+        
+        devoirsWeeks.forEach(week => {
+            html += `
+            <div class="week-card">
+                <h3 class="week-title">${escapeHtml(week.name)}</h3>
+                <table class="devoirs-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">JOUR</th>
+                            <th style="width: 110px;">DATE</th>
+                            <th>DEVOIRS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            DAYS_LIST.forEach(day => {
+                const dateVal = week.dates ? (week.dates[day] || "") : "";
+                const items = week.daysData ? week.daysData[day] : [];
+                
+                let text = "";
+                let itemColor = "#1e293b";
+                
+                if (Array.isArray(items) && items.length > 0) {
+                    text = items[0].text || "";
+                    itemColor = items[0].color || "#1e293b";
+                }
+                
+                html += `
+                <tr>
+                    <td class="devoirs-day-cell">${day.toUpperCase()}</td>
+                    <td class="devoirs-date-cell">${escapeHtml(dateVal)}</td>
+                    <td class="devoirs-text-cell" style="color: ${itemColor};">${escapeHtml(text)}</td>
+                </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            </div>
+            `;
+        });
+    }
+
+    html += `
+    </div>
+</body>
+</html>
+`;
+
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('fr-FR').replace(/\//g, '-');
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Archive_Annee_Scolaire_${dateStr}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function resetYearlyData() {
+    const conf1 = confirm("⚠️ ATTENTION ! Cette action va supprimer définitivement tous vos semainiers et tous vos devoirs enregistrés pour repartir sur une nouvelle année.\n\nSouhaitez-vous continuer ?");
+    if (!conf1) return;
+    
+    const conf2 = confirm("Pour des raisons de sécurité, nous allons d'abord télécharger une copie de sauvegarde de vos données actuelles (HTML) dans vos téléchargements. \n\nCliquez sur OK pour télécharger la sauvegarde et réinitialiser l'application.");
+    if (!conf2) return;
+    
+    // Auto-trigger export first
+    exportYearlyArchive();
+    
+    // Clear stored items
+    localStorage.removeItem('tbi_weeks');
+    localStorage.removeItem('tbi_active_week_id');
+    localStorage.removeItem('tbi_devoirs_weeks');
+    localStorage.removeItem('tbi_active_devoirs_week_id');
+    
+    alert("Application réinitialisée avec succès ! Reprise à zéro.");
+    window.location.reload();
+}
+
 window.exportClassData = exportClassData;
 window.importClassData = importClassData;
+window.exportYearlyArchive = exportYearlyArchive;
+window.resetYearlyData = resetYearlyData;
+
