@@ -632,8 +632,6 @@ function importClassData(event) {
     reader.readAsText(file);
 }
 
-}
-
 function exportYearlyArchive() {
     const weeksRaw = localStorage.getItem('tbi_weeks');
     const devoirsWeeksRaw = localStorage.getItem('tbi_devoirs_weeks');
