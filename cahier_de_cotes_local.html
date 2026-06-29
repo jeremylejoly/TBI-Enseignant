@@ -1,0 +1,1980 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cahier de Cotes - Console TBI</title>
+    
+    <!-- Polices premium de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fredoka:wght@300..700&family=Caveat:wght@400..700&family=Architects+Daughter&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS local -->
+    <script src="tailwind.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Outfit', 'sans-serif'],
+              display: ['Fredoka', 'sans-serif'],
+              hand: ['Caveat', 'cursive'],
+              sketch: ['Architects Daughter', 'cursive'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Lucide Icons local -->
+    <script src="lucide.min.js"></script>
+    
+    <!-- Styles personnalisés pour simuler Excel et le style neubrutaliste -->
+    <style>
+        .excel-table th, .excel-table td {
+            border: 1.5px solid #171717;
+            padding: 4px 6px;
+            font-size: 13px;
+        }
+        .excel-table th {
+            background-color: #f3f4f6;
+            font-weight: 700;
+            text-align: center;
+            user-select: none;
+        }
+        .excel-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+        }
+        .excel-input:focus {
+            background-color: #f0fdf4;
+            box-shadow: inset 0 0 0 2px #22c55e;
+        }
+        /* Style des onglets Excel */
+        .excel-tab {
+            position: relative;
+            bottom: -2px;
+            border: 2.5px solid #171717;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            padding: 8px 18px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 13.5px;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 2px 0 0 rgba(0,0,0,0.15);
+            transform-origin: bottom center;
+        }
+        .excel-tab:hover {
+            transform: translateY(-1px);
+        }
+        .excel-tab.active {
+            bottom: 0;
+            padding: 11px 22px;
+            font-size: 15.5px;
+            z-index: 10;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* Neubrutalism Utilities */
+        .neo-btn {
+            border: 2.5px solid #171717;
+            box-shadow: 3px 3px 0px rgba(0,0,0,1);
+            transition: all 0.15s ease;
+        }
+        .neo-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px rgba(0,0,0,1);
+        }
+        .neo-card {
+            border: 3px solid #171717;
+            box-shadow: 4px 4px 0px rgba(0,0,0,1);
+        }
+        
+        /* Impression */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #fff !important;
+                color: #000 !important;
+                overflow: visible !important;
+            }
+            .excel-table {
+                width: 100% !important;
+            }
+            .print-card {
+                border: none !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#FDFBF7] text-[#1e293b] min-h-screen flex flex-col font-sans overflow-x-hidden">
+
+    <!-- En-tête Principal (Neubrutaliste) -->
+    <header class="no-print bg-white border-b-[3px] border-neutral-900 py-3 px-6 flex items-center justify-between shadow-[0_2px_0_rgba(0,0,0,0.05)] select-none">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="p-1.5 hover:bg-neutral-100 rounded-xl border-2 border-neutral-900 bg-white shadow-[2px_2px_0_rgba(0,0,0,1)] transition active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center justify-center" title="Retour au TBI">
+                <img src="logo.svg" alt="Retour" class="w-5 h-5 object-contain">
+            </a>
+            <div>
+                <h1 class="font-display font-black text-xl text-neutral-800 tracking-tight leading-none flex items-center gap-2">
+                    Cahier de Cotes <span class="bg-emerald-100 text-emerald-800 text-[10px] uppercase font-mono font-bold px-2 py-0.5 border border-emerald-350 rounded">Local Prototype</span>
+                </h1>
+                <p class="text-[10px] text-neutral-500 font-semibold mt-0.5">Waimes Centre • P5 & P6 • Classe de Mr Lejoly</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <!-- Sync élèves -->
+            <button id="btn-sync-students" onclick="syncWithTbiStudents()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl transition" title="Synchroniser les prénoms avec le TBI">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-indigo-600"></i>
+                <span>Synchroniser Élèves</span>
+            </button>
+            <!-- Gestion élèves -->
+            <button id="btn-manage-class" onclick="openStudentsModal()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl transition" title="Gérer la liste des élèves">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-amber-600"></i>
+                <span>Gérer la Classe</span>
+            </button>
+            <span class="w-px h-6 bg-neutral-300"></span>
+            <!-- Export CSV -->
+            <button onclick="exportCSV()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl" title="Télécharger sous Excel CSV">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Exporter CSV</span>
+            </button>
+            <!-- Sauvegarde / Restauration -->
+            <button onclick="exportJSON()" class="neo-btn p-1.5 bg-neutral-100 hover:bg-neutral-200 border-2 border-neutral-900 rounded-xl" title="Exporter Sauvegarde JSON">
+                <i data-lucide="save" class="w-4 h-4 text-neutral-700"></i>
+            </button>
+            <input type="file" id="import-json-input" accept="application/json" class="hidden" onchange="importJSON(event)">
+            <button onclick="document.getElementById('import-json-input').click()" class="neo-btn p-1.5 bg-neutral-100 hover:bg-neutral-200 border-2 border-neutral-900 rounded-xl" title="Importer Sauvegarde JSON">
+                <i data-lucide="upload" class="w-4 h-4 text-neutral-700"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Zone principale -->
+    <main class="flex-1 p-6 md:p-8 flex flex-col min-h-0 w-full max-w-7xl mx-auto space-y-6">
+        
+        <!-- Info Alert (no-print) -->
+        <div class="no-print bg-amber-50 border-2 border-neutral-900 rounded-2xl p-4 flex gap-3 shadow-[3px_3px_0_rgba(0,0,0,1)]">
+            <span class="text-2xl select-none">💡</span>
+            <div class="text-xs font-medium text-neutral-700 space-y-1">
+                <p><strong>Astuce d'encodage rapide</strong> : Cliquez sur une note, saisissez la valeur, puis utilisez les <strong>flèches directionnelles</strong> (↑ ↓ ← →), <strong>Entrée</strong> ou <strong>Tab</strong> pour vous déplacer rapidement de cellule en cellule.</p>
+                <p>Pour indiquer une absence, écrivez <strong>A</strong> (Absent) ou <strong>E</strong> (Excusé). Cela exclura l'évaluation de la moyenne de cet élève sans le pénaliser.</p>
+            </div>
+        </div>
+
+        <!-- Corps du Cahier de Cotes (Style Excel Neubrutaliste) -->
+        <div class="neo-card bg-white rounded-3xl overflow-hidden flex flex-col flex-1 min-h-[480px]">
+            
+            <!-- Zone des Feuilles / Onglets (Style Excel) -->
+            <div id="tabs-container" class="no-print bg-neutral-100 border-b-[3px] border-neutral-900 px-4 pt-3 flex flex-wrap gap-1.5 select-none shrink-0">
+                <!-- Rempli en JS par renderTabHeaders() -->
+            </div>
+
+            <!-- En-tête de contrôle de la feuille active (no-print) -->
+            <div class="no-print bg-white border-b-2 border-neutral-200 px-6 py-4 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-3">
+                    <span id="sheet-title-badge" class="text-xs font-mono font-bold uppercase tracking-wider px-3 py-1 border border-neutral-900 rounded-full shadow-[1.5px_1.5px_0_rgba(0,0,0,1)]">
+                        Feuille active
+                    </span>
+                    <h2 id="sheet-title" class="font-display font-black text-lg text-neutral-800 leading-none">
+                        Chargement...
+                    </h2>
+                </div>
+                
+                <!-- Actions de feuille -->
+                <div id="sheet-actions" class="flex items-center gap-3">
+                    <!-- Boutons injectés dynamiquement (ex: Ajouter évaluation) -->
+                </div>
+            </div>
+
+            <!-- Grille Interactive du Tableur -->
+            <div class="flex-1 overflow-auto min-h-0 bg-white relative p-4 print:p-0">
+                <div class="min-w-max">
+                    <table class="excel-table w-full border-collapse" id="excel-grid">
+                        <!-- Contenu généré en JS -->
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Modal de gestion des élèves (no-print) -->
+    <div id="students-modal" class="no-print fixed inset-0 bg-neutral-900/60 backdrop-blur-xs items-center justify-center z-50 hidden select-none p-4">
+        <div class="neo-card bg-white w-full max-w-md rounded-3xl p-6 flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center pb-4 border-b-2 border-neutral-200">
+                <h3 class="font-display font-black text-lg text-neutral-800 flex items-center gap-2">
+                    <i data-lucide="users" class="w-5 h-5 text-indigo-500"></i> Gérer la classe
+                </h3>
+                <button onclick="closeStudentsModal()" class="w-6 h-6 border-2 border-neutral-900 rounded-lg bg-neutral-100 hover:bg-neutral-200 font-sans font-bold text-xs flex items-center justify-center shadow-[1px_1px_0_rgba(0,0,0,1)] transition">✕</button>
+            </div>
+            
+            <!-- Ajouter un élève -->
+            <div class="py-4 border-b border-neutral-200 space-y-2">
+                <div class="flex gap-2">
+                    <input type="text" id="new-student-name" placeholder="Prénom de l'élève" class="flex-1 bg-neutral-50 border-2 border-neutral-900 rounded-xl px-3 py-2 text-sm font-bold placeholder-neutral-400 outline-none focus:bg-white" onkeydown="if(event.key==='Enter') addStudent()">
+                    <button onclick="addStudent()" class="neo-btn px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-xs rounded-xl">
+                        Ajouter
+                    </button>
+                </div>
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="font-bold text-neutral-600">Position :</span>
+                    <select id="new-student-position" class="bg-neutral-50 border-2 border-neutral-900 rounded-lg px-2 py-1 font-bold text-neutral-800 outline-none">
+                        <option value="last">En dernier (bas de liste)</option>
+                        <option value="first">En premier (haut de liste)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Liste des élèves -->
+            <div class="flex-1 overflow-y-auto py-4 space-y-2" id="modal-students-list">
+                <!-- Rempli en JS -->
+            </div>
+            
+            <div class="pt-4 border-t-2 border-neutral-200 flex justify-between items-center text-[10px] font-mono text-neutral-400">
+                <button onclick="clearStudentsList()" class="neo-btn px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-display font-bold text-[10px] rounded-lg border-2 border-neutral-900 shadow-[1.5px_1.5px_0_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none" title="Supprimer tous les élèves de la liste">Vider la classe</button>
+                <button onclick="closeStudentsModal()" class="neo-btn px-4 py-2 bg-neutral-900 text-white font-display font-bold text-xs rounded-xl">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'impression de bulletin individuel (no-print) -->
+    <div id="print-bulletin-modal" class="no-print fixed inset-0 bg-neutral-900/60 backdrop-blur-xs items-center justify-center z-50 hidden select-none p-4">
+        <div class="neo-card bg-white w-full max-w-lg rounded-3xl p-6 flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center pb-4 border-b-2 border-neutral-200">
+                <h3 class="font-display font-black text-lg text-neutral-800 flex items-center gap-2">
+                    <i data-lucide="printer" class="w-5 h-5 text-emerald-500"></i> Fiche de Bulletin Individuel
+                </h3>
+                <button onclick="closePrintModal()" class="w-6 h-6 border-2 border-neutral-900 rounded-lg bg-neutral-100 hover:bg-neutral-200 font-sans font-bold text-xs flex items-center justify-center shadow-[1px_1px_0_rgba(0,0,0,1)] transition">✕</button>
+            </div>
+            
+            <!-- Sélection de l'élève -->
+            <div class="py-4 border-b border-neutral-200 flex items-center gap-3">
+                <label for="bulletin-student-select" class="text-xs font-display font-black text-neutral-600 uppercase">Élève :</label>
+                <select id="bulletin-student-select" onchange="renderIndividualBulletin(this.value)" class="text-sm bg-neutral-100 border-2 border-neutral-900 rounded-xl p-2 font-bold text-neutral-800 outline-none cursor-pointer flex-1">
+                    <!-- Options injectées -->
+                </select>
+                <button onclick="window.print()" class="neo-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs rounded-xl flex items-center gap-1">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i> Imprimer / PDF
+                </button>
+            </div>
+            
+            <!-- Zone d'aperçu du bulletin (imprimable) -->
+            <div class="flex-1 overflow-y-auto p-4 bg-neutral-50 rounded-2xl border-2 border-neutral-900 mt-4 font-sans text-neutral-800" id="bulletin-preview-container">
+                <!-- Bulletin HTML généré -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Zone dédiée aux éléments d'impression réels (cachés en écran, visibles à l'impression) -->
+    <div id="print-area" class="hidden print:block w-full p-8 font-sans text-neutral-900 bg-white">
+        <!-- Généré dynamiquement lors du clic sur imprimer -->
+    </div>
+
+    <!-- Script principal du Cahier de Cotes -->
+    <script>
+        // --- CONSTANTES ET CONFIGURATION ---
+        const SUBJECTS = {
+            ecouter: { title: "Écouter (Français)", max: 10, cat: "francais", color: "bg-red-100 text-red-900", tabColor: "bg-red-100" },
+            lecture: { title: "Lire (Français)", max: 40, cat: "francais", color: "bg-red-100 text-red-900", tabColor: "bg-red-100" },
+            ort_gra_con_voc: { title: "Outils (Français)", max: 30, cat: "francais", color: "bg-red-100 text-red-900", tabColor: "bg-red-100" },
+            expr_ecrite: { title: "Écrire (Français)", max: 20, cat: "francais", color: "bg-red-100 text-red-900", tabColor: "bg-red-100" },
+            nomb_op: { title: "Nomb. & Op. (Maths)", max: 40, cat: "maths", color: "bg-sky-100 text-sky-900", tabColor: "bg-sky-100" },
+            grandeurs: { title: "Grandeurs (Maths)", max: 30, cat: "maths", color: "bg-sky-100 text-sky-900", tabColor: "bg-sky-100" },
+            sol_fig: { title: "Sol. & Fig. (Maths)", max: 30, cat: "maths", color: "bg-sky-100 text-sky-900", tabColor: "bg-sky-100" },
+            sciences: { title: "Sciences (Éveil)", max: 50, cat: "eveil", color: "bg-emerald-100 text-emerald-900", tabColor: "bg-emerald-100" },
+            hist_geo: { title: "Hist-Géo (Éveil)", max: 50, cat: "eveil", color: "bg-emerald-100 text-emerald-900", tabColor: "bg-emerald-100" }
+        };
+        
+        // --- ÉTAT GLOBAL DE L'APPLICATION ---
+        let activeTab = 'bulletin';
+        let students = [];
+        let cotesData = {
+            evaluations: {},
+            grades: {},
+            locked: {}
+        };
+        
+        // --- INITIALISATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            loadStudents();
+            loadCotesData();
+            selectTab(activeTab);
+            
+            // Initialiser les icônes
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        });
+        
+        // --- CHARGEMENT DES DONNÉES ---
+        function loadStudents() {
+            // Pour forcer la liste vierge au premier chargement du cahier de cotes prototype
+            const initializedKey = 'tbi_cotes_initialized_v2';
+            const initialized = localStorage.getItem(initializedKey);
+            
+            if (!initialized) {
+                students = [];
+                saveStudents();
+                localStorage.setItem(initializedKey, 'true');
+            } else {
+                const stored = localStorage.getItem('tbi_roue_students');
+                if (stored) {
+                    try {
+                        students = JSON.parse(stored);
+                    } catch(e) {
+                        students = [];
+                    }
+                } else {
+                    students = [];
+                    saveStudents();
+                }
+            }
+        }
+        
+        function saveStudents() {
+            localStorage.setItem('tbi_roue_students', JSON.stringify(students));
+        }
+
+        function renameStudent(id, newName) {
+            const cleanName = newName.trim();
+            if (!cleanName) return;
+            const st = students.find(s => s.id === id);
+            if (st) {
+                st.name = cleanName;
+                saveStudents();
+                
+                // Garder le focus si on modifie depuis un input du tableau
+                const focusedEl = document.activeElement;
+                const focusedStudentId = focusedEl ? focusedEl.getAttribute('data-student-id') : null;
+                const focusedEvalId = focusedEl ? focusedEl.getAttribute('data-eval-id') : null;
+                
+                renderSheet();
+                
+                if (focusedStudentId && focusedEvalId) {
+                    const targetInput = document.querySelector(`input[data-student-id="${focusedStudentId}"][data-eval-id="${focusedEvalId}"]`);
+                    if (targetInput) targetInput.focus();
+                }
+            }
+        }
+        
+        function loadCotesData() {
+            const stored = localStorage.getItem('tbi_cotes_data');
+            if (stored) {
+                try {
+                    cotesData = JSON.parse(stored);
+                } catch(e) {
+                    cotesData = { evaluations: {}, grades: {} };
+                }
+            }
+            
+            // S'assurer que les listes d'évaluations par matière existent, sinon initialiser avec 3 colonnes par défaut
+            let needsSave = false;
+            Object.keys(SUBJECTS).forEach(subId => {
+                if (!cotesData.evaluations[subId]) {
+                    cotesData.evaluations[subId] = [
+                        { id: `ev-${subId}-1`, title: "Évaluation 1", maxPoints: 10, date: "" },
+                        { id: `ev-${subId}-2`, title: "Évaluation 2", maxPoints: 10, date: "" },
+                        { id: `ev-${subId}-3`, title: "Évaluation 3", maxPoints: 10, date: "" }
+                    ];
+                    needsSave = true;
+                }
+            });
+            
+            if (!cotesData.grades) {
+                cotesData.grades = {};
+                needsSave = true;
+            }
+            
+            if (needsSave) {
+                saveCotesData();
+            }
+        }
+        
+        function saveCotesData() {
+            localStorage.setItem('tbi_cotes_data', JSON.stringify(cotesData));
+        }
+        
+        // --- SÉLECTION DES ONGLETS ---
+        function selectTab(tabId) {
+            activeTab = tabId;
+            renderTabHeaders();
+            renderSheet();
+        }
+        
+        function renderTabHeaders() {
+            const container = document.getElementById('tabs-container');
+            if (!container) return;
+            
+            if (!cotesData.locked) {
+                cotesData.locked = {};
+            }
+            
+            const isLocked = (tabId) => !!cotesData.locked[tabId];
+            
+            const getLockIcon = (tabId) => {
+                const locked = isLocked(tabId);
+                if (locked) {
+                    return `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="inline-block ml-1.5 align-middle cursor-pointer text-rose-600 hover:scale-110 transition-transform" onclick="toggleTabLock(event, '${tabId}')" title="Déverrouiller l'onglet">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    `;
+                } else {
+                    return `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="inline-block ml-1.5 align-middle cursor-pointer text-neutral-450 hover:text-neutral-800 hover:scale-110 transition-transform opacity-30 hover:opacity-100" onclick="toggleTabLock(event, '${tabId}')" title="Verrouiller l'onglet">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                        </svg>
+                    `;
+                }
+            };
+            
+            let html = "";
+            
+            // Bulletin Tab
+            const activeB = activeTab === 'bulletin';
+            html += `
+                <div onclick="selectTab('bulletin')" id="tab-bulletin" class="excel-tab ${activeB ? 'active opacity-100' : 'opacity-80'} bg-amber-100 text-amber-900 border-b-${activeB ? 'white' : 'neutral-100'} hover:bg-amber-200 transition-opacity duration-150">
+                    Bulletin
+                    ${getLockIcon('bulletin')}
+                </div>
+            `;
+            
+            // Français group
+            html += `<div class="h-6 w-px bg-neutral-300 self-end mb-2 mx-1"></div>`;
+            const frTabs = [
+                { id: 'ecouter', name: 'Écouter' },
+                { id: 'lecture', name: 'Lire' },
+                { id: 'ort_gra_con_voc', name: 'Outils' },
+                { id: 'expr_ecrite', name: 'Écrire' }
+            ];
+            frTabs.forEach(t => {
+                const active = activeTab === t.id;
+                html += `
+                    <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-80'} bg-red-100 text-red-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-red-200 transition-opacity duration-150">
+                        ${t.name}
+                        ${getLockIcon(t.id)}
+                    </div>
+                `;
+            });
+            
+            // Maths group
+            html += `<div class="h-6 w-px bg-neutral-300 self-end mb-2 mx-1"></div>`;
+            const mathTabs = [
+                { id: 'nomb_op', name: 'Nomb. & Op.' },
+                { id: 'grandeurs', name: 'Grandeurs' },
+                { id: 'sol_fig', name: 'Sol. & Fig.' }
+            ];
+            mathTabs.forEach(t => {
+                const active = activeTab === t.id;
+                html += `
+                    <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-80'} bg-sky-100 text-sky-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-sky-200 transition-opacity duration-150">
+                        ${t.name}
+                        ${getLockIcon(t.id)}
+                    </div>
+                `;
+            });
+            
+            // Éveil group
+            html += `<div class="h-6 w-px bg-neutral-300 self-end mb-2 mx-1"></div>`;
+            const eveilTabs = [
+                { id: 'sciences', name: 'Sciences' },
+                { id: 'hist_geo', name: 'Hist-Géo' }
+            ];
+            eveilTabs.forEach(t => {
+                const active = activeTab === t.id;
+                html += `
+                    <div onclick="selectTab('${t.id}')" id="tab-${t.id}" class="excel-tab ${active ? 'active opacity-100' : 'opacity-80'} bg-emerald-100 text-emerald-900 border-b-${active ? 'white' : 'neutral-100'} hover:bg-emerald-200 transition-opacity duration-150">
+                        ${t.name}
+                        ${getLockIcon(t.id)}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function toggleTabLock(e, tabId) {
+            e.stopPropagation();
+            if (!cotesData.locked) {
+                cotesData.locked = {};
+            }
+            cotesData.locked[tabId] = !cotesData.locked[tabId];
+            saveCotesData();
+            
+            renderTabHeaders();
+            renderSheet();
+        }
+        
+        // --- RENDU DE LA FEUILLE ---
+        function renderSheet() {
+            const sheetTitleBadge = document.getElementById('sheet-title-badge');
+            const sheetTitle = document.getElementById('sheet-title');
+            const sheetActions = document.getElementById('sheet-actions');
+            
+            sheetActions.innerHTML = "";
+            
+            // État de verrouillage global ou local
+            const bulletinLocked = !!cotesData.locked['bulletin'];
+            const currentLocked = !!cotesData.locked[activeTab];
+            
+            // Supprimer le badge de verrouillage existant s'il y en a un
+            const existingLock = document.getElementById('sheet-lock-badge');
+            if (existingLock) existingLock.remove();
+            
+            if (currentLocked) {
+                const lockBadge = document.createElement('span');
+                lockBadge.id = 'sheet-lock-badge';
+                lockBadge.className = "ml-2 text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 border border-rose-900/30 rounded bg-rose-50 text-rose-700 flex items-center gap-1 select-none animate-fadeIn";
+                lockBadge.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="inline-block">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg> Lecture seule`;
+                sheetTitle.parentElement.appendChild(lockBadge);
+            }
+            
+            // Gérer l'état activé/désactivé des boutons de barre d'outils générale
+            const btnSync = document.getElementById('btn-sync-students');
+            const btnManage = document.getElementById('btn-manage-class');
+            if (btnSync) {
+                btnSync.disabled = bulletinLocked;
+                btnSync.style.opacity = bulletinLocked ? "0.4" : "1";
+                btnSync.style.cursor = bulletinLocked ? "not-allowed" : "pointer";
+            }
+            if (btnManage) {
+                btnManage.disabled = bulletinLocked;
+                btnManage.style.opacity = bulletinLocked ? "0.4" : "1";
+                btnManage.style.cursor = bulletinLocked ? "not-allowed" : "pointer";
+            }
+            
+            if (activeTab === 'bulletin') {
+                sheetTitleBadge.className = "text-xs font-mono font-bold uppercase tracking-wider px-3 py-1 border border-neutral-900 rounded-full shadow-[1.5px_1.5px_0_rgba(0,0,0,1)] bg-amber-100 text-amber-900";
+                sheetTitle.textContent = "Bulletin de Synthèse Scolaire";
+                
+                // Action : Imprimer bulletin individuel
+                sheetActions.innerHTML = `
+                    <button onclick="openPrintModal()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl">
+                        <i data-lucide="printer" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Imprimer Fiche Élève</span>
+                    </button>
+                `;
+                
+                renderBulletinGrid();
+            } else {
+                const info = SUBJECTS[activeTab];
+                sheetTitleBadge.className = `text-xs font-mono font-bold uppercase tracking-wider px-3 py-1 border border-neutral-900 rounded-full shadow-[1.5px_1.5px_0_rgba(0,0,0,1)] ${info.color} text-neutral-800`;
+                sheetTitle.textContent = info.title;
+                
+                // Action : Ajouter évaluation (Désactivé si verrouillé)
+                if (currentLocked) {
+                    sheetActions.innerHTML = `
+                        <button disabled class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-neutral-100 text-neutral-400 border-2 border-neutral-300 font-display font-bold text-xs rounded-xl cursor-not-allowed opacity-50 select-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="inline-block text-neutral-400">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <span>Feuille Verrouillée</span>
+                        </button>
+                    `;
+                } else {
+                    sheetActions.innerHTML = `
+                        <button onclick="addNewEvaluationColumn()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl">
+                            <i data-lucide="plus" class="w-3.5 h-3.5 text-indigo-600"></i>
+                            <span>Ajouter une Évaluation</span>
+                        </button>
+                    `;
+                }
+                
+                renderCotesGrid();
+            }
+            
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        }
+        
+        function renderBulletinGrid() {
+            const grid = document.getElementById('excel-grid');
+            grid.innerHTML = "";
+            
+            const bulletinLocked = !!cotesData.locked['bulletin'];
+            
+            if (students.length === 0) {
+                let trEmpty = document.createElement('tr');
+                let tdEmpty = document.createElement('td');
+                tdEmpty.colSpan = 13;
+                tdEmpty.className = "text-center py-12 text-neutral-450 font-display font-bold text-sm bg-neutral-50/40 border border-neutral-900 rounded-2xl";
+                tdEmpty.innerHTML = `
+                    <div class="flex flex-col items-center justify-center gap-2 select-none">
+                        <span class="text-3xl">👥</span>
+                        <span>Aucun élève dans la classe pour le moment.</span>
+                        <button onclick="openStudentsModal()" class="neo-btn mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] border-2 border-neutral-900 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                            + Gérer la classe
+                        </button>
+                    </div>
+                `;
+                trEmpty.appendChild(tdEmpty);
+                grid.appendChild(trEmpty);
+                return;
+            }
+            
+            // Calcul des moyennes
+            const precalculated = students.map(st => {
+                const results = {};
+                // Calculer les moyennes de chaque sous-matière
+                Object.keys(SUBJECTS).forEach(subId => {
+                    const subInfo = SUBJECTS[subId];
+                    const evals = cotesData.evaluations[subId] || [];
+                    
+                    let earned = 0;
+                    let possible = 0;
+                    let count = 0;
+                    
+                    evals.forEach(ev => {
+                        const grade = cotesData.grades[st.id]?.[ev.id];
+                        if (grade !== undefined && grade !== null && grade !== "" && grade !== "A" && grade !== "E") {
+                            const val = parseFloat(grade.replace(',', '.'));
+                            if (!isNaN(val)) {
+                                earned += val;
+                                possible += parseFloat(ev.maxPoints);
+                                count++;
+                            }
+                        }
+                    });
+                    
+                    if (possible > 0) {
+                        const percent = earned / possible;
+                        results[subId] = percent * subInfo.max; // report sur la note max du bulletin
+                    } else {
+                        results[subId] = null; // équivalent à #DIV/0!
+                    }
+                });
+                
+                // Calcul des matières principales
+                // 1. Français (Ecouter + Lecture + OrtGraConVoc + Expr. Ecrite)
+                const frSub = ['ecouter', 'lecture', 'ort_gra_con_voc', 'expr_ecrite'];
+                let frEarned = 0;
+                let frPossible = 0;
+                frSub.forEach(subId => {
+                    if (results[subId] !== null) {
+                        frEarned += results[subId];
+                        frPossible += SUBJECTS[subId].max;
+                    }
+                });
+                results['francais'] = frPossible > 0 ? (frEarned / frPossible) * 100 : null;
+                
+                // 2. Mathématiques (Nomb/Op + Grandeurs + Sol. & Fig.)
+                const mathSub = ['nomb_op', 'grandeurs', 'sol_fig'];
+                let mathEarned = 0;
+                let mathPossible = 0;
+                mathSub.forEach(subId => {
+                    if (results[subId] !== null) {
+                        mathEarned += results[subId];
+                        mathPossible += SUBJECTS[subId].max;
+                    }
+                });
+                results['maths'] = mathPossible > 0 ? (mathEarned / mathPossible) * 100 : null;
+                
+                // 3. Éveil (Sciences + Hist-Géo)
+                const eveilSub = ['sciences', 'hist_geo'];
+                let eveilEarned = 0;
+                let eveilPossible = 0;
+                eveilSub.forEach(subId => {
+                    if (results[subId] !== null) {
+                        eveilEarned += results[subId];
+                        eveilPossible += SUBJECTS[subId].max;
+                    }
+                });
+                results['eveil'] = eveilPossible > 0 ? (eveilEarned / eveilPossible) * 100 : null;
+                
+                return { student: st, results };
+            });
+            
+            let tr1 = document.createElement('tr');
+            tr1.innerHTML = `
+                <th class="w-12 text-center font-display text-neutral-800 bg-neutral-100">N°</th>
+                <th class="w-72 text-left font-display text-neutral-800">Intitulé</th>
+                <th class="bg-red-50 text-red-900">Écouter</th>
+                <th class="bg-red-50 text-red-900">Lire</th>
+                <th class="bg-red-50 text-red-900">Outils</th>
+                <th class="bg-red-50 text-red-900">Écrire</th>
+                <th class="bg-red-100 text-red-900 font-display border-2 border-neutral-900">Français</th>
+                <th class="bg-sky-50 text-sky-900">Nomb. & Op.</th>
+                <th class="bg-sky-50 text-sky-900">Grandeurs</th>
+                <th class="bg-sky-50 text-sky-900">Sol. & Fig.</th>
+                <th class="bg-sky-100 text-sky-900 font-display border-2 border-neutral-900">Maths</th>
+                <th class="bg-emerald-50 text-emerald-900">Sciences</th>
+                <th class="bg-emerald-50 text-emerald-900">Hist-Géo</th>
+                <th class="bg-emerald-100 text-emerald-900 font-display border-2 border-neutral-900">Éveil</th>
+            `;
+            grid.appendChild(tr1);
+            
+            // 2. En-tête : Côte maximale
+            let tr2 = document.createElement('tr');
+            tr2.innerHTML = `
+                <th class="w-12 text-center bg-neutral-100 border-none"></th>
+                <th class="text-left font-bold text-neutral-700 italic bg-neutral-50">Côte maximale</th>
+                <td class="text-center font-bold bg-red-50">10</td>
+                <td class="text-center font-bold bg-red-50">40</td>
+                <td class="text-center font-bold bg-red-50">30</td>
+                <td class="text-center font-bold bg-red-50">20</td>
+                <td class="text-center font-bold bg-red-100 border-2 border-neutral-900">100</td>
+                <td class="text-center font-bold bg-sky-50">40</td>
+                <td class="text-center font-bold bg-sky-50">30</td>
+                <td class="text-center font-bold bg-sky-50">30</td>
+                <td class="text-center font-bold bg-sky-100 border-2 border-neutral-900">100</td>
+                <td class="text-center font-bold bg-emerald-50">50</td>
+                <td class="text-center font-bold bg-emerald-50">50</td>
+                <td class="text-center font-bold bg-emerald-100 border-2 border-neutral-900">100</td>
+            `;
+            grid.appendChild(tr2);
+            
+            // 3. Lignes élèves
+            precalculated.forEach((item, idx) => {
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-neutral-50 transition-colors";
+                
+                // Numéro élève
+                let tdNum = document.createElement('td');
+                tdNum.className = "text-center font-mono font-bold text-neutral-400 bg-neutral-50/50 w-12 border-r border-neutral-205 select-none";
+                tdNum.textContent = idx + 1;
+                tr.appendChild(tdNum);
+                
+                // Nom élève (Editable)
+                let tdName = document.createElement('td');
+                tdName.className = "font-bold text-neutral-800 text-left p-0";
+                
+                let inputName = document.createElement('input');
+                inputName.type = "text";
+                inputName.value = item.student.name;
+                inputName.className = "bg-transparent font-bold outline-none w-full text-neutral-855 text-left px-2 py-1 focus:bg-emerald-50/50 border border-transparent focus:border-neutral-300 rounded";
+                if (bulletinLocked) {
+                    inputName.disabled = true;
+                    inputName.className += " cursor-not-allowed text-neutral-500 bg-neutral-50/20";
+                } else {
+                    inputName.addEventListener('change', (e) => {
+                        renameStudent(item.student.id, e.target.value);
+                    });
+                }
+                tdName.appendChild(inputName);
+                tr.appendChild(tdName);
+                
+                // Fonction d'aide pour formatter et colorer si sous la moyenne
+                const makeCell = (val, max, isSubjectTotal = false) => {
+                    let td = document.createElement('td');
+                    td.className = "text-center font-semibold";
+                    if (isSubjectTotal) {
+                        td.className = "text-center font-black border-x-2 border-neutral-900 bg-neutral-50";
+                    }
+                    
+                    if (val === null) {
+                        td.innerHTML = `<span class="text-neutral-400 font-mono italic text-[11px]">#DIV/0!</span>`;
+                    } else {
+                        const formatted = formatNumber(val);
+                        // Vérifier si sous la moyenne
+                        const isUnderHalf = val < (max / 2);
+                        if (isUnderHalf) {
+                            td.className += " text-rose-600 font-black";
+                        } else if (isSubjectTotal) {
+                            td.className += " text-neutral-800";
+                        }
+                        td.textContent = formatted;
+                    }
+                    return td;
+                };
+                
+                tr.appendChild(makeCell(item.results['ecouter'], 10));
+                tr.appendChild(makeCell(item.results['lecture'], 40));
+                tr.appendChild(makeCell(item.results['ort_gra_con_voc'], 30));
+                tr.appendChild(makeCell(item.results['expr_ecrite'], 20));
+                tr.appendChild(makeCell(item.results['francais'], 100, true)); // Français
+                tr.appendChild(makeCell(item.results['nomb_op'], 40));
+                tr.appendChild(makeCell(item.results['grandeurs'], 30));
+                tr.appendChild(makeCell(item.results['sol_fig'], 30));
+                tr.appendChild(makeCell(item.results['maths'], 100, true)); // Maths
+                tr.appendChild(makeCell(item.results['sciences'], 50));
+                tr.appendChild(makeCell(item.results['hist_geo'], 50));
+                tr.appendChild(makeCell(item.results['eveil'], 100, true)); // Éveil
+                
+                grid.appendChild(tr);
+            });
+            
+            // 4. Ligne : Moyenne de la classe
+            let trMoy = document.createElement('tr');
+            trMoy.className = "bg-neutral-50/70 border-t-2 border-neutral-900 font-bold";
+            
+            let tdMoyEmpty = document.createElement('td');
+            tdMoyEmpty.className = "bg-neutral-100/50 border-none w-12";
+            trMoy.appendChild(tdMoyEmpty);
+            
+            let tdMoyLabel = document.createElement('td');
+            tdMoyLabel.className = "font-black text-neutral-800 italic text-left";
+            tdMoyLabel.textContent = "Moyenne";
+            trMoy.appendChild(tdMoyLabel);
+            
+            const subKeys = [
+                { id: 'ecouter', max: 10 },
+                { id: 'lecture', max: 40 },
+                { id: 'ort_gra_con_voc', max: 30 },
+                { id: 'expr_ecrite', max: 20 },
+                { id: 'francais', max: 100, isTotal: true },
+                { id: 'nomb_op', max: 40 },
+                { id: 'grandeurs', max: 30 },
+                { id: 'sol_fig', max: 30 },
+                { id: 'maths', max: 100, isTotal: true },
+                { id: 'sciences', max: 50 },
+                { id: 'hist_geo', max: 50 },
+                { id: 'eveil', max: 100, isTotal: true }
+            ];
+            
+            subKeys.forEach(key => {
+                let sum = 0;
+                let count = 0;
+                precalculated.forEach(st => {
+                    const val = st.results[key.id];
+                    if (val !== null) {
+                        sum += val;
+                        count++;
+                    }
+                });
+                
+                let td = document.createElement('td');
+                td.className = "text-center font-bold";
+                if (key.isTotal) {
+                    td.className = "text-center font-black border-x-2 border-neutral-900 bg-neutral-100";
+                }
+                
+                if (count > 0) {
+                    const avg = sum / count;
+                    if (avg < key.max / 2) {
+                        td.className += " text-rose-600 font-black";
+                    }
+                    td.textContent = formatNumber(avg);
+                } else {
+                    td.innerHTML = `<span class="text-neutral-450 font-mono italic text-[11px]">#DIV/0!</span>`;
+                }
+                trMoy.appendChild(td);
+            });
+            grid.appendChild(trMoy);
+        }
+        
+        function renderCotesGrid() {
+            const grid = document.getElementById('excel-grid');
+            grid.innerHTML = "";
+            
+            const evals = cotesData.evaluations[activeTab] || [];
+            const subMax = SUBJECTS[activeTab].max;
+            
+            const bulletinLocked = !!cotesData.locked['bulletin'];
+            const subjectLocked = !!cotesData.locked[activeTab];
+            
+            if (students.length === 0) {
+                let trEmpty = document.createElement('tr');
+                let tdEmpty = document.createElement('td');
+                tdEmpty.colSpan = evals.length + 3;
+                tdEmpty.className = "text-center py-12 text-neutral-450 font-display font-bold text-sm bg-neutral-50/40 border border-neutral-900 rounded-2xl";
+                tdEmpty.innerHTML = `
+                    <div class="flex flex-col items-center justify-center gap-2 select-none">
+                        <span class="text-3xl">👥</span>
+                        <span>Aucun élève dans la classe pour le moment.</span>
+                        <button onclick="openStudentsModal()" class="neo-btn mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] border-2 border-neutral-900 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+                            + Gérer la classe
+                        </button>
+                    </div>
+                `;
+                trEmpty.appendChild(tdEmpty);
+                grid.appendChild(trEmpty);
+                return;
+            }
+            
+            // 1. En-tête : Intitulé
+            let tr1 = document.createElement('tr');
+            
+            let thNum1 = document.createElement('th');
+            thNum1.className = "w-12 text-center font-display text-neutral-800 bg-neutral-100";
+            thNum1.textContent = "N°";
+            tr1.appendChild(thNum1);
+            
+            let thName1 = document.createElement('th');
+            thName1.className = "w-72 text-left font-display text-neutral-800";
+            thName1.textContent = "Intitulé";
+            tr1.appendChild(thName1);
+            
+            evals.forEach((ev, idx) => {
+                let th = document.createElement('th');
+                th.className = "relative pr-6 w-32";
+                th.innerHTML = `
+                    <input type="text" value="${escapeHtml(ev.title)}" 
+                        onchange="updateEvaluationTitle('${ev.id}', this.value)" 
+                        ${subjectLocked ? 'disabled' : ''}
+                        class="bg-transparent text-center font-bold font-sans outline-none w-full text-neutral-800 border-b border-transparent focus:border-neutral-400 ${subjectLocked ? 'cursor-not-allowed text-neutral-500' : ''}" />
+                    ${!subjectLocked ? `
+                    <button onclick="deleteEvaluationColumn('${ev.id}')" 
+                        class="absolute right-1.5 top-1/2 -translate-y-1/2 p-0.5 hover:bg-rose-100 text-rose-500 rounded transition no-print" 
+                        title="Supprimer cette évaluation">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>` : ''}
+                `;
+                tr1.appendChild(th);
+            });
+            
+            // Colonnes calculées
+            let thTotal1 = document.createElement('th');
+            thTotal1.className = "w-24 text-center font-display text-neutral-850 bg-neutral-100";
+            thTotal1.textContent = "Total";
+            tr1.appendChild(thTotal1);
+            
+            let thMoyBull1 = document.createElement('th');
+            thMoyBull1.className = "w-28 text-center font-display text-neutral-850 bg-neutral-200 border-r-2 border-neutral-900";
+            thMoyBull1.textContent = "Moy. Bull.";
+            tr1.appendChild(thMoyBull1);
+            
+            grid.appendChild(tr1);
+            
+            // 1b. En-tête : Date de l'évaluation (Style Excel)
+            let trDate = document.createElement('tr');
+            
+            let thDateEmpty = document.createElement('th');
+            thDateEmpty.className = "w-12 bg-neutral-100 border-none";
+            trDate.appendChild(thDateEmpty);
+            
+            let thDateName = document.createElement('th');
+            thDateName.className = "text-left font-bold text-neutral-500 italic bg-neutral-50";
+            thDateName.textContent = "Date";
+            trDate.appendChild(thDateName);
+            
+            evals.forEach((ev) => {
+                let td = document.createElement('td');
+                td.className = "text-center bg-neutral-50 px-2";
+                td.innerHTML = `
+                    <input type="text" placeholder="jj/mm" value="${escapeHtml(ev.date || '')}" 
+                        onchange="updateEvaluationDate('${ev.id}', this.value)" 
+                        ${subjectLocked ? 'disabled' : ''}
+                        class="bg-transparent text-center text-xs font-sans outline-none w-full text-neutral-500 placeholder-neutral-350 focus:bg-white border border-transparent focus:border-neutral-300 rounded ${subjectLocked ? 'cursor-not-allowed text-neutral-450 bg-neutral-50/20' : ''}" />
+                `;
+                trDate.appendChild(td);
+            });
+            
+            let tdDateTotal = document.createElement('td');
+            tdDateTotal.className = "bg-neutral-100";
+            trDate.appendChild(tdDateTotal);
+            
+            let tdDateMoy = document.createElement('td');
+            tdDateMoy.className = "bg-neutral-200 border-r-2 border-neutral-900";
+            trDate.appendChild(tdDateMoy);
+            
+            grid.appendChild(trDate);
+            
+            // 2. En-tête : Côte maximale
+            let tr2 = document.createElement('tr');
+            
+            let thMaxEmpty = document.createElement('th');
+            thMaxEmpty.className = "w-12 bg-neutral-100 border-none";
+            tr2.appendChild(thMaxEmpty);
+            
+            let thName2 = document.createElement('th');
+            thName2.className = "text-left font-extrabold text-neutral-800 italic bg-neutral-50 text-[13.5px]";
+            thName2.textContent = "Côte maximale";
+            tr2.appendChild(thName2);
+            
+            let sumMaxPoints = 0;
+            
+            evals.forEach((ev) => {
+                let td = document.createElement('td');
+                td.className = "text-center font-black bg-neutral-50 px-2";
+                td.innerHTML = `
+                    <input type="text" value="${ev.maxPoints}" 
+                        onchange="updateEvaluationMaxPoints('${ev.id}', this.value)" 
+                        ${subjectLocked ? 'disabled' : ''}
+                        class="bg-transparent text-center font-black outline-none w-full text-neutral-800 text-[14.5px] focus:bg-white border border-transparent focus:border-neutral-300 rounded ${subjectLocked ? 'cursor-not-allowed text-neutral-500 bg-neutral-50/20' : ''}" />
+                `;
+                sumMaxPoints += parseFloat(ev.maxPoints) || 0;
+                tr2.appendChild(td);
+            });
+            
+            let tdTotalMax = document.createElement('td');
+            tdTotalMax.className = "text-center font-extrabold bg-neutral-100 text-[14.5px] text-neutral-800";
+            tdTotalMax.textContent = formatNumber(sumMaxPoints);
+            tr2.appendChild(tdTotalMax);
+            
+            let tdMoyMax = document.createElement('td');
+            tdMoyMax.className = "text-center font-black bg-neutral-200 border-r-2 border-neutral-900 text-[14.5px] text-neutral-800";
+            tdMoyMax.textContent = formatNumber(subMax);
+            tr2.appendChild(tdMoyMax);
+            
+            grid.appendChild(tr2);
+            
+            // 3. Lignes élèves
+            students.forEach((st, sIdx) => {
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-neutral-50 transition-colors";
+                
+                // Numéro élève
+                let tdNum = document.createElement('td');
+                tdNum.className = "text-center font-mono font-bold text-neutral-400 bg-neutral-50/50 w-12 border-r border-neutral-200 select-none";
+                tdNum.textContent = sIdx + 1;
+                tr.appendChild(tdNum);
+                
+                // Nom élève (Editable)
+                let tdName = document.createElement('td');
+                tdName.className = "font-bold text-neutral-800 text-left p-0";
+                
+                let inputName = document.createElement('input');
+                inputName.type = "text";
+                inputName.value = st.name;
+                inputName.className = "bg-transparent font-bold outline-none w-full text-neutral-855 text-left px-2 py-1 focus:bg-emerald-50/50 border border-transparent focus:border-neutral-300 rounded";
+                if (bulletinLocked) {
+                    inputName.disabled = true;
+                    inputName.className += " cursor-not-allowed text-neutral-500 bg-neutral-50/20";
+                } else {
+                    inputName.addEventListener('change', (e) => {
+                        renameStudent(st.id, e.target.value);
+                    });
+                }
+                tdName.appendChild(inputName);
+                tr.appendChild(tdName);
+                
+                let studentSum = 0;
+                let studentMaxPossible = 0;
+                let hasGrades = false;
+                
+                evals.forEach((ev, evIdx) => {
+                    const gradeVal = cotesData.grades[st.id]?.[ev.id] || "";
+                    let td = document.createElement('td');
+                    td.className = "p-0 text-center";
+                    
+                    // Calculs
+                    const isAbs = gradeVal === "A" || gradeVal === "E";
+                    const numVal = parseFloat(gradeVal.replace(',', '.'));
+                    if (gradeVal !== "" && !isAbs && !isNaN(numVal)) {
+                        studentSum += numVal;
+                        studentMaxPossible += parseFloat(ev.maxPoints);
+                        hasGrades = true;
+                    }
+                    
+                    // Input de saisie
+                    let input = document.createElement('input');
+                    input.type = "text";
+                    input.value = gradeVal;
+                    input.className = "excel-input";
+                    input.placeholder = "-";
+                    
+                    if (subjectLocked) {
+                        input.disabled = true;
+                        input.className += " cursor-not-allowed text-neutral-450 bg-neutral-50/20";
+                    } else {
+                        // Attributs pour navigation clavier
+                        input.setAttribute('data-student-id', st.id);
+                        input.setAttribute('data-eval-id', ev.id);
+                        input.setAttribute('data-row-idx', students.indexOf(st));
+                        input.setAttribute('data-col-idx', evIdx);
+                        
+                        // Événements
+                        input.addEventListener('change', (e) => {
+                            saveGrade(st.id, ev.id, e.target.value);
+                        });
+                        
+                        input.addEventListener('keydown', handleKeyNavigation);
+                    }
+                    
+                    // Couleur conditionnelle immédiate
+                    if (gradeVal !== "") {
+                        if (isAbs) {
+                            input.className += " text-indigo-600 font-bold bg-indigo-50/40";
+                        } else if (!isNaN(numVal)) {
+                            // Validation max
+                            if (numVal > ev.maxPoints) {
+                                input.className += " bg-rose-50 text-rose-700 font-bold border-2 border-rose-500 animate-pulse";
+                            } else if (numVal < ev.maxPoints / 2) {
+                                input.className += " text-rose-600 font-black";
+                            }
+                        }
+                    }
+                    
+                    td.appendChild(input);
+                    tr.appendChild(td);
+                });
+                
+                // Calcul et affichage du total de l'élève
+                let tdTotal = document.createElement('td');
+                tdTotal.className = "text-center font-bold bg-neutral-50/50";
+                
+                let tdMoyBull = document.createElement('td');
+                tdMoyBull.className = "text-center font-black bg-neutral-100/50 border-r-2 border-neutral-900";
+                
+                if (hasGrades) {
+                    tdTotal.textContent = formatNumber(studentSum) + " / " + formatNumber(studentMaxPossible);
+                    
+                    // Moyenne ramenée sur le max de la feuille (Moy. Bull.)
+                    const percent = studentSum / studentMaxPossible;
+                    const finalMoy = percent * subMax;
+                    
+                    if (finalMoy < subMax / 2) {
+                        tdMoyBull.className += " text-rose-600 font-black";
+                    }
+                    tdMoyBull.textContent = formatNumber(finalMoy);
+                } else {
+                    tdTotal.innerHTML = `<span class="text-neutral-400 font-mono italic text-[11px]">#DIV/0!</span>`;
+                    tdMoyBull.innerHTML = `<span class="text-neutral-400 font-mono italic text-[11px]">#DIV/0!</span>`;
+                }
+                
+                tr.appendChild(tdTotal);
+                tr.appendChild(tdMoyBull);
+                
+                grid.appendChild(tr);
+            });
+            
+            // 4. Ligne : Moyenne
+            let trMoy = document.createElement('tr');
+            trMoy.className = "bg-neutral-50/60 border-t-2 border-neutral-900 font-bold";
+            
+            let tdMoyEmpty = document.createElement('td');
+            tdMoyEmpty.className = "bg-neutral-100/50 border-none w-12";
+            trMoy.appendChild(tdMoyEmpty);
+            
+            let tdMoyLabel = document.createElement('td');
+            tdMoyLabel.className = "font-black text-neutral-800 italic text-left";
+            tdMoyLabel.textContent = "Moyenne";
+            trMoy.appendChild(tdMoyLabel);
+            
+            // Calculer les moyennes de chaque colonne d'évaluation
+            const colAvgs = [];
+            evals.forEach(ev => {
+                let sum = 0;
+                let count = 0;
+                students.forEach(st => {
+                    const grade = cotesData.grades[st.id]?.[ev.id];
+                    if (grade !== undefined && grade !== null && grade !== "" && grade !== "A" && grade !== "E") {
+                        const val = parseFloat(grade.replace(',', '.'));
+                        if (!isNaN(val)) {
+                            sum += val;
+                            count++;
+                        }
+                    }
+                });
+                
+                let td = document.createElement('td');
+                td.className = "text-center font-bold text-neutral-800";
+                if (count > 0) {
+                    const avg = sum / count;
+                    if (avg < parseFloat(ev.maxPoints) / 2) {
+                        td.className += " text-rose-600 font-black";
+                    }
+                    td.textContent = formatNumber(avg);
+                    colAvgs.push(avg / parseFloat(ev.maxPoints));
+                } else {
+                    td.innerHTML = `<span class="text-neutral-400 font-mono italic text-[11px]">#DIV/0!</span>`;
+                    colAvgs.push(null);
+                }
+                trMoy.appendChild(td);
+            });
+            
+            // Moyenne globale de la classe
+            let tdGlobalTotalMoy = document.createElement('td');
+            tdGlobalTotalMoy.className = "text-center font-bold bg-neutral-100";
+            
+            let tdGlobalMoyBull = document.createElement('td');
+            tdGlobalMoyBull.className = "text-center font-black bg-neutral-200 border-r-2 border-neutral-900";
+            
+            // Calculer la moyenne des moyennes des élèves (plus juste qu'une simple moyenne de moyenne)
+            let studentsMoySum = 0;
+            let studentsMoyCount = 0;
+            students.forEach(st => {
+                let sSum = 0;
+                let sPossible = 0;
+                evals.forEach(ev => {
+                    const grade = cotesData.grades[st.id]?.[ev.id];
+                    if (grade !== undefined && grade !== null && grade !== "" && grade !== "A" && grade !== "E") {
+                        const val = parseFloat(grade.replace(',', '.'));
+                        if (!isNaN(val)) {
+                            sSum += val;
+                            sPossible += parseFloat(ev.maxPoints);
+                        }
+                    }
+                });
+                if (sPossible > 0) {
+                    studentsMoySum += (sSum / sPossible);
+                    studentsMoyCount++;
+                }
+            });
+            
+            if (studentsMoyCount > 0) {
+                const classAvgPercent = studentsMoySum / studentsMoyCount;
+                tdGlobalTotalMoy.textContent = formatNumber(classAvgPercent * 100) + " %";
+                
+                const avgBull = classAvgPercent * subMax;
+                if (avgBull < subMax / 2) {
+                    tdGlobalMoyBull.className += " text-rose-600 font-black";
+                }
+                tdGlobalMoyBull.textContent = formatNumber(avgBull);
+            } else {
+                tdGlobalTotalMoy.innerHTML = `<span class="text-neutral-400 font-mono italic text-[11px]">#DIV/0!</span>`;
+                tdGlobalMoyBull.innerHTML = `<span class="text-neutral-400 font-mono italic text-[11px]">#DIV/0!</span>`;
+            }
+            trMoy.appendChild(tdGlobalTotalMoy);
+            trMoy.appendChild(tdGlobalMoyBull);
+            grid.appendChild(trMoy);
+            
+            // 5. Ligne : Note Maximale
+            let trMax = document.createElement('tr');
+            trMax.className = "bg-neutral-50/40 text-neutral-600 text-xs";
+            
+            let tdMaxEmpty = document.createElement('td');
+            tdMaxEmpty.className = "bg-neutral-50/20 border-none w-12";
+            trMax.appendChild(tdMaxEmpty);
+            
+            let tdMaxLabel = document.createElement('td');
+            tdMaxLabel.className = "font-bold text-left italic";
+            tdMaxLabel.textContent = "Maximum";
+            trMax.appendChild(tdMaxLabel);
+            
+            evals.forEach(ev => {
+                let maxGrade = -Infinity;
+                students.forEach(st => {
+                    const grade = cotesData.grades[st.id]?.[ev.id];
+                    if (grade !== undefined && grade !== null && grade !== "" && grade !== "A" && grade !== "E") {
+                        const val = parseFloat(grade.replace(',', '.'));
+                        if (!isNaN(val) && val > maxGrade) maxGrade = val;
+                    }
+                });
+                
+                let td = document.createElement('td');
+                td.className = "text-center font-bold text-emerald-600";
+                td.textContent = maxGrade === -Infinity ? "-" : formatNumber(maxGrade);
+                trMax.appendChild(td);
+            });
+            
+            // Fausse cellule de total max
+            let tdDummyMax1 = document.createElement('td');
+            tdDummyMax1.className = "bg-neutral-100/50";
+            trMax.appendChild(tdDummyMax1);
+            let tdDummyMax2 = document.createElement('td');
+            tdDummyMax2.className = "bg-neutral-200/50 border-r-2 border-neutral-900";
+            trMax.appendChild(tdDummyMax2);
+            grid.appendChild(trMax);
+            
+            // 6. Ligne : Note Minimale
+            let trMin = document.createElement('tr');
+            trMin.className = "bg-neutral-50/40 text-neutral-600 text-xs";
+            
+            let tdMinEmpty = document.createElement('td');
+            tdMinEmpty.className = "bg-neutral-50/20 border-none w-12";
+            trMin.appendChild(tdMinEmpty);
+            
+            let tdMinLabel = document.createElement('td');
+            tdMinLabel.className = "font-bold text-left italic";
+            tdMinLabel.textContent = "Minimum";
+            trMin.appendChild(tdMinLabel);
+            
+            evals.forEach(ev => {
+                let minGrade = Infinity;
+                students.forEach(st => {
+                    const grade = cotesData.grades[st.id]?.[ev.id];
+                    if (grade !== undefined && grade !== null && grade !== "" && grade !== "A" && grade !== "E") {
+                        const val = parseFloat(grade.replace(',', '.'));
+                        if (!isNaN(val) && val < minGrade) minGrade = val;
+                    }
+                });
+                
+                let td = document.createElement('td');
+                td.className = "text-center font-bold text-rose-500";
+                td.textContent = minGrade === Infinity ? "-" : formatNumber(minGrade);
+                trMin.appendChild(td);
+            });
+            
+            // Fausse cellule de total min
+            let tdDummyMin1 = document.createElement('td');
+            tdDummyMin1.className = "bg-neutral-100/50";
+            trMin.appendChild(tdDummyMin1);
+            let tdDummyMin2 = document.createElement('td');
+            tdDummyMin2.className = "bg-neutral-200/50 border-r-2 border-neutral-900";
+            trMin.appendChild(tdDummyMin2);
+            grid.appendChild(trMin);
+        }
+        
+        // --- SAUVEGARDE ET MANIPULATION DES CÔTES ---
+        function saveGrade(studentId, evalId, value) {
+            let cleanVal = value.trim();
+            if (cleanVal.toUpperCase() === "A") {
+                cleanVal = "A";
+            } else if (cleanVal.toUpperCase() === "E") {
+                cleanVal = "E";
+            } else if (cleanVal !== "") {
+                // Accepter les points et les virgules pour les décimaux
+                // Remplacer le point par une virgule pour l'affichage uniforme (style belge/français)
+                const testNum = parseFloat(cleanVal.replace(',', '.'));
+                if (!isNaN(testNum)) {
+                    cleanVal = cleanVal.replace('.', ',');
+                }
+            }
+            
+            if (!cotesData.grades[studentId]) {
+                cotesData.grades[studentId] = {};
+            }
+            cotesData.grades[studentId][evalId] = cleanVal;
+            saveCotesData();
+            
+            // Rafraîchir sans perdre le focus (ou du moins sans recréer le tableau si possible, mais ici on recrée)
+            const focusedEl = document.activeElement;
+            const focusedStudentId = focusedEl ? focusedEl.getAttribute('data-student-id') : null;
+            const focusedEvalId = focusedEl ? focusedEl.getAttribute('data-eval-id') : null;
+            
+            renderSheet();
+            
+            // Restaurer le focus
+            if (focusedStudentId && focusedEvalId) {
+                const targetInput = document.querySelector(`input[data-student-id="${focusedStudentId}"][data-eval-id="${focusedEvalId}"]`);
+                if (targetInput) {
+                    targetInput.focus();
+                    // Placer le curseur à la fin
+                    const len = targetInput.value.length;
+                    targetInput.setSelectionRange(len, len);
+                }
+            }
+        }
+        
+        function updateEvaluationTitle(evalId, value) {
+            const ev = cotesData.evaluations[activeTab].find(e => e.id === evalId);
+            if (ev) {
+                ev.title = value.trim() || "Évaluation";
+                saveCotesData();
+            }
+        }
+        
+        function updateEvaluationDate(evalId, value) {
+            const ev = cotesData.evaluations[activeTab].find(e => e.id === evalId);
+            if (ev) {
+                ev.date = value.trim();
+                saveCotesData();
+            }
+        }
+        
+        function updateEvaluationMaxPoints(evalId, value) {
+            const ev = cotesData.evaluations[activeTab].find(e => e.id === evalId);
+            if (ev) {
+                const val = parseFloat(value.toString().replace(',', '.'));
+                ev.maxPoints = (!isNaN(val) && val > 0) ? val : 10;
+                saveCotesData();
+                renderSheet();
+            }
+        }
+        
+        function addNewEvaluationColumn() {
+            const evals = cotesData.evaluations[activeTab] || [];
+            const nextIdx = evals.length + 1;
+            const newEv = {
+                id: `ev-${activeTab}-${Date.now()}`,
+                title: `Évaluation ${nextIdx}`,
+                maxPoints: 10,
+                date: ""
+            };
+            evals.push(newEv);
+            saveCotesData();
+            renderSheet();
+        }
+        
+        function deleteEvaluationColumn(evalId) {
+            if (confirm("Voulez-vous vraiment supprimer définitivement cette évaluation et TOUTES les cotes associées ?")) {
+                cotesData.evaluations[activeTab] = cotesData.evaluations[activeTab].filter(e => e.id !== evalId);
+                
+                // Nettoyer les cotes
+                students.forEach(st => {
+                    if (cotesData.grades[st.id]) {
+                        delete cotesData.grades[st.id][evalId];
+                    }
+                });
+                
+                saveCotesData();
+                renderSheet();
+            }
+        }
+        
+        // --- NAVIGATION CLAVIER (TOUCHES FLÉCHÉES, ENTREE, TAB) ---
+        function handleKeyNavigation(e) {
+            const currentInput = e.target;
+            const rowIdx = parseInt(currentInput.getAttribute('data-row-idx'));
+            const colIdx = parseInt(currentInput.getAttribute('data-col-idx'));
+            const evalsCount = cotesData.evaluations[activeTab].length;
+            
+            let targetRow = rowIdx;
+            let targetCol = colIdx;
+            let shouldMove = false;
+            
+            switch (e.key) {
+                case "ArrowUp":
+                    if (rowIdx > 0) {
+                        targetRow = rowIdx - 1;
+                        shouldMove = true;
+                        e.preventDefault();
+                    }
+                    break;
+                case "ArrowDown":
+                    if (rowIdx < students.length - 1) {
+                        targetRow = rowIdx + 1;
+                        shouldMove = true;
+                        e.preventDefault();
+                    }
+                    break;
+                case "Enter":
+                    e.preventDefault();
+                    saveGrade(currentInput.getAttribute('data-student-id'), currentInput.getAttribute('data-eval-id'), currentInput.value);
+                    if (rowIdx < students.length - 1) {
+                        const targetStudent = students[rowIdx + 1];
+                        const targetEval = cotesData.evaluations[activeTab][colIdx];
+                        const nextInput = document.querySelector(`input[data-student-id="${targetStudent.id}"][data-eval-id="${targetEval.id}"]`);
+                        if (nextInput) {
+                            nextInput.focus();
+                            nextInput.select();
+                        }
+                    } else {
+                        currentInput.blur();
+                    }
+                    break;
+                case "ArrowLeft":
+                    // Uniquement si le curseur de l'input est au début
+                    if (currentInput.selectionStart === 0 && colIdx > 0) {
+                        targetCol = colIdx - 1;
+                        shouldMove = true;
+                        e.preventDefault();
+                    }
+                    break;
+                case "ArrowRight":
+                    // Uniquement si le curseur de l'input est à la fin
+                    if (currentInput.selectionStart === currentInput.value.length && colIdx < evalsCount - 1) {
+                        targetCol = colIdx + 1;
+                        shouldMove = true;
+                        e.preventDefault();
+                    }
+                    break;
+                case "Tab":
+                    if (e.shiftKey) {
+                        if (colIdx > 0) {
+                            targetCol = colIdx - 1;
+                            shouldMove = true;
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (colIdx < evalsCount - 1) {
+                            targetCol = colIdx + 1;
+                            shouldMove = true;
+                            e.preventDefault();
+                        }
+                    }
+                    break;
+            }
+            
+            if (shouldMove) {
+                const targetStudent = students[targetRow];
+                const targetEval = cotesData.evaluations[activeTab][targetCol];
+                const nextInput = document.querySelector(`input[data-student-id="${targetStudent.id}"][data-eval-id="${targetEval.id}"]`);
+                if (nextInput) {
+                    nextInput.focus();
+                    nextInput.select();
+                }
+            }
+        }
+        
+        // --- SYNCHRONISATION DES ELEVES ---
+        function syncWithTbiStudents() {
+            const stored = localStorage.getItem('tbi_roue_students');
+            if (stored) {
+                try {
+                    const freshStudents = JSON.parse(stored);
+                    if (freshStudents.length > 0) {
+                        // Conserver les cotes existantes
+                        // Les élèves sont synchronisés par ID
+                        students = freshStudents;
+                        saveStudents();
+                        alert("Liste d'élèves synchronisée avec succès !");
+                        renderSheet();
+                        return;
+                    }
+                } catch(e) {}
+            }
+            alert("Aucun élève trouvé à synchroniser dans le TBI. Encodage autonome conservé.");
+        }
+        
+        // --- GESTION DE LA CLASSE (MODAL MODIFIER) ---
+        function openStudentsModal() {
+            const modal = document.getElementById('students-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            renderModalStudents();
+        }
+        
+        function closeStudentsModal() {
+            const modal = document.getElementById('students-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            renderSheet(); // Re-render in case of changes
+        }
+        
+        function renderModalStudents() {
+            const container = document.getElementById('modal-students-list');
+            container.innerHTML = "";
+            
+            if (students.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-6 text-neutral-400 font-sans font-semibold text-xs select-none">
+                        Aucun élève encodé.<br>Saisissez des prénoms ci-dessus ou synchronisez.
+                    </div>
+                `;
+                updatePositionDropdown();
+                return;
+            }
+            
+            students.forEach((st, idx) => {
+                const el = document.createElement('div');
+                el.className = "flex items-center justify-between p-2 bg-neutral-50 rounded-xl border border-neutral-200 gap-2";
+                el.innerHTML = `
+                    <div class="flex items-center gap-2 flex-1 min-w-0">
+                        <span class="text-xs font-mono font-bold text-neutral-400 w-6 text-right">${idx + 1}.</span>
+                        <input type="text" value="${escapeHtml(st.name)}" 
+                            onchange="renameStudent('${st.id}', this.value)" 
+                            class="font-bold text-neutral-800 text-sm bg-transparent border border-transparent hover:border-neutral-350 focus:bg-white rounded px-2 py-1 outline-none flex-1 min-w-0" />
+                    </div>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="moveStudent('${st.id}', -1)" class="p-1 hover:bg-neutral-200 text-neutral-600 rounded border border-transparent transition" title="Monter" ${idx === 0 ? 'disabled opacity-35 cursor-not-allowed' : ''}>
+                            <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button onclick="moveStudent('${st.id}', 1)" class="p-1 hover:bg-neutral-200 text-neutral-600 rounded border border-transparent transition" title="Descendre" ${idx === students.length - 1 ? 'disabled opacity-35 cursor-not-allowed' : ''}>
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button onclick="deleteStudent('${st.id}')" class="p-1 hover:bg-rose-100 text-rose-500 rounded border border-transparent transition" title="Supprimer cet élève">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+            
+            updatePositionDropdown();
+            
+            if (window.lucide) window.lucide.createIcons();
+        }
+        
+        function updatePositionDropdown() {
+            const select = document.getElementById('new-student-position');
+            if (!select) return;
+            select.innerHTML = `
+                <option value="last">En dernier (bas de liste)</option>
+                <option value="first">En premier (haut de liste)</option>
+            `;
+            students.forEach((st, idx) => {
+                const opt = document.createElement('option');
+                opt.value = `after-${st.id}`;
+                opt.textContent = `Après ${idx + 1}. ${st.name}`;
+                select.appendChild(opt);
+            });
+        }
+        
+        function moveStudent(studentId, direction) {
+            const idx = students.findIndex(s => s.id === studentId);
+            if (idx === -1) return;
+            
+            const targetIdx = idx + direction;
+            if (targetIdx < 0 || targetIdx >= students.length) return;
+            
+            // Swap
+            const temp = students[idx];
+            students[idx] = students[targetIdx];
+            students[targetIdx] = temp;
+            
+            saveStudents();
+            renderModalStudents();
+        }
+        
+        function addStudent() {
+            const input = document.getElementById('new-student-name');
+            const name = input.value.trim();
+            if (!name) return;
+            
+            const newSt = {
+                id: "st-" + Date.now() + "-" + Math.floor(Math.random() * 100),
+                name: name,
+                active: true
+            };
+            
+            const select = document.getElementById('new-student-position');
+            const pos = select ? select.value : "last";
+            
+            if (pos === "first") {
+                students.unshift(newSt);
+            } else if (pos.startsWith("after-")) {
+                const afterId = pos.substring(6);
+                const targetIdx = students.findIndex(s => s.id === afterId);
+                if (targetIdx !== -1) {
+                    students.splice(targetIdx + 1, 0, newSt);
+                } else {
+                    students.push(newSt);
+                }
+            } else {
+                students.push(newSt);
+            }
+            
+            saveStudents();
+            input.value = "";
+            input.focus();
+            renderModalStudents();
+        }
+        
+        function deleteStudent(id) {
+            if (confirm("Voulez-vous vraiment supprimer cet élève et toutes ses notes associées ?")) {
+                students = students.filter(s => s.id !== id);
+                delete cotesData.grades[id]; // Effacer ses notes
+                saveStudents();
+                saveCotesData();
+                renderModalStudents();
+            }
+        }
+        
+        function clearStudentsList() {
+            if (confirm("Voulez-vous vraiment vider TOUTE la liste des élèves du Cahier de cotes ? Cette action supprimera également toutes les notes encodées et est irréversible.")) {
+                students = [];
+                cotesData.grades = {}; // Effacer toutes les notes
+                saveStudents();
+                saveCotesData();
+                renderModalStudents();
+            }
+        }
+        
+        // --- IMPRESSION BULLETIN INDIVIDUEL ---
+        function openPrintModal() {
+            const modal = document.getElementById('print-bulletin-modal');
+            const select = document.getElementById('bulletin-student-select');
+            
+            select.innerHTML = "";
+            students.forEach(st => {
+                const opt = document.createElement('option');
+                opt.value = st.id;
+                opt.textContent = st.name;
+                select.appendChild(opt);
+            });
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            if (students.length > 0) {
+                renderIndividualBulletin(students[0].id);
+            }
+            if (window.lucide) window.lucide.createIcons();
+        }
+        
+        function closePrintModal() {
+            const modal = document.getElementById('print-bulletin-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        
+        function renderIndividualBulletin(studentId) {
+            const container = document.getElementById('bulletin-preview-container');
+            const st = students.find(s => s.id === studentId);
+            if (!st) return;
+            
+            // Calculs pour cet élève
+            const results = {};
+            Object.keys(SUBJECTS).forEach(subId => {
+                const subInfo = SUBJECTS[subId];
+                const evals = cotesData.evaluations[subId] || [];
+                
+                let earned = 0;
+                let possible = 0;
+                
+                evals.forEach(ev => {
+                    const grade = cotesData.grades[st.id]?.[ev.id];
+                    if (grade !== undefined && grade !== null && grade !== "" && grade !== "A" && grade !== "E") {
+                        const val = parseFloat(grade.replace(',', '.'));
+                        if (!isNaN(val)) {
+                            earned += val;
+                            possible += parseFloat(ev.maxPoints);
+                        }
+                    }
+                });
+                
+                results[subId] = possible > 0 ? (earned / possible) * subInfo.max : null;
+            });
+            
+            const calcSubjectTotal = (subIds) => {
+                let earned = 0;
+                let possible = 0;
+                subIds.forEach(id => {
+                    if (results[id] !== null) {
+                        earned += results[id];
+                        possible += SUBJECTS[id].max;
+                    }
+                });
+                return possible > 0 ? { earned, possible, percent: (earned / possible) * 100 } : null;
+            };
+            
+            const frTotal = calcSubjectTotal(['ecouter', 'lecture', 'ort_gra_con_voc', 'expr_ecrite']);
+            const mathTotal = calcSubjectTotal(['nomb_op', 'grandeurs', 'sol_fig']);
+            const eveilTotal = calcSubjectTotal(['sciences', 'hist_geo']);
+            
+            // Générer le HTML du Bulletin
+            let html = `
+                <div class="print-card p-6 bg-white border border-neutral-200 rounded-2xl max-w-lg mx-auto text-neutral-800">
+                    <div class="text-center mb-6">
+                        <h2 class="font-display font-black text-xl text-indigo-600">BULLETIN D'ÉVALUATION PORTATIF</h2>
+                        <p class="text-xs text-neutral-500 font-mono mt-1">École de Waimes Centre • Année Scolaire en cours</p>
+                        <hr class="border-neutral-200 mt-3 mb-4">
+                        <div class="flex justify-between items-center bg-neutral-50 p-3 rounded-xl border border-neutral-200">
+                            <span class="text-xs font-mono text-neutral-500 font-bold uppercase">Élève :</span>
+                            <span class="font-display font-bold text-neutral-800 text-base">${st.name}</span>
+                        </div>
+                    </div>
+                    
+                    <table class="w-full text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-neutral-100 font-bold">
+                                <th class="border p-2 text-left">Branche / Matière</th>
+                                <th class="border p-2 text-center w-24">Cote</th>
+                                <th class="border p-2 text-center w-24">Pourcentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <!-- FRANCAIS -->
+                            <tr class="bg-red-50/30 font-bold"><td colspan="3" class="border p-2 text-neutral-700">Français</td></tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Écouter</td>
+                                <td class="border p-2 text-center">${results['ecouter'] !== null ? formatNumber(results['ecouter']) + " / 10" : "-"}</td>
+                                <td class="border p-2 text-center">${results['ecouter'] !== null ? formatNumber((results['ecouter']/10)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Lire</td>
+                                <td class="border p-2 text-center">${results['lecture'] !== null ? formatNumber(results['lecture']) + " / 40" : "-"}</td>
+                                <td class="border p-2 text-center">${results['lecture'] !== null ? formatNumber((results['lecture']/40)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Outils</td>
+                                <td class="border p-2 text-center">${results['ort_gra_con_voc'] !== null ? formatNumber(results['ort_gra_con_voc']) + " / 30" : "-"}</td>
+                                <td class="border p-2 text-center">${results['ort_gra_con_voc'] !== null ? formatNumber((results['ort_gra_con_voc']/30)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Écrire</td>
+                                <td class="border p-2 text-center">${results['expr_ecrite'] !== null ? formatNumber(results['expr_ecrite']) + " / 20" : "-"}</td>
+                                <td class="border p-2 text-center">${results['expr_ecrite'] !== null ? formatNumber((results['expr_ecrite']/20)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr class="bg-red-100 font-extrabold text-red-900">
+                                <td class="border p-2 pl-2">Total Français</td>
+                                <td class="border p-2 text-center">${frTotal ? formatNumber(frTotal.earned) + " / " + frTotal.possible : "-"}</td>
+                                <td class="border p-2 text-center">${frTotal ? formatNumber(frTotal.percent) + " %" : "-"}</td>
+                            </tr>
+                            
+                            <!-- MATHEMATIQUES -->
+                            <tr class="bg-sky-50/30 font-bold"><td colspan="3" class="border p-2 text-neutral-700">Mathématiques</td></tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Nomb. & Op.</td>
+                                <td class="border p-2 text-center">${results['nomb_op'] !== null ? formatNumber(results['nomb_op']) + " / 40" : "-"}</td>
+                                <td class="border p-2 text-center">${results['nomb_op'] !== null ? formatNumber((results['nomb_op']/40)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Grandeurs</td>
+                                <td class="border p-2 text-center">${results['grandeurs'] !== null ? formatNumber(results['grandeurs']) + " / 30" : "-"}</td>
+                                <td class="border p-2 text-center">${results['grandeurs'] !== null ? formatNumber((results['grandeurs']/30)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Sol. & Fig.</td>
+                                <td class="border p-2 text-center">${results['sol_fig'] !== null ? formatNumber(results['sol_fig']) + " / 30" : "-"}</td>
+                                <td class="border p-2 text-center">${results['sol_fig'] !== null ? formatNumber((results['sol_fig']/30)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr class="bg-sky-100 font-extrabold text-sky-900">
+                                <td class="border p-2 pl-2">Total Mathématiques</td>
+                                <td class="border p-2 text-center">${mathTotal ? formatNumber(mathTotal.earned) + " / " + mathTotal.possible : "-"}</td>
+                                <td class="border p-2 text-center">${mathTotal ? formatNumber(mathTotal.percent) + " %" : "-"}</td>
+                            </tr>
+                            
+                            <!-- EVEIL -->
+                            <tr class="bg-emerald-50/30 font-bold"><td colspan="3" class="border p-2 text-neutral-700">Éveil</td></tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Sciences</td>
+                                <td class="border p-2 text-center">${results['sciences'] !== null ? formatNumber(results['sciences']) + " / 50" : "-"}</td>
+                                <td class="border p-2 text-center">${results['sciences'] !== null ? formatNumber((results['sciences']/50)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 pl-4">Hist-Géo</td>
+                                <td class="border p-2 text-center">${results['hist_geo'] !== null ? formatNumber(results['hist_geo']) + " / 50" : "-"}</td>
+                                <td class="border p-2 text-center">${results['hist_geo'] !== null ? formatNumber((results['hist_geo']/50)*100) + " %" : "-"}</td>
+                            </tr>
+                            <tr class="bg-emerald-100 font-extrabold text-emerald-900">
+                                <td class="border p-2 pl-2">Total Éveil</td>
+                                <td class="border p-2 text-center">${eveilTotal ? formatNumber(eveilTotal.earned) + " / " + eveilTotal.possible : "-"}</td>
+                                <td class="border p-2 text-center">${eveilTotal ? formatNumber(eveilTotal.percent) + " %" : "-"}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="mt-6 border-2 border-neutral-900 rounded-xl p-4 bg-neutral-50 no-print">
+                        <label class="block text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-wide mb-1">Commentaires de l'enseignant :</label>
+                        <textarea rows="2" placeholder="Saisir des notes pour le bulletin..." class="w-full text-xs font-medium bg-transparent border-none outline-none resize-none"></textarea>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-4 text-center text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
+                        <div>Signature de l'enseignant<br><span class="font-hand font-normal text-2xl text-indigo-600 block mt-2">Mr Lejoly</span></div>
+                        <div>Signature des parents<br><div class="h-8 border-b border-dashed border-neutral-400 mt-2"></div></div>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+            
+            // Mettre à jour la zone d'impression réelle pour l'impression système
+            document.getElementById('print-area').innerHTML = html;
+        }
+        
+        // --- EXPORTATIONS (CSV, JSON) ---
+        function exportCSV() {
+            // Exporter un CSV global contenant un résumé des moyennes des élèves et le détail
+            let csvContent = "\ufeff"; // BOM UTF-8
+            
+            // Ligne 1 : En-têtes matières
+            csvContent += "Eleve,Ecouter (/10),Lecture (/40),OrtGraConVoc (/30),Expr. Ecrite (/20),Total Francais (/100),Nomb/Op (/40),Grandeurs (/30),Sol/Fig (/30),Total Maths (/100),Sciences (/50),Hist/Geo (/50),Total Eveil (/100)\n";
+            
+            // Calculer et ajouter chaque élève
+            students.forEach(st => {
+                let line = `"${st.name.replace(/"/g, '""')}"`;
+                
+                const results = {};
+                Object.keys(SUBJECTS).forEach(subId => {
+                    const subInfo = SUBJECTS[subId];
+                    const evals = cotesData.evaluations[subId] || [];
+                    
+                    let earned = 0;
+                    let possible = 0;
+                    
+                    evals.forEach(ev => {
+                        const grade = cotesData.grades[st.id]?.[ev.id];
+                        if (grade !== undefined && grade !== null && grade !== "" && grade !== "A" && grade !== "E") {
+                            const val = parseFloat(grade.replace(',', '.'));
+                            if (!isNaN(val)) {
+                                earned += val;
+                                possible += parseFloat(ev.maxPoints);
+                            }
+                        }
+                    });
+                    results[subId] = possible > 0 ? (earned / possible) * subInfo.max : null;
+                });
+                
+                // Formater les valeurs
+                const getValStr = (val) => val === null ? "#DIV/0!" : formatNumber(val).replace('.', ',');
+                
+                const getGroupTotal = (keys) => {
+                    let earned = 0;
+                    let possible = 0;
+                    keys.forEach(k => {
+                        if (results[k] !== null) {
+                            earned += results[k];
+                            possible += SUBJECTS[k].max;
+                        }
+                    });
+                    return possible > 0 ? (earned / possible) * 100 : null;
+                };
+                
+                const fr = getGroupTotal(['ecouter', 'lecture', 'ort_gra_con_voc', 'expr_ecrite']);
+                const math = getGroupTotal(['nomb_op', 'grandeurs', 'sol_fig']);
+                const ev = getGroupTotal(['sciences', 'hist_geo']);
+                
+                line += `,${getValStr(results['ecouter'])}`;
+                line += `,${getValStr(results['lecture'])}`;
+                line += `,${getValStr(results['ort_gra_con_voc'])}`;
+                line += `,${getValStr(results['expr_ecrite'])}`;
+                line += `,${getValStr(fr)}`;
+                line += `,${getValStr(results['nomb_op'])}`;
+                line += `,${getValStr(results['grandeurs'])}`;
+                line += `,${getValStr(results['sol_fig'])}`;
+                line += `,${getValStr(math)}`;
+                line += `,${getValStr(results['sciences'])}`;
+                line += `,${getValStr(results['hist_geo'])}`;
+                line += `,${getValStr(ev)}`;
+                
+                csvContent += line + "\n";
+            });
+            
+            // Création et téléchargement du fichier
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cahier_de_cotes_excel_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function exportJSON() {
+            const dataStr = JSON.stringify(cotesData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tbi_cotes_sauvegarde_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.evaluations && data.grades) {
+                        cotesData = data;
+                        saveCotesData();
+                        alert("Données importées avec succès !");
+                        renderSheet();
+                    } else {
+                        alert("Le fichier sélectionné n'est pas un fichier de sauvegarde valide.");
+                    }
+                } catch(err) {
+                    alert("Erreur lors de la lecture du fichier : " + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // --- UTILITAIRES ---
+        function formatNumber(num) {
+            if (num === null || isNaN(num)) return "";
+            // Arrondir à 1 décimale, si c'est un entier ne pas afficher de .0
+            const rounded = Math.round(num * 10) / 10;
+            return rounded % 1 === 0 ? rounded.toString() : rounded.toFixed(1).replace('.', ',');
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return "";
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

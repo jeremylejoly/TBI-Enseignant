@@ -84,6 +84,23 @@ function switchTab(tabId) {
         if (typeof initRoueApp === 'function') {
             initRoueApp();
         }
+    } else if (tabId === 'cotes') {
+        // Synchroniser les élèves et cotes du cahier
+        const iframe = document.getElementById('cotes-fullscreen-iframe');
+        if (iframe && iframe.contentWindow) {
+            if (typeof iframe.contentWindow.loadStudents === 'function') {
+                iframe.contentWindow.loadStudents();
+            }
+            if (typeof iframe.contentWindow.loadCotesData === 'function') {
+                iframe.contentWindow.loadCotesData();
+            }
+            if (typeof iframe.contentWindow.renderTabHeaders === 'function') {
+                iframe.contentWindow.renderTabHeaders();
+            }
+            if (typeof iframe.contentWindow.renderSheet === 'function') {
+                iframe.contentWindow.renderSheet();
+            }
+        }
     } else if (tabId === 'globe') {
         // Forcer le redimensionnement du Globe 3D lors de l'activation
         const iframe = document.getElementById('globe-fullscreen-iframe');
