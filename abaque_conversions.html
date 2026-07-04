@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mes abaques — Grandeurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper: #F3F6FA;
+  --grid-line: #E1E9F2;
+  --card: #FFFFFF;
+  --ink: #1E2D45;
+  --ink-soft: #51617D;
+  --ok: #2FA36B;   --ok-soft: #E0F4EA;
+  --bad: #D64545;  --bad-soft: #FBE5E5;
+  
+  --theme-main: #3D8BFD;
+  --theme-soft: #E2EEFF;
+  
+  --l-color: #3D8BFD; --l-soft: #E2EEFF;
+  --c-color: #00BFA5; --c-soft: #E0F2F1;
+  --m-color: #F2820A; --m-soft: #FFEEDB;
+  --a-color: #5B4FCF; --a-soft: #EEF0FF;
+  --v-color: #D94F3D; --v-soft: #FDECEA;
+
+  --radius: 16px;
+  --shadow: 0 4px 12px rgba(30,45,69,.06), 0 12px 28px rgba(30,45,69,.05);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Nunito', sans-serif;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:26px 26px;
+  min-height:100vh;
+  font-size:16px;
+  line-height:1.55;
+  transition: background-color 0.4s;
+}
+.wrap{max-width:1240px; margin:0 auto; padding:0 20px;}
+
+/* ---------- Header ---------- */
+header.app{padding:22px 0 14px;}
+.brand{display:flex; align-items:center; gap:14px; justify-content:center; flex-wrap:wrap;}
+.brand-icon{
+  width: 52px; height: 52px; border-radius: 12px;
+  background: var(--theme-main);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  transition: background 0.4s;
+}
+.brand h1{
+  font-family:'Fredoka', sans-serif; font-weight:700;
+  font-size:clamp(26px, 4vw, 38px); letter-spacing:.3px;
+}
+.brand .sub{
+  font-size:14px; color:var(--ink-soft); font-weight:700;
+  text-align:center; width:100%; letter-spacing:.6px; text-transform:uppercase;
+}
+nav.tabs{
+  display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
+  margin:18px auto 0; padding:6px;
+  background:var(--card); border-radius:999px;
+  box-shadow:var(--shadow); width:max-content; max-width:100%;
+}
+.tab-btn{
+  font-family:'Fredoka', sans-serif; font-weight:600; font-size:16px;
+  border:none; background:transparent; color:var(--ink-soft);
+  padding:10px 20px; border-radius:999px; cursor:pointer;
+  transition:background .15s, color .15s;
+}
+.tab-btn:hover{background:var(--paper);}
+.tab-btn.active{background:var(--ink); color:#fff;}
+.tab-btn:focus-visible{outline:3px solid var(--theme-main); outline-offset:2px;}
+
+/* ---------- Grandeurs Switch ---------- */
+.family-switch{
+  position:fixed; top:14px; right:14px; z-index:50;
+  display:flex; gap:4px; padding:4px; background:var(--card);
+  border-radius:999px; box-shadow:var(--shadow);
+}
+.family-switch button{
+  font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px;
+  border:none; background:transparent; color:var(--ink-soft);
+  padding:6px 14px; border-radius:999px; cursor:pointer;
+  transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.family-switch button.active{
+  color: #fff;
+}
+#btnLen.active{background: var(--l-color);}
+#btnCap.active{background: var(--c-color);}
+#btnMas.active{background: var(--m-color);}
+#btnArea.active{background: var(--a-color);}
+#btnVol.active{background: var(--v-color);}
+
+/* ---------- Sections ---------- */
+section.page{display:none; padding:26px 0 60px; animation:fadein .25s ease;}
+section.page.active{display:block;}
+@keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+.card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px;}
+h2.sec{
+  font-family:'Fredoka', sans-serif; font-weight:600; font-size:24px;
+  margin-bottom:14px; display:flex; align-items:center; gap:10px;
+}
+h2.sec::before{
+  content:""; width:14px; height:14px; border-radius:50%;
+  background:var(--theme-main); flex:none;
+  box-shadow: 0 0 0 4px var(--theme-soft);
+}
+p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
+
+.btn{
+  font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px;
+  border:none; border-radius:999px; padding:11px 24px; cursor:pointer;
+  background:var(--theme-main); color:#fff; box-shadow:0 3px 0 rgba(0,0,0,.15);
+  transition:transform .1s, filter .12s, background .4s;
+}
+.btn:hover{filter:brightness(1.15);}
+.btn:active{transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,.15);}
+.btn.ghost{background:var(--card); color:var(--ink); border:2px solid var(--grid-line); box-shadow:none;}
+.btn.small{font-size:14px; padding:7px 16px;}
+
+/* ---------- ABAQUE (Le Convertisseur) ---------- */
+.abaque-container{
+  background: #22334F;
+  border-radius: var(--radius);
+  padding: 30px 20px;
+  box-shadow: var(--shadow);
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.abaque{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+.col{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.unit-header{
+  width: 100%;
+  height: 58px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+  line-height: 1.25;
+}
+.unit-header:hover{
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+.unit-header.active-start{
+  background: var(--theme-main);
+  color: #fff;
+  border-bottom: 2px solid rgba(255,255,255,0.5);
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+}
+.unit-header.active-end{
+  background: #FFD66B;
+  color: #1E2D45;
+}
+.cell{
+  width: 100%;
+  height: 80px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 42px;
+  color: #fff;
+  position: relative;
+  transition: background 0.3s;
+}
+.col.active-col .cell{
+  background: rgba(255,255,255,0.08);
+}
+.digit-pop{
+  animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes pop{
+  0%{transform: scale(0.5); opacity:0;}
+  100%{transform: scale(1); opacity:1;}
+}
+.zero-added{
+  color: #FFD66B; /* Zeros rajoutés en jaune pour les mettre en évidence */
+}
+/* La virgule */
+.comma{
+  position: absolute;
+  bottom: 5px;
+  right: -6px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  color: #FFD66B;
+  z-index: 10;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  opacity: 0;
+}
+.comma.visible{
+  opacity: 1;
+}
+
+/* Controls en dessous de l'abaque */
+.abaque-controls{
+  max-width: 900px;
+  margin: 20px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.numpad{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  padding: 12px;
+  border-radius: 12px;
+}
+.num-btn{
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.num-btn:hover{background: rgba(255,255,255,0.2);}
+.num-btn:active{transform: scale(0.92);}
+.num-btn.del{background: var(--bad); grid-column: span 2; width: 100%;}
+.num-btn.clear{background: #51617D; grid-column: span 3; width: 100%; font-size: 14px;}
+
+.result-box{
+  background: var(--theme-soft);
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--ink);
+  text-align: center;
+  flex: 1;
+  min-width: 280px;
+  border: 2px solid var(--theme-main);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.4s;
+}
+.result-box .small{
+  font-size: 15px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* Instructions */
+.instructions-bar{
+  background: var(--card);
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  margin-top: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.step-badge{
+  background: var(--theme-main); color: #fff;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fredoka', sans-serif; font-size: 14px;
+  transition: background 0.4s;
+}
+
+/* ---------- Théorie ---------- */
+.theory-grid{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;
+}
+.t-card{
+  border: 2px solid var(--grid-line); border-radius: var(--radius); padding: 20px;
+}
+.t-card h3{font-family:'Fredoka',sans-serif; font-size: 20px; margin-bottom: 10px;}
+.t-card p{color: var(--ink-soft); margin-bottom: 10px;}
+.rule-box{
+  background: var(--theme-soft); padding: 14px; border-radius: 10px; margin-top: 14px;
+  border-left: 4px solid var(--theme-main);
+  transition: all 0.4s;
+}
+
+.abaque.double-grid {
+  grid-template-columns: repeat(14, 1fr) !important;
+  gap: 6px;
+}
+.col.double-col {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  grid-column: span 2;
+  gap: 2px;
+}
+.col.double-col .unit-header {
+  grid-column: span 2;
+}
+.col.double-col .cell {
+  border-radius: 0;
+}
+.col.double-col .cell:first-of-type {
+  border-radius: 0 0 0 8px;
+  border-right: 1px dashed rgba(255,255,255,0.15);
+}
+.col.double-col .cell:last-of-type {
+  border-radius: 0 0 8px 0;
+}
+.abaque.triple-grid {
+  grid-template-columns: repeat(21, 1fr) !important;
+  gap: 6px;
+}
+.col.triple-col {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column: span 3;
+  gap: 2px;
+}
+.col.triple-col .unit-header {
+  grid-column: span 3;
+}
+.col.triple-col .cell {
+  border-radius: 0;
+}
+.col.triple-col .cell:first-of-type {
+  border-radius: 0 0 0 8px;
+  border-right: 1px dashed rgba(255,255,255,0.15);
+}
+.col.triple-col .cell:nth-of-type(2) {
+  border-right: 1px dashed rgba(255,255,255,0.15);
+}
+.col.triple-col .cell:last-of-type {
+  border-radius: 0 0 8px 0;
+}
+.cap-label {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Fredoka', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  user-select: none;
+}
+footer{padding:26px 0 40px; text-align:center; font-size:13px; color:var(--ink-soft); font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="family-switch" role="group" aria-label="Grandeur">
+  <button id="btnLen" class="active" data-family="longueur">📏 Longueurs</button>
+  <button id="btnCap" data-family="capacite">💧 Capacités</button>
+  <button id="btnMas" data-family="masse">⚖️ Masses</button>
+  <button id="btnArea" data-family="superficie">📐 Superficies</button>
+  <button id="btnVol" data-family="volume">📦 Volumes</button>
+</div>
+
+<header class="app wrap">
+  <div class="brand">
+    <div class="brand-icon" id="brandIcon">📏</div>
+    <h1>Mes abaques</h1>
+    <span class="sub" id="appSubtitle">Grandeurs · Longueurs</span>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn" data-tab="theorie" role="tab">Théorie</button>
+    <button class="tab-btn active" data-tab="machine" role="tab">Le Convertisseur</button>
+  </nav>
+</header>
+
+<main class="wrap">
+
+<!-- ============ LE CONVERTISSEUR (ABAQUE) ============ -->
+<section class="page active" id="page-machine">
+  <div class="card" style="padding:20px 24px;">
+    <h2 class="sec">L'Abaque Interactif</h2>
+    <p class="lead">Choisis ton unité de départ, tape ton nombre, puis clique sur l'unité d'arrivée pour convertir magiquement !</p>
+  </div>
+  
+  <div class="abaque-container">
+    <div class="abaque" id="abaque">
+      <!-- Généré par JS -->
+    </div>
+    
+    <div class="abaque-controls">
+      <div class="numpad" id="numpad">
+        <button class="num-btn">1</button>
+        <button class="num-btn">2</button>
+        <button class="num-btn">3</button>
+        <button class="num-btn">4</button>
+        <button class="num-btn">5</button>
+        <button class="num-btn">6</button>
+        <button class="num-btn">7</button>
+        <button class="num-btn">8</button>
+        <button class="num-btn">9</button>
+        <button class="num-btn">0</button>
+        <button class="num-btn">,</button>
+        <button class="num-btn del">⌫</button>
+        <button class="num-btn clear" style="grid-column: span 3;">🗑️ Tout vider</button>
+      </div>
+      <div class="result-box" id="resultBox">
+        <span class="small">Résultat</span>
+        <div id="resultText" style="margin-top:4px;">---</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THÉORIE ============ -->
+<section class="page" id="page-theorie">
+  <div class="card">
+    <h2 class="sec">Le secret du tableau de conversion</h2>
+    <p class="lead">Pour convertir sans jamais se tromper, il faut maîtriser le placement de la virgule et du <strong>chiffre des unités</strong>. Voici les règles d'or.</p>
+    
+    <div class="theory-grid">
+      <div class="t-card">
+        <h3>1. Placer son nombre</h3>
+        <p>On repère toujours le chiffre des unités du nombre, et on le place dans la colonne de l'unité demandée.</p>
+        <p>Exemple : Dans <strong>345</strong> m, le chiffre des unités est <strong>5</strong>. On place le 5 dans la colonne "m", le 4 dans "dam", et le 3 dans "hm".</p>
+        <div class="rule-box">
+          <strong>Règle :</strong> 1 seul chiffre par colonne/cellule !
+        </div>
+      </div>
+      <div class="t-card">
+        <h3>2. Convertir avec des zéros</h3>
+        <p>Pour convertir vers une unité plus petite (vers la droite), on ajoute des zéros dans les colonnes vides jusqu'à atteindre l'unité voulue.</p>
+        <p>Exemple : 5 m = 50 dm = 500 cm = 5000 mm.</p>
+        <div class="rule-box">
+          <strong>Astuce :</strong> Le nom de l'unité indique où s'arrête la lecture du nombre entier.
+        </div>
+      </div>
+      <div class="t-card">
+        <h3>3. Superficies &amp; Volumes</h3>
+        <p>Les superficies (²) ont <strong>2 colonnes</strong> par unité (dizaines, unités). Les volumes (³) en ont <strong>3</strong> (centaines, dizaines, unités).</p>
+        <p>On commence toujours à remplir par la colonne la plus à droite (les unités) de la grandeur choisie.</p>
+        <div class="rule-box">
+          <strong>Règle :</strong> Remplir de droite à gauche dans l'unité !
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>Mes abaques - Mr Lejoly</footer>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+
+// --- DONNÉES DES GRANDEURS ---
+const FAMILIES = {
+  longueur: {
+    color: '#3D8BFD', soft: '#E2EEFF', icon: '📏', name: 'Longueurs',
+    units: ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm']
+  },
+  capacite: {
+    color: '#00BFA5', soft: '#E0F2F1', icon: '💧', name: 'Capacités',
+    units: ['m³', 'hl', 'dal', 'l', 'dl', 'cl', 'ml']
+  },
+  masse: {
+    color: '#F2820A', soft: '#FFEEDB', icon: '⚖️', name: 'Masses',
+    units: ['t', 'q', '-', 'kg', 'hg', 'dag', 'g', 'dg', 'cg', 'mg']
+  },
+  superficie: {
+    color: '#5B4FCF', soft: '#EEF0FF', icon: '📐', name: 'Superficies',
+    double: true,
+    units: ['km²', 'hm²\n(ha)', 'dam²\n(a)', 'm²\n(ca)', 'dm²', 'cm²', 'mm²']
+  },
+  volume: {
+    color: '#D94F3D', soft: '#FDECEA', icon: '📦', name: 'Volumes',
+    triple: true,
+    units: ['km³', 'hm³', 'dam³', 'm³', 'dm³', 'cm³', 'mm³']
+  }
+};
+let currentFamily = 'longueur';
+
+// --- SONS ---
+let audioCtx = null;
+function playTone(freq, dur = .12, delay = 0, type = 'sine', vol = .18){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, audioCtx.currentTime + delay);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + delay + dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(audioCtx.currentTime + delay); o.stop(audioCtx.currentTime + delay + dur + .02);
+  }catch(e){}
+}
+const sndTap = () => playTone(800, .05, 0, 'sine', .1);
+const sndDel = () => playTone(300, .08, 0, 'triangle');
+const sndPop = () => playTone(1200, .08, 0, 'sine', .15);
+const sndConvert = () => { playTone(523,.1); playTone(659,.1,.08); playTone(784,.15,.16); };
+const sndOk = () => { playTone(523,.12); playTone(659,.12,.11); playTone(784,.2,.22); };
+const sndBad = () => playTone(180,.25,0,'sawtooth',.1);
+
+// --- ETAT ABAQUE ---
+let startUnitIdx = -1;
+let endUnitIdx = -1;
+let rawDigits = []; // Store digits typed by user (max 7)
+
+// --- CHANGER DE GRANDEUR ---
+document.querySelectorAll('.family-switch button').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.family-switch button').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFamily = e.target.dataset.family;
+    applyTheme();
+    buildAbaque();
+    resetAbaque();
+  });
+});
+
+function applyTheme() {
+  const f = FAMILIES[currentFamily];
+  document.documentElement.style.setProperty('--theme-main', f.color);
+  document.documentElement.style.setProperty('--theme-soft', f.soft);
+  $('brandIcon').textContent = f.icon;
+  $('appSubtitle').textContent = `Grandeurs · ${f.name}`;
+}
+
+// --- NAVIGATION ONGLETS ---
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    e.target.classList.add('active');
+    $('page-' + e.target.dataset.tab).classList.add('active');
+  });
+});
+
+// --- ABAQUE BUILDER ---
+function buildAbaque() {
+  const abaque = $('abaque');
+  abaque.innerHTML = '';
+  const units = FAMILIES[currentFamily].units;
+  const isDouble = FAMILIES[currentFamily].double;
+  const isTriple = FAMILIES[currentFamily].triple;
+  
+  if (isTriple) {
+    abaque.className = 'abaque triple-grid';
+    abaque.style.gridTemplateColumns = '';
+  } else if (isDouble) {
+    abaque.className = 'abaque double-grid';
+    abaque.style.gridTemplateColumns = '';
+  } else {
+    abaque.className = 'abaque';
+    abaque.style.gridTemplateColumns = `repeat(${units.length}, 1fr)`;
+  }
+  
+  units.forEach((u, idx) => {
+    const col = document.createElement('div');
+    col.id = `col-${idx}`;
+    if (isTriple) {
+      col.className = 'col triple-col';
+      let html = `<div class="unit-header" data-idx="${idx}">${u}</div>`;
+      for (let s = 0; s < 3; s++) {
+        let cellIdx = 3 * idx + s;
+        let capLabel = '';
+        if (cellIdx === 11) capLabel = '<span class="cap-label">kl</span>';
+        else if (cellIdx === 12) capLabel = '<span class="cap-label">hl</span>';
+        else if (cellIdx === 13) capLabel = '<span class="cap-label">dal</span>';
+        else if (cellIdx === 14) capLabel = '<span class="cap-label">l</span>';
+        else if (cellIdx === 15) capLabel = '<span class="cap-label">dl</span>';
+        else if (cellIdx === 16) capLabel = '<span class="cap-label">cl</span>';
+        else if (cellIdx === 17) capLabel = '<span class="cap-label">ml</span>';
+        
+        html += `<div class="cell" id="cell-${cellIdx}">${capLabel}</div>`;
+      }
+      col.innerHTML = html;
+    } else if (isDouble) {
+      col.className = 'col double-col';
+      col.innerHTML = `
+        <div class="unit-header" data-idx="${idx}">${u.replace('\n', '<br>')}</div>
+        <div class="cell" id="cell-${2 * idx}"></div>
+        <div class="cell" id="cell-${2 * idx + 1}"></div>
+      `;
+    } else {
+      col.className = 'col';
+      col.id = `col-${idx}`;
+      col.innerHTML = `
+        <div class="unit-header" data-idx="${idx}">${u}</div>
+        <div class="cell" id="cell-${idx}"></div>
+      `;
+    }
+    abaque.appendChild(col);
+  });
+  
+  // Add comma
+  const comma = document.createElement('div');
+  comma.className = 'comma';
+  comma.id = 'comma';
+  comma.textContent = ',';
+  abaque.appendChild(comma);
+
+  // Bind clicks
+  document.querySelectorAll('.unit-header').forEach(h => {
+    h.addEventListener('click', () => onUnitClick(parseInt(h.dataset.idx)));
+  });
+}
+
+function updateInstructions() {
+  // Supprimé car le cadre d'instructions a été retiré
+}
+
+function onUnitClick(idx) {
+  if (startUnitIdx === -1 || (startUnitIdx !== -1 && endUnitIdx !== -1 && rawDigits.length === 0)) {
+    // Set start
+    startUnitIdx = idx;
+    endUnitIdx = -1;
+    rawDigits = [];
+    sndTap();
+  } else if (idx === startUnitIdx) {
+    // Reset target if clicked on start again
+    endUnitIdx = -1;
+    sndTap();
+  } else {
+    // Set end and convert
+    if(rawDigits.length > 0) {
+      endUnitIdx = idx;
+      sndConvert();
+    } else {
+      startUnitIdx = idx; // Change start if no digits
+      sndTap();
+    }
+  }
+  renderAbaque();
+}
+
+// --- NUMPAD ---
+document.querySelectorAll('.num-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    if (btn.classList.contains('del')) {
+      if(rawDigits.length > 0) {
+        rawDigits.pop();
+        sndDel();
+        if(rawDigits.length === 0) endUnitIdx = -1;
+        renderAbaque();
+      }
+    } else if (btn.classList.contains('clear')) {
+      resetAbaque();
+      sndDel();
+    } else {
+      if (startUnitIdx === -1) {
+        startUnitIdx = 3; 
+      }
+      if (endUnitIdx !== -1) {
+        endUnitIdx = -1;
+        rawDigits = [];
+      }
+      
+      if (btn.textContent === ',') {
+        if (!rawDigits.includes(',')) {
+          if (rawDigits.length === 0) rawDigits.push('0');
+          rawDigits.push(',');
+          sndPop();
+          renderAbaque();
+        } else {
+          sndBad();
+        }
+        return;
+      }
+
+      let futureDigits = [...rawDigits, btn.textContent];
+      let cIdx = futureDigits.indexOf(',');
+      let dOnly = futureDigits.filter(d => d !== ',');
+      let uPos = cIdx !== -1 ? cIdx - 1 : dOnly.length - 1;
+      let isDouble = FAMILIES[currentFamily].double;
+      let isTriple = FAMILIES[currentFamily].triple;
+      let colsPerUnit = isTriple ? 3 : (isDouble ? 2 : 1);
+      let startCol = startUnitIdx * colsPerUnit + (colsPerUnit - 1);
+      let maxCol = FAMILIES[currentFamily].units.length * colsPerUnit - 1;
+      let leftIdx = startCol - uPos;
+      let rightIdx = startCol - uPos + dOnly.length - 1;
+      
+      if (leftIdx >= 0 && rightIdx <= maxCol) {
+        rawDigits.push(btn.textContent);
+        sndPop();
+        renderAbaque();
+      } else {
+        sndBad();
+      }
+    }
+  });
+});
+
+function resetAbaque() {
+  startUnitIdx = -1;
+  endUnitIdx = -1;
+  rawDigits = [];
+  renderAbaque();
+}
+
+function renderAbaque() {
+  const units = FAMILIES[currentFamily].units;
+  const isDouble = FAMILIES[currentFamily].double;
+  const isTriple = FAMILIES[currentFamily].triple;
+  const colsPerUnit = isTriple ? 3 : (isDouble ? 2 : 1);
+  const maxCol = units.length * colsPerUnit - 1;
+  
+  // Clear all
+  document.querySelectorAll('.col').forEach(c => c.classList.remove('active-col'));
+  document.querySelectorAll('.unit-header').forEach(h => {
+    h.classList.remove('active-start', 'active-end');
+  });
+  document.querySelectorAll('.cell').forEach(c => {
+    const watermark = c.querySelector('.cap-label');
+    c.innerHTML = '';
+    if (watermark) c.appendChild(watermark);
+  });
+  $('comma').classList.remove('visible');
+  $('resultText').textContent = '---';
+
+  if (startUnitIdx !== -1) {
+    $(`col-${startUnitIdx}`).querySelector('.unit-header').classList.add('active-start');
+    $(`col-${startUnitIdx}`).classList.add('active-col');
+  }
+  
+  if (endUnitIdx !== -1) {
+    $(`col-${endUnitIdx}`).querySelector('.unit-header').classList.add('active-end');
+    $(`col-${endUnitIdx}`).classList.add('active-col');
+  }
+
+  if (rawDigits.length > 0) {
+    let commaIdx = rawDigits.indexOf(',');
+    let digitsOnly = rawDigits.filter(d => d !== ',');
+    let unitPos = commaIdx !== -1 ? commaIdx - 1 : digitsOnly.length - 1;
+    
+    for(let k = 0; k < digitsOnly.length; k++) {
+      let startCol = startUnitIdx * colsPerUnit + (colsPerUnit - 1);
+      let colIdx = startCol - (unitPos - k);
+      if (colIdx >= 0 && colIdx <= maxCol) {
+        const cell = $(`cell-${colIdx}`);
+        const span = document.createElement('span');
+        span.textContent = digitsOnly[k];
+        span.className = 'digit-pop';
+        cell.appendChild(span);
+      }
+    }
+    
+    const commaEl = $('comma');
+    if (commaIdx !== -1 && endUnitIdx === -1) {
+      let targetCol = $(`col-${startUnitIdx}`);
+      targetCol.appendChild(commaEl);
+      commaEl.style.right = '-6px';
+      commaEl.style.bottom = '5px';
+      commaEl.classList.add('visible');
+    }
+
+    if (endUnitIdx !== -1) {
+      let startCol = startUnitIdx * colsPerUnit + (colsPerUnit - 1);
+      let endCol = endUnitIdx * colsPerUnit + (colsPerUnit - 1);
+      let rightMostFilledIdx = startCol - unitPos + digitsOnly.length - 1;
+      let leftMostFilledIdx = startCol - unitPos;
+      let zerosCount = 0;
+
+      if (endCol > rightMostFilledIdx) {
+        for(let i = rightMostFilledIdx + 1; i <= endCol; i++) {
+          setTimeout(() => {
+            const cell = $(`cell-${i}`);
+            if (cell) {
+              const span = document.createElement('span');
+              span.textContent = '0';
+              span.className = 'digit-pop zero-added';
+              cell.appendChild(span);
+              sndPop();
+            }
+          }, zerosCount * 150);
+          zerosCount++;
+        }
+      } else if (endCol < leftMostFilledIdx) {
+        for(let i = leftMostFilledIdx - 1; i >= endCol; i--) {
+          setTimeout(() => {
+            const cell = $(`cell-${i}`);
+            if (cell) {
+              const span = document.createElement('span');
+              span.textContent = '0';
+              span.className = 'digit-pop zero-added';
+              cell.appendChild(span);
+              sndPop();
+            }
+          }, zerosCount * 150);
+          zerosCount++;
+        }
+      }
+      
+      setTimeout(() => {
+        let inputVal = parseFloat(rawDigits.join('').replace(',', '.'));
+        let stepDiff = startUnitIdx - endUnitIdx;
+        let power = colsPerUnit * stepDiff;
+        let decimalResult = inputVal / Math.pow(10, power);
+        decimalResult = Math.round(decimalResult * 1000000) / 1000000;
+        
+        if (decimalResult % 1 !== 0) {
+          const targetCol = $(`col-${endUnitIdx}`);
+          targetCol.appendChild(commaEl);
+          commaEl.style.right = '-6px';
+          commaEl.style.bottom = '5px';
+          commaEl.classList.add('visible');
+        }
+        
+        let textStart = rawDigits.join('');
+        let textEnd = decimalResult.toLocaleString('fr-BE');
+        let cleanStartUnit = units[startUnitIdx].replace('\n', ' ');
+        let cleanEndUnit = units[endUnitIdx].replace('\n', ' ');
+        $('resultText').innerHTML = `<strong>${textStart}</strong> ${cleanStartUnit} = <strong style="color:var(--theme-main)">${textEnd}</strong> ${cleanEndUnit}`;
+      }, zerosCount * 150 + 100);
+    } else {
+      let cleanStartUnit = units[startUnitIdx].replace('\n', ' ');
+      $('resultText').innerHTML = `<strong>${rawDigits.join('')}</strong> ${cleanStartUnit}`;
+    }
+  }
+  
+  updateInstructions();
+}
+
+// Init
+applyTheme();
+buildAbaque();
+resetAbaque();
+
+</script>
+</body>
+</html>
