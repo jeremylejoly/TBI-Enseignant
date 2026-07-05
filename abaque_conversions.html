@@ -1540,6 +1540,43 @@ function propagateBorrow(idx) {
   }
 }
 
+function fillSignificantZeros() {
+  let length = numDigits.length;
+  let intCols = 9;
+  if (currentNumerationType === 'milliards') intCols = 12;
+  else if (currentNumerationType === 'decimaux') intCols = 12;
+  
+  // Find the first non-empty index from the left
+  let firstIdx = -1;
+  for (let i = 0; i < length; i++) {
+    if (numDigits[i] !== "") {
+      firstIdx = i;
+      break;
+    }
+  }
+  
+  if (firstIdx === -1) return; // grid is empty, do nothing
+  
+  // Find the last non-empty index from the right
+  let lastIdx = -1;
+  for (let i = length - 1; i >= 0; i--) {
+    if (numDigits[i] !== "") {
+      lastIdx = i;
+      break;
+    }
+  }
+  
+  // The placeholder zeros should go up to at least the units column (intCols - 1)
+  let endIdx = Math.max(lastIdx, intCols - 1);
+  
+  // Fill all empty cells between firstIdx and endIdx with "0"
+  for (let i = firstIdx; i <= endIdx; i++) {
+    if (numDigits[i] === "") {
+      numDigits[i] = "0";
+    }
+  }
+}
+
 function cleanupLeadingZeros() {
   let intCols = 9;
   if (currentNumerationType === 'milliards') intCols = 12;
@@ -1560,10 +1597,9 @@ function cleanupLeadingZeros() {
       }
     }
   } else {
-    let allZeros = numDigits.slice(0, intCols).every(d => d === "" || d === "0");
-    if (allZeros) {
-      for (let i = 0; i < intCols; i++) {
-        if (numDigits[i] === "0") numDigits[i] = "";
+    for (let i = 0; i < intCols - 1; i++) {
+      if (numDigits[i] === "0") {
+        numDigits[i] = "";
       }
     }
   }
@@ -1695,6 +1731,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 function renderNumerationGrid() {
+  fillSignificantZeros();
   cleanupLeadingZeros();
   // 1. Dessiner les chiffres et jetons
   for (let i = 0; i < numDigits.length; i++) {
