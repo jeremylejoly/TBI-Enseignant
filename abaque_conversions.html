@@ -1509,25 +1509,100 @@ function highlightActiveCell() {
   }
 }
 
+function propagateCarry(idx) {
+  if (idx < 0) return;
+  let currentVal = numDigits[idx] === "" ? 0 : parseInt(numDigits[idx], 10);
+  if (currentVal < 9) {
+    numDigits[idx] = (currentVal + 1).toString();
+  } else {
+    numDigits[idx] = "0";
+    propagateCarry(idx - 1);
+  }
+}
+
+function hasValueToLeft(idx) {
+  for (let i = 0; i < idx; i++) {
+    if (numDigits[i] !== "" && numDigits[i] !== "0") {
+      return true;
+    }
+  }
+  return false;
+}
+
+function propagateBorrow(idx) {
+  if (idx < 0) return;
+  let currentVal = numDigits[idx] === "" ? 0 : parseInt(numDigits[idx], 10);
+  if (currentVal > 0) {
+    numDigits[idx] = (currentVal - 1).toString();
+  } else {
+    numDigits[idx] = "9";
+    propagateBorrow(idx - 1);
+  }
+}
+
+function cleanupLeadingZeros() {
+  let intCols = 9;
+  if (currentNumerationType === 'milliards') intCols = 12;
+  else if (currentNumerationType === 'decimaux') intCols = 12;
+  
+  let firstValIdx = -1;
+  for (let i = 0; i < intCols; i++) {
+    if (numDigits[i] !== "" && numDigits[i] !== "0") {
+      firstValIdx = i;
+      break;
+    }
+  }
+  
+  if (firstValIdx !== -1) {
+    for (let i = 0; i < firstValIdx; i++) {
+      if (numDigits[i] === "0") {
+        numDigits[i] = "";
+      }
+    }
+  } else {
+    let allZeros = numDigits.slice(0, intCols).every(d => d === "" || d === "0");
+    if (allZeros) {
+      for (let i = 0; i < intCols; i++) {
+        if (numDigits[i] === "0") numDigits[i] = "";
+      }
+    }
+  }
+}
+
 function adjustNumerationCell(idx, offset, event) {
   if (event) event.stopPropagation();
-  let currentVal = numDigits[idx] === "" ? 0 : parseInt(numDigits[idx], 10);
-  let newVal = currentVal + offset;
-  if (newVal >= 0 && newVal <= 9) {
-    numDigits[idx] = newVal.toString();
-    activeCellIdx = idx;
-    sndPop();
-    renderNumerationGrid();
-    highlightActiveCell();
-  } else if (newVal < 0) {
-    numDigits[idx] = "";
-    activeCellIdx = idx;
-    sndDel();
-    renderNumerationGrid();
-    highlightActiveCell();
-  } else {
-    sndBad();
+  
+  if (offset === 1) {
+    let currentVal = numDigits[idx] === "" ? 0 : parseInt(numDigits[idx], 10);
+    if (currentVal < 9) {
+      numDigits[idx] = (currentVal + 1).toString();
+      sndPop();
+    } else {
+      // Carry propagation
+      numDigits[idx] = "0";
+      propagateCarry(idx - 1);
+      sndPop();
+    }
+  } else if (offset === -1) {
+    let currentVal = numDigits[idx] === "" ? 0 : parseInt(numDigits[idx], 10);
+    if (currentVal > 0) {
+      numDigits[idx] = (currentVal - 1).toString();
+      sndDel();
+    } else {
+      if (hasValueToLeft(idx)) {
+        numDigits[idx] = "9";
+        propagateBorrow(idx - 1);
+        sndDel();
+      } else {
+        numDigits[idx] = "";
+        sndDel();
+      }
+    }
   }
+  
+  activeCellIdx = idx;
+  renderNumerationGrid();
+  highlightActiveCell();
 }
 
 function toggleTokensVisibility() {
@@ -1620,6 +1695,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 function renderNumerationGrid() {
+  cleanupLeadingZeros();
   // 1. Dessiner les chiffres et jetons
   for (let i = 0; i < numDigits.length; i++) {
     const digitContainer = $(`digit-${i}`);
