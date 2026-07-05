@@ -1,0 +1,3115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le Conjugueur Magique — Nouvelle Orthographe (FWB)</title>
+  <style>
+    @font-face {
+      font-family: 'KGHaventSlept';
+      src: url('KGHaventSleptShadow.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'KGElephant';
+      src: url('KGElephantHiccups.ttf') format('truetype');
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+    :root {
+      --primary-indigo: #6366f1;
+      --primary-indigo-dark: #4f46e5;
+      --primary-indigo-light: #e0e7ff;
+      --primary-indigo-pale: #eef2ff;
+      
+      --accent-amber: #f59e0b;
+      --accent-amber-dark: #d97706;
+      --accent-amber-pale: #fef3c7;
+      
+      --accent-rose: #f43f5e;
+      --accent-rose-pale: #ffe4e6;
+      
+      --accent-emerald: #10b981;
+      --accent-emerald-pale: #d1fae5;
+      
+      --ink-dark: #1e1b4b;
+      --ink-soft: #475569;
+      --ink-light: #94a3b8;
+      
+      --bg-gradient-start: #FFEEDC;
+      --bg-gradient-end: #FFF9F2;
+      
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      
+      --font-title: 'Fredoka', 'Nunito', system-ui, sans-serif;
+      --font-body: 'Nunito', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--ink-dark);
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ---------- En-tête scolaires ---------- */
+    header {
+      background: var(--card-bg);
+      border: 3px solid var(--ink-dark);
+      border-radius: 24px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 6px 6px 0px rgba(30, 27, 75, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      text-align: center;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(#e2e8f0 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-logo {
+      background: var(--primary-indigo-pale);
+      border: 2px solid var(--primary-indigo);
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    h1 {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: clamp(24px, 5vw, 36px);
+      color: var(--ink-dark);
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+      font-size: clamp(14px, 3vw, 17px);
+      color: var(--ink-soft);
+      font-weight: 600;
+      max-width: 600px;
+    }
+
+    .fwb-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-indigo-pale);
+      color: var(--primary-indigo-dark);
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid var(--primary-indigo-light);
+    }
+
+    /* ---------- Layout Principal ---------- */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 850px) {
+      .main-grid {
+        grid-template-columns: 380px 1fr;
+      }
+    }
+
+    /* ---------- Cartes ---------- */
+    .card {
+      background: var(--card-bg);
+      border: 3px solid var(--ink-dark);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 4px 4px 0px rgba(30, 27, 75, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-title {
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px dashed rgba(30, 27, 75, 0.25);
+      padding-bottom: 12px;
+    }
+
+    .card-verbe {
+      background: #DCD9FF !important;
+    }
+
+    .card-temps {
+      background: #BAE6FD !important;
+    }
+
+    /* ---------- Recherche & Auto-complétion ---------- */
+    .search-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      font-size: 18px;
+      color: var(--ink-light);
+      pointer-events: none;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 44px 14px 44px;
+      border: 2px solid var(--ink-dark);
+      border-radius: 16px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink-dark);
+      background-color: #ffffff;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--ink-dark);
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgba(30, 27, 75, 0.15);
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--ink-light);
+      cursor: pointer;
+      font-size: 16px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+
+    .clear-btn:hover {
+      background-color: var(--border-color);
+      color: var(--ink-dark);
+    }
+
+    .suggestions-list {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 2px solid var(--ink-dark);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(30, 27, 75, 0.15);
+      z-index: 10;
+      max-height: 220px;
+      overflow-y: auto;
+      display: none;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink-light) #f1f5f9;
+    }
+
+    .suggestion-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      transition: background-color 0.15s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .suggestion-item:hover {
+      background-color: var(--primary-indigo-pale);
+      color: var(--primary-indigo-dark);
+    }
+
+    .suggestion-item .verb-group {
+      font-size: 11px;
+      background: #f1f5f9;
+      color: var(--ink-soft);
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    /* ---------- Sélecteur de temps FWB ---------- */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .label-desc {
+      font-size: 13px;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .time-selector-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mode-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mode-title {
+      font-family: var(--font-title);
+      font-size: 13px;
+      color: var(--ink-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 6px;
+      margin-bottom: 2px;
+    }
+
+    .time-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 2px solid var(--ink-dark);
+      border-radius: 14px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      cursor: pointer;
+      transition: all 0.1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 2px 2px 0 var(--ink-dark);
+    }
+
+    .time-btn:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 3px 3px 0 var(--ink-dark);
+    }
+
+    .time-btn.active {
+      background: var(--ink-dark);
+      border-color: var(--ink-dark);
+      color: #fff;
+      box-shadow: none;
+      transform: translate(2px, 2px);
+    }
+
+    .time-btn .time-bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ink-dark);
+      transition: background-color 0.15s;
+    }
+
+    .time-btn.active .time-bullet {
+      background: #fff;
+    }
+
+
+    /* ---------- Bouton Valider ---------- */
+    .submit-btn {
+      width: 100%;
+      background: var(--accent-amber);
+      border: 3px solid var(--ink-dark);
+      border-radius: 16px;
+      padding: 16px;
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--ink-dark);
+      transition: all 0.1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .submit-btn:hover {
+      background: #fbbf24;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 var(--ink-dark);
+    }
+
+    .submit-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 var(--ink-dark);
+    }
+
+    /* ---------- Zone de Résultats (Droite) ---------- */
+    .result-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .verb-header-card {
+      background: #ffffff;
+      border: 3px solid var(--ink-dark);
+      border-radius: 24px;
+      padding: 20px 24px;
+      box-shadow: 4px 4px 0px rgba(30, 27, 75, 1);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .verb-info-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .verb-info-title h2 {
+      font-family: var(--font-title);
+      font-size: 26px;
+      color: var(--ink-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .verb-group-badge {
+      font-size: 12px;
+      font-weight: 800;
+      background: #DCD9FF;
+      color: var(--ink-dark);
+      border: 2px solid var(--ink-dark);
+      padding: 4px 10px;
+      border-radius: 8px;
+      text-transform: uppercase;
+    }
+
+    .verb-tense-badge {
+      font-family: var(--font-title);
+      font-size: 15px;
+      font-weight: 700;
+      background: #BAE6FD;
+      color: var(--ink-dark);
+      border: 2px solid var(--ink-dark);
+      padding: 6px 14px;
+      border-radius: 12px;
+      box-shadow: 2px 2px 0 var(--ink-dark);
+    }
+
+    .conjugation-card {
+      background: #A7F3D0 !important;
+      min-height: 280px;
+    }
+
+    .conjugation-table {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .conj-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 2px solid var(--ink-dark);
+      transition: all 0.15s ease;
+      box-shadow: 2px 2px 0 var(--ink-dark);
+    }
+
+    .conj-row:hover {
+      background: #ffffff !important;
+      transform: translateY(-1px);
+      box-shadow: 3px 3px 0 var(--ink-dark);
+    }
+
+    .conj-row:nth-child(even) {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .pronoun {
+      width: 160px;
+      font-weight: 700;
+      color: var(--ink-soft);
+      font-size: 16px;
+      user-select: none;
+      flex-shrink: 0;
+      text-align: right;
+      padding-right: 16px;
+    }
+
+    .verb-word {
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+
+    /* ---------- Explication Pédagogique ---------- */
+    .explanation-card {
+      background: #FDE68A !important;
+      border: 3px solid var(--ink-dark);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 4px 4px 0px rgba(30, 27, 75, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .explanation-title {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      color: #7c2d12;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .explanation-text {
+      font-size: 14px;
+      color: var(--ink-dark);
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .explanation-text code {
+      background: rgba(255, 255, 255, 0.6);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 14px;
+      color: var(--ink-dark);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--ink-light);
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .no-results-icon {
+      font-size: 48px;
+      background: #f1f5f9;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--ink-light);
+      border-radius: 10px;
+      border: 2px solid #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--ink-soft);
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- En-tête -->
+  <header>
+    <div class="header-content">
+      <h1>Le Conjugueur</h1>
+      <p class="subtitle">Conjugue tous les verbes de la langue française avec les rectifications orthographiques de 1990 !</p>
+      <div style="margin-top: 4px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+        <span class="fwb-badge">🇧🇪 Conforme référentiels FWB</span>
+        <span class="fwb-badge" style="background: var(--accent-amber-pale); color: var(--accent-amber-dark); border-color: var(--accent-amber-pale);">✨ Nouvelle orthographe</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-grid">
+    
+    <!-- Panneau Gauche : Configuration -->
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      
+      
+      <!-- Carte 1 : Choix du verbe -->
+      <div class="card card-verbe">
+        <div class="card-title">
+          <span>🔍</span> Étape 1 : Choisis ton verbe
+        </div>
+        
+        <div class="search-container">
+          <form onsubmit="event.preventDefault(); validateConjugation();" class="search-input-wrapper">
+            <span class="search-icon">✍️</span>
+            <input type="text" id="verb-search" placeholder="Ex: ruisseler, céder, finir, paraitre..." autocomplete="off">
+            <button type="button" id="clear-btn" class="clear-btn">✕</button>
+          </form>
+          <div id="suggestions" class="suggestions-list"></div>
+        </div>
+
+
+      </div>
+
+      <!-- Carte 2 : Choix du temps -->
+      <div class="card card-temps" style="gap: 16px;">
+        <div class="card-title">
+          <span>⏳</span> Étape 2 : Choisis le temps
+        </div>
+
+
+
+        <div class="time-selector-container">
+          
+          <div class="mode-section">
+            <div class="mode-title">Indicatif</div>
+            <button class="time-btn active" data-tense="present" onclick="selectTense('present')">
+              <span>Indicatif présent</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="imparfait" onclick="selectTense('imparfait')">
+              <span>Indicatif imparfait</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="futur" onclick="selectTense('futur')">
+              <span>Indicatif futur simple</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="passe_compose" onclick="selectTense('passe_compose')">
+              <span>Indicatif passé composé</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="plus_que_parfait" onclick="selectTense('plus_que_parfait')">
+              <span>Indicatif plus-que-parfait</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="passe_simple" onclick="selectTense('passe_simple')">
+              <span>Indicatif passé simple</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="futur_anterieur" onclick="selectTense('futur_anterieur')">
+              <span>Indicatif futur antérieur</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="conditionnel_present" onclick="selectTense('conditionnel_present')">
+              <span>Conditionnel présent</span>
+              <span class="time-bullet"></span>
+            </button>
+          </div>
+
+          <div class="mode-section">
+            <div class="mode-title">Subjonctif</div>
+            <button class="time-btn" data-tense="subjonctif_present" onclick="selectTense('subjonctif_present')">
+              <span>Subjonctif présent</span>
+              <span class="time-bullet"></span>
+            </button>
+          </div>
+
+          <div class="mode-section">
+            <div class="mode-title">Impératif</div>
+            <button class="time-btn" data-tense="imperatif_present" onclick="selectTense('imperatif_present')">
+              <span>Impératif présent</span>
+              <span class="time-bullet"></span>
+            </button>
+          </div>
+
+          <div class="mode-section">
+            <div class="mode-title">Participe</div>
+            <button class="time-btn" data-tense="participe_present" onclick="selectTense('participe_present')">
+              <span>Participe présent</span>
+              <span class="time-bullet"></span>
+            </button>
+            <button class="time-btn" data-tense="participe_passe" onclick="selectTense('participe_passe')">
+              <span>Participe passé</span>
+              <span class="time-bullet"></span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Panneau Droite : Résultats -->
+    <div class="result-container">
+      
+      <!-- Entête dynamique du verbe conjugué -->
+      <div id="verb-header" class="verb-header-card" style="display: none;">
+        <div class="verb-info-title">
+          <h2 id="display-infinitive">ruisseler <span class="verb-group-badge">1er groupe</span></h2>
+          <span style="font-size: 13px; color: var(--ink-soft); font-weight: 700;" id="display-auxiliary">Auxiliaire : avoir</span>
+        </div>
+        <span id="display-tense" class="verb-tense-badge">Indicatif présent</span>
+      </div>
+
+      <!-- Table des matières de conjugaison -->
+      <div class="card conjugation-card" id="conjugation-results-card">
+        <div id="no-verb-placeholder" class="no-results">
+          <div class="no-results-icon">📖</div>
+          <h3>Choisis un verbe et clique sur "Conjuguer !" pour voir sa conjugaison.</h3>
+          <p style="font-size: 14px; max-width: 420px; font-weight: 600; color: var(--ink-soft);">
+            Tu peux saisir n'importe quel verbe français, le système appliquera automatiquement les règles et les rectifications orthographiques !
+          </p>
+        </div>
+
+        <div id="conjugation-table-area" class="conjugation-table" style="display: none;">
+          <!-- Injecté dynamiquement par JS -->
+        </div>
+      </div>
+
+      <!-- Explication pédagogique -->
+      <div class="explanation-card" id="explanation-box" style="display: none;">
+        <div class="explanation-title">
+          <span>💡</span> L'explication pédagogique
+        </div>
+        <div class="explanation-text" id="explanation-text-content">
+          <!-- Injecté dynamiquement par JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // =========================================================================
+  // 1. BASE DE DONNÉES DES VERBES POUR L'AUTO-COMPLÉTION
+  // =========================================================================
+  const VERBS_DATABASE = [
+    // 1er groupe (-er)
+    "aimer", "adorer", "détester", "chanter", "parler", "manger", "placer", "commencer", "lancer", "avancer",
+    "forcer", "menacer", "partager", "voyager", "mélanger", "ranger", "bouger", "nager", "changer", "charger",
+    "payer", "balayer", "essayer", "envoyer", "renvoyer", "nettoyer", "essuyer", "ennuyer", "employer", "appuyer",
+    "acheter", "racheter", "étiqueter", "ficeler", "ruisseler", "renouveler", "épousseter", "ensorceler", "harceler",
+    "peler", "geler", "surgeler", "modeler", "écarteler", "haleter", "décolleter", "appeler", "rappeler",
+    "interpeler", "jeter", "rejeter", "projeter", "coprojeter", "surjeter", "interjeter", "déjeter", "peser", "lever",
+    "mener", "semer", "crever", "emmener", "amener", "ramener", "promener", "enlever", "soulever", "céder",
+    "sécher", "inquiéter", "tolérer", "espérer", "gérer", "préférer", "protéger", "pénétrer", "régler", "répéter",
+    "révéler", "posséder", "accélérer", "exagérer", "créer", "agréer", "casser", "donner", "entrer", "monter",
+    "rester", "tomber", "arriver", "passer", "rentrer", "retourner", "marcher", "écouter", "regarder", "chercher",
+    "trouver", "demander", "penser", "croiser", "fermer", "dessiner", "colorier", "compter", "calculer",
+    "mesurer", "continuer", "décider", "refuser", "accepter", "inviter", "visiter", "habiter", "organiser",
+    "préparer", "laisser", "garder", "porter", "apporter", "emporter", "attraper", "sauter", "voler", "grimper",
+    "glisser", "pleurer", "crier", "chuchoter", "raconter", "expliquer", "montrer", "cacher", "oublier", "couper",
+    "coller", "déjeuner", "dîner", "souper", "goûter", "brosser", "coiffer", "habiller", "déshabiller", "laver",
+    "gagner", "dépenser", "méfier", "exclamer", "amuser", "tromper", "travailler", "occuper", "dépêcher", "arrêter",
+    "installer", "réveiller", "coucher",
+    // 2e groupe (-ir, -issant)
+    "haïr", "finir", "choisir", "grandir", "grossir", "maigrir", "réussir", "réfléchir", "agir", "réagir", "obéir",
+    "désobéir", "punir", "nourrir", "remplir", "bâtir", "saisir", "guérir", "unir", "salir", "ralentir",
+    "verdir", "rougir", "blanchir", "jaunir", "bleuir", "brunir", "fleurir", "vieillir", "rajeunir", "pâlir",
+    "accomplir", "adoucir", "affaiblir", "alourdir", "amincir", "applaudir", "approfondir", "arrondir", "avertir",
+    "chérir", "durcir", "élargir", "embellir", "enrichir", "envahir", "établir", "étourdir", "fournir", "frémir",
+    "investir", "mugir", "obscurcir", "périr", "réunir", "rôtir", "subir", "surgir", "trahir", "évanouir",
+    // 3e groupe (irréguliers)
+    "aller", "faire", "dire", "redire", "prédire", "médire", "interdire", "contredire", "venir", "tenir",
+    "obtenir", "appartenir", "contenir", "maintenir", "retenir", "soutenir", "devenir", "revenir", "parvenir", "intervenir",
+    "convenir", "prévenir", "subvenir", "survenir", "provenir", "prendre", "apprendre", "comprendre", "reprendre", "surprendre",
+    "entreprendre", "rendre", "vendre", "attendre", "perdre", "répondre", "entendre", "fondre", "mordre", "tordre",
+    "défendre", "descendre", "rompre", "corrompre", "interrompre", "vouloir", "pouvoir", "devoir", "savoir", "voir",
+    "revoir", "prévoir", "pourvoir", "croire", "boire", "lire", "élire", "relire", "réélire", "écrire",
+    "décrire", "inscrire", "souscrire", "transcrire", "prescrire", "réécrire", "mettre", "permettre", "remettre",
+    "transmettre", "admettre", "soumettre", "omettre", "battre", "combattre", "débattre", "abattre", "rabattre", "suivre",
+    "poursuivre", "rire", "sourire", "plaire", "déplaire", "connaitre", "connaître", "paraitre", "paraître", "naitre",
+    "naître", "apparaitre", "apparaître", "disparaitre", "disparaître", "reconnaitre", "reconnaître", "méconnaitre", "méconnaître", "croitre",
+    "croître", "accroitre", "accroître", "décroitre", "décroître", "coudre", "découdre", "recoudre", "moudre", "résoudre",
+    "ouvrir", "offrir", "souffrir", "couvrir", "découvrir", "recouvrir", "mourir", "courir", "accourir", "parcourir",
+    "secourir", "cueillir", "accueillir", "recueillir", "valoir", "assoir", "asseoir", "fuir", "enfuir", "vêtir",
+    "dévêtir", "revêtir", "acquérir", "conquérir", "requérir", "assaillir", "tressaillir", "bouillir", "faillir", "pleuvoir",
+    "falloir", "craindre", "plaindre", "peindre", "éteindre", "joindre", "oindre", "atteindre", "feindre",
+    "enfreindre", "restreindre", "teindre", "conduire", "produire", "traduire", "construire", "détruire", "nuire", "luire",
+    "cuire", "introduire", "réduire", "séduire", "souvenir"
+  ];
+
+  // =========================================================================
+  // 2. ÉTAT DE L'APPLICATION
+  // =========================================================================
+  let currentVerb = "";
+  let currentTense = "present";
+  
+  const aspiratedHVerbs = [
+    "haïr", "hair", "hisser", "heurter", "hâter", "haleter", "harceler", "hurler", "happer", 
+    "hacher", "humer", "hennir", "harponner", "hoqueter", "hanter", "houspiller", "honnir", 
+    "huer", "hérisser", "hasarder", "hâbler", "haler", "hâler", "harasser", "haranguer", 
+    "harnacher", "hausser", "havir", "hucher"
+  ];
+
+  // =========================================================================
+  // 3. MOTEUR DE CONJUGAISON JAVASCRIPT
+  // =========================================================================
+
+  // Analyse le verbe pour déterminer son groupe, son modèle et son auxiliaire
+  function getVerbInfo(verb) {
+    let normalized = verb.replace(/\s+/g, ' ').replace(/[’‘`]/g, "'").trim().toLowerCase();
+    let isReflexive = false;
+    let reflexivePrefix = "";
+    let cleanVerb = normalized;
+    let hasEn = false;
+    let hasY = false;
+
+    // Gérer les verbes pronominaux
+    if (cleanVerb.startsWith("se ")) {
+      isReflexive = true;
+      reflexivePrefix = "se ";
+      cleanVerb = cleanVerb.substring(3);
+    } else if (cleanVerb.startsWith("s'")) {
+      isReflexive = true;
+      reflexivePrefix = "s'";
+      cleanVerb = cleanVerb.substring(2);
+    }
+
+    // Détecter les verbes exclusivement pronominaux
+    const exclusivePronominals = [
+      "enfuir", "évanouir", "écrier", "absenter", "emparer", "ingénier", 
+      "esclaffer", "obstiner", "souvenir", "enquérir", "ébrouer", "égosiller"
+    ];
+    if (exclusivePronominals.includes(cleanVerb)) {
+      isReflexive = true;
+      const isVowelChar = ["a", "e", "i", "o", "u", "y", "é", "è", "à", "ù", "â", "ê", "î", "ô", "û", "ë", "ï", "ü", "æ", "œ"].includes(cleanVerb[0]);
+      reflexivePrefix = isVowelChar ? "s'" : "se ";
+    }
+
+    // Gérer la locution "s'en" (enlever le "en " résiduel)
+    if (cleanVerb.startsWith("en ")) {
+      hasEn = true;
+      cleanVerb = cleanVerb.substring(3);
+    }
+    // Gérer la locution "s'y" (enlever le "y " résiduel)
+    else if (cleanVerb.startsWith("y ")) {
+      hasY = true;
+      cleanVerb = cleanVerb.substring(2);
+    }
+    // Séparer les mots supplémentaires (ex: "compte" dans "rendre compte", "les mains" dans "laver les mains")
+    let baseVerb = cleanVerb;
+    let trailing = "";
+    let parts = cleanVerb.split(" ");
+    if (parts.length > 1) {
+      baseVerb = parts[0];
+      trailing = parts.slice(1).join(" ");
+    }
+    cleanVerb = baseVerb;
+
+    // Normaliser l'accent circonflexe sur le i et le u pour la nouvelle orthographe (sauf croître/recroître)
+    if (cleanVerb !== "croître" && cleanVerb !== "recroître") {
+      cleanVerb = cleanVerb.replace(/î/g, 'i').replace(/û/g, 'u');
+    }
+    if (cleanVerb === "interpeller") {
+      cleanVerb = "interpeler";
+    }
+    if (cleanVerb.endsWith("asseoir")) {
+      cleanVerb = cleanVerb.slice(0, -7) + "assoir";
+    }
+
+    let info = {
+      originalInput: verb,
+      cleanVerb: cleanVerb,
+      trailing: trailing,
+      isReflexive: isReflexive,
+      reflexivePrefix: reflexivePrefix,
+      hasEn: hasEn,
+      hasY: hasY,
+      group: 1,
+      model: "chanter",
+      auxiliary: "avoir"
+    };
+
+    // Détermination de l'auxiliaire
+    const etreVerbs = [
+      "aller", "arriver", "décéder", "devenir", "intervenir", "mourir", "naître", "naitre", 
+      "parvenir", "revenir", "survenir", "tomber", "venir", "partir", "sortir", "entrer", 
+      "rentrer", "monter", "descendre", "rester", "retourner", "passer",
+      "repartir", "ressortir", "remonter", "redescendre", "provenir", "apparaitre", "apparaître"
+    ];
+
+    if (isReflexive || etreVerbs.includes(cleanVerb)) {
+      info.auxiliary = "être";
+    }
+
+    // Détermination du groupe et du modèle
+    if (cleanVerb === "être") {
+      info.group = 3;
+      info.model = "être";
+      return info;
+    }
+    if (cleanVerb === "avoir") {
+      info.group = 3;
+      info.model = "avoir";
+      return info;
+    }
+
+    // 1er Groupe (-er)
+    if (cleanVerb.endsWith("er")) {
+      info.group = 1;
+      
+      if (cleanVerb === "aller") {
+        info.group = 3;
+        info.model = "aller";
+      } else if (cleanVerb === "envoyer" || cleanVerb === "renvoyer") {
+        info.group = 1;
+        info.model = "envoyer";
+      } else if (cleanVerb.endsWith("arguer")) {
+        info.model = "arguer";
+      } else if (cleanVerb === "appeler" || cleanVerb === "rappeler" || cleanVerb === "interpeler") {
+        info.model = "appeler";
+      } else if (["geler", "congeler", "surgeler", "peler", "modeler", "écarteler", "haleter", "marteler", "harceler", "receler", "démanteler", "déceler", "celer", "fureter"].some(ext => cleanVerb.endsWith(ext))) {
+        info.model = "lever"; // ces verbes prennent un accent grave è dans les deux orthographes
+      } else if (cleanVerb.endsWith("eler")) {
+        info.model = "ruisseler"; // Nouvelle orthographe par défaut pour -eler
+      } else if (["jeter", "rejeter", "projeter", "coprojeter", "surjeter", "interjeter", "déjeter"].includes(cleanVerb)) {
+        info.model = "jeter";
+      } else if (cleanVerb.endsWith("eter")) {
+        info.model = "acheter"; // Nouvelle orthographe par défaut pour -eter
+      } else if (/é[^aeiouéèàùâêîôûy]+er$/.test(cleanVerb)) {
+        info.model = "céder"; // é -> è au présent et futur/cond
+      } else if (/e[bcçdfghjklmnpqrstvwxz]er$/.test(cleanVerb) || /e(br|cr|dr|fr|gr|pr|tr|vr)er$/.test(cleanVerb)) {
+        // exclure les consonnes doublées traditionnelles (ex: dresser, cesser)
+        if (!/([b-df-hj-np-tv-z])\1er$/.test(cleanVerb)) {
+          info.model = "lever"; // e -> è devant syllabe muette
+        }
+      } else if (cleanVerb.endsWith("ger")) {
+        info.model = "manger";
+      } else if (cleanVerb.endsWith("cer")) {
+        info.model = "placer";
+      } else if (cleanVerb.endsWith("yer")) {
+        if (cleanVerb.endsWith("eyer")) {
+          info.model = "chanter";
+        } else {
+          info.model = cleanVerb.endsWith("ayer") ? "payer" : "nettoyer";
+        }
+      }
+      return info;
+    }
+
+    // 2e Groupe (-ir, -issant)
+    const endsInIr = cleanVerb.replace(/ï/g, 'i').endsWith("ir");
+    const endsInOir = cleanVerb.replace(/ï/g, 'i').endsWith("oir");
+    if (endsInIr && !endsInOir) {
+      info.group = 3;
+      if (cleanVerb.endsWith("tenir") || cleanVerb.endsWith("venir")) {
+        info.model = "tenir";
+      } else if (cleanVerb.endsWith("acquérir") || cleanVerb.endsWith("conquérir") || cleanVerb.endsWith("requérir") || cleanVerb.endsWith("quérir")) {
+        info.model = "acquérir";
+      } else if ((cleanVerb.endsWith("partir") && cleanVerb !== "répartir") || (cleanVerb.endsWith("sortir") && !cleanVerb.endsWith("assortir")) || cleanVerb.endsWith("dormir") || (cleanVerb.endsWith("servir") && !cleanVerb.endsWith("asservir")) || cleanVerb.endsWith("mentir") || cleanVerb.endsWith("sentir") || cleanVerb.endsWith("repentir")) {
+        info.model = "partir";
+      } else if (cleanVerb.endsWith("ouvrir") || cleanVerb.endsWith("offrir") || cleanVerb.endsWith("souffrir") || cleanVerb.endsWith("couvrir")) {
+        info.model = "ouvrir";
+      } else if (cleanVerb.endsWith("courir")) {
+        info.model = "courir";
+      } else if (cleanVerb.endsWith("mourir")) {
+        info.model = "mourir";
+      } else if (cleanVerb.endsWith("cueillir")) {
+        info.model = "cueillir";
+      } else if (cleanVerb.endsWith("vêtir")) {
+        info.model = "vêtir";
+      } else if (cleanVerb.endsWith("saillir")) {
+        info.model = "assaillir";
+      } else if (cleanVerb.endsWith("bouillir")) {
+        info.model = "bouillir";
+      } else if (cleanVerb.endsWith("fuir")) {
+        info.model = "fuir";
+      } else if (cleanVerb.endsWith("faillir")) {
+        info.model = cleanVerb.endsWith("défaillir") ? "assaillir" : "faillir";
+      } else {
+        // C'est un verbe régulier du 2e groupe (finir)
+        info.group = 2;
+        info.model = (cleanVerb.endsWith("haïr") || cleanVerb.endsWith("hair")) ? "haïr" : "finir";
+      }
+      return info;
+    }
+
+    // 3e Groupe (-re, -oir)
+    info.group = 3;
+
+    if (cleanVerb.endsWith("re")) {
+      if (cleanVerb.endsWith("prendre")) {
+        info.model = "prendre";
+      } else if (cleanVerb.endsWith("rompre")) {
+        info.model = "rompre";
+      } else if (cleanVerb.endsWith("coudre") || cleanVerb.endsWith("découdre") || cleanVerb.endsWith("recoudre")) {
+        info.model = "coudre";
+      } else if (cleanVerb.endsWith("moudre")) {
+        info.model = "moudre";
+      } else if (cleanVerb.endsWith("absoudre") || cleanVerb.endsWith("dissoudre")) {
+        info.model = "absoudre";
+      } else if (cleanVerb.endsWith("résoudre")) {
+        info.model = "résoudre";
+      } else if (cleanVerb.endsWith("clure")) {
+        info.model = "conclure";
+      } else if (cleanVerb.endsWith("indre")) {
+        info.model = "craindre";
+      } else if (cleanVerb.endsWith("dre")) {
+        info.model = "rendre";
+      } else if (cleanVerb.endsWith("nuire") || cleanVerb.endsWith("luire")) {
+        info.model = "nuire";
+      } else if (cleanVerb.endsWith("uire")) {
+        info.model = "conduire";
+      } else if (cleanVerb.endsWith("mettre") || cleanVerb.endsWith("permettre") || cleanVerb.endsWith("promettre") || cleanVerb.endsWith("remettre") || cleanVerb.endsWith("transmettre") || cleanVerb.endsWith("admettre")) {
+        info.model = "mettre";
+      } else if (cleanVerb.endsWith("battre") || cleanVerb.endsWith("combattre") || cleanVerb.endsWith("débattre") || cleanVerb.endsWith("abattre")) {
+        info.model = "battre";
+      } else if (cleanVerb.endsWith("connaitre") || cleanVerb.endsWith("connaître") || cleanVerb.endsWith("paraitre") || cleanVerb.endsWith("paraître") || cleanVerb.endsWith("naitre") || cleanVerb.endsWith("naître") || cleanVerb.endsWith("apparaitre") || cleanVerb.endsWith("apparaître") || cleanVerb.endsWith("disparaitre") || cleanVerb.endsWith("disparaître") || cleanVerb.endsWith("reconnaitre") || cleanVerb.endsWith("reconnaître") || cleanVerb.endsWith("méconnaitre") || cleanVerb.endsWith("méconnaître")) {
+        info.model = "connaitre";
+      } else if (cleanVerb === "croître" || cleanVerb === "croitre") {
+        info.model = "croitre";
+      } else if (cleanVerb.endsWith("croitre") || cleanVerb.endsWith("croître") || cleanVerb.endsWith("accroitre") || cleanVerb.endsWith("accroître") || cleanVerb.endsWith("décroitre") || cleanVerb.endsWith("décroître")) {
+        info.model = "accroitre";
+      } else if (cleanVerb.endsWith("croire")) {
+        info.model = "croire";
+      } else if (cleanVerb.endsWith("boire")) {
+        info.model = "boire";
+      } else if (cleanVerb.endsWith("vivre") || cleanVerb.endsWith("survivre")) {
+        info.model = "vivre";
+      } else if (cleanVerb.endsWith("maudire")) {
+        info.model = "maudire";
+      } else if (cleanVerb.endsWith("dire") || cleanVerb.endsWith("redire")) {
+        info.model = "dire";
+      } else if (cleanVerb.endsWith("faire") || cleanVerb.endsWith("refaire") || cleanVerb.endsWith("défaire")) {
+        info.model = "faire";
+      } else if (cleanVerb.endsWith("crire")) {
+        info.model = "écrire";
+      } else if (cleanVerb.endsWith("lire") || cleanVerb.endsWith("relire")) {
+        info.model = "lire";
+      } else if (cleanVerb.endsWith("plaire") || cleanVerb.endsWith("déplaire") || cleanVerb.endsWith("taire")) {
+        info.model = "plaire";
+      } else if ((cleanVerb.endsWith("rire") || cleanVerb.endsWith("sourire")) && !cleanVerb.endsWith("frire")) {
+        info.model = "rire";
+      } else if (cleanVerb.endsWith("suivre") || cleanVerb.endsWith("poursuivre")) {
+        info.model = "suivre";
+      } else if (cleanVerb.endsWith("traire") || cleanVerb.endsWith("extraire")) {
+        info.model = "traire";
+      } else if (cleanVerb.endsWith("vaincre") || cleanVerb.endsWith("convaincre")) {
+        info.model = "vaincre";
+      } else if (cleanVerb.endsWith("suffire") || cleanVerb.endsWith("confire")) {
+        info.model = "suffire";
+      } else if (cleanVerb.endsWith("frire")) {
+        info.model = "frire";
+      } else if (cleanVerb.endsWith("clore")) {
+        info.model = "clore";
+      }
+      return info;
+    }
+
+    if (cleanVerb.endsWith("oir")) {
+      if (cleanVerb.endsWith("pleuvoir")) {
+        info.model = "pleuvoir";
+      } else if (cleanVerb.endsWith("falloir")) {
+        info.model = "falloir";
+      } else if (cleanVerb.endsWith("asseoir") || cleanVerb.endsWith("assoir")) {
+        info.model = "assoir";
+      } else if (cleanVerb.endsWith("cevoir")) {
+        info.model = "recevoir";
+      } else if (cleanVerb.endsWith("devoir")) {
+        info.model = "devoir";
+      } else if (cleanVerb.endsWith("pouvoir")) {
+        info.model = "pouvoir";
+      } else if (cleanVerb.endsWith("vouloir")) {
+        info.model = "vouloir";
+      } else if (cleanVerb.endsWith("savoir")) {
+        info.model = "savoir";
+      } else if (cleanVerb.endsWith("prévoir")) {
+        info.model = "prévoir";
+      } else if (cleanVerb.endsWith("pourvoir")) {
+        info.model = "pourvoir";
+      } else if (cleanVerb.endsWith("mouvoir")) {
+        info.model = "mouvoir";
+      } else if (cleanVerb.endsWith("voir") || cleanVerb.endsWith("revoir")) {
+        info.model = "voir";
+      } else if (cleanVerb.endsWith("valoir")) {
+        info.model = "valoir";
+      } else if (cleanVerb.endsWith("choir")) {
+        info.model = "choir";
+      }
+    }
+
+    // Par défaut
+    return info;
+  }
+ 
+  function getReflexivePronom(verb) {
+    const cleanV = verb.trim().toLowerCase().replace(/^(se |s')/, "");
+    const isAspiratedH = aspiratedHVerbs.some(h => cleanV === h || cleanV.endsWith(h));
+    const firstLetter = cleanV[0];
+    const isVowel = ["a", "e", "é", "è", "i", "o", "u", "y"].includes(firstLetter) || (firstLetter === "h" && !isAspiratedH);
+    return isVowel ? "s'" : "se ";
+  }
+
+  // Effectue la conjugaison d'un verbe selon le temps et le mode d'orthographe
+  function conjugate(verb, tense, mode) {
+    const info = getVerbInfo(verb);
+    const v = info.cleanVerb;
+    let result = {
+      info: info,
+      tense: tense,
+      mode: mode,
+      forms: [], // tableau de 6 formes (ou 3 pour l'impératif)
+      participlePresent: "",
+      participlePasse: ""
+    };
+
+    // Auxiliaires
+    const auxAvoirPres = ["ai", "as", "a", "avons", "avez", "ont"];
+    const auxAvoirImp = ["avais", "avais", "avait", "avions", "aviez", "avaient"];
+    const auxAvoirFut = ["aurai", "auras", "aura", "aurons", "aurez", "auront"];
+    
+    const auxEtrePres = ["suis", "es", "est", "sommes", "êtes", "sont"];
+    const auxEtreImp = ["étais", "étais", "était", "étions", "étiez", "étaient"];
+    const auxEtreFut = ["serai", "seras", "sera", "serons", "serez", "seront"];
+
+    // Récupérer le participe passé pour les temps composés
+    const ppStruct = getParticiplePasse(info, mode);
+    result.participlePasse = ppStruct.masc;
+    let partPres = getParticiplePresent(info, mode);
+    if (info.isReflexive) {
+      if (info.hasEn) {
+        partPres = "s'en " + partPres;
+      } else if (info.hasY) {
+        partPres = "s'y " + partPres;
+      } else {
+        const pron = getReflexivePronom(v);
+        partPres = pron === "s'" ? "s'" + partPres : "se " + partPres;
+      }
+    }
+    result.participlePresent = partPres;
+
+    // Gérer les temps composés
+    if (["passe_compose", "plus_que_parfait", "futur_anterieur"].includes(tense)) {
+      let auxForms = [];
+      if (info.auxiliary === "être") {
+        if (tense === "passe_compose") auxForms = auxEtrePres;
+        else if (tense === "plus_que_parfait") auxForms = auxEtreImp;
+        else if (tense === "futur_anterieur") auxForms = auxEtreFut;
+      } else {
+        if (tense === "passe_compose") auxForms = auxAvoirPres;
+        else if (tense === "plus_que_parfait") auxForms = auxAvoirImp;
+        else if (tense === "futur_anterieur") auxForms = auxAvoirFut;
+      }
+
+      for (let i = 0; i < 6; i++) {
+        if (info.model === "falloir" && i !== 2) {
+          result.forms.push("");
+          continue;
+        }
+        if (info.model === "pleuvoir" && i !== 2 && i !== 5) {
+          result.forms.push("");
+          continue;
+        }
+        let form = "";
+        if (info.isReflexive) {
+          let pronouns = ["me", "te", "se", "nous", "vous", "se"];
+          if (info.hasEn) {
+            pronouns = ["m'en", "t'en", "s'en", "nous en", "vous en", "s'en"];
+          } else if (info.hasY) {
+            pronouns = ["m'y", "t'y", "s'y", "nous y", "vous y", "s'y"];
+          }
+          let pron = pronouns[i];
+          let aux = auxForms[i];
+          if (!info.hasEn && !info.hasY) {
+            // Élision du pronom réflexif devant voyelle
+            const startsWithVowelAux = ["a", "e", "i", "o", "u", "y", "é", "è", "à", "ù", "â", "ê", "î", "ô", "û", "ë", "ï", "ü", "æ", "œ"].includes(aux[0]);
+            if (startsWithVowelAux && ["me", "te", "se"].includes(pron)) {
+              pron = pron[0] + "'";
+            } else {
+              pron = pron + " ";
+            }
+          } else {
+            pron = pron + " ";
+          }
+          
+          function buildParticipleAccord(pp, idx) {
+            const masc = pp.masc;
+            const fem = pp.fem;
+            const mascPl = pp.mascPlur;
+            const femPl = pp.femPlur;
+            if (masc === fem) return masc;
+            if (fem.startsWith(masc) && !masc.endsWith("s")) {
+              const suff = fem.substring(masc.length);
+              if (idx < 3) return masc + "(" + suff + ")";
+              if (idx === 3) return masc + "(" + suff + ")s";
+              if (idx === 4) return masc + "(" + suff + ")(s)";
+              return mascPl + " / " + femPl;
+            } else {
+              if (idx < 3) return masc + " / " + fem;
+              return mascPl + " / " + femPl;
+            }
+          }
+
+          // Accord pour les pronominaux (être)
+          let p = "";
+          const cleanV = info.cleanVerb + (info.trailing ? " " + info.trailing : "");
+          const isInvariableReflexive = [
+            "plaire", "déplaire", "complaire", "rire", "sourire", "parler", "succéder", "nuire", 
+            "ressembler", "téléphoner", "mentir", "survivre", "convenir", "rendre compte", "suffire", 
+            "vouloir", "permettre", "promettre", "demander", "dire", "écrire", "offrir", "acheter"
+          ].some(v => cleanV === v || cleanV.endsWith(v)) || (info.trailing && info.trailing.trim().length > 0);
+          
+          if (isInvariableReflexive) {
+            p = ppStruct.masc;
+          } else {
+            p = buildParticipleAccord(ppStruct, i);
+          }
+
+          form = pron + aux + " " + p;
+        } else {
+          let p = ppStruct.masc;
+          if (info.auxiliary === "être") {
+            // Accord avec l'auxiliaire être
+            function buildParticipleAccord(pp, idx) {
+              const masc = pp.masc;
+              const fem = pp.fem;
+              const mascPl = pp.mascPlur;
+              const femPl = pp.femPlur;
+              if (masc === fem) return masc;
+              if (fem.startsWith(masc) && !masc.endsWith("s")) {
+                const suff = fem.substring(masc.length);
+                if (idx < 3) return masc + "(" + suff + ")";
+                if (idx === 3) return masc + "(" + suff + ")s";
+                if (idx === 4) return masc + "(" + suff + ")(s)";
+                return mascPl + " / " + femPl;
+              } else {
+                if (idx < 3) return masc + " / " + fem;
+                return mascPl + " / " + femPl;
+              }
+            }
+            p = buildParticipleAccord(ppStruct, i);
+          }
+          
+          let auxWord = auxForms[i];
+          if (!info.isReflexive && (info.hasY || info.hasEn)) {
+            auxWord = (info.hasY ? "y " : "en ") + auxWord;
+          }
+          form = auxWord + " " + p;
+        }
+        result.forms.push(form);
+      }
+      return result;
+    }
+
+    if (tense === "participe_present") {
+      result.forms = [result.participlePresent];
+      return result;
+    }
+    if (tense === "participe_passe") {
+      result.forms = [ppStruct.masc, ppStruct.fem, ppStruct.mascPlur, ppStruct.femPlur];
+      return result;
+    }
+
+    // Temps simples : Routage vers les modèles
+    result.forms = getSimpleTenseForms(info, tense, mode);
+    return result;
+  }
+
+  // Participe Présent
+  function getParticiplePresent(info, mode) {
+    const v = info.cleanVerb;
+    if (v === "être") return "étant";
+    if (v === "avoir") return "ayant";
+    if (v === "savoir") return "sachant";
+    if (info.model === "aller") return "allant";
+    if (info.model === "envoyer") return (v === "envoyer" ? "" : v.slice(0, -7)) + "envoyant";
+    if (info.model === "arguer") return (v === "arguer" ? "" : v.slice(0, -6)) + "argüant";
+
+    // Modèles du 1er groupe
+    if (info.group === 1) {
+      const stem = v.slice(0, -2);
+      if (v.endsWith("ger")) return stem + "eant";
+      if (v.endsWith("cer")) return stem.slice(0, -1) + "çant";
+      return stem + "ant";
+    }
+
+    // 2e groupe
+    if (info.group === 2) {
+      if (info.model === "haïr") return (v === "haïr" || v === "hair" ? "" : v.slice(0, -4)) + "haïssant";
+      return v.slice(0, -2) + "issant";
+    }
+
+    if (info.model === "maudire") {
+      return (v === "maudire" ? "" : v.slice(0, -7)) + "maudissant";
+    }
+
+    // 3e groupe
+    if (v.endsWith("oir")) {
+      if (info.model === "assoir") return v.slice(0, -6) + "assoyant";
+      if (info.model === "recevoir") return v.slice(0, -5) + "evant";
+      if (info.model === "devoir") return v.slice(0, -6) + "devant";
+      if (info.model === "pouvoir") return v.slice(0, -7) + "pouvant";
+      if (info.model === "vouloir") return v.slice(0, -7) + "voulant";
+      if (info.model === "savoir") return v.slice(0, -6) + "sachant";
+      if (["voir", "prévoir", "pourvoir"].includes(info.model)) return v.slice(0, -3) + "oyant";
+      if (info.model === "valoir") return v.slice(0, -6) + "valant";
+      if (info.model === "mouvoir") return (v === "mouvoir" ? "" : v.slice(0, -7)) + "mouvant";
+      if (info.model === "pleuvoir") return v.slice(0, -8) + "pleuvant";
+      if (info.model === "falloir") return "";
+      if (info.model === "choir") return v === "choir" ? "" : v.slice(0, -5) + "choyant";
+    }
+
+    if (v.endsWith("ir")) {
+      if (info.model === "partir") return v.slice(0, -2) + "ant";
+      if (info.model === "ouvrir") return v.slice(0, -2) + "ant";
+      if (info.model === "courir") return v.slice(0, -2) + "ant";
+      if (info.model === "mourir") return v.slice(0, -6) + "mourant";
+      if (info.model === "cueillir") return v.slice(0, -8) + "cueillant";
+      if (info.model === "tenir") return v.slice(0, -4) + "enant";
+      if (info.model === "fuir") return v.slice(0, -4) + "fuyant";
+      if (info.model === "vêtir") return v.slice(0, -2) + "ant";
+      if (info.model === "acquérir") return v.slice(0, -4) + "érant";
+      if (info.model === "assaillir") return v.slice(0, -2) + "ant";
+      if (info.model === "bouillir") return v.slice(0, -2) + "ant";
+      if (info.model === "faillir") return v.slice(0, -5) + "illant";
+    }
+
+    if (v.endsWith("re")) {
+      if (info.model === "prendre") return v.slice(0, -5) + "enant";
+      if (info.model === "rendre") return v.slice(0, -2) + "ant";
+      if (info.model === "craindre") return v.slice(0, -4) + "gnant";
+      if (info.model === "conduire") return v.slice(0, -2) + "sant";
+      if (info.model === "mettre") return v.slice(0, -5) + "ettant";
+      if (info.model === "battre") return v.slice(0, -5) + "attant";
+      if (info.model === "connaitre") return v.slice(0, -5) + "aissant"; // conn-aissant
+      if (info.model === "croitre") return v.slice(0, -7) + "croissant";
+      if (info.model === "accroitre") return v.slice(0, -3) + "ssant";
+      if (info.model === "coudre") return v.slice(0, -5) + "ousant";
+      if (info.model === "moudre") return v.slice(0, -5) + "oulant";
+      if (info.model === "résoudre") return v.slice(0, -8) + "résolvant";
+      if (info.model === "croire") return v.slice(0, -6) + "croyant";
+      if (info.model === "boire") return v.slice(0, -5) + "buvant";
+      if (info.model === "vivre") return v.slice(0, -3) + "vant";
+      if (info.model === "dire") return v.slice(0, -2) + "sant";
+      if (info.model === "faire") return (v === "faire" ? "" : v.slice(0, -5)) + "faisant";
+      if (info.model === "écrire") return v.slice(0, -2) + "vant";
+      if (info.model === "lire") return v.slice(0, -2) + "sant";
+      if (info.model === "plaire") return v.slice(0, -4) + "aisant";
+      if (info.model === "rire") return v.slice(0, -4) + "riant";
+      if (info.model === "suivre") return v.slice(0, -3) + "vant";
+      if (info.model === "traire") return v.slice(0, -2) + "yant";
+      if (info.model === "vaincre") return v.slice(0, -3) + "quant";
+      if (info.model === "conclure") return v.slice(0, -2) + "ant";
+      if (info.model === "absoudre") return v.slice(0, -6) + "solvant";
+      if (info.model === "rompre") return v.slice(0, -2) + "ant";
+      if (info.model === "nuire") return v.slice(0, -2) + "sant";
+      if (info.model === "suffire") return v.slice(0, -4) + "isant";
+      if (info.model === "frire") return "";
+      if (info.model === "clore") return v.slice(0, -5) + "closant";
+    }
+
+    return v + "ant"; // fallback
+  }
+
+  // Participe Passé
+  function getParticiplePasse(info, mode) {
+    const v = info.cleanVerb;
+    let masc = "";
+    
+    if (v === "être") masc = "été";
+    else if (v === "avoir") masc = "eu";
+    else if (info.model === "arguer") {
+      masc = (v === "arguer" ? "" : v.slice(0, -6)) + "argüé";
+    }
+    else if (info.group === 1) {
+      masc = v.slice(0, -2) + "é";
+    } else if (info.group === 2) {
+      if (info.model === "haïr") masc = (v === "haïr" || v === "hair" ? "" : v.slice(0, -4)) + "haï";
+      else masc = v.slice(0, -2) + "i";
+    } else {
+      // 3e groupe
+      if (info.model === "aller") masc = "allé";
+      else if (info.model === "envoyer") masc = (v === "envoyer" ? "" : v.slice(0, -7)) + "envoyé";
+      else if (v.endsWith("oir")) {
+        if (info.model === "assoir") masc = v.slice(0, -6) + "assis";
+        else if (info.model === "recevoir") masc = v.slice(0, -6) + "çu";
+        else if (info.model === "devoir") {
+          if (v === "devoir") masc = "dû";
+          else masc = v.slice(0, -5) + "u";
+        }
+        else if (info.model === "pouvoir") masc = v.slice(0, -7) + "pu";
+        else if (info.model === "vouloir") masc = v.slice(0, -7) + "voulu";
+        else if (info.model === "savoir") masc = v.slice(0, -6) + "su";
+        else if (info.model === "voir") masc = v.slice(0, -4) + "vu";
+        else if (info.model === "valoir") masc = v.slice(0, -6) + "valu";
+        else if (info.model === "pleuvoir") masc = v.slice(0, -8) + "plu";
+        else if (info.model === "falloir") masc = v.slice(0, -7) + "fallu";
+        else if (info.model === "pourvoir" || info.model === "prévoir") masc = v.slice(0, -3) + "u";
+        else if (info.model === "mouvoir") {
+          if (v === "mouvoir") masc = "mû";
+          else masc = v.slice(0, -7) + "mu";
+        }
+        else if (info.model === "choir") masc = v.slice(0, -5) + "chu";
+      } else if (v.endsWith("ir")) {
+        if (info.model === "partir") masc = v.slice(0, -2) + "i";
+        else if (info.model === "ouvrir") masc = v.slice(0, -3) + "ert";
+        else if (info.model === "courir") masc = v.slice(0, -6) + "couru";
+        else if (info.model === "mourir") masc = v.slice(0, -6) + "mort";
+        else if (info.model === "cueillir") masc = v.slice(0, -8) + "cueilli";
+        else if (info.model === "tenir") masc = v.slice(0, -4) + "enu";
+        else if (info.model === "fuir") masc = v.slice(0, -4) + "fui";
+        else if (info.model === "vêtir") masc = v.slice(0, -5) + "vêtu";
+        else if (info.model === "acquérir") {
+          const p = v.slice(0, -6);
+          masc = p + "quis";
+        }
+        else if (info.model === "assaillir") masc = v.slice(0, -2) + "i";
+        else if (info.model === "bouillir") masc = v.slice(0, -2) + "i";
+        else if (info.model === "faillir") masc = v.slice(0, -2) + "i";
+      } else if (v.endsWith("re")) {
+        if (info.model === "prendre") masc = v.slice(0, -5) + "is";
+        else if (info.model === "rendre") masc = v.slice(0, -2) + "u";
+        else if (info.model === "craindre") masc = v.slice(0, -5) + "int";
+        else if (info.model === "conduire") masc = v.slice(0, -2) + "t";
+        else if (info.model === "nuire") masc = v.slice(0, -2); // nui, lui
+        else if (info.model === "mettre") masc = v.slice(0, -5) + "is";
+        else if (info.model === "battre") masc = v.slice(0, -5) + "attu";
+        else if (info.model === "connaitre") {
+          if ((v.endsWith("naitre") || v.endsWith("naître")) && !v.endsWith("connaitre") && !v.endsWith("connaître")) masc = v.slice(0, -6) + "né";
+          else masc = v.slice(0, -5) + "u"; // connu
+        }
+        else if (info.model === "croitre") masc = v.slice(0, -7) + "crû"; // croître garde le circonflexe
+        else if (info.model === "accroitre") masc = v.slice(0, -7) + "cru"; // accroitre le perd !
+        else if (info.model === "coudre") masc = v.slice(0, -6) + "cousu";
+        else if (info.model === "moudre") masc = v.slice(0, -6) + "moulu";
+        else if (info.model === "résoudre") masc = v.slice(0, -8) + "résolu";
+        else if (info.model === "croire") masc = v.slice(0, -6) + "cru";
+        else if (info.model === "boire") masc = v.slice(0, -5) + "bu";
+        else if (info.model === "vivre") masc = v.slice(0, -4) + "écu";
+        else if (info.model === "dire") masc = v.slice(0, -4) + "dit";
+        else if (info.model === "faire") masc = (v === "faire" ? "" : v.slice(0, -5)) + "fait";
+        else if (info.model === "écrire") masc = v.slice(0, -5) + "crit";
+        else if (info.model === "lire") masc = v.slice(0, -4) + "lu";
+        else if (info.model === "plaire") masc = v.endsWith("taire") ? v.slice(0, -5) + "tu" : v.slice(0, -6) + "plu";
+        else if (info.model === "rire") masc = v.slice(0, -4) + "ri";
+        else if (info.model === "suivre") {
+          const p = (v === "suivre") ? "" : v.slice(0, -6);
+          masc = p + "suivi";
+        }
+        else if (info.model === "traire") masc = v.slice(0, -6) + "trait";
+        else if (info.model === "vaincre") masc = v.slice(0, -7) + "vaincu";
+        else if (info.model === "maudire") masc = v.slice(0, -7) + "maudit";
+        else if (info.model === "rompre") masc = v.slice(0, -2) + "u";
+        else if (info.model === "conclure") {
+          if (v.endsWith("inclure")) masc = v.slice(0, -7) + "inclus";
+          else masc = v.slice(0, -5) + "clu";
+        }
+        else if (info.model === "absoudre") {
+          const p = v.slice(0, -6);
+          masc = p + "sous";
+        }
+        else if (info.model === "suffire") {
+          masc = v.endsWith("suffire") ? v.slice(0, -7) + "suffi" : v.slice(0, -7) + "confit";
+        }
+        else if (info.model === "frire") {
+          masc = v.slice(0, -5) + "frit";
+        }
+        else if (info.model === "clore") {
+          masc = v.slice(0, -5) + "clos";
+        }
+      }
+    }
+
+    if (!masc) masc = v; // fallback
+
+    let fem = masc + "e";
+    let mascPlur = masc + "s";
+    let femPlur = masc + "es";
+    
+    if (masc.endsWith("absous") || masc.endsWith("dissous")) {
+      fem = masc.slice(0, -3) + "oute";
+      mascPlur = masc;
+      femPlur = fem + "s";
+    } else if (masc === "mû") {
+      fem = "mue";
+      mascPlur = "mus";
+      femPlur = "mues";
+    }
+    
+    const invariables = ["été", "plu", "fallu", "ri", "souri", "nui", "lui", "pu", "suffi"];
+    if (invariables.includes(masc)) {
+      fem = masc;
+      mascPlur = masc;
+      femPlur = masc;
+    } else if (masc === "dû") {
+      fem = "due";
+      mascPlur = "dus";
+      femPlur = "dues";
+    } else if (masc === "crû") {
+      fem = "crue";
+      mascPlur = "crus";
+      femPlur = "crues";
+    } else if (masc.endsWith("s")) {
+      mascPlur = masc;
+    }
+
+    return {
+      masc: masc,
+      fem: fem,
+      mascPlur: mascPlur,
+      femPlur: femPlur
+    };
+  }
+
+  // Temps simples (présent, imparfait, futur, passé simple, subjonctif présent, impératif)
+  function getSimpleTenseForms(info, tense, mode) {
+    const v = info.cleanVerb;
+    let forms = [];
+
+    // --- GROUP 1 (-er) ---
+    if (info.group === 1) {
+      if (info.model === "envoyer") {
+        const p = v.slice(0, -4); // env, renv
+        if (tense === "present") return [p+"oie", p+"oies", p+"oie", p+"oyons", p+"oyez", p+"oient"];
+        if (tense === "imparfait") return [p+"oyais", p+"oyais", p+"oyait", p+"oyions", p+"oyiez", p+"oyaient"];
+        if (tense === "futur") return [p+"errai", p+"erras", p+"erra", p+"errons", p+"errez", p+"erront"];
+        if (tense === "conditionnel_present") return [p+"errais", p+"errais", p+"errait", p+"errions", p+"erriez", p+"erraient"];
+        if (tense === "passe_simple") return [p+"oyai", p+"oyas", p+"oya", p+"oyâmes", p+"oyâtes", p+"oyèrent"];
+        if (tense === "subjonctif_present") return [p+"oie", p+"oies", p+"oie", p+"oyions", p+"oyiez", p+"oient"];
+        if (tense === "imperatif_present") return [p+"oie", p+"oyons", p+"oyez"];
+      }
+      if (info.model === "arguer") {
+        const p = v.slice(0, -6); // "", r
+        if (tense === "present") return [p+"argüe", p+"argües", p+"argüe", p+"argüons", p+"argüez", p+"argüent"];
+        if (tense === "imparfait") return [p+"argüais", p+"argüais", p+"argüait", p+"argüions", p+"argüiez", p+"argüaient"];
+        if (tense === "futur") return [p+"argüerai", p+"argüeras", p+"argüera", p+"argüerons", p+"argüerez", p+"argüeront"];
+        if (tense === "conditionnel_present") return [p+"argüerais", p+"argüerais", p+"argüerait", p+"argüerions", p+"argüeriez", p+"argüeraient"];
+        if (tense === "passe_simple") return [p+"arguai", p+"arguas", p+"argua", p+"arguâmes", p+"arguâtes", p+"arguèrent"];
+        if (tense === "subjonctif_present") return [p+"argüe", p+"argües", p+"argüe", p+"argüions", p+"argüiez", p+"argüent"];
+        if (tense === "imperatif_present") return [p+"argüe", p+"argüons", p+"argüez"];
+      }
+      let stem = v.slice(0, -2); // chant, mang, plac, ruissel, achet, céd
+
+      // Détermination du radical dynamique selon la syllabe muette
+      const isSilent = (i) => ["present_0", "present_1", "present_2", "present_5", "subj_0", "subj_1", "subj_2", "subj_5", "imp_0"].includes(i);
+      
+      const getStemForIndex = (idx, t) => {
+        let s = stem;
+        
+        // Verbes en -eler (ex: ruisseler) et -eter (ex: étiqueter)
+        if (info.model === "ruisseler") {
+          let needsChange = false;
+          if (["futur", "conditionnel_present"].includes(tense)) {
+            needsChange = true;
+          } else if (isSilent(idx)) {
+            needsChange = true;
+          }
+          if (needsChange) {
+            if (mode === "rectified") {
+              s = s.slice(0, -2) + "è" + s.slice(-1);
+            } else {
+              s = s + s.slice(-1);
+            }
+          }
+        }
+        else if (info.model === "acheter") {
+          const isAcheter = ["acheter", "racheter"].includes(v);
+          let needsChange = false;
+          if (["futur", "conditionnel_present"].includes(tense)) {
+            needsChange = true;
+          } else if (isSilent(idx)) {
+            needsChange = true;
+          }
+          if (needsChange) {
+            if (isAcheter || mode === "rectified") {
+              s = s.slice(0, -2) + "è" + s.slice(-1);
+            } else {
+              s = s + s.slice(-1);
+            }
+          }
+        }
+        // Verbes du type céder (é -> è)
+        else if (info.model === "céder") {
+          let needsChange = false;
+          if (["futur", "conditionnel_present"].includes(tense)) {
+            needsChange = (mode === "rectified");
+          } else if (isSilent(idx)) {
+            needsChange = true;
+          }
+          if (needsChange) {
+            s = s.replace(/é([^é]*)$/, 'è$1');
+          }
+        }
+        // Verbes du type lever (e -> è)
+        else if (info.model === "lever") {
+          let needsChange = false;
+          if (["futur", "conditionnel_present"].includes(tense)) {
+            needsChange = true;
+          } else if (isSilent(idx)) {
+            needsChange = true;
+          }
+          if (needsChange) {
+            s = s.replace(/e([^aeiouyéèàùâêîôû]*)$/, 'è$1');
+          }
+        }
+        // Verbes en -yer (y -> i)
+        else if (["nettoyer", "payer"].includes(info.model)) {
+          let needsChange = false;
+          if (["futur", "conditionnel_present"].includes(tense)) {
+            needsChange = true;
+          } else if (isSilent(idx)) {
+            needsChange = true;
+          }
+          if (needsChange) {
+            s = s.slice(0, -1) + "i";
+          }
+        }
+        // Appeler / Jeter (redoublement conservé en rectifié et traditionnel)
+        else if (["appeler", "jeter"].includes(info.model)) {
+          let needsChange = false;
+          if (["futur", "conditionnel_present"].includes(tense)) {
+            needsChange = true;
+          } else if (isSilent(idx)) {
+            needsChange = true;
+          }
+          if (needsChange) {
+            s = s + s.slice(-1);
+          }
+        }
+
+        // --- RÈGLES PHONÉTIQUES UNIVERSELLES (pour tous les verbes en -ger ou -cer) ---
+        if (v.endsWith("ger")) {
+          if (t.startsWith("a") || t.startsWith("o") || t.startsWith("â")) {
+            s = s + "e";
+          }
+        } else if (v.endsWith("cer")) {
+          if (t.startsWith("a") || t.startsWith("o") || t.startsWith("â")) {
+            s = s.slice(0, -1) + "ç";
+          }
+        }
+
+        return s;
+      };
+
+      if (tense === "present") {
+        const ends = ["e", "es", "e", "ons", "ez", "ent"];
+        for (let i = 0; i < 6; i++) {
+          forms.push(getStemForIndex("present_" + i, ends[i]) + ends[i]);
+        }
+      } else if (tense === "imparfait") {
+        const ends = ["ais", "ais", "ait", "ions", "iez", "aient"];
+        for (let i = 0; i < 6; i++) {
+          forms.push(getStemForIndex("imp", ends[i]) + ends[i]);
+        }
+      } else if (tense === "futur") {
+        const ends = ["erai", "eras", "era", "erons", "erez", "eront"];
+        for (let i = 0; i < 6; i++) {
+          forms.push(getStemForIndex("futur", ends[i]) + ends[i]);
+        }
+      } else if (tense === "conditionnel_present") {
+        const ends = ["erais", "erais", "erait", "erions", "eriez", "eraient"];
+        for (let i = 0; i < 6; i++) {
+          forms.push(getStemForIndex("cond", ends[i]) + ends[i]);
+        }
+      } else if (tense === "passe_simple") {
+        const ends = ["ai", "as", "a", "âmes", "âtes", "èrent"];
+        for (let i = 0; i < 6; i++) {
+          forms.push(getStemForIndex("ps", ends[i]) + ends[i]);
+        }
+      } else if (tense === "subjonctif_present") {
+        const ends = ["e", "es", "e", "ions", "iez", "ent"];
+        for (let i = 0; i < 6; i++) {
+          forms.push(getStemForIndex("subj_" + i, ends[i]) + ends[i]);
+        }
+      } else if (tense === "imperatif_present") {
+        const ends = ["e", "ons", "ez"];
+        forms.push(getStemForIndex("imp_0", ends[0]) + ends[0]);
+        forms.push(getStemForIndex("imp_1", ends[1]) + ends[1]);
+        forms.push(getStemForIndex("imp_2", ends[2]) + ends[2]);
+      }
+      return forms;
+    }
+
+    // --- GROUP 2 (-ir) ---
+    if (info.group === 2) {
+      if (info.model === "haïr") {
+        const p = (v === "haïr" || v === "hair") ? "" : v.slice(0, -4);
+        if (tense === "present") return [p+"hais", p+"hais", p+"hait", p+"haïssons", p+"haïssez", p+"haïssent"];
+        if (tense === "imparfait") return [p+"haïssais", p+"haïssais", p+"haïssait", p+"haïssions", p+"haïssiez", p+"haïssaient"];
+        if (tense === "futur") return [p+"haïrai", p+"haïras", p+"haïra", p+"haïrons", p+"haïrez", p+"haïront"];
+        if (tense === "conditionnel_present") return [p+"haïrais", p+"haïrais", p+"haïrait", p+"haïrions", p+"haïriez", p+"haïraient"];
+        if (tense === "passe_simple") return [p+"haïs", p+"haïs", p+"haït", p+"haïmes", p+"haïtes", p+"haïrent"];
+        if (tense === "subjonctif_present") return [p+"haïsse", p+"haïsses", p+"haïsse", p+"haïssions", p+"haïssiez", p+"haïssent"];
+        if (tense === "imperatif_present") return [p+"hais", p+"haïssons", p+"haïssez"];
+      }
+
+      const cleanV = v.replace(/ï/g, 'i');
+      const stem = cleanV.slice(0, -2); // fin
+      if (tense === "present") {
+        const ends = ["is", "is", "it", "issons", "issez", "issent"];
+        return ends.map(e => stem + e);
+      } else if (tense === "imparfait") {
+        const ends = ["issais", "issais", "issait", "issions", "issiez", "issaient"];
+        return ends.map(e => stem + e);
+      } else if (tense === "futur") {
+        const ends = ["irai", "iras", "ira", "irons", "irez", "iront"];
+        return ends.map(e => stem + e);
+      } else if (tense === "conditionnel_present") {
+        const ends = ["irais", "irais", "irait", "irions", "iriez", "iraient"];
+        return ends.map(e => stem + e);
+      } else if (tense === "passe_simple") {
+        const ends = ["is", "is", "it", "îmes", "îtes", "irent"];
+        return ends.map(e => stem + e);
+      } else if (tense === "subjonctif_present") {
+        const ends = ["isse", "isses", "isse", "issions", "issiez", "issent"];
+        return ends.map(e => stem + e);
+      } else if (tense === "imperatif_present") {
+        return [stem + "is", stem + "issons", stem + "issez"];
+      }
+    }
+
+    // --- GROUP 3 (Irréguliers) ---
+    // Modèle Être
+    if (info.model === "être") {
+      if (tense === "present") return ["suis", "es", "est", "sommes", "êtes", "sont"];
+      if (tense === "imparfait") return ["étais", "étais", "était", "étions", "étiez", "étaient"];
+      if (tense === "futur") return ["serai", "seras", "sera", "serons", "serez", "seront"];
+      if (tense === "conditionnel_present") return ["serais", "serais", "serait", "serions", "seriez", "seraient"];
+      if (tense === "passe_simple") return ["fus", "fus", "fut", "fûmes", "fûtes", "furent"];
+      if (tense === "subjonctif_present") return ["sois", "sois", "soit", "soyons", "soyez", "soient"];
+      if (tense === "imperatif_present") return ["sois", "soyons", "soyez"];
+    }
+
+    // Modèle Avoir
+    if (info.model === "avoir") {
+      if (tense === "present") return ["ai", "as", "a", "avons", "avez", "ont"];
+      if (tense === "imparfait") return ["avais", "avais", "avait", "avions", "aviez", "avaient"];
+      if (tense === "futur") return ["aurai", "auras", "aura", "aurons", "aurez", "auront"];
+      if (tense === "conditionnel_present") return ["aurais", "aurais", "aurait", "aurions", "auriez", "auraient"];
+      if (tense === "passe_simple") return ["eus", "eus", "eut", "eûmes", "eûtes", "eurent"];
+      if (tense === "subjonctif_present") return ["aie", "aies", "ait", "ayons", "ayez", "aient"];
+      if (tense === "imperatif_present") return ["aie", "ayons", "ayez"];
+    }
+
+    // Modèle Aller
+    if (info.model === "aller") {
+      if (tense === "present") return ["vais", "vas", "va", "allons", "allez", "vont"];
+      if (tense === "imparfait") return ["allais", "allais", "allait", "allions", "alliez", "allaient"];
+      if (tense === "futur") return ["irai", "iras", "ira", "irons", "irez", "iront"];
+      if (tense === "conditionnel_present") return ["irais", "irais", "irait", "irions", "iriez", "iraient"];
+      if (tense === "passe_simple") return ["allai", "allas", "alla", "allâmes", "allâtes", "allèrent"];
+      if (tense === "subjonctif_present") return ["aille", "ailles", "aille", "allions", "alliez", "aillent"];
+      if (tense === "imperatif_present") return ["va", "allons", "allez"];
+    }
+
+    // Modèle Tenir / Venir
+    if (info.model === "tenir") {
+      const p = v.slice(0, -4); // t, v, conv, obt
+      if (tense === "present") return [p+"iens", p+"iens", p+"ient", p+"enons", p+"enez", p+"iennent"];
+      if (tense === "imparfait") return [p+"enais", p+"enais", p+"enait", p+"enions", p+"eniez", p+"enaient"];
+      if (tense === "futur") return [p+"iendrai", p+"iendras", p+"iendra", p+"iendrons", p+"iendrez", p+"iendront"];
+      if (tense === "conditionnel_present") return [p+"iendrais", p+"iendrais", p+"iendrait", p+"iendrions", p+"iendriez", p+"iendraient"];
+      if (tense === "passe_simple") return [p+"ins", p+"ins", p+"int", p+"înmes", p+"întes", p+"inrent"];
+      if (tense === "subjonctif_present") return [p+"ienne", p+"iennes", p+"ienne", p+"enions", p+"eniez", p+"iennent"];
+      if (tense === "imperatif_present") return [p+"iens", p+"enons", p+"enez"];
+    }
+
+    // Modèle Partir / Sortir / Dormir / Servir
+    if (info.model === "partir") {
+      const p = v.slice(0, -2); // part, sort, serv, dorm
+      const s = p.slice(0, -1); // par, so, ser, dor
+      if (tense === "present") return [s+"s", s+"s", s+"t", p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"irai", p+"iras", p+"ira", p+"irons", p+"irez", p+"iront"];
+      if (tense === "conditionnel_present") return [p+"irais", p+"irais", p+"irait", p+"irions", p+"iriez", p+"iraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [s+"s", p+"ons", p+"ez"];
+    }
+
+    // Modèle Ouvrir / Offrir / Couvrir
+    if (info.model === "ouvrir") {
+      const p = v.slice(0, -2); // ouvr, offr, souffr, couvr
+      if (tense === "present") return [p+"e", p+"es", p+"e", p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"irai", p+"iras", p+"ira", p+"irons", p+"irez", p+"iront"];
+      if (tense === "conditionnel_present") return [p+"irais", p+"irais", p+"irait", p+"irions", p+"iriez", p+"iraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [p+"e", p+"ons", p+"ez"];
+    }
+
+    // Modèle Courir
+    if (info.model === "courir") {
+      const p = v.slice(0, -2); // cour
+      if (tense === "present") return [p+"s", p+"s", p+"t", p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"rai", p+"ras", p+"ra", p+"rons", p+"rez", p+"ront"]; // courrai
+      if (tense === "conditionnel_present") return [p+"rais", p+"rais", p+"rait", p+"rions", p+"riez", p+"raient"];
+      if (tense === "passe_simple") return [p+"us", p+"us", p+"ut", p+"ûmes", p+"ûtes", p+"urent"];
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [p+"s", p+"ons", p+"ez"];
+    }
+
+    // Modèle Mourir
+    if (info.model === "mourir") {
+      if (tense === "present") return ["meurs", "meurs", "meurt", "mourons", "mourez", "meurent"];
+      if (tense === "imparfait") return ["mourais", "mourais", "mourait", "mourions", "mouriez", "mouraient"];
+      if (tense === "futur") return ["mourrai", "mourras", "mourra", "mourrons", "mourrez", "mourront"]; // mourrai
+      if (tense === "conditionnel_present") return ["mourrais", "mourrais", "mourrait", "mourrions", "mourriez", "mourraient"];
+      if (tense === "passe_simple") return ["mourus", "mourus", "mourut", "mourûmes", "mourûtes", "moururent"];
+      if (tense === "subjonctif_present") return ["meure", "meures", "meure", "mourions", "mouriez", "meurent"];
+      if (tense === "imperatif_present") return ["meurs", "mourons", "mourez"];
+    }
+
+    // Modèle Cueillir
+    if (info.model === "cueillir") {
+      const p = v.slice(0, -8); // acc, rec, ""
+      if (tense === "present") return [p+"cueille", p+"cueilles", p+"cueille", p+"cueillons", p+"cueillez", p+"cueillent"];
+      if (tense === "imparfait") return [p+"cueillais", p+"cueillais", p+"cueillait", p+"cueillions", p+"cueilliez", p+"cueillaient"];
+      if (tense === "futur") return [p+"cueillerai", p+"cueilleras", p+"cueillera", p+"cueillerons", p+"cueillerez", p+"cueilleront"];
+      if (tense === "conditionnel_present") return [p+"cueillerais", p+"cueillerais", p+"cueillerait", p+"cueillerions", p+"cueilleriez", p+"cueilleraient"];
+      if (tense === "passe_simple") return [p+"cueillis", p+"cueillis", p+"cueillit", p+"cueillîmes", p+"cueillîtes", p+"cueillirent"];
+      if (tense === "subjonctif_present") return [p+"cueille", p+"cueilles", p+"cueille", p+"cueillions", p+"cueilliez", p+"cueillent"];
+      if (tense === "imperatif_present") return [p+"cueille", p+"cueillons", p+"cueillez"];
+    }
+
+    // Modèle Vêtir
+    if (info.model === "vêtir") {
+      const p = v.slice(0, -2); // vêt, dévêt, revêt
+      if (tense === "present") return [p+"s", p+"s", p, p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"irai", p+"iras", p+"ira", p+"irons", p+"irez", p+"iront"];
+      if (tense === "conditionnel_present") return [p+"irais", p+"irais", p+"irait", p+"irions", p+"iriez", p+"iraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [p+"s", p+"ons", p+"ez"];
+    }
+
+    // Modèle Acquérir
+    if (info.model === "acquérir") {
+      const p = v.slice(0, -4); // acqu, conqu, requ (-érir = 4 lettres)
+      if (tense === "present") return [p+"iers", p+"iers", p+"iert", p+"érons", p+"érez", p+"ièrent"];
+      if (tense === "imparfait") return [p+"érais", p+"érais", p+"érait", p+"érions", p+"ériez", p+"éraient"];
+      if (tense === "futur") return [p+"errai", p+"erras", p+"erra", p+"errons", p+"errez", p+"erront"];
+      if (tense === "conditionnel_present") return [p+"errais", p+"errais", p+"errait", p+"errions", p+"erriez", p+"erraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"ière", p+"ières", p+"ière", p+"érions", p+"ériez", p+"ièrent"];
+      if (tense === "imperatif_present") return [p+"iers", p+"érons", p+"érez"];
+    }
+
+    // Modèle Assaillir
+    if (info.model === "assaillir") {
+      const p = v.slice(0, -2); // assaill, tressaill
+      if (tense === "present") return [p+"e", p+"es", p+"e", p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"irai", p+"iras", p+"ira", p+"irons", p+"irez", p+"iront"];
+      if (tense === "conditionnel_present") return [p+"irais", p+"irais", p+"irait", p+"irions", p+"iriez", p+"iraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [p+"e", p+"ons", p+"ez"];
+    }
+
+    // Modèle Bouillir
+    if (info.model === "bouillir") {
+      const p = v.slice(0, -2); // bouill
+      const s = p.slice(0, -3); // bou
+      if (tense === "present") return [s+"s", s+"s", s+"t", p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"irai", p+"iras", p+"ira", p+"irons", p+"irez", p+"iront"];
+      if (tense === "conditionnel_present") return [p+"irais", p+"irais", p+"irait", p+"irions", p+"iriez", p+"iraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [s+"s", p+"ons", p+"ez"];
+    }
+
+    // Modèle Fuir
+    if (info.model === "fuir") {
+      const p = (v === "fuir") ? "" : v.slice(0, -4); // en, "" (coupe 'fuir')
+      if (tense === "present") return [p+"fuis", p+"fuis", p+"fuit", p+"fuyons", p+"fuyez", p+"fuient"];
+      if (tense === "imparfait") return [p+"fuyais", p+"fuyais", p+"fuyait", p+"fuyions", p+"fuyiez", p+"fuyaient"];
+      if (tense === "futur") return [p+"fuirai", p+"fuiras", p+"fuira", p+"fuirons", p+"fuirez", p+"fuiront"];
+      if (tense === "conditionnel_present") return [p+"fuirais", p+"fuirais", p+"fuirait", p+"fuirions", p+"fuiriez", p+"fuiraient"];
+      if (tense === "passe_simple") return [p+"fuis", p+"fuis", p+"fuit", p+"fuîmes", p+"fuîtes", p+"fuirent"];
+      if (tense === "subjonctif_present") return [p+"fuie", p+"fuies", p+"fuie", p+"fuyions", p+"fuyiez", p+"fuient"];
+      if (tense === "imperatif_present") return [p+"fuis", p+"fuyons", p+"fuyez"];
+    }
+
+    // Modèle Prendre
+    if (info.model === "prendre") {
+      const p = v.slice(0, -3); // pren, appren, compren
+      if (tense === "present") return [p+"ds", p+"ds", p+"d", p+"ons", p+"ez", p+"nent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"drai", p+"dras", p+"dra", p+"drons", p+"drez", p+"dront"];
+      if (tense === "conditionnel_present") return [p+"drais", p+"drais", p+"drait", p+"drions", p+"driez", p+"draient"];
+      if (tense === "passe_simple") return [p.slice(0, -2)+"is", p.slice(0, -2)+"is", p.slice(0, -2)+"it", p.slice(0, -2)+"îmes", p.slice(0, -2)+"îtes", p.slice(0, -2)+"irent"];
+      if (tense === "subjonctif_present") return [p+"ne", p+"nes", p+"ne", p+"ions", p+"iez", p+"nent"];
+      if (tense === "imperatif_present") return [p+"ds", p+"ons", p+"ez"];
+    }
+
+    // Modèle Rendre / Vendre / Attendre / Rompre
+    if (info.model === "rendre" || info.model === "rompre") {
+      const p = v.slice(0, -2); // rend, vend, perd, romp
+      const thirdSing = info.model === "rompre" ? "t" : (p.slice(-1) === "d" ? "" : "t");
+      if (tense === "present") return [p+"s", p+"s", p+thirdSing, p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"];
+      if (tense === "futur") return [p+"rai", p+"ras", p+"ra", p+"rons", p+"rez", p+"ront"];
+      if (tense === "conditionnel_present") return [p+"rais", p+"rais", p+"rait", p+"rions", p+"riez", p+"raient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [p+"s", p+"ons", p+"ez"];
+    }
+
+    // Modèle Craindre / Peindre / Joindre
+    if (info.model === "craindre") {
+      const p = v.slice(0, -3); // crain, pein, join
+      const s = p;
+      const plur = p.slice(0, -1) + "g"; // craig, peig, joig
+      if (tense === "present") return [s+"s", s+"s", s+"t", plur+"nons", plur+"nez", plur+"nent"];
+      if (tense === "imparfait") return [plur+"nais", plur+"nais", plur+"nait", plur+"nions", plur+"niez", plur+"naient"];
+      if (tense === "futur") return [s+"drai", s+"dras", s+"dra", s+"drons", s+"drez", s+"dront"];
+      if (tense === "conditionnel_present") return [s+"drais", s+"drais", s+"drait", s+"drions", s+"driez", s+"draient"];
+      if (tense === "passe_simple") return [plur+"nis", plur+"nis", plur+"nit", plur+"nîmes", plur+"nîtes", plur+"nirent"];
+      if (tense === "subjonctif_present") return [plur+"ne", plur+"nes", plur+"ne", plur+"nions", plur+"niez", plur+"nent"];
+      if (tense === "imperatif_present") return [s+"s", plur+"nons", plur+"nez"];
+    }
+
+    // Modèle Conduire / Produire / Nuire
+    if (info.model === "conduire" || info.model === "nuire") {
+      const p = v.slice(0, -2); // condui, nui
+      if (tense === "present") return [p+"s", p+"s", p+"t", p+"sons", p+"sez", p+"sent"];
+      if (tense === "imparfait") return [p+"sais", p+"sais", p+"sait", p+"sions", p+"siez", p+"saient"];
+      if (tense === "futur") return [p+"rai", p+"ras", p+"ra", p+"rons", p+"rez", p+"ront"];
+      if (tense === "conditionnel_present") return [p+"rais", p+"rais", p+"rait", p+"rions", p+"riez", p+"raient"];
+      if (tense === "passe_simple") return [p+"sis", p+"sis", p+"sit", p+"sîmes", p+"sîtes", p+"sirent"];
+      if (tense === "subjonctif_present") return [p+"se", p+"ses", p+"se", p+"sions", p+"siez", p+"sent"];
+      if (tense === "imperatif_present") return [p+"s", p+"sons", p+"sez"];
+    }
+
+    // Modèle Mettre
+    if (info.model === "mettre") {
+      const p = v.slice(0, -5); // m, perm, prom
+      if (tense === "present") return [p+"ets", p+"ets", p+"et", p+"ettons", p+"ettez", p+"ettent"];
+      if (tense === "imparfait") return [p+"ettais", p+"ettais", p+"ettait", p+"ettions", p+"ettiez", p+"ettaient"];
+      if (tense === "futur") return [p+"ettrai", p+"ettras", p+"ettra", p+"ettrons", p+"ettrez", p+"ettront"];
+      if (tense === "conditionnel_present") return [p+"ettrais", p+"ettrais", p+"ettrait", p+"ettrions", p+"ettriez", p+"ettraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"ette", p+"ettes", p+"ette", p+"ettions", p+"ettiez", p+"ettent"];
+      if (tense === "imperatif_present") return [p+"ets", p+"ettons", p+"ettez"];
+    }
+
+    // Modèle Battre
+    if (info.model === "battre") {
+      const p = v.slice(0, -5); // b, com
+      if (tense === "present") return [p+"ats", p+"ats", p+"at", p+"attons", p+"attez", p+"attent"];
+      if (tense === "imparfait") return [p+"attais", p+"attais", p+"attait", p+"attions", p+"attiez", p+"attaient"];
+      if (tense === "futur") return [p+"attrai", p+"attras", p+"attra", p+"attrons", p+"attrez", p+"attront"];
+      if (tense === "conditionnel_present") return [p+"attrais", p+"attrais", p+"attrait", p+"attrions", p+"attriez", p+"attraient"];
+      if (tense === "passe_simple") return [p+"attis", p+"attis", p+"attit", p+"attîmes", p+"attîtes", p+"attirent"];
+      if (tense === "subjonctif_present") return [p+"atte", p+"attes", p+"atte", p+"attions", p+"attiez", p+"attent"];
+      if (tense === "imperatif_present") return [p+"ats", p+"attons", p+"attez"];
+    }
+
+    // Modèle Connaitre (connaître, paraître, naître)
+    if (info.model === "connaitre") {
+      // Nettoyer l'infinitif pour extraire la racine
+      const cleanInf = v.replace(/î/g, 'i').replace(/â/g, 'a');
+      const root = cleanInf.slice(0, -3); // connai, parai, nai (coupe 'tre')
+      const plurRoot = root + "ss"; // connaiss, paraiss, naiss
+      
+      const isNaitre = cleanInf.endsWith("naitre") && !cleanInf.endsWith("connaitre");
+
+      if (tense === "present") {
+        const ilEnding = (mode === "rectified") ? "it" : "ît";
+        return [root+"s", root+"s", root.slice(0, -1)+ilEnding, plurRoot+"ons", plurRoot+"ez", plurRoot+"ent"];
+      } else if (tense === "imparfait") {
+        const ends = ["ais", "ais", "ait", "ions", "iez", "aient"];
+        return ends.map(e => plurRoot + e);
+      } else if (tense === "futur") {
+        const altRoot = (mode === "rectified") ? root : root.slice(0, -1) + "î";
+        const ends = ["trai", "tras", "tra", "trons", "trez", "tront"];
+        return ends.map(e => altRoot + e);
+      } else if (tense === "conditionnel_present") {
+        const altRoot = (mode === "rectified") ? root : root.slice(0, -1) + "î";
+        const ends = ["trais", "trais", "trait", "trions", "triez", "traient"];
+        return ends.map(e => altRoot + e);
+      } else if (tense === "passe_simple") {
+        if (isNaitre) {
+          const p = cleanInf.slice(0, -6); // re, ""
+          return [p+"naquis", p+"naquis", p+"naquit", p+"naquîmes", p+"naquîtes", p+"naquirent"];
+        } else {
+          // parus, connus
+          const c = root.slice(0, -2); // conn, par
+          return [c+"us", c+"us", c+"ut", c+"ûmes", c+"ûtes", c+"urent"];
+        }
+      } else if (tense === "subjonctif_present") {
+        const ends = ["e", "es", "e", "ions", "iez", "ent"];
+        return ends.map(e => plurRoot + e);
+      } else if (tense === "imperatif_present") {
+        return [root+"s", plurRoot+"ons", plurRoot+"ez"];
+      }
+    }
+
+    // Modèle Croître
+    if (info.model === "croitre") {
+      const cleanInf = v.replace(/î/g, 'i').replace(/â/g, 'a');
+      const root = cleanInf.slice(0, -3); // croi (coupe 'tre')
+      const plurRoot = "croiss";
+
+      if (tense === "present") {
+        return ["croîs", "croîs", "croît", "croissons", "croissez", "croissent"];
+      } else if (tense === "imparfait") {
+        const ends = ["ais", "ais", "ait", "ions", "iez", "aient"];
+        return ends.map(e => plurRoot + e);
+      } else if (tense === "futur") {
+        // En nouvelle orthographe, pas de circonflexe sur le futur (le circonflexe disparaît devant le t)
+        const altRoot = (mode === "rectified") ? root : root.slice(0, -1) + "î";
+        const ends = ["trai", "tras", "tra", "trons", "trez", "tront"];
+        return ends.map(e => altRoot + e);
+      }
+      if (tense === "conditionnel_present") {
+        const altRoot = (mode === "rectified") ? root : root.slice(0, -1) + "î";
+        const ends = ["trais", "trais", "trait", "trions", "triez", "traient"];
+        return ends.map(e => altRoot + e);
+      }
+      if (tense === "passe_simple") return ["crûs", "crûs", "crût", "crûmes", "crûtes", "crûrent"];
+      if (tense === "subjonctif_present") return ["croisse", "croisses", "croisse", "croissions", "croissiez", "croissent"];
+      if (tense === "imperatif_present") return ["croîs", "croissons", "croissez"];
+    }
+
+    // Modèle Accroître / Décroître
+    if (info.model === "accroitre") {
+      const cleanInf = v.replace(/î/g, 'i').replace(/â/g, 'a');
+      const root = cleanInf.slice(0, -3); // accroi, decroi (coupe 'tre')
+      const plurRoot = root + "ss"; // accroiss, décroiss
+      
+      if (tense === "present") {
+        const ilEnding = (mode === "rectified") ? "it" : "ît";
+        return [root+"s", root+"s", root.slice(0, -1)+ilEnding, plurRoot+"ons", plurRoot+"ez", plurRoot+"ent"];
+      } else if (tense === "imparfait") {
+        const ends = ["ais", "ais", "ait", "ions", "iez", "aient"];
+        return ends.map(e => plurRoot + e);
+      } else if (tense === "futur") {
+        const altRoot = (mode === "rectified") ? root : root.slice(0, -1) + "î";
+        const ends = ["trai", "tras", "tra", "trons", "trez", "tront"];
+        return ends.map(e => altRoot + e);
+      } else if (tense === "conditionnel_present") {
+        const altRoot = (mode === "rectified") ? root : root.slice(0, -1) + "î";
+        const ends = ["trais", "trais", "trait", "trions", "triez", "traient"];
+        return ends.map(e => altRoot + e);
+      } else if (tense === "passe_simple") {
+        const c = root.slice(0, -2); // accr, decr
+        return [c+"us", c+"us", c+"ut", c+"ûmes", c+"ûtes", c+"urent"];
+      } else if (tense === "subjonctif_present") {
+        const ends = ["e", "es", "e", "ions", "iez", "ent"];
+        return ends.map(e => plurRoot + e);
+      } else if (tense === "imperatif_present") {
+        return [root+"s", plurRoot+"ons", plurRoot+"ez"];
+      }
+    }
+
+    // Modèle Assoir
+    if (info.model === "assoir") {
+      const p = v.slice(0, -6); // rassoir -> r, assoir -> ""
+      if (tense === "present") return [p+"assois", p+"assois", p+"assoit", p+"assoyons", p+"assoyez", p+"assoient"];
+      if (tense === "imparfait") return [p+"assoyais", p+"assoyais", p+"assoyait", p+"assoyions", p+"assoyiez", p+"assoyaient"];
+      if (tense === "futur") return [p+"assoirai", p+"assoiras", p+"assoira", p+"assoirons", p+"assoirez", p+"assoiront"];
+      if (tense === "conditionnel_present") return [p+"assoirais", p+"assoirais", p+"assoirait", p+"assoirions", p+"assoiriez", p+"assoiraient"];
+      if (tense === "passe_simple") return [p+"assis", p+"assis", p+"assit", p+"assîmes", p+"assîtes", p+"assirent"];
+      if (tense === "subjonctif_present") return [p+"assoie", p+"assoies", p+"assoie", p+"assoyions", p+"assoyiez", p+"assoient"];
+      if (tense === "imperatif_present") return [p+"assois", p+"assoyons", p+"assoyez"];
+    }
+
+    // Modèle Recevoir
+    if (info.model === "recevoir") {
+      const p = v.slice(0, -6); // re, con, de, aper (coupe 'cevoir')
+      if (tense === "present") return [p+"çois", p+"çois", p+"çoit", p+"cevons", p+"cevez", p+"çoivent"];
+      if (tense === "imparfait") return [p+"cevais", p+"cevais", p+"cevait", p+"cevions", p+"ceviez", p+"cevaient"];
+      if (tense === "futur") return [p+"cevrai", p+"cevras", p+"cevra", p+"cevrons", p+"cevrez", p+"cevront"];
+      if (tense === "conditionnel_present") return [p+"cevrais", p+"cevrais", p+"cevrait", p+"cevrions", p+"cevriez", p+"cevraient"];
+      if (tense === "passe_simple") return [p+"çus", p+"çus", p+"çut", p+"çûmes", p+"çûtes", p+"çurent"];
+      if (tense === "subjonctif_present") return [p+"çoive", p+"çoives", p+"çoive", p+"cevions", p+"ceviez", p+"çoivent"];
+      if (tense === "imperatif_present") return [p+"çois", p+"cevons", p+"cevez"];
+    }
+
+    // Modèle Devoir
+    if (info.model === "devoir") {
+      const p = v.slice(0, -6); // re, ""
+      if (tense === "present") return [p+"dois", p+"dois", p+"doit", p+"devons", p+"devez", p+"doivent"];
+      if (tense === "imparfait") return [p+"devais", p+"devais", p+"devait", p+"devions", p+"deviez", p+"devaient"];
+      if (tense === "futur") return [p+"devrai", p+"devras", p+"devra", p+"devrons", p+"devrez", p+"devront"];
+      if (tense === "conditionnel_present") return [p+"devrais", p+"devrais", p+"devrait", p+"devrions", p+"devriez", p+"devraient"];
+      if (tense === "passe_simple") return [p+"dus", p+"dus", p+"dut", p+"dûmes", p+"dûtes", p+"durent"];
+      if (tense === "subjonctif_present") return [p+"doive", p+"doives", p+"doive", p+"devions", p+"deviez", p+"doivent"];
+      if (tense === "imperatif_present") return [p+"dois", p+"devons", p+"devez"];
+    }
+
+    // Modèle Pouvoir
+    if (info.model === "pouvoir") {
+      const p = v.slice(0, -7);
+      if (tense === "present") return [p+"peux", p+"peux", p+"peut", p+"pouvons", p+"pouvez", p+"peuvent"];
+      if (tense === "imparfait") return [p+"pouvais", p+"pouvais", p+"pouvait", p+"pouvions", p+"pouviez", p+"pouvaient"];
+      if (tense === "futur") return [p+"pourrai", p+"pourras", p+"pourra", p+"pourrons", p+"pourrez", p+"pourront"];
+      if (tense === "conditionnel_present") return [p+"pourrais", p+"pourrais", p+"pourrait", p+"pourrions", p+"pourriez", p+"pourraient"];
+      if (tense === "passe_simple") return [p+"pus", p+"pus", p+"put", p+"pûmes", p+"pûtes", p+"purent"];
+      if (tense === "subjonctif_present") return [p+"puisse", p+"puisses", p+"puisse", p+"puissions", p+"puissiez", p+"puissent"];
+      if (tense === "imperatif_present") return ["", "", ""];
+    }
+
+    // Modèle Vouloir
+    if (info.model === "vouloir") {
+      const p = v.slice(0, -7);
+      if (tense === "present") return [p+"veux", p+"veux", p+"veut", p+"voulons", p+"voulez", p+"veulent"];
+      if (tense === "imparfait") return [p+"voulais", p+"voulais", p+"voulait", p+"voulions", p+"vouliez", p+"voulaient"];
+      if (tense === "futur") return [p+"voudrai", p+"voudras", p+"voudra", p+"voudrons", p+"voudrez", p+"voudront"];
+      if (tense === "conditionnel_present") return [p+"voudrais", p+"voudrais", p+"voudrait", p+"voudrions", p+"voudriez", p+"voudraient"];
+      if (tense === "passe_simple") return [p+"voulus", p+"voulus", p+"voulut", p+"voulûmes", p+"voulûtes", p+"voulurent"];
+      if (tense === "subjonctif_present") return [p+"veuille", p+"veuilles", p+"veuille", p+"voulions", p+"vouliez", p+"veuillent"];
+      if (tense === "imperatif_present") return [p+"veuille", p+"veuillons", p+"veuillez"];
+    }
+
+    // Modèle Savoir
+    if (info.model === "savoir") {
+      if (tense === "present") return ["sais", "sais", "sait", "savons", "savez", "savent"];
+      if (tense === "imparfait") return ["savais", "savais", "savait", "savions", "saviez", "savaient"];
+      if (tense === "futur") return ["saurai", "sauras", "saura", "saurons", "saurez", "sauront"];
+      if (tense === "conditionnel_present") return ["saurais", "saurais", "saurait", "saurions", "sauriez", "sauraient"];
+      if (tense === "passe_simple") return ["sus", "sus", "sut", "sûmes", "sûtes", "surent"];
+      if (tense === "subjonctif_present") return ["sache", "saches", "sache", "sachions", "sachiez", "sachent"];
+      if (tense === "imperatif_present") return ["sache", "sachons", "sachez"];
+    }
+
+    // Modèle Mouvoir
+    if (info.model === "mouvoir") {
+      const p = (v === "mouvoir") ? "" : v.slice(0, -7); // é, pro, ""
+      if (tense === "present") return [p+"meus", p+"meus", p+"meut", p+"mouvons", p+"mouvez", p+"meuvent"];
+      if (tense === "imparfait") return [p+"mouvais", p+"mouvais", p+"mouvait", p+"mouvions", p+"mouviez", p+"mouvaient"];
+      if (tense === "futur") return [p+"mouvrai", p+"mouvras", p+"mouvra", p+"mouvrons", p+"mouvrez", p+"mouvront"];
+      if (tense === "conditionnel_present") return [p+"mouvrais", p+"mouvrais", p+"mouvrait", p+"mouvrions", p+"mouvriez", p+"mouvraient"];
+      if (tense === "passe_simple") return [p+"mus", p+"mus", p+"mut", p+"mûmes", p+"mûtes", p+"murent"];
+      if (tense === "subjonctif_present") return [p+"meuve", p+"meuves", p+"meuve", p+"mouvions", p+"mouviez", p+"meuvent"];
+      if (tense === "imperatif_present") return [p+"meus", p+"mouvons", p+"mouvez"];
+    }
+
+    // Modèle Voir
+    if (info.model === "voir") {
+      const p = v.slice(0, -3); // v, rev
+      if (tense === "present") return [p+"ois", p+"ois", p+"oit", p+"oyons", p+"oyez", p+"oient"];
+      if (tense === "imparfait") return [p+"oyais", p+"oyais", p+"oyait", p+"oyions", p+"oyiez", p+"oyaient"];
+      if (tense === "futur") return [p+"errai", p+"erras", p+"erra", p+"errons", p+"errez", p+"erront"]; // verrai
+      if (tense === "conditionnel_present") return [p+"errais", p+"errais", p+"errait", p+"errions", p+"erriez", p+"erraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"oie", p+"oies", p+"oie", p+"oyions", p+"oyiez", p+"oient"];
+      if (tense === "imperatif_present") return [p+"ois", p+"oyons", p+"oyez"];
+    }
+
+    // Modèle Prévoir
+    if (info.model === "prévoir") {
+      const p = v.slice(0, -7);
+      if (tense === "futur") return [p+"prévoirai", p+"prévoiras", p+"prévoira", p+"prévoirons", p+"prévoirez", p+"prévoiront"]; // prévoirai (r simple)
+      if (tense === "conditionnel_present") return [p+"prévoirais", p+"prévoirais", p+"prévoirait", p+"prévoirions", p+"prévoiriez", p+"prévoiraient"];
+      // Autrement comme voir
+      const infVoir = getVerbInfo("voir");
+      return getSimpleTenseForms(infVoir, tense, mode).map(f => f ? p + "pré" + f : f);
+    }
+
+    // Modèle Pourvoir
+    if (info.model === "pourvoir") {
+      const p = v.slice(0, -8);
+      if (tense === "futur") return [p+"pourvoirai", p+"pourvoiras", p+"pourvoira", p+"pourvoirons", p+"pourvoirez", p+"pourvoiront"];
+      if (tense === "conditionnel_present") return [p+"pourvoirais", p+"pourvoirais", p+"pourvoirait", p+"pourvoirions", p+"pourvoiriez", p+"pourvoiraient"];
+      if (tense === "passe_simple") return [p+"pourvus", p+"pourvus", p+"pourvut", p+"pourvûmes", p+"pourvûtes", p+"pourvurent"];
+      // Autrement comme voir
+      const infVoir = getVerbInfo("voir");
+      return getSimpleTenseForms(infVoir, tense, mode).map(f => f ? p + "pour" + f : f);
+    }
+
+    // Modèle Valoir
+    if (info.model === "valoir") {
+      const p = v.slice(0, -6); // équi, pré, ""
+      if (tense === "present") return [p+"vaux", p+"vaux", p+"vaut", p+"valons", p+"valez", p+"valent"];
+      if (tense === "imparfait") return [p+"valais", p+"valais", p+"valait", p+"valions", p+"valiez", p+"valaient"];
+      if (tense === "futur") return [p+"vaudrai", p+"vaudras", p+"vaudra", p+"vaudrons", p+"vaudrez", p+"vaudront"];
+      if (tense === "conditionnel_present") return [p+"vaudrais", p+"vaudrais", p+"vaudrait", p+"vaudrions", p+"vaudriez", p+"vaudraient"];
+      if (tense === "passe_simple") return [p+"valus", p+"valus", p+"valut", p+"valûmes", p+"valûtes", p+"valurent"];
+      if (tense === "subjonctif_present") {
+        if (v.endsWith("prévaloir")) {
+          return [p+"vale", p+"vales", p+"vale", p+"valions", p+"valiez", p+"valent"];
+        }
+        return [p+"vaille", p+"vailles", p+"vaille", p+"valions", p+"valiez", p+"vaillent"];
+      }
+      if (tense === "imperatif_present") return [p+"vaux", p+"valons", p+"valez"];
+    }
+
+    // Modèle Pleuvoir (impersonnel)
+    if (info.model === "pleuvoir") {
+      if (tense === "present") return ["", "", "pleut", "", "", "pleuvent"];
+      if (tense === "imparfait") return ["", "", "pleuvait", "", "", "pleuvaient"];
+      if (tense === "futur") return ["", "", "pleuvra", "", "", "pleuvront"];
+      if (tense === "conditionnel_present") return ["", "", "pleuvrait", "", "", "pleuvraient"];
+      if (tense === "passe_simple") return ["", "", "plut", "", "", "plurent"];
+      if (tense === "subjonctif_present") return ["", "", "pleuve", "", "", "pleuvent"];
+      if (tense === "imperatif_present") return ["", "", ""];
+    }
+
+    // Modèle Falloir (impersonnel)
+    if (info.model === "falloir") {
+      if (tense === "present") return ["", "", "faut", "", "", ""];
+      if (tense === "imparfait") return ["", "", "fallait", "", "", ""];
+      if (tense === "futur") return ["", "", "faudra", "", "", ""];
+      if (tense === "conditionnel_present") return ["", "", "faudrait", "", "", ""];
+      if (tense === "passe_simple") return ["", "", "fallut", "", "", ""];
+      if (tense === "subjonctif_present") return ["", "", "faille", "", "", ""];
+      if (tense === "imperatif_present") return ["", "", ""];
+    }
+
+    // Coudre
+    if (info.model === "coudre") {
+      const p = v.slice(0, -5); // c, déc, rec
+      if (tense === "present") return [p+"ouds", p+"ouds", p+"oud", p+"ousons", p+"ousez", p+"ousent"];
+      if (tense === "imparfait") return [p+"ousais", p+"ousais", p+"ousait", p+"ousions", p+"ousiez", p+"ousaient"];
+      if (tense === "futur") return [p+"oudrai", p+"oudras", p+"oudra", p+"oudrons", p+"oudrez", p+"oudront"];
+      if (tense === "conditionnel_present") return [p+"oudrais", p+"oudrais", p+"oudrait", p+"oudrions", p+"oudriez", p+"oudraient"];
+      if (tense === "passe_simple") return [p+"ousis", p+"ousis", p+"ousit", p+"ousîmes", p+"ousîtes", p+"ousirent"];
+      if (tense === "subjonctif_present") return [p+"ouse", p+"ouses", p+"ouse", p+"ousions", p+"ousiez", p+"ousent"];
+      if (tense === "imperatif_present") return [p+"ouds", p+"ousons", p+"ousez"];
+    }
+
+    // Moudre
+    if (info.model === "moudre") {
+      const p = v.slice(0, -5); // m
+      if (tense === "present") return [p+"ouds", p+"ouds", p+"oud", p+"oulons", p+"oulez", p+"oulent"];
+      if (tense === "imparfait") return [p+"oulais", p+"oulais", p+"oulait", p+"oulions", p+"ouliez", p+"oulaient"];
+      if (tense === "futur") return [p+"oudrai", p+"oudras", p+"oudra", p+"oudrons", p+"oudrez", p+"oudront"];
+      if (tense === "conditionnel_present") return [p+"oudrais", p+"oudrais", p+"oudrait", p+"oudrions", p+"oudriez", p+"oudraient"];
+      if (tense === "passe_simple") return [p+"oulus", p+"oulus", p+"oulut", p+"oulûmes", p+"oulûtes", p+"oulurent"];
+      if (tense === "subjonctif_present") return [p+"oule", p+"oules", p+"oule", p+"oulions", p+"ouliez", p+"oulent"];
+      if (tense === "imperatif_present") return [p+"ouds", p+"oulons", p+"oulez"];
+    }
+
+    // Résoudre
+    if (info.model === "résoudre") {
+      if (tense === "present") return ["résous", "résous", "résout", "résolvons", "résolvez", "résolvent"];
+      if (tense === "imparfait") return ["résolvais", "résolvais", "résolvait", "résolvions", "résolviez", "résolvaient"];
+      if (tense === "futur") return ["résoudrai", "résoudras", "résoudra", "résoudrons", "résoudrez", "résoudront"];
+      if (tense === "conditionnel_present") return ["résoudrais", "résoudrais", "résoudrait", "résoudrions", "résoudriez", "résoudraient"];
+      if (tense === "passe_simple") return ["résolus", "résolus", "résolut", "résolûmes", "résolûtes", "résolurent"];
+      if (tense === "subjonctif_present") return ["résolve", "résolves", "résolve", "résolvions", "résolviez", "résolvent"];
+      if (tense === "imperatif_present") return ["résous", "résolvons", "résolvez"];
+    }
+
+    // Croire
+    if (info.model === "croire") {
+      const p = v.slice(0, -6); // re, ""
+      if (tense === "present") return [p+"crois", p+"crois", p+"croit", p+"croyons", p+"croyez", p+"croient"];
+      if (tense === "imparfait") return [p+"croyais", p+"croyais", p+"croyait", p+"croyions", p+"croyiez", p+"croyaient"];
+      if (tense === "futur") return [p+"croirai", p+"croiras", p+"croira", p+"croirons", p+"croirez", p+"croiront"];
+      if (tense === "conditionnel_present") return [p+"croirais", p+"croirais", p+"croirait", p+"croirions", p+"croiriez", p+"croiraient"];
+      if (tense === "passe_simple") return [p+"crus", p+"crus", p+"crut", p+"crûmes", p+"crûtes", p+"crurent"];
+      if (tense === "subjonctif_present") return [p+"croie", p+"croies", p+"croie", p+"croyions", p+"croyiez", p+"croient"];
+      if (tense === "imperatif_present") return [p+"crois", p+"croyons", p+"croyez"];
+    }
+
+    // Boire
+    if (info.model === "boire") {
+      const p = v.slice(0, -5); // re, ""
+      if (tense === "present") return [p+"bois", p+"bois", p+"boit", p+"buvons", p+"buvez", p+"boivent"];
+      if (tense === "imparfait") return [p+"buvais", p+"buvais", p+"buvait", p+"buvions", p+"buviez", p+"buvaient"];
+      if (tense === "futur") return [p+"boirai", p+"boiras", p+"boira", p+"boirons", p+"boirez", p+"boiront"];
+      if (tense === "conditionnel_present") return [p+"boirais", p+"boirais", p+"boirait", p+"boirions", p+"boiriez", p+"boiraient"];
+      if (tense === "passe_simple") return [p+"bus", p+"bus", p+"but", p+"bûmes", p+"bûtes", p+"burent"];
+      if (tense === "subjonctif_present") return [p+"boive", p+"boives", p+"boive", p+"buvions", p+"buviez", p+"boivent"];
+      if (tense === "imperatif_present") return [p+"bois", p+"buvons", p+"buvez"];
+    }
+
+    // Vivre
+    if (info.model === "vivre") {
+      const p = v.slice(0, -3); // vi, survi
+      if (tense === "present") return [p+"s", p+"s", p+"t", p+"vons", p+"vez", p+"vent"];
+      if (tense === "imparfait") return [p+"vais", p+"vais", p+"vait", p+"vions", p+"viez", p+"vaient"];
+      if (tense === "futur") return [p+"vrai", p+"vras", p+"vra", p+"vrons", p+"vrez", p+"vront"];
+      if (tense === "conditionnel_present") return [p+"vrais", p+"vrais", p+"vrait", p+"vrions", p+"vriez", p+"vraient"];
+      if (tense === "passe_simple") {
+        const c = p.slice(0, -1); // v, surv
+        return [c+"écus", c+"écus", c+"écut", c+"écûmes", c+"écûtes", c+"écurent"]; // vécus
+      }
+      if (tense === "subjonctif_present") return [p+"ve", p+"ves", p+"ve", p+"vions", p+"viez", p+"vent"];
+      if (tense === "imperatif_present") return [p+"s", p+"vons", p+"vez"];
+    }
+
+    // Écrire
+    if (info.model === "écrire") {
+      const p = v.slice(0, -2); // écri, décri
+      if (tense === "present") return [p+"s", p+"s", p+"t", p+"vons", p+"vez", p+"vent"];
+      if (tense === "imparfait") return [p+"vais", p+"vais", p+"vait", p+"vions", p+"viez", p+"vaient"];
+      if (tense === "futur") return [p+"rai", p+"ras", p+"ra", p+"rons", p+"rez", p+"ront"];
+      if (tense === "conditionnel_present") return [p+"rais", p+"rais", p+"rait", p+"rions", p+"riez", p+"raient"];
+      if (tense === "passe_simple") return [p+"vis", p+"vis", p+"vit", p+"vîmes", p+"vîtes", p+"virent"]; // écrivis
+      if (tense === "subjonctif_present") return [p+"ve", p+"ves", p+"ve", p+"vions", p+"viez", p+"vent"];
+      if (tense === "imperatif_present") return [p+"s", p+"vons", p+"vez"];
+    }
+
+    // Lire
+    if (info.model === "lire") {
+      const p = v.slice(0, -2); // li, reli
+      if (tense === "present") return [p+"s", p+"s", p+"t", p+"sons", p+"sez", p+"sent"];
+      if (tense === "imparfait") return [p+"sais", p+"sais", p+"sait", p+"sions", p+"siez", p+"saient"];
+      if (tense === "futur") return [p+"rai", p+"ras", p+"ra", p+"rons", p+"rez", p+"ront"];
+      if (tense === "conditionnel_present") return [p+"rais", p+"rais", p+"rait", p+"rions", p+"riez", p+"raient"];
+      if (tense === "passe_simple") {
+        const c = v.slice(0, -3); // rel, "l"
+        return [c+"us", c+"us", c+"ut", c+"ûmes", c+"ûtes", c+"urent"]; // lus
+      }
+      if (tense === "subjonctif_present") return [p+"se", p+"ses", p+"se", p+"sions", p+"siez", p+"sent"];
+      if (tense === "imperatif_present") return [p+"s", p+"sons", p+"sez"];
+    }
+
+    // Plaire
+    if (info.model === "plaire") {
+      const p = v.slice(0, -2); // plai, déplai, tai
+      if (tense === "present") {
+        let thirdForm = "";
+        if (v.endsWith("taire")) {
+          thirdForm = p + "t";
+        } else {
+          thirdForm = (mode === "rectified") ? p + "t" : p.slice(0, -1) + "ît";
+        }
+        return [p+"s", p+"s", thirdForm, p+"sons", p+"sez", p+"sent"]; // plais, plait/plaît
+      }
+      if (tense === "imparfait") return [p+"sais", p+"sais", p+"sait", p+"sions", p+"siez", p+"saient"];
+      if (tense === "futur") return [p+"rai", p+"ras", p+"ra", p+"rons", p+"rez", p+"ront"];
+      if (tense === "conditionnel_present") return [p+"rais", p+"rais", p+"rait", p+"rions", p+"riez", p+"raient"];
+      if (tense === "passe_simple") {
+        const c = p.slice(0,-2); // pl
+        return [c+"us", c+"us", c+"ut", c+"ûmes", c+"ûtes", c+"urent"];
+      }
+      if (tense === "subjonctif_present") return [p+"se", p+"ses", p+"se", p+"sions", p+"siez", p+"sent"];
+      if (tense === "imperatif_present") return [p+"s", p+"sons", p+"sez"];
+    }
+
+    // Rire
+    if (info.model === "rire") {
+      const p = v.slice(0, -2); // ri, souri
+      if (tense === "present") return [p+"s", p+"s", p+"t", p+"ons", p+"ez", p+"ent"];
+      if (tense === "imparfait") return [p+"ais", p+"ais", p+"ait", p+"ions", p+"iez", p+"aient"]; // riions
+      if (tense === "futur") return [p+"rai", p+"ras", p+"ra", p+"rons", p+"rez", p+"ront"];
+      if (tense === "conditionnel_present") return [p+"rais", p+"rais", p+"rait", p+"rions", p+"riez", p+"raient"];
+      if (tense === "passe_simple") return [p+"s", p+"s", p+"t", p.slice(0, -1)+"îmes", p.slice(0, -1)+"îtes", p+"rent"]; // rîmes
+      if (tense === "subjonctif_present") return [p+"e", p+"es", p+"e", p+"ions", p+"iez", p+"ent"];
+      if (tense === "imperatif_present") return [p+"s", p+"ons", p+"ez"];
+    }
+
+    // Suivre
+    if (info.model === "suivre") {
+      const p = v.slice(0, -3); // sui, poursui
+      if (tense === "present") return [p+"s", p+"s", p+"t", p+"vons", p+"vez", p+"vent"];
+      if (tense === "imparfait") return [p+"vais", p+"vais", p+"vait", p+"vions", p+"viez", p+"vaient"];
+      if (tense === "futur") return [p+"vrai", p+"vras", p+"vra", p+"vrons", p+"vrez", p+"vront"];
+      if (tense === "conditionnel_present") return [p+"vrais", p+"vrais", p+"vrait", p+"vrions", p+"vriez", p+"vraient"];
+      if (tense === "passe_simple") return [p+"vis", p+"vis", p+"vit", p+"vîmes", p+"vîtes", p+"virent"]; // suivis
+      if (tense === "subjonctif_present") return [p+"ve", p+"ves", p+"ve", p+"vions", p+"viez", p+"vent"];
+      if (tense === "imperatif_present") return [p+"s", p+"vons", p+"vez"];
+    }
+
+
+    // Faire
+    if (info.model === "faire") {
+      const p = (v === "faire") ? "" : v.slice(0, -5); // re, dé, satis, "" (coupe 'faire')
+      if (tense === "present") return [p+"fais", p+"fais", p+"fait", p+"faisons", p+"faites", p+"font"];
+      if (tense === "imparfait") return [p+"faisais", p+"faisais", p+"faisait", p+"faisions", p+"faisiez", p+"faisaient"];
+      if (tense === "futur") return [p+"ferai", p+"feras", p+"fera", p+"ferons", p+"ferez", p+"feront"];
+      if (tense === "conditionnel_present") return [p+"ferais", p+"ferais", p+"ferait", p+"ferions", p+"feriez", p+"feraient"];
+      if (tense === "passe_simple") return [p+"fis", p+"fis", p+"fit", p+"fîmes", p+"fîtes", p+"firent"];
+      if (tense === "subjonctif_present") return [p+"fasse", p+"fasses", p+"fasse", p+"fassions", p+"fassiez", p+"fassent"];
+      if (tense === "imperatif_present") return [p+"fais", p+"faisons", p+"faites"];
+    }
+
+    // Maudire
+    if (info.model === "maudire") {
+      const stem = v.slice(0, -3); // maud
+      if (tense === "present") return [stem+"is", stem+"is", stem+"it", stem+"issons", stem+"issez", stem+"issent"];
+      if (tense === "imparfait") return [stem+"issais", stem+"issais", stem+"issait", stem+"issions", stem+"issiez", stem+"issaient"];
+      if (tense === "futur") return [stem+"irai", stem+"iras", stem+"ira", stem+"irons", stem+"irez", stem+"iront"];
+      if (tense === "conditionnel_present") return [stem+"irais", stem+"irais", stem+"irait", stem+"irions", stem+"iriez", stem+"iraient"];
+      if (tense === "passe_simple") return [stem+"is", stem+"is", stem+"it", stem+"îmes", stem+"îtes", stem+"irent"];
+      if (tense === "subjonctif_present") return [stem+"isse", stem+"isses", stem+"isse", stem+"issions", stem+"issiez", stem+"issent"];
+      if (tense === "imperatif_present") return [stem+"is", stem+"issons", stem+"issez"];
+    }
+
+    // Dire
+    if (info.model === "dire") {
+      const p = v.slice(0, -4); // inter, ""
+      if (tense === "present") return [p+"dis", p+"dis", p+"dit", p+"disons", (["dire", "redire"].includes(v) ? p+"dites" : p+"disez"), p+"disent"];
+      if (tense === "imparfait") return [p+"disais", p+"disais", p+"disait", p+"disions", p+"disiez", p+"disaient"];
+      if (tense === "futur") return [p+"dirai", p+"diras", p+"dira", p+"dirons", p+"direz", p+"diront"];
+      if (tense === "conditionnel_present") return [p+"dirais", p+"dirais", p+"dirait", p+"dirions", p+"diriez", p+"diraient"];
+      if (tense === "passe_simple") return [p+"dis", p+"dis", p+"dit", p+"dîmes", p+"dîtes", p+"dirent"];
+      if (tense === "subjonctif_present") return [p+"dise", p+"dises", p+"dise", p+"disions", p+"disiez", p+"disent"];
+      if (tense === "imperatif_present") return [p+"dis", p+"disons", (["dire", "redire"].includes(v) ? p+"dites" : p+"disez")];
+    }
+
+    // Traire
+    if (info.model === "traire") {
+      const p = v.slice(0, -5); // t, ext, abs
+      if (tense === "present") return [p+"rais", p+"rais", p+"rait", p+"rayons", p+"rayez", p+"raient"];
+      if (tense === "imparfait") return [p+"rayais", p+"rayais", p+"rayait", p+"rayions", p+"rayiez", p+"rayaient"];
+      if (tense === "futur") return [p+"rairai", p+"rairas", p+"raira", p+"rairons", p+"rairez", p+"rairont"];
+      if (tense === "conditionnel_present") return [p+"rairais", p+"rairais", p+"rairait", p+"rairions", p+"rairiez", p+"rairaient"];
+      if (tense === "passe_simple") return ["", "", "", "", "", ""];
+      if (tense === "subjonctif_present") return [p+"raie", p+"raies", p+"raie", p+"rayions", p+"rayiez", p+"raient"];
+      if (tense === "imperatif_present") return [p+"rais", p+"rayons", p+"rayez"];
+    }
+
+    // Vaincre
+    if (info.model === "vaincre") {
+      const p = v.slice(0, -6); // v, conv
+      if (tense === "present") return [p+"aincs", p+"aincs", p+"ainc", p+"ainquons", p+"ainquez", p+"ainquent"];
+      if (tense === "imparfait") return [p+"ainquais", p+"ainquais", p+"ainquait", p+"ainquions", p+"ainquiez", p+"ainquaient"];
+      if (tense === "futur") return [p+"aincrai", p+"aincras", p+"aincra", p+"aincrons", p+"aincrez", p+"aincront"];
+      if (tense === "conditionnel_present") return [p+"aincrais", p+"aincrais", p+"aincrait", p+"aincrions", p+"aincriez", p+"aincraient"];
+      if (tense === "passe_simple") return [p+"ainquis", p+"ainquis", p+"ainquit", p+"ainquîmes", p+"ainquîtes", p+"ainquirent"];
+      if (tense === "subjonctif_present") return [p+"ainque", p+"ainques", p+"ainque", p+"ainquions", p+"ainquiez", p+"ainquent"];
+      if (tense === "imperatif_present") return [p+"aincs", p+"ainquons", p+"ainquez"];
+    }
+    // Conclure
+    if (info.model === "conclure") {
+      const p = v.slice(0, -5); // con, ex, in
+      if (tense === "present") return [p+"clus", p+"clus", p+"clut", p+"cluons", p+"cluez", p+"cluent"];
+      if (tense === "imparfait") return [p+"cluais", p+"cluais", p+"cluait", p+"cluions", p+"cluiez", p+"cluaient"];
+      if (tense === "futur") return [p+"clurai", p+"cluras", p+"clura", p+"clurons", p+"clurez", p+"cluront"];
+      if (tense === "conditionnel_present") return [p+"clurais", p+"clurais", p+"clurait", p+"clurions", p+"cluriez", p+"cluraient"];
+      if (tense === "passe_simple") return [p+"clus", p+"clus", p+"clut", p+"clûmes", p+"clûtes", p+"clurent"];
+      if (tense === "subjonctif_present") return [p+"clue", p+"clues", p+"clue", p+"cluions", p+"cluiez", p+"cluent"];
+      if (tense === "imperatif_present") return [p+"clus", p+"cluons", p+"cluez"];
+    }
+
+    // Absoudre
+    if (info.model === "absoudre") {
+      const p = v.slice(0, -6); // ab, dis
+      if (tense === "present") return [p+"sous", p+"sous", p+"sout", p+"solvons", p+"solvez", p+"solvent"];
+      if (tense === "imparfait") return [p+"solvais", p+"solvais", p+"solvait", p+"solvions", p+"solviez", p+"solvaient"];
+      if (tense === "futur") return [p+"soudrai", p+"soudras", p+"soudra", p+"soudrons", p+"soudrez", p+"soudront"];
+      if (tense === "conditionnel_present") return [p+"soudrais", p+"soudrais", p+"soudrait", p+"soudrions", p+"soudriez", p+"soudraient"];
+      if (tense === "passe_simple") return ["", "", "", "", "", ""];
+      if (tense === "subjonctif_present") return [p+"solve", p+"solves", p+"solve", p+"solvions", p+"solviez", p+"solvent"];
+      if (tense === "imperatif_present") return [p+"sous", p+"solvons", p+"solvez"];
+    }
+
+    // Faillir
+    if (info.model === "faillir") {
+      const p = v.slice(0, -7); // ""
+      if (tense === "present") return [p+"faux", p+"faux", p+"faut", p+"faillons", p+"faillez", p+"faillent"];
+      if (tense === "imparfait") return [p+"faillais", p+"faillais", p+"faillait", p+"faillions", p+"failliez", p+"faillaient"];
+      if (tense === "futur") return [p+"faillirai", p+"failliras", p+"faillira", p+"faillirons", p+"faillirez", p+"failliront"];
+      if (tense === "conditionnel_present") return [p+"faillirais", p+"faillirais", p+"faillirait", p+"faillirions", p+"failliriez", p+"failliraient"];
+      if (tense === "passe_simple") return [p+"faillis", p+"faillis", p+"faillit", p+"faillîmes", p+"faillîtes", p+"faillirent"];
+      if (tense === "subjonctif_present") return [p+"faille", p+"failles", p+"faille", p+"faillions", p+"failliez", p+"faillent"];
+      if (tense === "imperatif_present") return ["", "", ""];
+    }
+    // Suffire / Confire
+    if (info.model === "suffire") {
+      const p = v.slice(0, -4); // suff, conf
+      if (tense === "present") return [p+"is", p+"is", p+"it", p+"isons", p+"isez", p+"isent"];
+      if (tense === "imparfait") return [p+"isais", p+"isais", p+"isait", p+"isions", p+"isiez", p+"isaient"];
+      if (tense === "futur") return [p+"irai", p+"iras", p+"ira", p+"irons", p+"irez", p+"iront"];
+      if (tense === "conditionnel_present") return [p+"irais", p+"irais", p+"irait", p+"irions", p+"iriez", p+"iraient"];
+      if (tense === "passe_simple") return [p+"is", p+"is", p+"it", p+"îmes", p+"îtes", p+"irent"];
+      if (tense === "subjonctif_present") return [p+"ise", p+"ises", p+"ise", p+"isions", p+"isiez", p+"isent"];
+      if (tense === "imperatif_present") return [p+"is", p+"isons", p+"isez"];
+    }
+
+    // Frire
+    if (info.model === "frire") {
+      const p = v.slice(0, -5); // fr, refr
+      if (tense === "present") return [p+"fris", p+"fris", p+"frit", "", "", ""];
+      if (tense === "imparfait") return ["", "", "", "", "", ""];
+      if (tense === "futur") return [p+"frirai", p+"friras", p+"frira", p+"frirons", p+"frirez", p+"friront"];
+      if (tense === "conditionnel_present") return [p+"frirais", p+"frirais", p+"frirait", p+"fririons", p+"fririez", p+"friraient"];
+      if (tense === "passe_simple") return ["", "", "", "", "", ""];
+      if (tense === "subjonctif_present") return ["", "", "", "", "", ""];
+      if (tense === "imperatif_present") return [p+"fris", "", ""];
+    }
+
+    // Clore / Éclore
+    if (info.model === "clore") {
+      const p = v.slice(0, -5); // "", é
+      if (tense === "present") return [p+"clos", p+"clos", p+"clôt", "", "", p+"closent"];
+      if (tense === "imparfait") return ["", "", "", "", "", ""];
+      if (tense === "futur") return [p+"clorai", p+"cloras", p+"clora", p+"clorons", p+"clorez", p+"cloront"];
+      if (tense === "conditionnel_present") return [p+"clorais", p+"clorais", p+"clorait", p+"clorions", p+"cloriez", p+"cloraient"];
+      if (tense === "passe_simple") return ["", "", "", "", "", ""];
+      if (tense === "subjonctif_present") return [p+"close", p+"closes", p+"close", p+"closions", p+"closiez", p+"closent"];
+      if (tense === "imperatif_present") return [p+"clos", "", ""];
+    }
+
+    // Choir
+    if (info.model === "choir") {
+      const p = v.slice(0, -5); // "", dé, é
+      if (v === "choir") {
+        if (tense === "present") return [p+"chois", p+"chois", p+"choit", "", "", ""];
+        if (tense === "imparfait") return ["", "", "", "", "", ""];
+        if (tense === "futur") return [p+"choirai", p+"choiras", p+"choira", p+"choirons", p+"choirez", p+"choiront"];
+        if (tense === "conditionnel_present") return [p+"choirais", p+"choirais", p+"choirait", p+"choirions", p+"choiriez", p+"choiraient"];
+        if (tense === "passe_simple") return [p+"chus", p+"chus", p+"chut", p+"chûmes", p+"chûtes", p+"churent"];
+        if (tense === "subjonctif_present") return ["", "", "", "", "", ""];
+        if (tense === "imperatif_present") return ["", "", ""];
+      } else if (v === "échoir" || v === "echoir") {
+        if (tense === "present") return ["", "", p+"choit", "", "", p+"choient"];
+        if (tense === "imparfait") return ["", "", p+"choyait", "", "", p+"choyaient"];
+        if (tense === "futur") return ["", "", p+"choira", "", "", p+"choiront"];
+        if (tense === "conditionnel_present") return ["", "", p+"choirait", "", "", p+"choiraient"];
+        if (tense === "passe_simple") return ["", "", p+"chut", "", "", p+"churent"];
+        if (tense === "subjonctif_present") return ["", "", p+"choie", "", "", p+"choient"];
+        if (tense === "imperatif_present") return ["", "", ""];
+      } else {
+        if (tense === "present") return [p+"chois", p+"chois", p+"choit", p+"choyons", p+"choyez", p+"choient"];
+        if (tense === "imparfait") return [p+"choyais", p+"choyais", p+"choyait", p+"choyions", p+"choyiez", p+"choyaient"];
+        if (tense === "futur") return [p+"choirai", p+"choiras", p+"choira", p+"choirons", p+"choirez", p+"choiront"];
+        if (tense === "conditionnel_present") return [p+"choirais", p+"choirais", p+"choirait", p+"choirions", p+"choiriez", p+"choiraient"];
+        if (tense === "passe_simple") return [p+"chus", p+"chus", p+"chut", p+"chûmes", p+"chûtes", p+"churent"];
+        if (tense === "subjonctif_present") return [p+"choie", p+"choies", p+"choie", p+"choyions", p+"choyiez", p+"choient"];
+        if (tense === "imperatif_present") return ["", "", ""];
+      }
+    }
+
+    // Fallback global de sécurité basé sur la terminaison de l'infinitif
+    let fallbackModel = "chanter";
+    let fallbackGroup = 1;
+    const cleanEndsInIr = v.replace(/ï/g, 'i').endsWith("ir");
+    const cleanEndsInOir = v.replace(/ï/g, 'i').endsWith("oir");
+    if (cleanEndsInIr && !cleanEndsInOir) {
+      if (info.group === 3) {
+        fallbackModel = "partir";
+        fallbackGroup = 3;
+      } else {
+        fallbackModel = "finir";
+        fallbackGroup = 2;
+      }
+    } else if (v.endsWith("re")) {
+      fallbackModel = "rendre";
+      fallbackGroup = 3;
+    } else if (v.endsWith("oir")) {
+      fallbackModel = "voir";
+      fallbackGroup = 3;
+    }
+    
+    const fallbackInfo = { ...info, group: fallbackGroup, model: fallbackModel };
+    return getSimpleTenseForms(fallbackInfo, tense, mode);
+  }
+
+  // =========================================================================
+  // 4. PÉDAGOGIE
+  // =========================================================================
+
+  // Récupère l'explication pédagogique pour le verbe sélectionné
+  function getPedagogicalRule(info, tense, mode) {
+    const rawV = info.cleanVerb;
+    const v = rawV.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    
+    if (["passe_compose", "plus_que_parfait", "futur_anterieur"].includes(tense)) {
+      if (info.isReflexive) {
+        return `💡 <strong>L'accord du participe passé des verbes pronominaux</strong> :
+        Le participe passé des verbes pronominaux s'accorde en général en genre et en nombre avec le sujet (ex: <code>elle s'est lavée</code>, <code>ils se sont lavés</code>).
+        <br><span style="color: var(--accent-rose); font-weight:800;">Attention exception !</span> Le participe passé reste invariable si le pronom réfléchi est un Complément d'Objet Indirect (COI) et qu'il n'y a pas de COD placé avant le verbe (ex: <code>ils se sont parlé</code>, <code>elles se sont souri</code>, <code>elle s'est lavé les mains</code>).`;
+      }
+      const dualAuxVerbs = ["descendre", "monter", "sortir", "passer", "rentrer", "retourner"];
+      if (dualAuxVerbs.includes(info.cleanVerb)) {
+        return `💡 <strong>Choix de l'auxiliaire pour ${v}</strong> : 
+        Ce verbe peut se conjuguer avec <strong>être</strong> ou <strong>avoir</strong> !
+        <br>- Avec <em>être</em> (auxiliaire par défaut dans le tableau) pour exprimer le mouvement ou l'état résultant (ex: <code>il est descendu dans la rue</code>).
+        <br>- Avec <em>avoir</em> lorsqu'il y a un Complément d'Objet Direct (COD) (ex: <code>il a descendu la poubelle</code>, <code>il a passé l'examen</code>). Dans ce cas, le participe ne s'accorde pas avec le sujet.`;
+      }
+      if (info.cleanVerb === "apparaitre" || info.cleanVerb === "apparaître") {
+        return `💡 <strong>Choix de l'auxiliaire pour ${v}</strong> : 
+        Ce verbe se conjugue le plus souvent avec <strong>être</strong> pour exprimer l'état résultant (ex: <code>le soleil est apparu</code>). 
+        Cependant, l'utilisation de l'auxiliaire <strong>avoir</strong> est admise pour insister sur l'action de surgir (ex: <code>il a apparu soudainement</code>). Dans ce cas, le participe passé reste invariable.`;
+      }
+      if (info.auxiliary === "être") {
+        return `💡 <strong>L'accord du participe passé avec l'auxiliaire ÊTRE</strong> :
+        Le participe passé conjugué avec <em>être</em> s'accorde toujours en genre (masculin/féminin) et en nombre (singulier/pluriel) avec le sujet (ex: <code>il est allé</code>, <code>elle est allée</code>). 
+        C'est pourquoi nous affichons les marques d'accord <code>(e)</code> et <code>(e)s</code> dans le tableau.`;
+      } else {
+        return `💡 <strong>L'accord du participe passé avec l'auxiliaire AVOIR</strong> :
+        Le participe passé conjugué avec <em>avoir</em> ne s'accorde jamais avec le sujet (ex: <code>nous avons mangé</code>). 
+        Il s'accorde uniquement si le Complément d'Objet Direct (COD) est placé <strong>devant</strong> le verbe (ex: <code>les pommes que nous avons mangées</code>). Par défaut, le tableau de conjugaison affiche la forme neutre masculine.`;
+      }
+    }
+    
+    if (["ruisseler", "jeter", "appeler"].includes(info.model)) {
+      return `💡 <strong>La règle des verbes en <code>-eler</code> et <code>-eter</code></strong> : 
+      Pour tous ces verbes (comme <em>ruisseler</em>, <em>ficeler</em>, <em>renouveler</em>, <em>étiqueter</em>), on écrit désormais un accent grave <code>è</code> devant une syllabe muette (ex: <code>je ruissèle</code>, <code>il étiquète</code>, <code>je ruissèlerai</code>) au lieu de doubler la consonne. 
+      <br><span style="color: var(--accent-rose); font-weight:800;">Exceptions conservées</span> : Les verbes <strong>appeler</strong>, <strong>jeter</strong> et <strong>interpeler</strong> (et leurs familles comme <em>rappeler</em>, <em>rejeter</em>, <em>interpeler</em>) continuent de doubler la consonne : <code>j'appelle</code>, <code>je jette</code>, <code>j'interpelle</code>.`;
+    }
+    
+    if (info.model === "acheter") {
+      return `💡 <strong>La règle des verbes en <code>-eler</code> et <code>-eter</code></strong> : 
+      Ces verbes s'écrivent maintenant avec un accent grave devant une syllabe muette (ex: <code>j'étiquète</code>, <code>il étiquètera</code>). 
+      Le verbe <em>acheter</em> s'écrivait déjà ainsi traditionnellement (<code>j'achète</code>), la nouvelle orthographe a simplement étendu cette règle plus simple à presque tous les verbes en -eler / -eter !`;
+    }
+
+    if (info.model === "céder" && ["futur", "conditionnel_present"].includes(tense)) {
+      return `💡 <strong>La règle du <code>é</code> &rarr; <code>è</code> au futur et au conditionnel</strong> : 
+      Les verbes qui possèdent un <code>é</code> à l'avant-dernière syllabe de l'infinitif (comme <em>céder</em>, <em>sécher</em>, <em>inquiéter</em>, <em>tolérer</em>, <em>régler</em>) changent désormais ce <code>é</code> en <code>è</code> au futur simple et au conditionnel présent (ex: <code>je cèderai</code>, <code>tu inquièteras</code>, <code>il règlerait</code>). 
+      C'est plus logique, car c'est ainsi qu'on le prononce à l'oral !`;
+    }
+
+    if (info.model === "connaitre" || info.model === "accroitre") {
+      const displayWord = info.model === "connaitre" ? "paraitre" : "accroitre";
+      return `💡 <strong>La règle de la suppression de l'accent circonflexe</strong> : 
+      L'accent circonflexe sur le <code>i</code> et le <code>u</code> disparaît ! Pour les verbes en <code>-aitre</code> et <code>-oitre</code> (comme <em>paraitre</em>, <em>connaitre</em>, <em>naitre</em>, <em>accroitre</em>), on ne met plus d'accent circonflexe devant la lettre <code>t</code> (ex: <code>il parait</code>, <code>il connait</code>, <code>il accroit</code>, <code>je paraitrai</code>).
+      <br><span style="color: var(--accent-rose); font-weight:800;">Attention exception !</span> Le verbe <strong>croître</strong> (et lui seul) garde ses accents circonflexes (ex: <code>il croît</code>, <code>crû</code>) pour qu'on ne le confonde pas avec le verbe <em>croire</em> (<code>il croit</code>, <code>cru</code>).`;
+    }
+
+    if (info.model === "croitre") {
+      return `💡 <strong>Le cas particulier de <code>croître</code></strong> : 
+      Le verbe <em>croître</em> est le seul verbe en -oitre qui conserve ses accents circonflexes (ex: <code>il croît</code>, <code>je croîs</code>, participe passé <code>crû</code>). 
+      Cette exception est maintenue pour éviter la confusion avec le verbe <strong>croire</strong> (ex: <code>il croit</code>, <code>je crois</code>, participe passé <code>cru</code>). 
+      Cependant, au futur simple, on écrit <code>je croitrai</code> sans accent car il n'y a plus de confusion possible avec <em>croire</em> (<code>je croirai</code>).`;
+    }
+
+    if (info.model === "assoir") {
+      return `💡 <strong>La régularisation du verbe <code>assoir</code></strong> : 
+      L'infinitif peut désormais s'écrire sans le <code>e</code> muet : <code>assoir</code>. 
+      De plus, la conjugaison régulière en <code>-ois</code> (<em>j'assois, tu assois, il assoit, nous assoyons, ils assoient</em>) est largement préférée à la forme traditionnelle en <em>-ieds</em> (<em>j'assieds, nous asseyons</em>) car elle est beaucoup plus simple et harmonieuse !`;
+    }
+
+    if ((info.cleanVerb === "faillir" || info.cleanVerb === "défaillir") && tense === "present") {
+      return `💡 <strong>Le verbe faillir au présent</strong> : 
+      Bien que des formes de présent de l'indicatif existent dans les dictionnaires (<em>je faillis, tu faillis...</em>), elles sont extrêmement rares et vieillies dans l'usage réel. 
+      Ce verbe s'emploie presque exclusivement aux temps composés (ex: <code>j'ai failli tomber</code>) ou au passé simple (ex: <code>il faillit tomber</code>).`;
+    }
+
+    return `💡 <strong>Rappel pédagogique</strong> : 
+    Le verbe <strong>${v}</strong> suit des règles de conjugaison régulières ou traditionnelles à ce temps. 
+    Les rectifications de 1990 visent à simplifier les anomalies de la langue française pour les enfants et les apprenants, rendant l'orthographe plus logique !`;
+  }
+
+  // =========================================================================
+  // 5. INTERACTION INTERFACE UTILISATEUR
+  // =========================================================================
+
+  // Initialisation de la page
+  document.addEventListener("DOMContentLoaded", () => {
+    setupSearchAutocomplete();
+    selectTense("present");
+  });
+
+  // Gère la saisie de texte et les suggestions automatiques
+  function setupSearchAutocomplete() {
+    const searchInput = document.getElementById("verb-search");
+    const suggestions = document.getElementById("suggestions");
+    const clearBtn = document.getElementById("clear-btn");
+
+    searchInput.addEventListener("input", (e) => {
+      const val = e.target.value.trim().toLowerCase();
+      
+      if (e.target.value.length > 0) {
+        clearBtn.style.display = "flex";
+      } else {
+        clearBtn.style.display = "none";
+      }
+
+      // Nettoyer la saisie du pronom réflexif pour la recherche
+      let searchVal = val;
+      if (val.startsWith("se ")) searchVal = val.substring(3);
+      else if (val.startsWith("s'en ")) searchVal = val.substring(5);
+      else if (val.startsWith("s'y ")) searchVal = val.substring(4);
+      else if (val.startsWith("s'")) searchVal = val.substring(2);
+
+      if (searchVal.length === 0) {
+        suggestions.style.display = "none";
+        return;
+      }
+
+      // Filtrer les verbes
+      const strip = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      const cleanSearch = strip(searchVal);
+      const matches = VERBS_DATABASE.filter(v => strip(v).startsWith(cleanSearch)).slice(0, 16);
+
+      const customVariants = {
+        "assoir": "asseoir", "asseoir": "assoir",
+        "connaitre": "connaître", "connaître": "connaitre",
+        "naitre": "naître", "naître": "naitre",
+        "paraitre": "paraître", "paraître": "paraitre",
+        "croitre": "croître", "croître": "croitre",
+        "accroitre": "accroître", "accroître": "accroitre",
+        "décroitre": "décroître", "décroître": "décroitre",
+        "apparaitre": "apparaître", "apparaître": "apparaitre",
+        "disparaitre": "disparaître", "disparaître": "disparaitre",
+        "reconnaitre": "reconnaître", "reconnaître": "reconnaitre",
+        "méconnaitre": "méconnaître", "méconnaître": "méconnaitre"
+      };
+
+      const grouped = [];
+      const seen = new Set();
+      
+      matches.forEach(m => {
+        let variant = customVariants[m] || null;
+        let rect = m;
+        if (variant) {
+          const isRect = !m.includes('î') && !m.includes('â') && m !== "asseoir";
+          rect = isRect ? m : variant;
+        }
+        
+        if (!seen.has(rect)) {
+          seen.add(rect);
+          if (variant) {
+            const isRect = !m.includes('î') && !m.includes('â') && m !== "asseoir";
+            const rectVal = isRect ? m : variant;
+            const tradVal = isRect ? variant : m;
+            grouped.push({
+              display: `${rectVal} / ${tradVal}`,
+              value: rectVal
+            });
+          } else {
+            grouped.push({
+              display: m,
+              value: m
+            });
+          }
+        }
+      });
+
+      const finalMatches = grouped.slice(0, 8);
+
+      if (finalMatches.length > 0) {
+        suggestions.innerHTML = "";
+        finalMatches.forEach(item => {
+          // Si l'utilisateur avait tapé "se ", proposer la forme pronominale
+          let displayVerb = item.display;
+          if (val.startsWith("s'en ")) {
+            if (displayVerb.includes(" / ")) {
+              displayVerb = displayVerb.split(" / ").map(vPart => `s'en ${vPart}`).join(" / ");
+            } else {
+              displayVerb = `s'en ${displayVerb}`;
+            }
+          } else if (val.startsWith("s'y ")) {
+            if (displayVerb.includes(" / ")) {
+              displayVerb = displayVerb.split(" / ").map(vPart => `s'y ${vPart}`).join(" / ");
+            } else {
+              displayVerb = `s'y ${displayVerb}`;
+            }
+          } else if (val.startsWith("se ") || val.startsWith("s'")) {
+            if (displayVerb.includes(" / ")) {
+              displayVerb = displayVerb.split(" / ").map(vPart => {
+                const pron = getReflexivePronom(vPart);
+                return pron === "s'" ? `s'${vPart}` : `se ${vPart}`;
+              }).join(" / ");
+            } else {
+              const pron = getReflexivePronom(displayVerb);
+              displayVerb = pron === "s'" ? `s'${displayVerb}` : `se ${displayVerb}`;
+            }
+          }
+          
+          const firstVerb = item.value;
+          const info = getVerbInfo(firstVerb);
+          const grText = info.group === 1 ? "1er gr." : info.group === 2 ? "2e gr." : "3e gr.";
+
+          const div = document.createElement("div");
+          div.className = "suggestion-item";
+          
+          const verbTextSpan = document.createElement("span");
+          verbTextSpan.textContent = displayVerb;
+          div.appendChild(verbTextSpan);
+          
+          const groupSpan = document.createElement("span");
+          groupSpan.className = "verb-group";
+          groupSpan.textContent = grText;
+          div.appendChild(groupSpan);
+          div.addEventListener("click", () => {
+            let valToSet = item.value;
+            if (val.startsWith("s'en ")) {
+              valToSet = `s'en ${valToSet}`;
+            } else if (val.startsWith("s'y ")) {
+              valToSet = `s'y ${valToSet}`;
+            } else if (val.startsWith("se ") || val.startsWith("s'")) {
+              const pron = getReflexivePronom(valToSet);
+              valToSet = pron === "s'" ? `s'${valToSet}` : `se ${valToSet}`;
+            }
+            searchInput.value = valToSet;
+            suggestions.style.display = "none";
+            validateConjugation();
+          });
+          suggestions.appendChild(div);
+        });
+        suggestions.style.display = "block";
+      } else {
+        suggestions.style.display = "none";
+      }
+    });
+
+    // Fermer les suggestions si on clique ailleurs
+    document.addEventListener("click", (e) => {
+      if (e.target !== searchInput) {
+        suggestions.style.display = "none";
+      }
+    });
+
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      currentVerb = "";
+      clearBtn.style.display = "none";
+      suggestions.style.display = "none";
+      document.getElementById("conjugation-table-area").style.display = "none";
+      document.getElementById("verb-header").style.display = "none";
+      document.getElementById("explanation-box").style.display = "none";
+      document.getElementById("no-verb-placeholder").style.display = "flex";
+      searchInput.focus();
+    });
+
+  }
+
+  // Sélection du temps
+  function selectTense(tense) {
+    currentTense = tense;
+    
+    // Mettre à jour l'état visuel des boutons
+    document.querySelectorAll(".time-btn").forEach(btn => {
+      if (btn.getAttribute("data-tense") === tense) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    // Si un verbe est déjà affiché, relancer la conjugaison immédiatement
+    if (currentVerb) {
+      validateConjugation();
+    }
+  }
+
+  // Lance l'analyse et l'affichage de la conjugaison
+  function validateConjugation() {
+    const val = document.getElementById("verb-search").value.trim();
+    if (!val) {
+      alert("S'il te plait, écris d'abord un verbe dans la boîte de recherche ! ✍️");
+      return;
+    }
+    
+    // Validation de l'infinitif
+    const info = getVerbInfo(val);
+    const cv = info.cleanVerb;
+    const isValid = /^[a-zàâäéèêëîïôöûüç-]+(?:er|ir|re|oir)$/i.test(cv);
+    if (!isValid) {
+      alert("Ce mot ne ressemble pas à un verbe français à l'infinitif (il doit se terminer par -er, -ir, -re, ou -oir et ne pas contenir d'autres mots) ! 🧐");
+      return;
+    }
+
+    document.getElementById("suggestions").style.display = "none";
+    currentVerb = val;
+    renderConjugation();
+  }
+
+  // Affiche la table de conjugaison dans l'interface
+  function renderConjugation() {
+    const verbInput = currentVerb;
+    
+    // Obtenir les résultats en orthographe rectifiée
+    const conjRect = conjugate(verbInput, currentTense, "rectified");
+    const info = conjRect.info;
+
+    // 1. Mettre à jour l'en-tête
+    document.getElementById("verb-header").style.display = "flex";
+    
+    let grName = info.group === 1 ? "1er groupe" : info.group === 2 ? "2e groupe" : "3e groupe";
+    if (info.model === "être" || info.model === "avoir") grName = "Auxiliaire";
+
+    // Afficher l'infinitif en respectant la nouvelle orthographe
+    let infDisplay = "";
+    if (info.isReflexive) {
+      if (info.hasEn) infDisplay = "s'en ";
+      else if (info.hasY) infDisplay = "s'y ";
+      else infDisplay = info.reflexivePrefix;
+    }
+    const rectifiedInfinitives = {
+      "asseoir": "assoir", "assoir": "assoir",
+      "connaître": "connaitre", "connaitre": "connaitre",
+      "paraître": "paraitre", "paraitre": "paraitre",
+      "naître": "naitre", "naitre": "naitre",
+      "croître": "croitre", "croitre": "croitre",
+      "accroître": "accroitre", "accroitre": "accroitre",
+      "décroître": "décroitre", "décroitre": "décroitre"
+    };
+    infDisplay += rectifiedInfinitives[info.cleanVerb] || info.cleanVerb;
+
+    const titleEl = document.getElementById("display-infinitive");
+    titleEl.textContent = infDisplay + " ";
+    const badge = document.createElement("span");
+    badge.className = "verb-group-badge";
+    badge.textContent = grName;
+    titleEl.appendChild(badge);
+    document.getElementById("display-auxiliary").textContent = `Auxiliaire pour les temps composés : ${info.auxiliary}`;
+    
+    // Libellé FWB du temps
+    const tenseLabels = {
+      present: "Indicatif présent",
+      imparfait: "Indicatif imparfait",
+      futur: "Indicatif futur simple",
+      passe_compose: "Indicatif passé composé",
+      plus_que_parfait: "Indicatif plus-que-parfait",
+      passe_simple: "Indicatif passé simple",
+      futur_anterieur: "Indicatif futur antérieur",
+      conditionnel_present: "Conditionnel présent",
+      subjonctif_present: "Subjonctif présent",
+      imperatif_present: "Impératif présent",
+      participe_present: "Participe présent",
+      participe_passe: "Participe passé"
+    };
+    document.getElementById("display-tense").textContent = tenseLabels[currentTense];
+
+    // 2. Construire la table
+    const tableArea = document.getElementById("conjugation-table-area");
+    const placeholder = document.getElementById("no-verb-placeholder");
+
+    placeholder.style.display = "none";
+    tableArea.style.display = "flex";
+    tableArea.innerHTML = "";
+
+    // Pronoms
+    const pronounsSimple = ["je", "tu", "il / elle / on", "nous", "vous", "ils / elles"];
+    const pronounsSubj = ["que je", "que tu", "qu'il / elle / on", "que nous", "que vous", "qu'ils / elles"];
+    const pronounsPartPasse = ["Masculin singulier", "Féminin singulier", "Masculin pluriel", "Féminin pluriel"];
+
+    const isSubj = (currentTense === "subjonctif_present");
+    const isImp = (currentTense === "imperatif_present");
+    const isPartPres = (currentTense === "participe_present");
+    const isPartPasse = (currentTense === "participe_passe");
+
+    const activeList = conjRect.forms;
+
+    // Déterminer les pronoms appropriés
+    let pronounsList = pronounsSimple;
+    if (isSubj) pronounsList = pronounsSubj;
+    else if (isPartPres) pronounsList = ["Participe présent"];
+    else if (isPartPasse) pronounsList = pronounsPartPasse;
+
+    let maxIndex = 6;
+    if (isImp) maxIndex = 3;
+    else if (isPartPres) maxIndex = 1;
+    else if (isPartPasse) maxIndex = 4;
+
+    // Vérifier si toutes les formes sont vides (temps défectif, ex: impératif de pouvoir)
+    let allEmpty = true;
+    for (let i = 0; i < maxIndex; i++) {
+      if (activeList[i]) allEmpty = false;
+    }
+    
+    if (allEmpty) {
+      tableArea.innerHTML = `<div class="no-results" style="padding: 24px;"><span class="no-results-icon">💡</span>Ce mode ou ce temps n'existe pas pour ce verbe (ex : le verbe <em>pouvoir</em> n'a pas d'impératif).</div>`;
+      document.getElementById("explanation-box").style.display = "none";
+      return;
+    }
+
+    for (let i = 0; i < maxIndex; i++) {
+      let mainWord = activeList[i];
+      if (!mainWord) continue;
+
+      const row = document.createElement("div");
+      row.className = "conj-row";
+
+      const pronSpan = document.createElement("span");
+      pronSpan.className = "pronoun";
+
+      let pr = pronounsList[i];
+      let elideSubject = false;
+      
+      if (isImp) {
+        const persons = ["(2e pers. sg. - tu)", "(1e pers. pl. - nous)", "(2e pers. pl. - vous)"];
+        pronSpan.textContent = persons[i];
+        pronSpan.style.width = "180px";
+      } else {
+        // Ajuster l'élision du pronom (je -> j', que je -> que j' / qu'il)
+        if (["pleuvoir", "falloir"].includes(info.model) && i === 2) {
+          pr = isSubj ? "qu'il" : "il";
+        }
+        const cleanV = info.cleanVerb;
+        const isAspiratedH = aspiratedHVerbs.some(h => cleanV === h || cleanV.endsWith(h));
+        let startsWithVowel = ["a", "e", "i", "o", "u", "y", "é", "è", "à", "ù", "â", "ê", "î", "ô", "û", "ë", "ï", "ü", "æ", "œ"].some(v => mainWord.startsWith(v));
+        if (mainWord.startsWith("h") && !isAspiratedH) {
+          startsWithVowel = true;
+        }
+        
+        // Le sujet je/que je ne s'élide que si la forme verbale suit directement (pas de pronom réfléchi intercalé)
+        elideSubject = (startsWithVowel || info.hasY || info.hasEn) && !info.isReflexive;
+
+        if (elideSubject) {
+          if (pr === "je") pr = "j'";
+          else if (pr === "que je") pr = "que j'";
+        } else {
+          if (pr === "j'") pr = "je";
+          else if (pr === "que j'") pr = "que je";
+        }
+        
+        pronSpan.textContent = pr;
+      }
+      row.appendChild(pronSpan);
+
+      // Verbe
+      const verbSpan = document.createElement("span");
+      verbSpan.className = "verb-word";
+
+      // Gérer la pronominalisation au présent et temps simples
+      let displayWord = mainWord;
+      
+      if (info.isReflexive && !["passe_compose", "plus_que_parfait", "futur_anterieur", "participe_present", "participe_passe"].includes(currentTense)) {
+        if (isImp) {
+          // Impératif pronominal: lave-toi, lavons-nous, lavez-vous / va-t'en, allons-nous-en / va-t'y
+          let impPr = ["-toi", "-nous", "-vous"];
+          if (info.hasEn) {
+            impPr = ["-t'en", "-nous-en", "-vous-en"];
+          } else if (info.hasY) {
+            impPr = ["-t'y", "-nous-y", "-vous-y"];
+          }
+          displayWord = mainWord + impPr[i];
+        } else {
+          let refPronouns = ["me", "te", "se", "nous", "vous", "se"];
+          if (info.hasEn) {
+            refPronouns = ["m'en", "t'en", "s'en", "nous en", "vous en", "s'en"];
+          } else if (info.hasY) {
+            refPronouns = ["m'y", "t'y", "s'y", "nous y", "vous y", "s'y"];
+          }
+          let rp = refPronouns[i];
+          if (info.hasEn || info.hasY) {
+            displayWord = rp + " " + mainWord;
+          } else {
+            const cleanV = info.cleanVerb;
+            const isAspiratedH = aspiratedHVerbs.some(h => cleanV === h || cleanV.endsWith(h));
+            const startsWithVowelVerb = ["a", "e", "i", "o", "u", "y", "é", "è", "à", "ù", "â", "ê", "î", "ô", "û", "ë", "ï", "ü", "æ", "œ"].some(v => mainWord.startsWith(v)) || (mainWord.startsWith("h") && !isAspiratedH);
+            
+            if (startsWithVowelVerb && ["me", "te", "se"].includes(rp)) {
+              rp = rp[0] + "'";
+              displayWord = rp + mainWord;
+            } else {
+              displayWord = rp + " " + mainWord;
+            }
+          }
+        }
+      } else if (!info.isReflexive && (info.hasY || info.hasEn) && !["passe_compose", "plus_que_parfait", "futur_anterieur", "participe_present", "participe_passe"].includes(currentTense)) {
+        if (isImp) {
+          const part = info.hasY ? "y" : "en";
+          if (i === 0) {
+            const lastChar = mainWord.slice(-1);
+            if (["a", "e"].includes(lastChar)) {
+              displayWord = mainWord + "s-" + part;
+            } else {
+              displayWord = mainWord + "-" + part;
+            }
+          } else {
+            displayWord = mainWord + "-" + part;
+          }
+        } else {
+          displayWord = (info.hasY ? "y " : "en ") + mainWord;
+        }
+      }
+
+      if (info.trailing) {
+        displayWord = displayWord + " " + info.trailing;
+      }
+
+      // Ajouter le point d'exclamation pour l'impératif
+      if (isImp) {
+        displayWord += " !";
+      }
+      
+      // Éviter de concaténer le sujet élidé pour garder la grille alignée
+
+      const wordSpan = document.createElement("span");
+      wordSpan.className = "conjugated-word";
+      wordSpan.textContent = displayWord;
+      verbSpan.appendChild(wordSpan);
+      row.appendChild(verbSpan);
+      tableArea.appendChild(row);
+    }
+
+    // 3. Mettre à jour l'explication pédagogique
+    document.getElementById("explanation-box").style.display = "flex";
+    const expText = getPedagogicalRule(info, currentTense, "rectified");
+    document.getElementById("explanation-text-content").innerHTML = expText;
+  }
+</script>
+
+</body>
+</html>
