@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mes abaques — Grandeurs</title>
+<title>Mes abaques — Mathématiques</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -17,14 +17,21 @@
   --ok: #2FA36B;   --ok-soft: #E0F4EA;
   --bad: #D64545;  --bad-soft: #FBE5E5;
   
-  --theme-main: #3D8BFD;
-  --theme-soft: #E2EEFF;
+  --theme-main: #8B5CF6; /* Violet par défaut pour le Hub */
+  --theme-soft: #EDE9FE;
   
   --l-color: #3D8BFD; --l-soft: #E2EEFF;
   --c-color: #00BFA5; --c-soft: #E0F2F1;
   --m-color: #F2820A; --m-soft: #FFEEDB;
   --a-color: #5B4FCF; --a-soft: #EEF0FF;
   --v-color: #D94F3D; --v-soft: #FDECEA;
+
+  /* Couleurs de numération */
+  --milliard-color: #F2820A;
+  --million-color: #8B5CF6;
+  --mille-color: #3D8BFD;
+  --unite-color: #10B981;
+  --decimaux-color: #EF4444;
 
   --radius: 16px;
   --shadow: 0 4px 12px rgba(30,45,69,.06), 0 12px 28px rgba(30,45,69,.05);
@@ -43,12 +50,109 @@ body{
   font-size:16px;
   line-height:1.55;
   transition: background-color 0.4s;
+  padding-bottom: 40px;
 }
 .wrap{max-width:1240px; margin:0 auto; padding:0 20px;}
 
-/* ---------- Header ---------- */
-header.app{padding:22px 0 14px;}
-.brand{display:flex; align-items:center; gap:14px; justify-content:center; flex-wrap:wrap;}
+/* ---------- ÉCRAN ACCUEIL (HUB) ---------- */
+.hub-container {
+  padding: 60px 20px;
+  text-align: center;
+  animation: fadein 0.3s ease;
+}
+.hub-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.hub-logo {
+  width: 80px; height: 80px; border-radius: 22px;
+  background: var(--theme-main);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px; color: #fff;
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25);
+  margin-bottom: 20px;
+}
+.hub-header h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(28px, 5vw, 42px);
+  color: var(--ink);
+  font-weight: 700;
+}
+.hub-header p {
+  font-size: 17px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+  max-width: 600px;
+}
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.hub-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px 30px;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 3px solid transparent;
+  position: relative;
+}
+.hub-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(30,45,69,.12);
+  border-color: var(--theme-main);
+}
+.hub-card-icon {
+  width: 76px; height: 76px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; color: #fff;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.hub-card h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+.hub-card p {
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  flex: 1;
+}
+.hub-card-btn {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 26px;
+  border-radius: 999px;
+  background: var(--theme-main);
+  color: #fff;
+  transition: filter 0.15s;
+  box-shadow: 0 3px 0 rgba(0,0,0,.1);
+}
+.hub-card:hover .hub-card-btn {
+  filter: brightness(1.15);
+}
+
+/* ---------- Header Global ---------- */
+header.app{padding:22px 0 14px; position: relative;}
+.header-navigation {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+}
+.brand{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
 .brand-icon{
   width: 52px; height: 52px; border-radius: 12px;
   background: var(--theme-main);
@@ -59,40 +163,44 @@ header.app{padding:22px 0 14px;}
 }
 .brand h1{
   font-family:'Fredoka', sans-serif; font-weight:700;
-  font-size:clamp(26px, 4vw, 38px); letter-spacing:.3px;
+  font-size:clamp(24px, 4vw, 34px); letter-spacing:.3px;
 }
 .brand .sub{
   font-size:14px; color:var(--ink-soft); font-weight:700;
-  text-align:center; width:100%; letter-spacing:.6px; text-transform:uppercase;
+  text-align:left; width:100%; letter-spacing:.6px; text-transform:uppercase;
+  margin-top: -4px;
+}
+.header-actions {
+  display: flex; align-items: center; gap: 12px;
 }
 nav.tabs{
-  display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
-  margin:18px auto 0; padding:6px;
+  display:flex; gap:6px; justify-content:center;
+  padding:5px;
   background:var(--card); border-radius:999px;
-  box-shadow:var(--shadow); width:max-content; max-width:100%;
+  box-shadow:var(--shadow); width:max-content;
 }
 .tab-btn{
-  font-family:'Fredoka', sans-serif; font-weight:600; font-size:16px;
+  font-family:'Fredoka', sans-serif; font-weight:600; font-size:15px;
   border:none; background:transparent; color:var(--ink-soft);
-  padding:10px 20px; border-radius:999px; cursor:pointer;
+  padding:8px 18px; border-radius:999px; cursor:pointer;
   transition:background .15s, color .15s;
 }
 .tab-btn:hover{background:var(--paper);}
 .tab-btn.active{background:var(--ink); color:#fff;}
-.tab-btn:focus-visible{outline:3px solid var(--theme-main); outline-offset:2px;}
 
 /* ---------- Grandeurs Switch ---------- */
 .family-switch{
-  position:fixed; top:14px; right:14px; z-index:50;
-  display:flex; gap:4px; padding:4px; background:var(--card);
-  border-radius:999px; box-shadow:var(--shadow);
+  display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
+  margin: 18px auto 0; padding:6px; background:var(--card);
+  border-radius:999px; box-shadow:var(--shadow); width: max-content; max-width: 100%;
 }
 .family-switch button{
   font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px;
   border:none; background:transparent; color:var(--ink-soft);
-  padding:6px 14px; border-radius:999px; cursor:pointer;
+  padding:8px 16px; border-radius:999px; cursor:pointer;
   transition: all 0.2s; display: flex; align-items: center; gap: 6px;
 }
+.family-switch button:hover{background: var(--paper);}
 .family-switch button.active{
   color: #fff;
 }
@@ -103,33 +211,34 @@ nav.tabs{
 #btnVol.active{background: var(--v-color);}
 
 /* ---------- Sections ---------- */
-section.page{display:none; padding:26px 0 60px; animation:fadein .25s ease;}
+section.page{display:none; padding:18px 0 60px; animation:fadein .25s ease;}
 section.page.active{display:block;}
 @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
 .card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px;}
 h2.sec{
   font-family:'Fredoka', sans-serif; font-weight:600; font-size:24px;
-  margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  margin-bottom:12px; display:flex; align-items:center; gap:10px;
 }
 h2.sec::before{
   content:""; width:14px; height:14px; border-radius:50%;
   background:var(--theme-main); flex:none;
   box-shadow: 0 0 0 4px var(--theme-soft);
 }
-p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
+p.lead{font-size:16px; color:var(--ink-soft); max-width:840px;}
 
 .btn{
-  font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px;
-  border:none; border-radius:999px; padding:11px 24px; cursor:pointer;
-  background:var(--theme-main); color:#fff; box-shadow:0 3px 0 rgba(0,0,0,.15);
+  font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px;
+  border:none; border-radius:999px; padding:10px 22px; cursor:pointer;
+  background:var(--theme-main); color:#fff; box-shadow:0 3px 0 rgba(0,0,0,.1);
   transition:transform .1s, filter .12s, background .4s;
+  display: flex; align-items: center; gap: 6px;
 }
 .btn:hover{filter:brightness(1.15);}
 .btn:active{transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,.15);}
-.btn.ghost{background:var(--card); color:var(--ink); border:2px solid var(--grid-line); box-shadow:none;}
-.btn.small{font-size:14px; padding:7px 16px;}
+.btn.ghost{background:var(--card); color:var(--ink); border:2.5px solid var(--grid-line); box-shadow:none;}
+.btn.small{font-size:13.5px; padding:7px 16px;}
 
-/* ---------- ABAQUE (Le Convertisseur) ---------- */
+/* ---------- ABAQUE GRANDEURS ---------- */
 .abaque-container{
   background: #22334F;
   border-radius: var(--radius);
@@ -143,7 +252,7 @@ p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
   position: relative;
 }
@@ -213,9 +322,8 @@ p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
   100%{transform: scale(1); opacity:1;}
 }
 .zero-added{
-  color: #FFD66B; /* Zeros rajoutés en jaune pour les mettre en évidence */
+  color: #FFD66B;
 }
-/* La virgule */
 .comma{
   position: absolute;
   bottom: 5px;
@@ -236,7 +344,7 @@ p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
 
 /* Controls en dessous de l'abaque */
 .abaque-controls{
-  max-width: 900px;
+  max-width: 960px;
   margin: 20px auto 0;
   display: flex;
   justify-content: space-between;
@@ -276,7 +384,7 @@ p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
   border-radius: 12px;
   font-family: 'Fredoka', sans-serif;
   font-weight: 600;
-  font-size: 26px;
+  font-size: 22px;
   color: var(--ink);
   text-align: center;
   flex: 1;
@@ -289,28 +397,7 @@ p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
   transition: all 0.4s;
 }
 .result-box .small{
-  font-size: 15px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1px;
-}
-
-/* Instructions */
-.instructions-bar{
-  background: var(--card);
-  padding: 12px 20px;
-  border-radius: var(--radius);
-  margin-top: 14px;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  color: var(--ink);
-}
-.step-badge{
-  background: var(--theme-main); color: #fff;
-  width: 26px; height: 26px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Fredoka', sans-serif; font-size: 14px;
-  transition: background 0.4s;
+  font-size: 13px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;
 }
 
 /* ---------- Théorie ---------- */
@@ -321,11 +408,12 @@ p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
   border: 2px solid var(--grid-line); border-radius: var(--radius); padding: 20px;
 }
 .t-card h3{font-family:'Fredoka',sans-serif; font-size: 20px; margin-bottom: 10px;}
-.t-card p{color: var(--ink-soft); margin-bottom: 10px;}
+.t-card p{color: var(--ink-soft); margin-bottom: 10px; font-size: 14.5px;}
 .rule-box{
   background: var(--theme-soft); padding: 14px; border-radius: 10px; margin-top: 14px;
   border-left: 4px solid var(--theme-main);
   transition: all 0.4s;
+  font-size: 14px;
 }
 
 .abaque.double-grid {
@@ -389,113 +477,523 @@ p.lead{font-size:17px; color:var(--ink-soft); max-width:840px;}
   pointer-events: none;
   user-select: none;
 }
-footer{padding:26px 0 40px; text-align:center; font-size:13px; color:var(--ink-soft); font-weight:700;}
+
+/* ---------- NUMÉRATION SPECIFIC STYLES ---------- */
+.numeration-selector {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;
+}
+.num-type-btn {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 2.5px solid var(--grid-line);
+  background: var(--card);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.num-type-btn.active {
+  background: var(--theme-main);
+  color: #fff;
+  border-color: var(--theme-main);
+  box-shadow: var(--shadow);
+}
+
+.abaque-num {
+  display: grid;
+  gap: 6px;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  background: #1A2536;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Grille de classes */
+.class-header {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  padding: 8px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.class-milliard { background: var(--milliard-color); }
+.class-million { background: var(--million-color); }
+.class-mille { background: var(--mille-color); }
+.class-unite { background: var(--unite-color); }
+.class-decimaux { background: var(--decimaux-color); }
+
+.place-header {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.06);
+  padding: 6px;
+  text-align: center;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+  text-transform: uppercase;
+}
+
+.cell.numeration-cell {
+  height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 0 0 6px 6px;
+  border-right: 1px dashed rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.2);
+  transition: all 0.2s;
+  position: relative;
+}
+.cell.numeration-cell:hover {
+  background: rgba(255,255,255,0.04);
+}
+.cell.numeration-cell.active-cell {
+  background: rgba(255, 214, 107, 0.12) !important;
+  box-shadow: inset 0 0 0 2px #FFD66B;
+}
+
+.tokens-container {
+  height: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  pointer-events: none;
+}
+.token {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  animation: pop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.token.token-milliard { background: var(--milliard-color); }
+.token.token-million { background: var(--million-color); }
+.token.token-mille { background: var(--mille-color); }
+.token.token-unite { background: var(--unite-color); }
+.token.token-decimaux { background: var(--decimaux-color); }
+
+.digit-value {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  color: #fff;
+  line-height: 1;
+  pointer-events: none;
+  min-height: 30px;
+}
+.cell.numeration-cell.active-cell .digit-value {
+  color: #FFD66B;
+}
+
+/* Ajustements +/- sur la cellule */
+.cell-adjust {
+  position: absolute;
+  top: 0; right: 3px; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+}
+.cell.numeration-cell:hover .cell-adjust {
+  opacity: 1;
+}
+.adjust-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.adjust-btn:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+/* Ligne de séparation décimale rouge */
+.separator-right {
+  border-right: 4px solid var(--decimaux-color) !important;
+}
+.cell-comma {
+  position: absolute;
+  bottom: -15px;
+  right: -7px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
+  font-size: 34px;
+  color: var(--decimaux-color);
+  z-index: 15;
+  pointer-events: none;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.options-row {
+  max-width: 1000px;
+  margin: 14px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.option-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 15px;
+}
+.option-label input {
+  width: 18px; height: 18px; accent-color: var(--theme-main);
+}
+
+footer{padding:26px 0 20px; text-align:center; font-size:13.5px; color:var(--ink-soft); font-weight:700; margin-top:20px;}
 </style>
 </head>
 <body>
 
-<div class="family-switch" role="group" aria-label="Grandeur">
-  <button id="btnLen" class="active" data-family="longueur">📏 Longueurs</button>
-  <button id="btnCap" data-family="capacite">💧 Capacités</button>
-  <button id="btnMas" data-family="masse">⚖️ Masses</button>
-  <button id="btnArea" data-family="superficie">📐 Superficies</button>
-  <button id="btnVol" data-family="volume">📦 Volumes</button>
-</div>
-
-<header class="app wrap">
-  <div class="brand">
-    <div class="brand-icon" id="brandIcon">📏</div>
+<!-- ============ ÉCRAN D'ACCUEIL (HUB) ============ -->
+<div id="screen-hub" class="hub-container page active">
+  <div class="hub-header">
+    <div class="hub-logo">📐</div>
     <h1>Mes abaques</h1>
-    <span class="sub" id="appSubtitle">Grandeurs · Longueurs</span>
-  </div>
-  <nav class="tabs" role="tablist">
-    <button class="tab-btn" data-tab="theorie" role="tab">Théorie</button>
-    <button class="tab-btn active" data-tab="machine" role="tab">Le Convertisseur</button>
-  </nav>
-</header>
-
-<main class="wrap">
-
-<!-- ============ LE CONVERTISSEUR (ABAQUE) ============ -->
-<section class="page active" id="page-machine">
-  <div class="card" style="padding:20px 24px;">
-    <h2 class="sec">L'Abaque Interactif</h2>
-    <p class="lead">Choisis ton unité de départ, tape ton nombre, puis clique sur l'unité d'arrivée pour convertir magiquement !</p>
+    <p>Sélectionne le module d'abaque avec lequel tu souhaites t'entraîner aujourd'hui.</p>
   </div>
   
-  <div class="abaque-container">
-    <div class="abaque" id="abaque">
-      <!-- Généré par JS -->
+  <div class="hub-grid">
+    <!-- Card 1: Grandeurs -->
+    <div class="hub-card" onclick="enterMode('grandeurs')">
+      <div class="hub-card-icon" style="background: var(--l-color);">📏</div>
+      <h2>Abaques en grandeurs</h2>
+      <p>Convertis des longueurs, des capacités, des masses, des superficies et des volumes.</p>
+      <span class="hub-card-btn" style="background: var(--l-color);">Y aller →</span>
     </div>
     
-    <div class="abaque-controls">
-      <div class="numpad" id="numpad">
-        <button class="num-btn">1</button>
-        <button class="num-btn">2</button>
-        <button class="num-btn">3</button>
-        <button class="num-btn">4</button>
-        <button class="num-btn">5</button>
-        <button class="num-btn">6</button>
-        <button class="num-btn">7</button>
-        <button class="num-btn">8</button>
-        <button class="num-btn">9</button>
-        <button class="num-btn">0</button>
-        <button class="num-btn">,</button>
-        <button class="num-btn del">⌫</button>
-        <button class="num-btn clear" style="grid-column: span 3;">🗑️ Tout vider</button>
-      </div>
-      <div class="result-box" id="resultBox">
-        <span class="small">Résultat</span>
-        <div id="resultText" style="margin-top:4px;">---</div>
-      </div>
+    <!-- Card 2: Numération -->
+    <div class="hub-card" onclick="enterMode('numeration')">
+      <div class="hub-card-icon" style="background: var(--million-color);">🔟</div>
+      <h2>Abaques en numération</h2>
+      <p>Place les chiffres pour construire des grands nombres et explorer les classes d'unités.</p>
+      <span class="hub-card-btn" style="background: var(--million-color);">Y aller →</span>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ============ THÉORIE ============ -->
-<section class="page" id="page-theorie">
-  <div class="card">
-    <h2 class="sec">Le secret du tableau de conversion</h2>
-    <p class="lead">Pour convertir sans jamais se tromper, il faut maîtriser le placement de la virgule et du <strong>chiffre des unités</strong>. Voici les règles d'or.</p>
+
+<!-- ============ MODULE GRANDEURS ============ -->
+<div id="screen-grandeurs" class="page">
+  <header class="app wrap">
+    <div class="header-navigation">
+      <div class="brand">
+        <div class="brand-icon" id="brandIcon">📏</div>
+        <div>
+          <h1>Mes abaques</h1>
+          <span class="sub" id="appSubtitle">Grandeurs · Longueurs</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn ghost small" onclick="exitToHub()">🏠 Accueil</button>
+        <nav class="tabs" role="tablist">
+          <button class="tab-btn" id="tabLenTheoryBtn" onclick="switchGrandeursTab('theorie')">Théorie</button>
+          <button class="tab-btn active" id="tabLenMachineBtn" onclick="switchGrandeursTab('machine')">Le Convertisseur</button>
+        </nav>
+      </div>
+    </div>
     
-    <div class="theory-grid">
-      <div class="t-card">
-        <h3>1. Placer son nombre</h3>
-        <p>On repère toujours le chiffre des unités du nombre, et on le place dans la colonne de l'unité demandée.</p>
-        <p>Exemple : Dans <strong>345</strong> m, le chiffre des unités est <strong>5</strong>. On place le 5 dans la colonne "m", le 4 dans "dam", et le 3 dans "hm".</p>
-        <div class="rule-box">
-          <strong>Règle :</strong> 1 seul chiffre par colonne/cellule !
+    <div class="family-switch" role="group" aria-label="Grandeur">
+      <button id="btnLen" class="active" onclick="changeGrandeursFamily('longueur')">📏 Longueurs</button>
+      <button id="btnCap" onclick="changeGrandeursFamily('capacite')">💧 Capacités</button>
+      <button id="btnMas" onclick="changeGrandeursFamily('masse')">⚖️ Masses</button>
+      <button id="btnArea" onclick="changeGrandeursFamily('superficie')">📐 Superficies</button>
+      <button id="btnVol" onclick="changeGrandeursFamily('volume')">📦 Volumes</button>
+    </div>
+  </header>
+  
+  <main class="wrap">
+    <!-- LE CONVERTISSEUR (ABAQUE) -->
+    <section class="page-section active" id="page-len-machine">
+      <div class="card" style="padding:16px 24px;">
+        <h2 class="sec">L'Abaque Interactif</h2>
+        <p class="lead">Choisis ton unité de départ, tape ton nombre, puis clique sur l'unité d'arrivée pour convertir !</p>
+      </div>
+      
+      <div class="abaque-container">
+        <div class="abaque" id="abaque-conversions-grid">
+          <!-- Généré par JS -->
+        </div>
+        
+        <div class="abaque-controls">
+          <div class="numpad">
+            <button class="num-btn" onclick="pressConversionDigit('1')">1</button>
+            <button class="num-btn" onclick="pressConversionDigit('2')">2</button>
+            <button class="num-btn" onclick="pressConversionDigit('3')">3</button>
+            <button class="num-btn" onclick="pressConversionDigit('4')">4</button>
+            <button class="num-btn" onclick="pressConversionDigit('5')">5</button>
+            <button class="num-btn" onclick="pressConversionDigit('6')">6</button>
+            <button class="num-btn" onclick="pressConversionDigit('7')">7</button>
+            <button class="num-btn" onclick="pressConversionDigit('8')">8</button>
+            <button class="num-btn" onclick="pressConversionDigit('9')">9</button>
+            <button class="num-btn" onclick="pressConversionDigit('0')">0</button>
+            <button class="num-btn" onclick="pressConversionDigit(',')">,</button>
+            <button class="num-btn del" onclick="pressConversionDel()">⌫</button>
+            <button class="num-btn clear" onclick="pressConversionClear()">🗑️ Tout vider</button>
+          </div>
+          <div class="result-box">
+            <span class="small">Résultat</span>
+            <div id="resultText" style="margin-top:4px;">---</div>
+          </div>
         </div>
       </div>
-      <div class="t-card">
-        <h3>2. Convertir avec des zéros</h3>
-        <p>Pour convertir vers une unité plus petite (vers la droite), on ajoute des zéros dans les colonnes vides jusqu'à atteindre l'unité voulue.</p>
-        <p>Exemple : 5 m = 50 dm = 500 cm = 5000 mm.</p>
-        <div class="rule-box">
-          <strong>Astuce :</strong> Le nom de l'unité indique où s'arrête la lecture du nombre entier.
+    </section>
+    
+    <!-- THÉORIE -->
+    <section class="page-section" id="page-len-theorie" style="display:none;">
+      <div class="card">
+        <h2 class="sec">Le secret du tableau de conversion</h2>
+        <p class="lead">Pour convertir sans se tromper, il faut maîtriser le placement de la virgule et du <strong>chiffre des unités</strong>.</p>
+        
+        <div class="theory-grid">
+          <div class="t-card">
+            <h3>1. Placer son nombre</h3>
+            <p>On repère toujours le chiffre des unités du nombre, et on le place dans la colonne de l'unité demandée.</p>
+            <p>Exemple : Dans <strong>345</strong> m, le chiffre des unités est <strong>5</strong>. On place le 5 dans "m", le 4 dans "dam", et le 3 dans "hm".</p>
+            <div class="rule-box" style="border-left-color: var(--l-color); background: var(--l-soft);">
+              <strong>Règle :</strong> 1 seul chiffre par colonne/cellule !
+            </div>
+          </div>
+          <div class="t-card">
+            <h3>2. Convertir avec des zéros</h3>
+            <p>Pour convertir vers une unité plus petite, on ajoute des zéros dans les colonnes vides jusqu'à atteindre l'unité voulue.</p>
+            <p>Exemple : 5 m = 50 dm = 500 cm = 5000 mm.</p>
+            <div class="rule-box" style="border-left-color: var(--l-color); background: var(--l-soft);">
+              <strong>Astuce :</strong> Le nom de l'unité indique où s'arrête la lecture.
+            </div>
+          </div>
+          <div class="t-card">
+            <h3>3. Superficies &amp; Volumes</h3>
+            <p>Les superficies (²) ont <strong>2 colonnes</strong> par unité. Les volumes (³) en ont <strong>3</strong>.</p>
+            <p>On commence toujours à remplir par la colonne la plus à droite (les unités) de l'unité de mesure choisie.</p>
+            <div class="rule-box" style="border-left-color: var(--l-color); background: var(--l-soft);">
+              <strong>Règle :</strong> Remplir de droite à gauche dans l'unité !
+            </div>
+          </div>
         </div>
       </div>
-      <div class="t-card">
-        <h3>3. Superficies &amp; Volumes</h3>
-        <p>Les superficies (²) ont <strong>2 colonnes</strong> par unité (dizaines, unités). Les volumes (³) en ont <strong>3</strong> (centaines, dizaines, unités).</p>
-        <p>On commence toujours à remplir par la colonne la plus à droite (les unités) de la grandeur choisie.</p>
-        <div class="rule-box">
-          <strong>Règle :</strong> Remplir de droite à gauche dans l'unité !
+    </section>
+  </main>
+</div>
+
+
+<!-- ============ MODULE NUMÉRATION ============ -->
+<div id="screen-numeration" class="page">
+  <header class="app wrap">
+    <div class="header-navigation">
+      <div class="brand">
+        <div class="brand-icon" style="background: var(--million-color);">🔟</div>
+        <div>
+          <h1>Mes abaques</h1>
+          <span class="sub" id="numSubtitle">Numération · Jusqu'aux millions</span>
         </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn ghost small" onclick="exitToHub()">🏠 Accueil</button>
+        <nav class="tabs" role="tablist">
+          <button class="tab-btn" id="tabNumTheoryBtn" onclick="switchNumerationTab('theorie')">Théorie</button>
+          <button class="tab-btn active" id="tabNumMachineBtn" onclick="switchNumerationTab('machine')">Le Tableau</button>
+        </nav>
       </div>
     </div>
-  </div>
-</section>
+    
+    <div class="numeration-selector" style="margin-top:18px;">
+      <button class="num-type-btn active" id="btnNumMillions" onclick="changeNumerationType('millions')">1. Jusqu'aux millions</button>
+      <button class="num-type-btn" id="btnNumMilliards" onclick="changeNumerationType('milliards')">2. Jusqu'aux milliards</button>
+      <button class="num-type-btn" id="btnNumDecimaux" onclick="changeNumerationType('decimaux')">3. Avec les décimaux</button>
+    </div>
+  </header>
+  
+  <main class="wrap">
+    <!-- LE TABLEAU DE NUMÉRATION -->
+    <section class="page-section active" id="page-num-machine">
+      <div class="card" style="padding:16px 24px;">
+        <h2 class="sec">Le Tableau de Numération</h2>
+        <p class="lead">Clique sur une case pour la sélectionner, puis utilise le clavier ou les jetons pour placer tes chiffres.</p>
+      </div>
+      
+      <div class="abaque-container" style="background: #1D283A; padding: 25px 15px;">
+        <div class="abaque-num" id="abaque-numeration-grid">
+          <!-- Généré dynamiquement par JS -->
+        </div>
+        
+        <div class="options-row">
+          <label class="option-label">
+            <input type="checkbox" id="chkShowTokens" checked onchange="toggleTokensVisibility()">
+            <span>Afficher les jetons de couleur</span>
+          </label>
+        </div>
+        
+        <div class="abaque-controls">
+          <div class="numpad">
+            <button class="num-btn" onclick="pressNumerationDigit('1')">1</button>
+            <button class="num-btn" onclick="pressNumerationDigit('2')">2</button>
+            <button class="num-btn" onclick="pressNumerationDigit('3')">3</button>
+            <button class="num-btn" onclick="pressNumerationDigit('4')">4</button>
+            <button class="num-btn" onclick="pressNumerationDigit('5')">5</button>
+            <button class="num-btn" onclick="pressNumerationDigit('6')">6</button>
+            <button class="num-btn" onclick="pressNumerationDigit('7')">7</button>
+            <button class="num-btn" onclick="pressNumerationDigit('8')">8</button>
+            <button class="num-btn" onclick="pressNumerationDigit('9')">9</button>
+            <button class="num-btn" onclick="pressNumerationDigit('0')">0</button>
+            <button class="num-btn" disabled style="opacity: 0.3;">,</button>
+            <button class="num-btn del" onclick="pressNumerationDel()">⌫</button>
+            <button class="num-btn clear" onclick="pressNumerationClear()">🗑️ Tout vider</button>
+          </div>
+          
+          <div class="result-box" style="background: #FAF8F2; border-color: var(--million-color);">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <div>
+                <span class="small" style="font-size:11px;">En chiffres</span>
+                <div id="numResultDigits" style="font-size: 26px; font-weight:700; color:var(--ink);">---</div>
+              </div>
+              <hr style="border: 0; border-top: 1.5px solid var(--grid-line); margin: 6px 0;">
+              <div>
+                <span class="small" style="font-size:11px;">En lettres (Belgique - Orthographe 1990)</span>
+                <div id="numResultLetters" style="font-size: 15px; font-weight:600; color:var(--ink-soft); line-height: 1.4;">---</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- THÉORIE NUMÉRATION -->
+    <section class="page-section" id="page-num-theorie" style="display:none;">
+      <div class="card">
+        <h2 class="sec">Comprendre les classes de nombres</h2>
+        <p class="lead">Le tableau de numération regroupe les chiffres par paquets de 3 (unités, dizaines, centaines) appelés des <strong>classes</strong>.</p>
+        
+        <div class="theory-grid">
+          <div class="t-card">
+            <h3>1. Les classes de nombres</h3>
+            <p>Pour lire facilement un grand nombre, on sépare chaque classe par un espace.</p>
+            <p>Chaque classe a toujours trois colonnes : Centaines (C), Dizaines (D) et Unités (U).</p>
+            <div class="rule-box" style="border-left-color: var(--million-color); background: var(--theme-soft);">
+              <strong>Exemple :</strong> 12 345 678 (12 millions 345 mille 678).
+            </div>
+          </div>
+          <div class="t-card">
+            <h3>2. L'importance du zéro</h3>
+            <p>Lorsqu'une colonne est vide à l'intérieur d'un nombre, il faut obligatoirement placer un <strong>zéro</strong>. Sans lui, la position des autres chiffres changerait !</p>
+            <p>Exemple : Deux millions huit mille se note 2 008 000.</p>
+            <div class="rule-box" style="border-left-color: var(--million-color); background: var(--theme-soft);">
+              <strong>Règle :</strong> Le zéro sert de garde-place.
+            </div>
+          </div>
+          <div class="t-card">
+            <h3>3. Les décimaux</h3>
+            <p>Dans l'abaque avec décimaux, la ligne rouge épaisse marque l'emplacement de la virgule. Elle sépare la partie entière de la partie décimale.</p>
+            <p>Les colonnes de droite s'appellent : les dixièmes (d), les centièmes (c) et les millièmes (m).</p>
+            <div class="rule-box" style="border-left-color: var(--million-color); background: var(--theme-soft);">
+              <strong>Astuce :</strong> 1 dixième = 10 centièmes = 100 millièmes.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
 
-</main>
-<footer>Mes abaques - Mr Lejoly</footer>
+<footer class="wrap">Mes abaques - Mr Lejoly</footer>
 
 <script>
 "use strict";
+
 const $ = id => document.getElementById(id);
 
-// --- DONNÉES DES GRANDEURS ---
-const FAMILIES = {
+// --- ETAT GLOBAL ---
+let currentMode = 'hub'; // 'hub', 'grandeurs', 'numeration'
+
+// --- SONS ---
+let audioCtx = null;
+function playTone(freq, dur = .12, delay = 0, type = 'sine', vol = .18){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, audioCtx.currentTime + delay);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + delay + dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(audioCtx.currentTime + delay); o.stop(audioCtx.currentTime + delay + dur + .02);
+  }catch(e){}
+}
+const sndTap = () => playTone(800, .05, 0, 'sine', .1);
+const sndDel = () => playTone(300, .08, 0, 'triangle');
+const sndPop = () => playTone(1200, .08, 0, 'sine', .15);
+const sndConvert = () => { playTone(523,.1); playTone(659,.1,.08); playTone(784,.15,.16); };
+const sndBad = () => playTone(180,.25,0,'sawtooth',.1);
+
+// --- NAVIGATION GENERALE ---
+function enterMode(mode) {
+  sndTap();
+  currentMode = mode;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  
+  if (mode === 'grandeurs') {
+    $('screen-grandeurs').classList.add('active');
+    applyGrandeursTheme();
+    buildGrandeursGrid();
+    resetGrandeurs();
+  } else if (mode === 'numeration') {
+    $('screen-numeration').classList.add('active');
+    changeNumerationType(currentNumerationType);
+  }
+}
+
+function exitToHub() {
+  sndDel();
+  currentMode = 'hub';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  $('screen-hub').classList.add('active');
+  document.documentElement.style.setProperty('--theme-main', '#8B5CF6');
+  document.documentElement.style.setProperty('--theme-soft', '#EDE9FE');
+}
+
+
+/* =========================================================================
+   ========================== MODULE GRANDEURS =============================
+   ========================================================================= */
+
+const GRANDEURS_FAMILIES = {
   longueur: {
     color: '#3D8BFD', soft: '#E2EEFF', icon: '📏', name: 'Longueurs',
     units: ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm']
@@ -519,70 +1017,56 @@ const FAMILIES = {
     units: ['km³', 'hm³', 'dam³', 'm³', 'dm³', 'cm³', 'mm³']
   }
 };
-let currentFamily = 'longueur';
-
-// --- SONS ---
-let audioCtx = null;
-function playTone(freq, dur = .12, delay = 0, type = 'sine', vol = .18){
-  try{
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = type; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol, audioCtx.currentTime + delay);
-    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + delay + dur);
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start(audioCtx.currentTime + delay); o.stop(audioCtx.currentTime + delay + dur + .02);
-  }catch(e){}
-}
-const sndTap = () => playTone(800, .05, 0, 'sine', .1);
-const sndDel = () => playTone(300, .08, 0, 'triangle');
-const sndPop = () => playTone(1200, .08, 0, 'sine', .15);
-const sndConvert = () => { playTone(523,.1); playTone(659,.1,.08); playTone(784,.15,.16); };
-const sndOk = () => { playTone(523,.12); playTone(659,.12,.11); playTone(784,.2,.22); };
-const sndBad = () => playTone(180,.25,0,'sawtooth',.1);
-
-// --- ETAT ABAQUE ---
+let currentGrandeursFamily = 'longueur';
 let startUnitIdx = -1;
 let endUnitIdx = -1;
-let rawDigits = []; // Store digits typed by user (max 7)
+let rawDigits = []; 
 
-// --- CHANGER DE GRANDEUR ---
-document.querySelectorAll('.family-switch button').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    document.querySelectorAll('.family-switch button').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
-    currentFamily = e.target.dataset.family;
-    applyTheme();
-    buildAbaque();
-    resetAbaque();
-  });
-});
-
-function applyTheme() {
-  const f = FAMILIES[currentFamily];
+function applyGrandeursTheme() {
+  const f = GRANDEURS_FAMILIES[currentGrandeursFamily];
   document.documentElement.style.setProperty('--theme-main', f.color);
   document.documentElement.style.setProperty('--theme-soft', f.soft);
   $('brandIcon').textContent = f.icon;
   $('appSubtitle').textContent = `Grandeurs · ${f.name}`;
 }
 
-// --- NAVIGATION ONGLETS ---
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    e.target.classList.add('active');
-    $('page-' + e.target.dataset.tab).classList.add('active');
-  });
-});
+function switchGrandeursTab(tab) {
+  sndTap();
+  if (tab === 'machine') {
+    $('tabLenTheoryBtn').classList.remove('active');
+    $('tabLenMachineBtn').classList.add('active');
+    $('page-len-theorie').style.display = 'none';
+    $('page-len-machine').style.display = 'block';
+  } else {
+    $('tabLenMachineBtn').classList.remove('active');
+    $('tabLenTheoryBtn').classList.add('active');
+    $('page-len-machine').style.display = 'none';
+    $('page-len-theorie').style.display = 'block';
+  }
+}
 
-// --- ABAQUE BUILDER ---
-function buildAbaque() {
-  const abaque = $('abaque');
+function changeGrandeursFamily(family) {
+  currentGrandeursFamily = family;
+  document.querySelectorAll('.family-switch button').forEach(b => b.classList.remove('active'));
+  
+  if (family === 'longueur') $('btnLen').classList.add('active');
+  else if (family === 'capacite') $('btnCap').classList.add('active');
+  else if (family === 'masse') $('btnMas').classList.add('active');
+  else if (family === 'superficie') $('btnArea').classList.add('active');
+  else if (family === 'volume') $('btnVol').classList.add('active');
+  
+  applyGrandeursTheme();
+  buildGrandeursGrid();
+  resetGrandeurs();
+}
+
+function buildGrandeursGrid() {
+  const abaque = $('abaque-conversions-grid');
   abaque.innerHTML = '';
-  const units = FAMILIES[currentFamily].units;
-  const isDouble = FAMILIES[currentFamily].double;
-  const isTriple = FAMILIES[currentFamily].triple;
+  const f = GRANDEURS_FAMILIES[currentGrandeursFamily];
+  const units = f.units;
+  const isDouble = f.double;
+  const isTriple = f.triple;
   
   if (isTriple) {
     abaque.className = 'abaque triple-grid';
@@ -624,7 +1108,6 @@ function buildAbaque() {
       `;
     } else {
       col.className = 'col';
-      col.id = `col-${idx}`;
       col.innerHTML = `
         <div class="unit-header" data-idx="${idx}">${u}</div>
         <div class="cell" id="cell-${idx}"></div>
@@ -633,124 +1116,111 @@ function buildAbaque() {
     abaque.appendChild(col);
   });
   
-  // Add comma
   const comma = document.createElement('div');
   comma.className = 'comma';
   comma.id = 'comma';
   comma.textContent = ',';
   abaque.appendChild(comma);
 
-  // Bind clicks
-  document.querySelectorAll('.unit-header').forEach(h => {
-    h.addEventListener('click', () => onUnitClick(parseInt(h.dataset.idx)));
+  document.querySelectorAll('#abaque-conversions-grid .unit-header').forEach(h => {
+    h.addEventListener('click', () => onGrandeursUnitClick(parseInt(h.dataset.idx)));
   });
 }
 
-function updateInstructions() {
-  // Supprimé car le cadre d'instructions a été retiré
-}
-
-function onUnitClick(idx) {
+function onGrandeursUnitClick(idx) {
   if (startUnitIdx === -1 || (startUnitIdx !== -1 && endUnitIdx !== -1 && rawDigits.length === 0)) {
-    // Set start
     startUnitIdx = idx;
     endUnitIdx = -1;
     rawDigits = [];
     sndTap();
   } else if (idx === startUnitIdx) {
-    // Reset target if clicked on start again
     endUnitIdx = -1;
     sndTap();
   } else {
-    // Set end and convert
     if(rawDigits.length > 0) {
       endUnitIdx = idx;
       sndConvert();
     } else {
-      startUnitIdx = idx; // Change start if no digits
+      startUnitIdx = idx; 
       sndTap();
     }
   }
-  renderAbaque();
+  renderGrandeursGrid();
 }
 
-// --- NUMPAD ---
-document.querySelectorAll('.num-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    if (btn.classList.contains('del')) {
-      if(rawDigits.length > 0) {
-        rawDigits.pop();
-        sndDel();
-        if(rawDigits.length === 0) endUnitIdx = -1;
-        renderAbaque();
-      }
-    } else if (btn.classList.contains('clear')) {
-      resetAbaque();
-      sndDel();
+function pressConversionDigit(digit) {
+  if (startUnitIdx === -1) {
+    startUnitIdx = 3; 
+  }
+  if (endUnitIdx !== -1) {
+    endUnitIdx = -1;
+    rawDigits = [];
+  }
+  
+  if (digit === ',') {
+    if (!rawDigits.includes(',')) {
+      if (rawDigits.length === 0) rawDigits.push('0');
+      rawDigits.push(',');
+      sndPop();
+      renderGrandeursGrid();
     } else {
-      if (startUnitIdx === -1) {
-        startUnitIdx = 3; 
-      }
-      if (endUnitIdx !== -1) {
-        endUnitIdx = -1;
-        rawDigits = [];
-      }
-      
-      if (btn.textContent === ',') {
-        if (!rawDigits.includes(',')) {
-          if (rawDigits.length === 0) rawDigits.push('0');
-          rawDigits.push(',');
-          sndPop();
-          renderAbaque();
-        } else {
-          sndBad();
-        }
-        return;
-      }
-
-      let futureDigits = [...rawDigits, btn.textContent];
-      let cIdx = futureDigits.indexOf(',');
-      let dOnly = futureDigits.filter(d => d !== ',');
-      let uPos = cIdx !== -1 ? cIdx - 1 : dOnly.length - 1;
-      let isDouble = FAMILIES[currentFamily].double;
-      let isTriple = FAMILIES[currentFamily].triple;
-      let colsPerUnit = isTriple ? 3 : (isDouble ? 2 : 1);
-      let startCol = startUnitIdx * colsPerUnit + (colsPerUnit - 1);
-      let maxCol = FAMILIES[currentFamily].units.length * colsPerUnit - 1;
-      let leftIdx = startCol - uPos;
-      let rightIdx = startCol - uPos + dOnly.length - 1;
-      
-      if (leftIdx >= 0 && rightIdx <= maxCol) {
-        rawDigits.push(btn.textContent);
-        sndPop();
-        renderAbaque();
-      } else {
-        sndBad();
-      }
+      sndBad();
     }
-  });
-});
+    return;
+  }
 
-function resetAbaque() {
+  let futureDigits = [...rawDigits, digit];
+  let cIdx = futureDigits.indexOf(',');
+  let dOnly = futureDigits.filter(d => d !== ',');
+  let uPos = cIdx !== -1 ? cIdx - 1 : dOnly.length - 1;
+  let f = GRANDEURS_FAMILIES[currentGrandeursFamily];
+  let colsPerUnit = f.triple ? 3 : (f.double ? 2 : 1);
+  let startCol = startUnitIdx * colsPerUnit + (colsPerUnit - 1);
+  let maxCol = f.units.length * colsPerUnit - 1;
+  let leftIdx = startCol - uPos;
+  let rightIdx = startCol - uPos + dOnly.length - 1;
+  
+  if (leftIdx >= 0 && rightIdx <= maxCol) {
+    rawDigits.push(digit);
+    sndPop();
+    renderGrandeursGrid();
+  } else {
+    sndBad();
+  }
+}
+
+function pressConversionDel() {
+  if(rawDigits.length > 0) {
+    rawDigits.pop();
+    sndDel();
+    if(rawDigits.length === 0) endUnitIdx = -1;
+    renderGrandeursGrid();
+  }
+}
+
+function pressConversionClear() {
+  resetGrandeurs();
+  sndDel();
+}
+
+function resetGrandeurs() {
   startUnitIdx = -1;
   endUnitIdx = -1;
   rawDigits = [];
-  renderAbaque();
+  renderGrandeursGrid();
 }
 
-function renderAbaque() {
-  const units = FAMILIES[currentFamily].units;
-  const isDouble = FAMILIES[currentFamily].double;
-  const isTriple = FAMILIES[currentFamily].triple;
-  const colsPerUnit = isTriple ? 3 : (isDouble ? 2 : 1);
+function renderGrandeursGrid() {
+  const f = GRANDEURS_FAMILIES[currentGrandeursFamily];
+  const units = f.units;
+  const colsPerUnit = f.triple ? 3 : (f.double ? 2 : 1);
   const maxCol = units.length * colsPerUnit - 1;
   
-  // Clear all
-  document.querySelectorAll('.col').forEach(c => c.classList.remove('active-col'));
-  document.querySelectorAll('.unit-header').forEach(h => {
+  document.querySelectorAll('#abaque-conversions-grid .col').forEach(c => c.classList.remove('active-col'));
+  document.querySelectorAll('#abaque-conversions-grid .unit-header').forEach(h => {
     h.classList.remove('active-start', 'active-end');
   });
-  document.querySelectorAll('.cell').forEach(c => {
+  document.querySelectorAll('#abaque-conversions-grid .cell').forEach(c => {
     const watermark = c.querySelector('.cap-label');
     c.innerHTML = '';
     if (watermark) c.appendChild(watermark);
@@ -759,13 +1229,19 @@ function renderAbaque() {
   $('resultText').textContent = '---';
 
   if (startUnitIdx !== -1) {
-    $(`col-${startUnitIdx}`).querySelector('.unit-header').classList.add('active-start');
-    $(`col-${startUnitIdx}`).classList.add('active-col');
+    const colEl = $('abaque-conversions-grid').querySelector(`#col-${startUnitIdx}`);
+    if (colEl) {
+      colEl.querySelector('.unit-header').classList.add('active-start');
+      colEl.classList.add('active-col');
+    }
   }
   
   if (endUnitIdx !== -1) {
-    $(`col-${endUnitIdx}`).querySelector('.unit-header').classList.add('active-end');
-    $(`col-${endUnitIdx}`).classList.add('active-col');
+    const colEl = $('abaque-conversions-grid').querySelector(`#col-${endUnitIdx}`);
+    if (colEl) {
+      colEl.querySelector('.unit-header').classList.add('active-end');
+      colEl.classList.add('active-col');
+    }
   }
 
   if (rawDigits.length > 0) {
@@ -778,20 +1254,24 @@ function renderAbaque() {
       let colIdx = startCol - (unitPos - k);
       if (colIdx >= 0 && colIdx <= maxCol) {
         const cell = $(`cell-${colIdx}`);
-        const span = document.createElement('span');
-        span.textContent = digitsOnly[k];
-        span.className = 'digit-pop';
-        cell.appendChild(span);
+        if (cell) {
+          const span = document.createElement('span');
+          span.textContent = digitsOnly[k];
+          span.className = 'digit-pop';
+          cell.appendChild(span);
+        }
       }
     }
     
     const commaEl = $('comma');
     if (commaIdx !== -1 && endUnitIdx === -1) {
-      let targetCol = $(`col-${startUnitIdx}`);
-      targetCol.appendChild(commaEl);
-      commaEl.style.right = '-6px';
-      commaEl.style.bottom = '5px';
-      commaEl.classList.add('visible');
+      let targetCol = $('abaque-conversions-grid').querySelector(`#col-${startUnitIdx}`);
+      if (targetCol) {
+        targetCol.appendChild(commaEl);
+        commaEl.style.right = '-6px';
+        commaEl.style.bottom = '5px';
+        commaEl.classList.add('visible');
+      }
     }
 
     if (endUnitIdx !== -1) {
@@ -839,11 +1319,13 @@ function renderAbaque() {
         decimalResult = Math.round(decimalResult * 1000000) / 1000000;
         
         if (decimalResult % 1 !== 0) {
-          const targetCol = $(`col-${endUnitIdx}`);
-          targetCol.appendChild(commaEl);
-          commaEl.style.right = '-6px';
-          commaEl.style.bottom = '5px';
-          commaEl.classList.add('visible');
+          const targetCol = $('abaque-conversions-grid').querySelector(`#col-${endUnitIdx}`);
+          if (targetCol) {
+            targetCol.appendChild(commaEl);
+            commaEl.style.right = '-6px';
+            commaEl.style.bottom = '5px';
+            commaEl.classList.add('visible');
+          }
         }
         
         let textStart = rawDigits.join('');
@@ -857,14 +1339,578 @@ function renderAbaque() {
       $('resultText').innerHTML = `<strong>${rawDigits.join('')}</strong> ${cleanStartUnit}`;
     }
   }
-  
-  updateInstructions();
 }
 
-// Init
-applyTheme();
-buildAbaque();
-resetAbaque();
+
+/* =========================================================================
+   ========================= MODULE NUMÉRATION =============================
+   ========================================================================= */
+
+let currentNumerationType = 'millions'; // 'millions', 'milliards', 'decimaux'
+let numDigits = Array(9).fill(""); // Contient les chiffres saisis sous forme de chaînes de caractères
+let activeCellIdx = -1; // Index de la cellule en cours d'édition
+let showTokens = true;
+
+function switchNumerationTab(tab) {
+  sndTap();
+  if (tab === 'machine') {
+    $('tabNumTheoryBtn').classList.remove('active');
+    $('tabNumMachineBtn').classList.add('active');
+    $('page-num-theorie').style.display = 'none';
+    $('page-num-machine').style.display = 'block';
+  } else {
+    $('tabNumMachineBtn').classList.remove('active');
+    $('tabNumTheoryBtn').classList.add('active');
+    $('page-num-machine').style.display = 'none';
+    $('page-num-theorie').style.display = 'block';
+  }
+}
+
+function changeNumerationType(type) {
+  sndTap();
+  currentNumerationType = type;
+  document.querySelectorAll('.numeration-selector button').forEach(b => b.classList.remove('active'));
+  
+  if (type === 'millions') {
+    $('btnNumMillions').classList.add('active');
+    $('numSubtitle').textContent = "Numération · Jusqu'aux millions";
+    numDigits = Array(9).fill("");
+  } else if (type === 'milliards') {
+    $('btnNumMilliards').classList.add('active');
+    $('numSubtitle').textContent = "Numération · Jusqu'aux milliards";
+    numDigits = Array(12).fill("");
+  } else if (type === 'decimaux') {
+    $('btnNumDecimaux').classList.add('active');
+    $('numSubtitle').textContent = "Numération · Avec les décimaux";
+    numDigits = Array(15).fill("");
+  }
+  
+  activeCellIdx = -1;
+  buildNumerationGrid();
+  renderNumerationGrid();
+}
+
+function buildNumerationGrid() {
+  const grid = $('abaque-numeration-grid');
+  grid.innerHTML = '';
+  
+  let classes = [];
+  if (currentNumerationType === 'millions') {
+    classes = [
+      { name: 'millions', label: 'Classe des millions', color: 'class-million' },
+      { name: 'mille', label: 'Classe des mille', color: 'class-mille' },
+      { name: 'unites', label: 'Classe des unités simples', color: 'class-unite' }
+    ];
+  } else if (currentNumerationType === 'milliards') {
+    classes = [
+      { name: 'milliards', label: 'Classe des milliards', color: 'class-milliard' },
+      { name: 'millions', label: 'Classe des millions', color: 'class-million' },
+      { name: 'mille', label: 'Classe des mille', color: 'class-mille' },
+      { name: 'unites', label: 'Classe des unités simples', color: 'class-unite' }
+    ];
+  } else if (currentNumerationType === 'decimaux') {
+    classes = [
+      { name: 'milliards', label: 'Classe des milliards', color: 'class-milliard' },
+      { name: 'millions', label: 'Classe des millions', color: 'class-million' },
+      { name: 'mille', label: 'Classe des mille', color: 'class-mille' },
+      { name: 'unites', label: 'Classe des unités simples', color: 'class-unite', sep: true },
+      { name: 'decimaux', label: 'Classe des millièmes (décimaux)', color: 'class-decimaux' }
+    ];
+  }
+  
+  const totalCols = classes.length * 3;
+  grid.className = 'abaque-num';
+  grid.style.gridTemplateColumns = `repeat(${totalCols}, 1fr)`;
+  
+  // 1er rang : En-têtes de classes
+  classes.forEach(c => {
+    const div = document.createElement('div');
+    div.className = `class-header ${c.color}`;
+    if (c.sep) div.classList.add('separator-right');
+    div.style.gridColumn = 'span 3';
+    div.textContent = c.label;
+    grid.appendChild(div);
+  });
+  
+  // 2e rang : Place value headers (C, D, U, ou d, c, m pour les décimaux)
+  classes.forEach(c => {
+    let subHeaders = ['C', 'D', 'U'];
+    if (c.name === 'decimaux') {
+      subHeaders = ['d', 'c', 'm'];
+    }
+    
+    subHeaders.forEach((sh, sIdx) => {
+      const div = document.createElement('div');
+      div.className = 'place-header';
+      if (c.sep && sIdx === 2) div.classList.add('separator-right');
+      div.textContent = sh;
+      grid.appendChild(div);
+    });
+  });
+  
+  // 3e rang : Les cellules d'édition
+  for (let i = 0; i < totalCols; i++) {
+    const cellClass = Math.floor(i / 3);
+    const placeIdx = i % 3;
+    const c = classes[cellClass];
+    
+    const cell = document.createElement('div');
+    cell.className = 'cell numeration-cell';
+    cell.id = `numcell-${i}`;
+    cell.dataset.idx = i;
+    if (c.sep && placeIdx === 2) {
+      cell.classList.add('separator-right');
+      // virgule rouge
+      const comma = document.createElement('div');
+      comma.className = 'cell-comma';
+      comma.textContent = ',';
+      cell.appendChild(comma);
+    }
+    
+    // Conteneur de jetons
+    const tokensContainer = document.createElement('div');
+    tokensContainer.className = 'tokens-container';
+    tokensContainer.id = `tokens-${i}`;
+    cell.appendChild(tokensContainer);
+    
+    // Valeur textuelle du chiffre
+    const digitVal = document.createElement('div');
+    digitVal.className = 'digit-value';
+    digitVal.id = `digit-${i}`;
+    cell.appendChild(digitVal);
+    
+    // Contrôleurs +/- en hover
+    const adjust = document.createElement('div');
+    adjust.className = 'cell-adjust';
+    adjust.innerHTML = `
+      <button class="adjust-btn" onclick="adjustNumerationCell(${i}, 1, event)">▲</button>
+      <button class="adjust-btn" onclick="adjustNumerationCell(${i}, -1, event)">▼</button>
+    `;
+    cell.appendChild(adjust);
+    
+    cell.addEventListener('click', (e) => {
+      if (e.target.classList.contains('adjust-btn')) return;
+      activeCellIdx = i;
+      sndTap();
+      highlightActiveCell();
+    });
+    
+    grid.appendChild(cell);
+  }
+}
+
+function highlightActiveCell() {
+  document.querySelectorAll('.cell.numeration-cell').forEach(c => {
+    c.classList.remove('active-cell');
+  });
+  if (activeCellIdx !== -1) {
+    const activeCell = $(`numcell-${activeCellIdx}`);
+    if (activeCell) activeCell.classList.add('active-cell');
+  }
+}
+
+function adjustNumerationCell(idx, offset, event) {
+  if (event) event.stopPropagation();
+  let currentVal = numDigits[idx] === "" ? 0 : parseInt(numDigits[idx], 10);
+  let newVal = currentVal + offset;
+  if (newVal >= 0 && newVal <= 9) {
+    numDigits[idx] = newVal.toString();
+    activeCellIdx = idx;
+    sndPop();
+    renderNumerationGrid();
+    highlightActiveCell();
+  } else if (newVal < 0) {
+    numDigits[idx] = "";
+    activeCellIdx = idx;
+    sndDel();
+    renderNumerationGrid();
+    highlightActiveCell();
+  } else {
+    sndBad();
+  }
+}
+
+function toggleTokensVisibility() {
+  sndTap();
+  showTokens = $('chkShowTokens').checked;
+  renderNumerationGrid();
+}
+
+function pressNumerationDigit(digit) {
+  if (activeCellIdx === -1) {
+    // Par défaut, cible la première cellule à gauche
+    activeCellIdx = 0;
+  }
+  
+  numDigits[activeCellIdx] = digit;
+  sndPop();
+  
+  // Auto-avance du curseur vers la droite
+  if (activeCellIdx < numDigits.length - 1) {
+    activeCellIdx++;
+  }
+  
+  renderNumerationGrid();
+  highlightActiveCell();
+}
+
+function pressNumerationDel() {
+  if (activeCellIdx === -1) return;
+  
+  numDigits[activeCellIdx] = "";
+  sndDel();
+  
+  // Recul du curseur vers la gauche
+  if (activeCellIdx > 0) {
+    activeCellIdx--;
+  }
+  
+  renderNumerationGrid();
+  highlightActiveCell();
+}
+
+function pressNumerationClear() {
+  sndDel();
+  numDigits.fill("");
+  activeCellIdx = -1;
+  renderNumerationGrid();
+  highlightActiveCell();
+}
+
+// Gérer l'écoute clavier globale sur les abaques de numération
+window.addEventListener('keydown', (e) => {
+  if (currentMode !== 'numeration') return;
+  if (activeCellIdx === -1) return;
+  
+  let colsCount = numDigits.length;
+  
+  if (e.key >= '0' && e.key <= '9') {
+    numDigits[activeCellIdx] = e.key;
+    sndPop();
+    if (activeCellIdx < colsCount - 1) {
+      activeCellIdx++;
+    }
+    renderNumerationGrid();
+    highlightActiveCell();
+    e.preventDefault();
+  } else if (e.key === 'Backspace' || e.key === 'Delete') {
+    numDigits[activeCellIdx] = "";
+    sndDel();
+    if (activeCellIdx > 0) {
+      activeCellIdx--;
+    }
+    renderNumerationGrid();
+    highlightActiveCell();
+    e.preventDefault();
+  } else if (e.key === 'ArrowLeft') {
+    if (activeCellIdx > 0) {
+      activeCellIdx--;
+      sndTap();
+      highlightActiveCell();
+    }
+    e.preventDefault();
+  } else if (e.key === 'ArrowRight') {
+    if (activeCellIdx < colsCount - 1) {
+      activeCellIdx++;
+      sndTap();
+      highlightActiveCell();
+    }
+    e.preventDefault();
+  }
+});
+
+function renderNumerationGrid() {
+  // 1. Dessiner les chiffres et jetons
+  for (let i = 0; i < numDigits.length; i++) {
+    const digitContainer = $(`digit-${i}`);
+    const tokenContainer = $(`tokens-${i}`);
+    if (!digitContainer || !tokenContainer) continue;
+    
+    // Rendre le chiffre
+    digitContainer.textContent = numDigits[i];
+    
+    // Rendre les jetons de couleur
+    tokenContainer.innerHTML = '';
+    if (showTokens && numDigits[i] !== "") {
+      const count = parseInt(numDigits[i], 10);
+      let tokenClass = 'token-unite';
+      const cIdx = Math.floor(i / 3);
+      
+      if (currentNumerationType === 'millions') {
+        if (cIdx === 0) tokenClass = 'token-million';
+        else if (cIdx === 1) tokenClass = 'token-mille';
+      } else if (currentNumerationType === 'milliards') {
+        if (cIdx === 0) tokenClass = 'token-milliard';
+        else if (cIdx === 1) tokenClass = 'token-million';
+        else if (cIdx === 2) tokenClass = 'token-mille';
+      } else if (currentNumerationType === 'decimaux') {
+        if (cIdx === 0) tokenClass = 'token-milliard';
+        else if (cIdx === 1) tokenClass = 'token-million';
+        else if (cIdx === 2) tokenClass = 'token-mille';
+        else if (cIdx === 4) tokenClass = 'token-decimaux';
+      }
+      
+      for (let k = 0; k < count; k++) {
+        const token = document.createElement('div');
+        token.className = `token ${tokenClass}`;
+        tokenContainer.appendChild(token);
+      }
+    }
+  }
+  
+  // 2. Parser le nombre pour reconstituer sa structure et générer les textes
+  let parsed = parseAbaque(numDigits, currentNumerationType);
+  
+  // Mettre à jour l'affichage en chiffres
+  let digitsFormatted = "---";
+  if (parsed.integerPartVal > 0 || parsed.decimalPartVal > 0) {
+    let intStrFormatted = parsed.integerPartStr.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    if (parsed.decimalScale > 0) {
+      digitsFormatted = `${intStrFormatted},${parsed.decimalPartStr}`;
+    } else {
+      digitsFormatted = intStrFormatted;
+    }
+  } else {
+    // Si toutes les cases sont vides
+    let allEmpty = numDigits.every(d => d === "");
+    if (!allEmpty) {
+      digitsFormatted = "0";
+    }
+  }
+  $('numResultDigits').textContent = digitsFormatted;
+  
+  // Mettre à jour l'affichage en lettres
+  let lettersFormatted = "---";
+  if (digitsFormatted !== "---") {
+    lettersFormatted = numberToFrenchWords(parsed.integerPartVal, parsed.decimalPartVal, parsed.decimalScale);
+  }
+  $('numResultLetters').textContent = lettersFormatted;
+}
+
+function parseAbaque(digits, type) {
+  let intCols = 9;
+  let decCols = 0;
+  if (type === 'millions') {
+    intCols = 9;
+    decCols = 0;
+  } else if (type === 'milliards') {
+    intCols = 12;
+    decCols = 0;
+  } else if (type === 'decimaux') {
+    intCols = 12;
+    decCols = 3;
+  }
+  
+  // Premier index d'entier non-vide
+  let firstIntIdx = -1;
+  for (let i = 0; i < intCols; i++) {
+    if (digits[i] !== "") {
+      firstIntIdx = i;
+      break;
+    }
+  }
+  
+  let integerPartVal = 0;
+  let integerPartStr = "";
+  if (firstIntIdx !== -1) {
+    for (let i = firstIntIdx; i < intCols; i++) {
+      integerPartStr += (digits[i] === "" ? "0" : digits[i]);
+    }
+    integerPartVal = parseInt(integerPartStr, 10);
+  }
+  
+  let decimalPartVal = 0;
+  let decimalScale = 0;
+  let decimalPartStr = "";
+  if (decCols > 0) {
+    let lastDecIdx = -1;
+    for (let i = intCols + decCols - 1; i >= intCols; i--) {
+      if (digits[i] !== "") {
+        lastDecIdx = i;
+        break;
+      }
+    }
+    if (lastDecIdx !== -1) {
+      decimalScale = lastDecIdx - intCols + 1;
+      for (let i = intCols; i <= lastDecIdx; i++) {
+        decimalPartStr += (digits[i] === "" ? "0" : digits[i]);
+      }
+      decimalPartVal = parseInt(decimalPartStr, 10);
+    }
+  }
+  
+  return {
+    integerPartVal,
+    integerPartStr: integerPartStr || (digits.slice(0, intCols).some(d => d !== "") ? "0" : ""),
+    decimalPartVal,
+    decimalPartStr,
+    decimalScale
+  };
+}
+
+// Convertisseur de nombres en lettres conforme aux règles de la FWB (nouvelle orthographe 1990) et adapté aux Belges
+function numberToFrenchWords(integerPartVal, decimalPartVal, decimalScale) {
+  const UNITS = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
+  const TEENS = ['dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
+  const TENS = ['', 'dix', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'septante', 'quatre-vingt', 'nonante'];
+
+  function convertUnderTen(n) {
+    return UNITS[n];
+  }
+
+  function convertUnderHundred(n, isLastNumeral) {
+    if (n < 10) return UNITS[n];
+    if (n >= 10 && n < 20) return TEENS[n - 10];
+    
+    let ten = Math.floor(n / 10);
+    let unit = n % 10;
+    
+    if (unit === 0) {
+      if (ten === 8) {
+        return isLastNumeral ? 'quatre-vingts' : 'quatre-vingt';
+      }
+      return TENS[ten];
+    }
+    
+    if (ten === 7) {
+      if (unit === 1) return 'septante-et-un';
+      return 'septante-' + UNITS[unit];
+    }
+    
+    if (ten === 9) {
+      if (unit === 1) return 'nonante-et-un';
+      return 'nonante-' + UNITS[unit];
+    }
+    
+    if (ten === 8) {
+      return 'quatre-vingt-' + UNITS[unit];
+    }
+    
+    if (unit === 1) {
+      return TENS[ten] + '-et-un';
+    }
+    
+    return TENS[ten] + '-' + UNITS[unit];
+  }
+
+  function convertBlock(n, isLastNumeral) {
+    if (n === 0) return '';
+    let hundreds = Math.floor(n / 100);
+    let remainder = n % 100;
+    let words = [];
+    
+    if (hundreds > 0) {
+      if (hundreds === 1) {
+        words.push('cent');
+      } else {
+        let centWord = (remainder === 0 && isLastNumeral) ? 'cents' : 'cent';
+        words.push(UNITS[hundreds] + '-' + centWord);
+      }
+    }
+    
+    if (remainder > 0) {
+      words.push(convertUnderHundred(remainder, isLastNumeral));
+    }
+    
+    return words.join('-');
+  }
+
+  function numberToWordsFrench(milliardsVal, millionsVal, milleVal, unitesVal) {
+    if (milliardsVal === 0 && millionsVal === 0 && milleVal === 0 && unitesVal === 0) {
+      return 'zéro';
+    }
+    
+    let parts = [];
+    
+    if (milliardsVal > 0) {
+      let word = convertBlock(milliardsVal, true);
+      parts.push(word + ' milliard' + (milliardsVal > 1 ? 's' : ''));
+    }
+    
+    if (millionsVal > 0) {
+      let word = convertBlock(millionsVal, true);
+      parts.push(word + ' million' + (millionsVal > 1 ? 's' : ''));
+    }
+    
+    let numeralsParts = [];
+    if (milleVal > 0) {
+      if (milleVal === 1) {
+        numeralsParts.push('mille');
+      } else {
+        let word = convertBlock(milleVal, false);
+        numeralsParts.push(word + '-mille');
+      }
+    }
+    
+    if (unitesVal > 0) {
+      let word = convertBlock(unitesVal, true);
+      numeralsParts.push(word);
+    }
+    
+    if (numeralsParts.length > 0) {
+      parts.push(numeralsParts.join('-'));
+    }
+    
+    return parts.join(' ');
+  }
+
+  // Decompose integer part
+  let tempInt = integerPartVal;
+  let unitesVal = tempInt % 1000;
+  tempInt = Math.floor(tempInt / 1000);
+  let milleVal = tempInt % 1000;
+  tempInt = Math.floor(tempInt / 1000);
+  let millionsVal = tempInt % 1000;
+  tempInt = Math.floor(tempInt / 1000);
+  let milliardsVal = tempInt % 1000;
+
+  let integerWords = numberToWordsFrench(milliardsVal, millionsVal, milleVal, unitesVal);
+
+  // Feminine adjustment for "unité"
+  let unitWord = 'unités';
+  if (integerPartVal === 1) {
+    unitWord = 'unité';
+  }
+  let formattedIntegerWords = integerWords;
+  if (integerPartVal % 10 === 1 && integerPartVal % 100 !== 11) {
+    if (formattedIntegerWords === 'un') {
+      formattedIntegerWords = 'une';
+    } else if (formattedIntegerWords.endsWith('-un')) {
+      formattedIntegerWords = formattedIntegerWords.slice(0, -3) + '-une';
+    }
+  }
+
+  let finalWords = `${formattedIntegerWords} ${unitWord}`;
+
+  // If decimalPartVal exists
+  if (decimalPartVal > 0 && decimalScale > 0) {
+    let decimalUnit = '';
+    if (decimalScale === 1) decimalUnit = 'dixième';
+    else if (decimalScale === 2) decimalUnit = 'centième';
+    else if (decimalScale === 3) decimalUnit = 'millième';
+
+    let decimalWords = convertBlock(decimalPartVal, true);
+    if (decimalPartVal > 1) {
+      decimalUnit += 's';
+    }
+
+    if (integerPartVal === 0) {
+      finalWords = `${decimalWords} ${decimalUnit}`;
+    } else {
+      finalWords = `${formattedIntegerWords} ${unitWord} et ${decimalWords} ${decimalUnit}`;
+    }
+  } else if (integerPartVal === 0 && decimalPartVal === 0) {
+    finalWords = `zéro unité`;
+  }
+
+  return finalWords.charAt(0).toUpperCase() + finalWords.slice(1);
+}
+
+// Initialisation au chargement de la page
+window.addEventListener('load', () => {
+  // L'application s'ouvre sur le Hub par défaut
+  exitToHub();
+});
 
 </script>
 </body>
