@@ -1043,7 +1043,7 @@ function exportYearlyArchive() {
                     items.forEach(it => {
                         if (it && it.text && it.text.trim().length > 0) {
                             const itColor = it.color || "#1e293b";
-                            itemsHtml += `<div style="color: ${itColor}; margin-bottom: 4px;">• ${escapeHtml(it.text)}</div>`;
+                            itemsHtml += `<div style="color: ${itColor}; margin-bottom: 3px;">${escapeHtml(it.text)}</div>`;
                         }
                     });
                 }

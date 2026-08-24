@@ -712,54 +712,33 @@
     background-color: #ffffff;
 }
 
-.devoirs-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+.devoirs-lines-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: calc(4px * var(--devoirs-zoom, 1));
+    min-height: calc(40px * var(--devoirs-zoom, 1));
+    justify-content: center;
 }
 
-.devoirs-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: calc(6px * var(--devoirs-zoom, 1)) calc(10px * var(--devoirs-zoom, 1));
-    border-radius: 10px;
-    background-color: #f8fafc;
-    border: 2px solid transparent;
-    transition: all 0.15s ease;
-}
-
-.devoirs-item:hover {
-    background-color: #f1f5f9;
-    border-color: #cbd5e1;
-}
-
-.devoirs-item:focus-within {
-    background-color: #ffffff;
-    border-color: #4f46e5;
-    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.08);
-}
-
-.devoirs-bullet {
-    font-size: calc(18px * var(--devoirs-zoom, 1));
-    color: #4f46e5;
-    user-select: none;
-    font-weight: bold;
+.devoirs-line {
     display: flex;
     align-items: center;
-    padding-top: calc(4px * var(--devoirs-zoom, 1));
+    gap: 8px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
 }
 
 .devoirs-input-text {
     flex: 1;
     border: none;
     background: transparent;
-    padding: calc(4px * var(--devoirs-zoom, 1)) 0;
+    padding: calc(2px * var(--devoirs-zoom, 1)) 0;
+    margin: 0;
     font-size: calc(24px * var(--devoirs-zoom, 1));
-    font-weight: 600;
+    font-weight: 700;
     outline: none;
     min-width: 100px;
     color: #1e293b;
@@ -769,24 +748,29 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     word-break: break-word;
-    line-height: 1.4;
+    line-height: 1.35;
     display: block;
     width: 100%;
     box-sizing: border-box;
 }
 
-.devoirs-item-actions {
+.devoirs-input-text::placeholder {
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.devoirs-line-actions {
     display: flex;
     align-items: center;
     gap: 6px;
-    opacity: 0.7;
+    opacity: 0;
     transition: opacity 0.15s ease;
     flex-shrink: 0;
-    padding-top: 2px;
+    padding-top: 1px;
 }
 
-.devoirs-item:hover .devoirs-item-actions,
-.devoirs-item:focus-within .devoirs-item-actions {
+.devoirs-line:hover .devoirs-line-actions,
+.devoirs-line:focus-within .devoirs-line-actions {
     opacity: 1;
 }
 
@@ -812,54 +796,6 @@
 .devoirs-color-select:active {
     transform: translate(0, 0);
     box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
-}
-
-.devoirs-btn-delete {
-    padding: 6px;
-    border: 2px solid #0f172a;
-    background: #fecdd3;
-    color: #be123c;
-    cursor: pointer;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
-    transition: all 0.1s;
-}
-
-.devoirs-btn-delete:hover {
-    background-color: #fda4af;
-    transform: translate(-1px, -1px);
-    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
-}
-
-.devoirs-btn-delete:active {
-    transform: translate(0, 0);
-    box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
-}
-
-.devoirs-btn-add {
-    margin-top: 12px;
-    padding: 6px 12px;
-    background-color: #ffffff;
-    color: #4f46e5;
-    border: 2px dashed #4f46e5;
-    font-family: 'Fredoka', sans-serif;
-    font-weight: bold;
-    font-size: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.devoirs-btn-add:hover {
-    background-color: #e0e7ff;
-    color: #4338ca;
-    border-style: solid;
 }
 
 /* --- ABAQUE DE NUMÉRATION --- */

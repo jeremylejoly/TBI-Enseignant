@@ -132,7 +132,7 @@ function renderDevoirsTable(week) {
     const container = document.getElementById('devoirs-table-container');
     if (!container) return;
     
-    // Normalize daysData and split any multiline items (or items starting with '*') into individual entries
+    // Normalize daysData and split any multiline items into individual clean lines without losing data
     DAYS_LIST.forEach(day => {
         let items = week.daysData[day];
         if (Array.isArray(items)) {
@@ -141,20 +141,13 @@ function renderDevoirsTable(week) {
                 if (it && typeof it.text === 'string' && it.text.includes('\n')) {
                     const lines = it.text.split('\n');
                     lines.forEach(line => {
-                        let cleanLine = line.trim();
-                        if (cleanLine.startsWith('*')) {
-                            cleanLine = cleanLine.replace(/^\*+\s*/, '');
-                        }
-                        if (cleanLine.length > 0 || lines.length === 1) {
-                            expandedItems.push({ text: cleanLine, color: it.color || '#1e293b' });
+                        let textVal = line;
+                        if (textVal.trim().length > 0 || lines.length === 1) {
+                            expandedItems.push({ text: textVal, color: it.color || '#1e293b' });
                         }
                     });
                 } else if (it) {
-                    let cleanLine = (it.text || '');
-                    if (cleanLine.trim().startsWith('*')) {
-                        cleanLine = cleanLine.replace(/^\s*\*+\s*/, '');
-                    }
-                    expandedItems.push({ text: cleanLine, color: it.color || '#1e293b' });
+                    expandedItems.push({ text: it.text || '', color: it.color || '#1e293b' });
                 }
             });
             if (expandedItems.length === 0) {
@@ -197,30 +190,29 @@ function renderDevoirsTable(week) {
                     />
                 </td>
                 <td class="devoirs-content-col">
-                    <div class="devoirs-list" id="devoirs-list-${day}">
+                    <div class="devoirs-lines-container" id="devoirs-lines-${day}">
         `;
         
         items.forEach((item, index) => {
             const itemColor = item.color || '#1e293b';
-            const showDelete = items.length > 1;
             
             html += `
-                <div class="devoirs-item">
-                    <span class="devoirs-bullet" style="color: ${itemColor};">•</span>
+                <div class="devoirs-line">
                     <textarea 
                         class="devoirs-input-text" 
                         style="color: ${itemColor};" 
                         data-day="${day}"
                         data-index="${index}"
                         oninput="updateDevoirsItemText('${day}', ${index}, this.value); autoResizeTextarea(this)"
-                        placeholder="Écrire un devoir..."
+                        placeholder="${items.length === 1 && index === 0 && !item.text ? 'Écrire les devoirs...' : ''}"
                         rows="1"
                     >${escapeHtml(item.text)}</textarea>
-                    <div class="devoirs-item-actions no-print">
+                    <div class="devoirs-line-actions no-print">
                         <select 
                             class="devoirs-color-select" 
                             onchange="updateDevoirsItemColor('${day}', ${index}, this.value)"
                             style="color: ${itemColor}; border-color: ${itemColor};"
+                            title="Changer la couleur de cette ligne"
                         >
                             <option value="#1e293b" style="color: #1e293b; font-weight: bold;" ${itemColor === '#1e293b' ? 'selected' : ''}>Noir</option>
                             <option value="#3b82f6" style="color: #3b82f6; font-weight: bold;" ${itemColor === '#3b82f6' ? 'selected' : ''}>Bleu</option>
@@ -228,15 +220,6 @@ function renderDevoirsTable(week) {
                             <option value="#10b981" style="color: #10b981; font-weight: bold;" ${itemColor === '#10b981' ? 'selected' : ''}>Vert</option>
                             <option value="#f97316" style="color: #f97316; font-weight: bold;" ${itemColor === '#f97316' ? 'selected' : ''}>Orange</option>
                         </select>
-                        ${showDelete ? `
-                        <button 
-                            class="devoirs-btn-delete" 
-                            onclick="deleteDevoirsItem('${day}', ${index})" 
-                            title="Supprimer cette ligne"
-                        >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                        </button>
-                        ` : ''}
                     </div>
                 </div>
             `;
@@ -244,12 +227,6 @@ function renderDevoirsTable(week) {
         
         html += `
                     </div>
-                    <button 
-                        class="devoirs-btn-add no-print" 
-                        onclick="addDevoirsItem('${day}')"
-                    >
-                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Ajouter une ligne
-                    </button>
                 </td>
             </tr>
         `;
@@ -262,22 +239,22 @@ function renderDevoirsTable(week) {
     
     container.innerHTML = html;
     
-    // Auto-resize all textareas to fit their content & listen for Enter key
+    // Auto-resize textareas & handle natural keyboard navigation (Enter creates a line below, Backspace on empty deletes)
     container.querySelectorAll('.devoirs-input-text').forEach(ta => {
         autoResizeTextarea(ta);
         ta.addEventListener('keydown', (e) => {
+            const day = ta.dataset.day;
+            const index = parseInt(ta.dataset.index, 10);
+            
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                const day = ta.dataset.day;
-                addDevoirsItem(day);
+                insertDevoirsLine(day, index + 1);
+            } else if (e.key === 'Backspace' && ta.value === '' && week.daysData[day] && week.daysData[day].length > 1) {
+                e.preventDefault();
+                deleteDevoirsLineAndFocusPrev(day, index);
             }
         });
     });
-    
-    // Reinitialize Lucide Icons
-    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-        lucide.createIcons();
-    }
 }
 
 
@@ -310,19 +287,16 @@ function updateDevoirsItemColor(day, index, color) {
         week.daysData[day][index].color = color;
         saveDevoirs();
         
-        // Update textarea, bullet and select element styles directly to prevent full re-render
+        // Update textarea and select element styles directly to prevent losing focus
         const container = document.getElementById('devoirs-table-container');
         if (container) {
             const textarea = container.querySelector(`textarea[data-day="${day}"][data-index="${index}"]`);
             if (textarea) {
                 textarea.style.color = color;
                 
-                const itemContainer = textarea.closest('.devoirs-item');
-                if (itemContainer) {
-                    const bullet = itemContainer.querySelector('.devoirs-bullet');
-                    if (bullet) bullet.style.color = color;
-                    
-                    const select = itemContainer.querySelector('.devoirs-color-select');
+                const lineContainer = textarea.closest('.devoirs-line');
+                if (lineContainer) {
+                    const select = lineContainer.querySelector('.devoirs-color-select');
                     if (select) {
                         select.style.color = color;
                         select.style.borderColor = color;
@@ -333,34 +307,45 @@ function updateDevoirsItemColor(day, index, color) {
     }
 }
 
-function addDevoirsItem(day) {
+function insertDevoirsLine(day, atIndex) {
     const week = tbiDevoirsWeeks.find(w => w.id === activeDevoirsWeekId);
     if (week && week.daysData[day]) {
-        week.daysData[day].push({ text: "", color: "#1e293b" });
+        const prevColor = (atIndex > 0 && week.daysData[day][atIndex - 1]) 
+            ? week.daysData[day][atIndex - 1].color 
+            : "#1e293b";
+        week.daysData[day].splice(atIndex, 0, { text: "", color: prevColor });
         saveDevoirs();
         renderDevoirsTable(week);
         
-        // Focus the new textarea
+        // Focus the newly created line
         const container = document.getElementById('devoirs-table-container');
         if (container) {
-            const textareas = container.querySelectorAll(`textarea[data-day="${day}"][data-index]`);
-            if (textareas.length > 0) {
-                textareas[textareas.length - 1].focus();
+            const newTa = container.querySelector(`textarea[data-day="${day}"][data-index="${atIndex}"]`);
+            if (newTa) {
+                newTa.focus();
             }
         }
     }
 }
 
-function deleteDevoirsItem(day, index) {
+function deleteDevoirsLineAndFocusPrev(day, atIndex) {
     const week = tbiDevoirsWeeks.find(w => w.id === activeDevoirsWeekId);
     if (week && week.daysData[day]) {
         if (week.daysData[day].length > 1) {
-            week.daysData[day].splice(index, 1);
-        } else {
-            week.daysData[day][0] = { text: "", color: "#1e293b" };
+            week.daysData[day].splice(atIndex, 1);
+            saveDevoirs();
+            renderDevoirsTable(week);
+            
+            const prevIndex = Math.max(0, atIndex - 1);
+            const container = document.getElementById('devoirs-table-container');
+            if (container) {
+                const prevTa = container.querySelector(`textarea[data-day="${day}"][data-index="${prevIndex}"]`);
+                if (prevTa) {
+                    prevTa.focus();
+                    prevTa.selectionStart = prevTa.selectionEnd = prevTa.value.length;
+                }
+            }
         }
-        saveDevoirs();
-        renderDevoirsTable(week);
     }
 }
 
