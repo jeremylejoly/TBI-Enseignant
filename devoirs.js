@@ -105,10 +105,10 @@ function loadDevoirs() {
                 "Lundi": [
                     { text: "Copier la leçon d'orthographe", color: "#1e293b" }
                 ],
-                "Mardi": [],
-                "Mercredi": [],
-                "Jeudi": [],
-                "Vendredi": []
+                "Mardi": [{ text: "", color: "#1e293b" }],
+                "Mercredi": [{ text: "", color: "#1e293b" }],
+                "Jeudi": [{ text: "", color: "#1e293b" }],
+                "Vendredi": [{ text: "", color: "#1e293b" }]
             }
         };
         tbiDevoirsWeeks.push(defaultWeek);
@@ -132,17 +132,35 @@ function renderDevoirsTable(week) {
     const container = document.getElementById('devoirs-table-container');
     if (!container) return;
     
-    // Normalize daysData to always have exactly one item per day (merging multiple if they exist)
+    // Normalize daysData and split any multiline items (or items starting with '*') into individual entries
     DAYS_LIST.forEach(day => {
         let items = week.daysData[day];
         if (Array.isArray(items)) {
-            if (items.length > 1) {
-                const mergedText = items.map(it => it.text).join('\n');
-                const primaryColor = items[0].color || '#1e293b';
-                week.daysData[day] = [{ text: mergedText, color: primaryColor }];
-            } else if (items.length === 0) {
-                week.daysData[day] = [{ text: "", color: '#1e293b' }];
+            let expandedItems = [];
+            items.forEach(it => {
+                if (it && typeof it.text === 'string' && it.text.includes('\n')) {
+                    const lines = it.text.split('\n');
+                    lines.forEach(line => {
+                        let cleanLine = line.trim();
+                        if (cleanLine.startsWith('*')) {
+                            cleanLine = cleanLine.replace(/^\*+\s*/, '');
+                        }
+                        if (cleanLine.length > 0 || lines.length === 1) {
+                            expandedItems.push({ text: cleanLine, color: it.color || '#1e293b' });
+                        }
+                    });
+                } else if (it) {
+                    let cleanLine = (it.text || '');
+                    if (cleanLine.trim().startsWith('*')) {
+                        cleanLine = cleanLine.replace(/^\s*\*+\s*/, '');
+                    }
+                    expandedItems.push({ text: cleanLine, color: it.color || '#1e293b' });
+                }
+            });
+            if (expandedItems.length === 0) {
+                expandedItems.push({ text: "", color: '#1e293b' });
             }
+            week.daysData[day] = expandedItems;
         } else {
             week.daysData[day] = [{ text: "", color: '#1e293b' }];
         }
@@ -163,8 +181,7 @@ function renderDevoirsTable(week) {
     
     DAYS_LIST.forEach(day => {
         const dateVal = week.dates[day] || "";
-        const item = week.daysData[day][0];
-        const itemColor = item.color || '#1e293b';
+        const items = week.daysData[day] || [{ text: "", color: '#1e293b' }];
         
         html += `
             <tr>
@@ -181,31 +198,58 @@ function renderDevoirsTable(week) {
                 </td>
                 <td class="devoirs-content-col">
                     <div class="devoirs-list" id="devoirs-list-${day}">
-                        <div class="devoirs-item">
-                            <textarea 
-                                class="devoirs-input-text" 
-                                style="color: ${itemColor};" 
-                                data-day="${day}"
-                                data-index="0"
-                                oninput="updateDevoirsItemText('${day}', 0, this.value); autoResizeTextarea(this)"
-                                placeholder="Écrire les devoirs..."
-                                rows="1"
-                            >${escapeHtml(item.text)}</textarea>
-                            <div class="devoirs-item-actions no-print">
-                                <select 
-                                    class="devoirs-color-select" 
-                                    onchange="updateDevoirsItemColor('${day}', 0, this.value)"
-                                    style="color: ${itemColor}; border-color: ${itemColor};"
-                                >
-                                    <option value="#1e293b" style="color: #1e293b; font-weight: bold;" ${itemColor === '#1e293b' ? 'selected' : ''}>Noir</option>
-                                    <option value="#3b82f6" style="color: #3b82f6; font-weight: bold;" ${itemColor === '#3b82f6' ? 'selected' : ''}>Bleu</option>
-                                    <option value="#ef4444" style="color: #ef4444; font-weight: bold;" ${itemColor === '#ef4444' ? 'selected' : ''}>Rouge</option>
-                                    <option value="#10b981" style="color: #10b981; font-weight: bold;" ${itemColor === '#10b981' ? 'selected' : ''}>Vert</option>
-                                    <option value="#f97316" style="color: #f97316; font-weight: bold;" ${itemColor === '#f97316' ? 'selected' : ''}>Orange</option>
-                                </select>
-                            </div>
-                        </div>
+        `;
+        
+        items.forEach((item, index) => {
+            const itemColor = item.color || '#1e293b';
+            const showDelete = items.length > 1;
+            
+            html += `
+                <div class="devoirs-item">
+                    <span class="devoirs-bullet" style="color: ${itemColor};">•</span>
+                    <textarea 
+                        class="devoirs-input-text" 
+                        style="color: ${itemColor};" 
+                        data-day="${day}"
+                        data-index="${index}"
+                        oninput="updateDevoirsItemText('${day}', ${index}, this.value); autoResizeTextarea(this)"
+                        placeholder="Écrire un devoir..."
+                        rows="1"
+                    >${escapeHtml(item.text)}</textarea>
+                    <div class="devoirs-item-actions no-print">
+                        <select 
+                            class="devoirs-color-select" 
+                            onchange="updateDevoirsItemColor('${day}', ${index}, this.value)"
+                            style="color: ${itemColor}; border-color: ${itemColor};"
+                        >
+                            <option value="#1e293b" style="color: #1e293b; font-weight: bold;" ${itemColor === '#1e293b' ? 'selected' : ''}>Noir</option>
+                            <option value="#3b82f6" style="color: #3b82f6; font-weight: bold;" ${itemColor === '#3b82f6' ? 'selected' : ''}>Bleu</option>
+                            <option value="#ef4444" style="color: #ef4444; font-weight: bold;" ${itemColor === '#ef4444' ? 'selected' : ''}>Rouge</option>
+                            <option value="#10b981" style="color: #10b981; font-weight: bold;" ${itemColor === '#10b981' ? 'selected' : ''}>Vert</option>
+                            <option value="#f97316" style="color: #f97316; font-weight: bold;" ${itemColor === '#f97316' ? 'selected' : ''}>Orange</option>
+                        </select>
+                        ${showDelete ? `
+                        <button 
+                            class="devoirs-btn-delete" 
+                            onclick="deleteDevoirsItem('${day}', ${index})" 
+                            title="Supprimer cette ligne"
+                        >
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                        ` : ''}
                     </div>
+                </div>
+            `;
+        });
+        
+        html += `
+                    </div>
+                    <button 
+                        class="devoirs-btn-add no-print" 
+                        onclick="addDevoirsItem('${day}')"
+                    >
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Ajouter une ligne
+                    </button>
                 </td>
             </tr>
         `;
@@ -218,8 +262,22 @@ function renderDevoirsTable(week) {
     
     container.innerHTML = html;
     
-    // Auto-resize all textareas to fit their content
-    container.querySelectorAll('.devoirs-input-text').forEach(ta => autoResizeTextarea(ta));
+    // Auto-resize all textareas to fit their content & listen for Enter key
+    container.querySelectorAll('.devoirs-input-text').forEach(ta => {
+        autoResizeTextarea(ta);
+        ta.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const day = ta.dataset.day;
+                addDevoirsItem(day);
+            }
+        });
+    });
+    
+    // Reinitialize Lucide Icons
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+    }
 }
 
 
@@ -252,14 +310,13 @@ function updateDevoirsItemColor(day, index, color) {
         week.daysData[day][index].color = color;
         saveDevoirs();
         
-        // Update textarea element style directly to prevent full re-render
+        // Update textarea, bullet and select element styles directly to prevent full re-render
         const container = document.getElementById('devoirs-table-container');
         if (container) {
             const textarea = container.querySelector(`textarea[data-day="${day}"][data-index="${index}"]`);
             if (textarea) {
                 textarea.style.color = color;
                 
-                // Update bullet color
                 const itemContainer = textarea.closest('.devoirs-item');
                 if (itemContainer) {
                     const bullet = itemContainer.querySelector('.devoirs-bullet');
@@ -297,7 +354,11 @@ function addDevoirsItem(day) {
 function deleteDevoirsItem(day, index) {
     const week = tbiDevoirsWeeks.find(w => w.id === activeDevoirsWeekId);
     if (week && week.daysData[day]) {
-        week.daysData[day].splice(index, 1);
+        if (week.daysData[day].length > 1) {
+            week.daysData[day].splice(index, 1);
+        } else {
+            week.daysData[day][0] = { text: "", color: "#1e293b" };
+        }
         saveDevoirs();
         renderDevoirsTable(week);
     }

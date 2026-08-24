@@ -1038,19 +1038,21 @@ function exportYearlyArchive() {
                 const dateVal = week.dates ? (week.dates[day] || "") : "";
                 const items = week.daysData ? week.daysData[day] : [];
                 
-                let text = "";
-                let itemColor = "#1e293b";
-                
-                if (Array.isArray(items) && items.length > 0) {
-                    text = items[0].text || "";
-                    itemColor = items[0].color || "#1e293b";
+                let itemsHtml = "";
+                if (Array.isArray(items)) {
+                    items.forEach(it => {
+                        if (it && it.text && it.text.trim().length > 0) {
+                            const itColor = it.color || "#1e293b";
+                            itemsHtml += `<div style="color: ${itColor}; margin-bottom: 4px;">• ${escapeHtml(it.text)}</div>`;
+                        }
+                    });
                 }
                 
                 html += `
                 <tr>
                     <td class="devoirs-day-cell">${day.toUpperCase()}</td>
                     <td class="devoirs-date-cell">${escapeHtml(dateVal)}</td>
-                    <td class="devoirs-text-cell" style="color: ${itemColor};">${escapeHtml(text)}</td>
+                    <td class="devoirs-text-cell">${itemsHtml}</td>
                 </tr>
                 `;
             });
