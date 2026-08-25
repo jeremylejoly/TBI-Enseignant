@@ -1464,7 +1464,6 @@ const TIME_SLOTS = [
 let tbiWeeks = [];
 let activeWeekId = null;
 let currentCycleFilter = "all";
-let popoverTarget = null; // { rIdx, cIdx }
 
 function getStorageKey() {
   return "tbi_fwb_semainier_v8";
@@ -1597,7 +1596,80 @@ function getNextMondayString() {
 }
 
 // =========================================================================
-// 3. RENDU DU SEMAINIER (2 SELECTS + COULEURS DE FOND & TEXTE)
+// 3. CRÉATION DU MENU DE COULEURS INCRUSTÉ DIRECTEMENT DANS LA CASE
+// =========================================================================
+function createColorOverlay(rIdx, cIdx, onBgChange, onTextColorChange, onClose) {
+  const overlay = document.createElement("div");
+  overlay.className = "cell-color-overlay";
+  overlay.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:3px; margin-bottom:2px;">
+      <span style="font-size:10px; font-weight:800; color:#1e293b;">🎨 COULEURS DE LA CASE</span>
+      <button class="cell-btn btn-close-overlay" style="font-weight:bold; font-size:12px; padding:0 4px;" title="Fermer">✕</button>
+    </div>
+
+    <div class="palette-row">
+      <span class="palette-row-title">Fond de la case</span>
+      <div class="color-swatches">
+        <button class="color-swatch swatch-none" data-bg="" title="Blanc / Défaut">✕</button>
+        <button class="color-swatch" style="background:#E0E7FF;" data-bg="#E0E7FF" title="Bleu pastel"></button>
+        <button class="color-swatch" style="background:#D1FAE5;" data-bg="#D1FAE5" title="Vert pastel"></button>
+        <button class="color-swatch" style="background:#FEF3C7;" data-bg="#FEF3C7" title="Jaune pastel"></button>
+        <button class="color-swatch" style="background:#FFE4E6;" data-bg="#FFE4E6" title="Rose pastel"></button>
+        <button class="color-swatch" style="background:#F5F3FF;" data-bg="#F5F3FF" title="Violet pastel"></button>
+        <button class="color-swatch" style="background:#CFFAFE;" data-bg="#CFFAFE" title="Cyan pastel"></button>
+        <button class="color-swatch" style="background:#FFEDD5;" data-bg="#FFEDD5" title="Orange pastel"></button>
+      </div>
+    </div>
+
+    <div class="palette-row">
+      <span class="palette-row-title">Couleur du texte ("Ce que je fais")</span>
+      <div class="color-swatches">
+        <button class="color-swatch" style="background:#0F172A;" data-color="#0F172A" title="Noir"></button>
+        <button class="color-swatch" style="background:#1D4ED8;" data-color="#1D4ED8" title="Bleu"></button>
+        <button class="color-swatch" style="background:#15803D;" data-color="#15803D" title="Vert"></button>
+        <button class="color-swatch" style="background:#B45309;" data-color="#B45309" title="Orange"></button>
+        <button class="color-swatch" style="background:#BE123C;" data-color="#BE123C" title="Rouge"></button>
+        <button class="color-swatch" style="background:#6D28D9;" data-color="#6D28D9" title="Violet"></button>
+        <button class="color-swatch swatch-none" data-color="" title="Réinitialiser">↺</button>
+      </div>
+    </div>
+
+    <div style="text-align:right; margin-top:2px;">
+      <button class="btn-close-overlay" style="background:#0f172a; color:#fff; font-size:10px; font-weight:700; border:none; padding:2px 8px; border-radius:4px; cursor:pointer;">✓ Valider</button>
+    </div>
+  `;
+
+  // Actions fond
+  overlay.querySelectorAll('[data-bg]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const bg = btn.getAttribute('data-bg');
+      onBgChange(bg);
+    });
+  });
+
+  // Actions couleur écriture
+  overlay.querySelectorAll('[data-color]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const col = btn.getAttribute('data-color');
+      onTextColorChange(col);
+    });
+  });
+
+  // Fermeture
+  overlay.querySelectorAll('.btn-close-overlay').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onClose();
+    });
+  });
+
+  return overlay;
+}
+
+// =========================================================================
+// 4. RENDU DU SEMAINIER (2 SELECTS + COULEURS DE FOND & TEXTE)
 // =========================================================================
 function renderWeekSelector() {
   const select = document.getElementById("week-select");
@@ -1632,7 +1704,6 @@ function renderWeekSelector() {
 
 function selectWeek(weekId) {
   activeWeekId = weekId;
-  closeColorPopover();
   saveWeeks();
   renderWeekSelector();
   renderScheduleTable();
@@ -1711,17 +1782,69 @@ function renderScheduleTable() {
           td.className = "disabled-slot";
           td.innerHTML = `<div style="text-align:center; padding:30px 0; color:#94a3b8; font-style:italic; font-size:11px;">Après-midi libre</div>`;
         } else if (cellData.type === "preset") {
-          const bgStyle = cellData.bg ? `background-color:${cellData.bg};` : '';
-          const textStyle = cellData.textColor ? `color:${cellData.textColor};` : '';
-          td.innerHTML = `
-            <div class="preset-block ${cellData.presetType || ''}" style="${bgStyle} ${textStyle}">
-              <div class="preset-block-actions">
-                <button class="preset-block-btn color-trigger-btn" title="Changer les couleurs" onclick="openColorPopover(event, ${rIdx}, ${cIdx})">🎨</button>
-                <button class="preset-block-btn" title="Convertir en période FWB" onclick="convertToCourseSlot(${rIdx}, ${cIdx})">✏️ Éditer</button>
-              </div>
-              <div>${cellData.label || 'Fixe'}</div>
-            </div>
-          `;
+          const presetContainer = document.createElement("div");
+          presetContainer.className = `preset-block ${cellData.presetType || ''}`;
+          if (cellData.bg) presetContainer.style.backgroundColor = cellData.bg;
+          if (cellData.textColor) presetContainer.style.color = cellData.textColor;
+          presetContainer.style.position = "relative";
+
+          const labelDiv = document.createElement("div");
+          labelDiv.textContent = cellData.label || 'Fixe';
+
+          const actionsDiv = document.createElement("div");
+          actionsDiv.className = "preset-block-actions";
+
+          const pColorBtn = document.createElement("button");
+          pColorBtn.className = "preset-block-btn color-trigger-btn";
+          pColorBtn.title = "Changer les couleurs";
+          pColorBtn.textContent = "🎨";
+          
+          let pColorOverlay = null;
+          pColorBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (pColorOverlay) {
+              pColorOverlay.remove();
+              pColorOverlay = null;
+              return;
+            }
+            document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
+
+            pColorOverlay = createColorOverlay(
+              rIdx, 
+              cIdx, 
+              (newBg) => {
+                cellData.bg = newBg;
+                presetContainer.style.backgroundColor = newBg || '';
+                saveWeeks();
+              },
+              (newTextColor) => {
+                cellData.textColor = newTextColor;
+                presetContainer.style.color = newTextColor || '';
+                saveWeeks();
+              },
+              () => {
+                if (pColorOverlay) {
+                  pColorOverlay.remove();
+                  pColorOverlay = null;
+                }
+              }
+            );
+            presetContainer.appendChild(pColorOverlay);
+          });
+
+          const pEditBtn = document.createElement("button");
+          pEditBtn.className = "preset-block-btn";
+          pEditBtn.title = "Convertir en période FWB";
+          pEditBtn.textContent = "✏️ Éditer";
+          pEditBtn.addEventListener("click", () => {
+            convertToCourseSlot(rIdx, cIdx);
+          });
+
+          actionsDiv.appendChild(pColorBtn);
+          actionsDiv.appendChild(pEditBtn);
+          presetContainer.appendChild(actionsDiv);
+          presetContainer.appendChild(labelDiv);
+          td.appendChild(presetContainer);
         } else {
           td.appendChild(createDirectSelectCellElement(rIdx, cIdx, cellData));
         }
@@ -1741,6 +1864,7 @@ function renderScheduleTable() {
 function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   const container = document.createElement("div");
   container.className = "period-cell";
+  container.style.position = "relative";
 
   // Apply custom background color if set
   if (cellData.bg) {
@@ -1882,8 +2006,38 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   colorBtn.className = "cell-btn color-trigger-btn";
   colorBtn.title = "Personnaliser la couleur du cadre et de l'écriture";
   colorBtn.innerHTML = "🎨 Couleurs";
+  
+  let cellOverlay = null;
   colorBtn.addEventListener("click", (e) => {
-    openColorPopover(e, rIdx, cIdx);
+    e.stopPropagation();
+    if (cellOverlay) {
+      cellOverlay.remove();
+      cellOverlay = null;
+      return;
+    }
+    document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
+
+    cellOverlay = createColorOverlay(
+      rIdx, 
+      cIdx, 
+      (newBg) => {
+        cellData.bg = newBg;
+        container.style.backgroundColor = newBg || '';
+        saveWeeks();
+      },
+      (newTextColor) => {
+        cellData.textColor = newTextColor;
+        textarea.style.color = newTextColor || '';
+        saveWeeks();
+      },
+      () => {
+        if (cellOverlay) {
+          cellOverlay.remove();
+          cellOverlay = null;
+        }
+      }
+    );
+    container.appendChild(cellOverlay);
   });
   actionGroup.appendChild(colorBtn);
 
@@ -1913,85 +2067,10 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   return container;
 }
 
-// =========================================================================
-// 4. GESTION DE LA POPOVER FLOTTANTE DE COULEURS
-// =========================================================================
-function openColorPopover(e, rIdx, cIdx) {
-  e.stopPropagation();
-  popoverTarget = { rIdx, cIdx };
-
-  let popover = document.getElementById("horaire-color-popover");
-  if (!popover) return;
-
-  // Déplacer impérativement dans body pour neutraliser les transforms et animations des conteneurs parents
-  if (popover.parentElement !== document.body) {
-    document.body.appendChild(popover);
-  }
-
-  const btn = e.currentTarget || e.target;
-  const rect = btn.getBoundingClientRect();
-  
-  popover.style.display = "flex";
-  popover.style.position = "fixed";
-  popover.style.zIndex = "999999";
-  popover.classList.add("active");
-
-  const popWidth = popover.offsetWidth || 240;
-  const popHeight = popover.offsetHeight || 130;
-
-  let top = rect.bottom + 6;
-  let left = rect.left;
-
-  // Si ça dépasse en bas de l'écran, afficher au-dessus du bouton
-  if (top + popHeight > window.innerHeight - 10) {
-    top = Math.max(10, rect.top - popHeight - 6);
-  }
-
-  // Si ça dépasse à droite de l'écran, aligner vers la gauche
-  if (left + popWidth > window.innerWidth - 10) {
-    left = Math.max(10, window.innerWidth - popWidth - 15);
-  }
-
-  popover.style.top = Math.round(top) + "px";
-  popover.style.left = Math.round(left) + "px";
-}
-
-function closeColorPopover() {
-  const popover = document.getElementById("horaire-color-popover");
-  if (popover) {
-    popover.classList.remove("active");
-    popover.style.display = "none";
-  }
-  popoverTarget = null;
-}
-
-function applyPopoverBg(color) {
-  if (!popoverTarget) return;
-  const currentWeek = getActiveWeek();
-  const cell = currentWeek.grid[popoverTarget.rIdx][popoverTarget.cIdx];
-  cell.bg = color;
-  saveWeeks();
-  renderScheduleTable();
-  closeColorPopover();
-}
-
-function applyPopoverTextColor(color) {
-  if (!popoverTarget) return;
-  const currentWeek = getActiveWeek();
-  const cell = currentWeek.grid[popoverTarget.rIdx][popoverTarget.cIdx];
-  cell.textColor = color;
-  saveWeeks();
-  renderScheduleTable();
-  closeColorPopover();
-}
-
-// Global click listener for closing popover
+// Clic global pour fermer tout overlay ouvert
 document.addEventListener("click", (e) => {
-  const popover = document.getElementById("horaire-color-popover");
-  if (popover && popover.classList.contains("active")) {
-    if (!popover.contains(e.target) && !e.target.closest(".color-trigger-btn")) {
-      closeColorPopover();
-    }
+  if (!e.target.closest('.cell-color-overlay') && !e.target.closest('.color-trigger-btn')) {
+    document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
   }
 });
 

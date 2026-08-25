@@ -31,7 +31,7 @@
     <script src="lucide.min.js"></script>
     
     <!-- Styles personnalisés de la console -->
-    <link rel="stylesheet" href="styles.css?v=92">
+    <link rel="stylesheet" href="styles.css?v=93">
     
     <!-- Métadonnées PWA -->
     <link rel="manifest" href="manifest.json">
@@ -1051,38 +1051,9 @@
                     </div>
 
                     <!-- Table du Semainier -->
-                    <div class="horaire-container overflow-x-auto relative">
+                    <div class="horaire-container overflow-x-auto">
                         <div id="schedule-table-container">
                             <!-- Généré en JS -->
-                        </div>
-
-                        <!-- Floating Color Palette Popover -->
-                        <div id="horaire-color-popover">
-                            <div class="palette-row">
-                                <span class="palette-row-title">Couleur de fond du cadre</span>
-                                <div class="color-swatches">
-                                    <button class="color-swatch swatch-none" onclick="applyPopoverBg('')" title="Blanc / Par défaut">✕</button>
-                                    <button class="color-swatch" style="background-color: #E0E7FF;" onclick="applyPopoverBg('#E0E7FF')" title="Bleu pastel"></button>
-                                    <button class="color-swatch" style="background-color: #D1FAE5;" onclick="applyPopoverBg('#D1FAE5')" title="Vert pastel"></button>
-                                    <button class="color-swatch" style="background-color: #FEF3C7;" onclick="applyPopoverBg('#FEF3C7')" title="Jaune pastel"></button>
-                                    <button class="color-swatch" style="background-color: #FFE4E6;" onclick="applyPopoverBg('#FFE4E6')" title="Rose/Rouge pastel"></button>
-                                    <button class="color-swatch" style="background-color: #F5F3FF;" onclick="applyPopoverBg('#F5F3FF')" title="Violet pastel"></button>
-                                    <button class="color-swatch" style="background-color: #CFFAFE;" onclick="applyPopoverBg('#CFFAFE')" title="Cyan pastel"></button>
-                                    <button class="color-swatch" style="background-color: #FFEDD5;" onclick="applyPopoverBg('#FFEDD5')" title="Orange pastel"></button>
-                                </div>
-                            </div>
-                            <div class="palette-row">
-                                <span class="palette-row-title">Couleur de l'écriture ("Ce que je fais")</span>
-                                <div class="color-swatches">
-                                    <button class="color-swatch" style="background-color: #0F172A;" onclick="applyPopoverTextColor('#0F172A')" title="Noir / Défaut"></button>
-                                    <button class="color-swatch" style="background-color: #1D4ED8;" onclick="applyPopoverTextColor('#1D4ED8')" title="Bleu"></button>
-                                    <button class="color-swatch" style="background-color: #15803D;" onclick="applyPopoverTextColor('#15803D')" title="Vert"></button>
-                                    <button class="color-swatch" style="background-color: #B45309;" onclick="applyPopoverTextColor('#B45309')" title="Orange/Marron"></button>
-                                    <button class="color-swatch" style="background-color: #BE123C;" onclick="applyPopoverTextColor('#BE123C')" title="Rouge"></button>
-                                    <button class="color-swatch" style="background-color: #6D28D9;" onclick="applyPopoverTextColor('#6D28D9')" title="Violet"></button>
-                                    <button class="color-swatch swatch-none" onclick="applyPopoverTextColor('')" title="Réinitialiser">↺</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
@@ -1710,7 +1681,7 @@
     <script src="aristo.js"></script>
     <script src="compass.js"></script>
     <script src="whiteboard.js"></script>
-    <script src="horaire.js?v=92"></script>
+    <script src="horaire.js?v=93"></script>
     <script src="devoirs.js"></script>
     <script src="roue.js"></script>
     <script src="fractions.js"></script>
