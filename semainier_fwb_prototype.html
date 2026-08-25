@@ -2103,31 +2103,46 @@ function getStorageKey() {
   return "tbi_fwb_semainier_v7";
 }
 
-function createBlankGrid() {
-  const grid = {};
+function sanitizeWeekGrid(rawGrid) {
+  const newGrid = {};
   TIME_SLOTS.forEach((slot, rIdx) => {
-    grid[rIdx] = {};
+    newGrid[rIdx] = {};
     DAYS.forEach((day, cIdx) => {
+      const rawCell = (rawGrid && rawGrid[rIdx] && rawGrid[rIdx][cIdx]) || null;
       if (slot.type === "course") {
         if (cIdx === 2 && rIdx >= 6) {
           // Mercredi après-midi libre
-          grid[rIdx][cIdx] = { type: "disabled" };
+          newGrid[rIdx][cIdx] = { type: "disabled" };
+        } else if (rawCell && rawCell.type === "preset") {
+          newGrid[rIdx][cIdx] = {
+            type: "preset",
+            presetType: rawCell.presetType || "libre",
+            label: rawCell.label || "Fixe",
+            bg: rawCell.bg || "#F1F5F9",
+            textColor: rawCell.textColor || "#334155"
+          };
+        } else if (rawCell && rawCell.type === "disabled") {
+          newGrid[rIdx][cIdx] = { type: "disabled" };
         } else {
-          grid[rIdx][cIdx] = {
+          newGrid[rIdx][cIdx] = {
             type: "course",
-            activity: "",
-            compId: "",
-            attenduText: "",
-            bg: "",
-            textColor: ""
+            activity: (rawCell && rawCell.activity) || (rawCell && rawCell.label) || "",
+            compId: (rawCell && rawCell.compId) || "",
+            attenduText: (rawCell && rawCell.attenduText) || "",
+            bg: (rawCell && rawCell.bg) || "",
+            textColor: (rawCell && rawCell.textColor) || ""
           };
         }
       } else {
-        grid[rIdx][cIdx] = { type: slot.type };
+        newGrid[rIdx][cIdx] = { type: slot.type };
       }
     });
   });
-  return grid;
+  return newGrid;
+}
+
+function createBlankGrid() {
+  return sanitizeWeekGrid({});
 }
 
 function loadData() {
@@ -2138,6 +2153,10 @@ function loadData() {
     } catch (e) {
       allWeeks = [];
     }
+  }
+  
+  if (!Array.isArray(allWeeks)) {
+    allWeeks = [];
   }
   
   // Assurer la présence du modèle permanent
@@ -2153,18 +2172,41 @@ function loadData() {
     allWeeks.unshift(templateWeek);
   }
 
+  // ÉTANCHÉITÉ TOTALE : Reconstruire et isoler chaque semaine pour supprimer tout partage de mémoire
+  allWeeks = allWeeks.map(w => {
+    return {
+      id: w.id || ("week_" + Math.random()),
+      isTemplate: !!w.isTemplate,
+      title: w.title || "Semaine",
+      created: w.created || new Date().toISOString(),
+      grid: sanitizeWeekGrid(w.grid)
+    };
+  });
+
   if (allWeeks.length === 1) {
     // Créer une première semaine de cours basée sur le modèle
+    const template = allWeeks[0];
+    const firstWeekGrid = sanitizeWeekGrid(template.grid);
+    // Vider les cours de la semaine 1
+    Object.keys(firstWeekGrid).forEach(r => {
+      Object.keys(firstWeekGrid[r]).forEach(c => {
+        if (firstWeekGrid[r][c].type === "course") {
+          firstWeekGrid[r][c].activity = "";
+          firstWeekGrid[r][c].compId = "";
+          firstWeekGrid[r][c].attenduText = "";
+        }
+      });
+    });
+
     const firstWeek = {
       id: "week_" + Date.now(),
       isTemplate: false,
       title: "Semaine 1",
       created: new Date().toISOString(),
-      grid: JSON.parse(JSON.stringify(templateWeek.grid))
+      grid: firstWeekGrid
     };
     allWeeks.push(firstWeek);
     activeWeekId = firstWeek.id;
-    saveData();
   } else {
     const savedActive = localStorage.getItem("tbi_fwb_active_week_id");
     if (savedActive && allWeeks.some(w => w.id === savedActive)) {
@@ -2174,6 +2216,8 @@ function loadData() {
       activeWeekId = firstNormal ? firstNormal.id : allWeeks[0].id;
     }
   }
+
+  saveData();
 }
 
 function saveData() {
@@ -2373,12 +2417,18 @@ function renderSchedule() {
               rIdx, 
               cIdx, 
               (newBg) => {
-                cellData.bg = newBg;
+                const cur = getActiveWeek();
+                if (cur.grid && cur.grid[rIdx] && cur.grid[rIdx][cIdx]) {
+                  cur.grid[rIdx][cIdx].bg = newBg;
+                }
                 presetContainer.style.backgroundColor = newBg || '';
                 saveData();
               },
               (newTextColor) => {
-                cellData.textColor = newTextColor;
+                const cur = getActiveWeek();
+                if (cur.grid && cur.grid[rIdx] && cur.grid[rIdx][cIdx]) {
+                  cur.grid[rIdx][cIdx].textColor = newTextColor;
+                }
                 presetContainer.style.color = newTextColor || '';
                 saveData();
               },
@@ -2421,21 +2471,36 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   const container = document.createElement("div");
   container.className = "period-cell";
 
+  const getDirectCell = () => {
+    const cur = getActiveWeek();
+    if (!cur.grid) cur.grid = sanitizeWeekGrid({});
+    if (!cur.grid[rIdx]) cur.grid[rIdx] = {};
+    if (!cur.grid[rIdx][cIdx]) {
+      cur.grid[rIdx][cIdx] = {
+        type: "course", activity: "", compId: "", attenduText: "", bg: "", textColor: ""
+      };
+    }
+    return cur.grid[rIdx][cIdx];
+  };
+
+  const directCell = getDirectCell();
+
   // Apply custom background color if set
-  if (cellData.bg) {
-    container.style.backgroundColor = cellData.bg;
+  if (directCell.bg) {
+    container.style.backgroundColor = directCell.bg;
   }
 
   // 1. Zone de texte libre (avec couleur de texte personnalisée)
   const textarea = document.createElement("textarea");
   textarea.className = "period-activity-input";
   textarea.placeholder = "Ce que je fais (titre, activités, manuel...)";
-  textarea.value = cellData.activity || "";
-  if (cellData.textColor) {
-    textarea.style.color = cellData.textColor;
+  textarea.value = directCell.activity || "";
+  if (directCell.textColor) {
+    textarea.style.color = directCell.textColor;
   }
   textarea.addEventListener("input", (e) => {
-    cellData.activity = e.target.value;
+    const c = getDirectCell();
+    c.activity = e.target.value;
     saveData();
   });
   container.appendChild(textarea);
@@ -2463,7 +2528,7 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
       const opt = document.createElement("option");
       opt.value = comp.id;
       opt.textContent = `${sub.icon} ${comp.name}`;
-      if (cellData.compId === comp.id) {
+      if (directCell.compId === comp.id) {
         opt.selected = true;
       }
       group.appendChild(opt);
@@ -2524,16 +2589,17 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   }
 
   // Initial population
-  populateAttendus(cellData.compId, cellData.attenduText);
+  populateAttendus(directCell.compId, directCell.attenduText);
 
   // Event handlers
   compSelect.addEventListener("change", (e) => {
     const newCompId = e.target.value;
-    cellData.compId = newCompId;
-    cellData.attenduText = "";
+    const c = getDirectCell();
+    c.compId = newCompId;
+    c.attenduText = "";
 
     // If user has not set a custom background yet, auto-suggest the discipline pastel color!
-    if (!cellData.bg && newCompId) {
+    if (!c.bg && newCompId) {
       const comp = COMP_MAP[newCompId];
       if (comp) {
         const defaultBgs = {
@@ -2545,8 +2611,8 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
           fmttn: "#FDF2F8",
           other: "#F8FAFC"
         };
-        cellData.bg = defaultBgs[comp.subjectKey] || "";
-        container.style.backgroundColor = cellData.bg;
+        c.bg = defaultBgs[comp.subjectKey] || "";
+        container.style.backgroundColor = c.bg;
       }
     }
 
@@ -2555,7 +2621,8 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   });
 
   attenduSelect.addEventListener("change", (e) => {
-    cellData.attenduText = e.target.value;
+    const c = getDirectCell();
+    c.attenduText = e.target.value;
     saveData();
   });
 
@@ -2588,12 +2655,14 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
       rIdx, 
       cIdx, 
       (newBg) => {
-        cellData.bg = newBg;
+        const c = getDirectCell();
+        c.bg = newBg;
         container.style.backgroundColor = newBg || '';
         saveData();
       },
       (newTextColor) => {
-        cellData.textColor = newTextColor;
+        const c = getDirectCell();
+        c.textColor = newTextColor;
         textarea.style.color = newTextColor || '';
         saveData();
       },
@@ -2709,6 +2778,7 @@ document.addEventListener("click", (e) => {
 // =========================================================================
 function clearCourseCell(rIdx, cIdx) {
   const currentWeek = getActiveWeek();
+  if (!currentWeek.grid[rIdx]) currentWeek.grid[rIdx] = {};
   currentWeek.grid[rIdx][cIdx] = {
     type: "course",
     activity: "",
@@ -2765,7 +2835,7 @@ function createNewWeek() {
   if (!title || !title.trim()) return;
 
   const template = getTemplateWeek();
-  const cleanGrid = JSON.parse(JSON.stringify(template.grid));
+  const cleanGrid = sanitizeWeekGrid(template.grid);
   
   // Conserver les blocs fixes / fourches intacts, mais vider les textes de cours pour démarrer la semaine à neuf
   Object.keys(cleanGrid).forEach(r => {
@@ -2780,7 +2850,7 @@ function createNewWeek() {
   });
 
   const newWeek = {
-    id: "week_" + Date.now(),
+    id: "week_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
     isTemplate: false,
     title: title.trim(),
     created: new Date().toISOString(),
@@ -2799,11 +2869,13 @@ function duplicateCurrentWeek() {
   const title = prompt("Titre de la copie :", cur.title + " (Copie)");
   if (!title || !title.trim()) return;
 
-  const newWeek = JSON.parse(JSON.stringify(cur));
-  newWeek.id = "week_" + Date.now();
-  newWeek.isTemplate = false;
-  newWeek.title = title.trim();
-  newWeek.created = new Date().toISOString();
+  const newWeek = {
+    id: "week_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
+    isTemplate: false,
+    title: title.trim(),
+    created: new Date().toISOString(),
+    grid: sanitizeWeekGrid(cur.grid)
+  };
 
   allWeeks.push(newWeek);
   activeWeekId = newWeek.id;
