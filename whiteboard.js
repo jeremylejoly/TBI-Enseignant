@@ -762,7 +762,7 @@ function saveActiveTabTextboxes() {
         }
         
         const textSpan = el.querySelector('.text-content-node');
-        const text = textSpan ? textSpan.innerText : el.innerText.replace('✕', '').trim();
+        const text = textSpan ? textSpan.textContent : el.textContent.replace('✕', '').trim();
         return {
             type: 'text',
             text: text,
@@ -2194,11 +2194,25 @@ function createTextbox(x, y, initialText = "", fontSize = 12, underline = false,
     textBox.appendChild(deleteBtn);
     
     // Content editable text node
-    const textSpan = document.createElement('span');
+    const textSpan = document.createElement('div');
     textSpan.className = 'text-content-node outline-none';
-    textSpan.contentEditable = true;
+    textSpan.contentEditable = 'true';
+    textSpan.spellcheck = false;
+    textSpan.setAttribute('autocomplete', 'off');
+    textSpan.setAttribute('autocorrect', 'off');
+    textSpan.setAttribute('autocapitalize', 'off');
     textSpan.textContent = initialText || "Écrivez ici...";
     textBox.appendChild(textSpan);
+    
+    // Gérer la composition des touches mortes (^, ¨, ~, `) sur Mac et claviers AZERTY
+    let isComposing = false;
+    textSpan.addEventListener('compositionstart', () => {
+        isComposing = true;
+    });
+    textSpan.addEventListener('compositionend', () => {
+        isComposing = false;
+        saveActiveTabTextboxes();
+    });
     
     textSpan.addEventListener('focus', () => {
         clearTimeout(textboxBlurTimeout);
@@ -2218,7 +2232,8 @@ function createTextbox(x, y, initialText = "", fontSize = 12, underline = false,
         }, 250);
     });
     
-    textSpan.addEventListener('input', () => {
+    textSpan.addEventListener('input', (e) => {
+        if (isComposing || (e && e.isComposing)) return;
         saveActiveTabTextboxes();
     });
     
@@ -3315,7 +3330,7 @@ function exportCurrentTab() {
         const x = parseFloat(el.dataset.x) + 12;
         const y = parseFloat(el.dataset.y) + 28;
         const contentNode = el.querySelector('.text-content-node');
-        const text = contentNode ? contentNode.innerText : el.innerText.replace('✕', '').trim();
+        const text = contentNode ? contentNode.textContent : el.textContent.replace('✕', '').trim();
         const fontSize = parseFloat(el.dataset.fontSize) || 12;
         const color = el.dataset.color || '#4f46e5';
         const underline = el.dataset.underline === 'true';
