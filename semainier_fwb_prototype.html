@@ -1,13 +1,669 @@
-// Logic for Horaire / Semainier FWB Tronc Commun — horaire.js
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semainier P5-P6 — 2 Menus Déroulants & Couleurs FWB</title>
+<style>
+:root {
+  --primary: #1e293b;
+  --primary-dark: #0f172a;
+  --accent: #2563eb;
+  --bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --border: #cbd5e1;
+  --border-strong: #1e293b;
+  --text: #0f172a;
+  --muted: #64748b;
+  
+  /* Disciplines Colors */
+  --math-bg: #eff6ff; --math-border: #3b82f6; --math-text: #1d4ed8;
+  --fr-bg: #f0fdf4;   --fr-border: #22c55e; --fr-text: #15803d;
+  --sci-bg: #ecfeff;  --sci-border: #06b6d4; --sci-text: #0e7490;
+  --hist-bg: #fffbeb; --hist-border: #f59e0b; --hist-text: #b45309;
+  --eco-bg: #f5f3ff;  --eco-border: #8b5cf6; --eco-text: #6d28d9;
+  --fmttn-bg: #fdf2f8;--fmttn-border: #ec4899;--fmttn-text: #be185d;
+}
 
-let scheduleZoom = 1.0;
-try {
-  let rawZoom = parseFloat(localStorage.getItem('tbi_schedule_zoom'));
-  if (!isNaN(rawZoom) && rawZoom >= 0.5 && rawZoom <= 2.0) {
-    scheduleZoom = rawZoom;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.35;
+  padding: 14px;
+  font-size: 13px;
+}
+
+/* Header & Controls */
+.app-header {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.app-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-badge {
+  background: #1e293b;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.app-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.app-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+
+.btn:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  border-color: #1d4ed8;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-success {
+  background: #16a34a;
+  color: white;
+  border-color: #15803d;
+}
+.btn-success:hover {
+  background: #15803d;
+}
+
+.btn-danger {
+  background: white;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+.btn-danger:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+select.form-control, input.form-control {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  background: white;
+  color: var(--text);
+  outline: none;
+}
+select.form-control:focus, input.form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+.view-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Semainier Table Container */
+.schedule-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  border: 2px solid var(--border-strong);
+  overflow-x: auto;
+  position: relative;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 1150px;
+}
+
+.schedule-table th, .schedule-table td {
+  border: 1.5px solid var(--border-strong);
+  vertical-align: top;
+}
+
+.schedule-table th {
+  background: #f8fafc;
+  padding: 10px 8px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.schedule-table th.col-time {
+  width: 100px;
+  background: #f1f5f9;
+}
+
+.time-header-cell {
+  background: #f8fafc;
+  text-align: center;
+  padding: 6px 4px;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.time-header-cell.course {
+  min-height: 140px;
+}
+.time-header-cell.recreation, .time-header-cell.midi {
+  min-height: 26px;
+  height: 26px;
+  padding: 2px 4px;
+  font-size: 10px;
+}
+.time-header-cell .period-idx {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+.time-header-cell .period-time {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* Cell Structure (3 Elements + Color Options) */
+.period-cell {
+  height: 100%;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  position: relative;
+  padding: 6px;
+  gap: 5px;
+  transition: background-color 0.15s ease;
+}
+
+/* 1. Zone de texte libre */
+.period-activity-input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+  resize: vertical;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.85);
+  transition: all 0.15s ease;
+  line-height: 1.35;
+}
+.period-activity-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+.period-activity-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 11px;
+}
+
+/* 2 & 3. Deux Menus Déroulants Directs */
+.dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.fwb-select {
+  width: 100%;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 11px;
+  font-weight: 500;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fwb-select:focus {
+  border-color: var(--accent);
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+.fwb-select.comp-select {
+  font-weight: 700;
+  border-left: 3.5px solid #94a3b8;
+}
+
+.fwb-select.attendu-select {
+  border-style: solid;
+  font-size: 10.5px;
+  color: #334155;
+}
+
+.fwb-select:disabled {
+  background-color: rgba(241, 245, 249, 0.7);
+  color: #94a3b8;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+/* Cell footer actions */
+.cell-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+  font-size: 10px;
+}
+.cell-action-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cell-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s;
+}
+.cell-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+.cell-btn.clear-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+/* Floating Color Palette Toolbar (like in TBI) */
+#horaire-color-popover {
+  position: absolute;
+  background: white;
+  border: 2px solid #1e293b;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  padding: 10px 12px;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  animation: popIn 0.12s ease-out;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.palette-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.palette-row-title {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+}
+.color-swatches {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #1e293b;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.color-swatch:hover {
+  transform: scale(1.18);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.color-swatch.swatch-none {
+  background: white;
+  border-color: #cbd5e1;
+  font-size: 11px;
+  font-weight: bold;
+  color: #64748b;
+}
+
+/* Special Fixed Row Types (Recreation, Midi) */
+.row-special {
+  height: 28px !important;
+}
+.special-row {
+  background: #f8fafc;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: #475569;
+  font-size: 11px;
+  padding: 3px 6px !important;
+  vertical-align: middle !important;
+  user-select: none;
+  height: 28px !important;
+  line-height: 1.2;
+}
+.special-row.midi {
+  background: #f1f5f9;
+  color: #334155;
+}
+.disabled-slot {
+  background: repeating-linear-gradient(
+    45deg,
+    #f8fafc,
+    #f8fafc 10px,
+    #e2e8f0 10px,
+    #e2e8f0 20px
+  );
+  opacity: 0.6;
+}
+
+/* Preset Fixed Subject Block */
+.preset-block {
+  background: #fce7f3;
+  color: #9d174d;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 140px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px dashed #f472b6;
+  position: relative;
+}
+.preset-block.allemand {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fcd34d;
+}
+.preset-block.gym {
+  background: #ffe4e6;
+  color: #9f1239;
+  border-color: #fda4af;
+}
+.preset-block.cpc {
+  background: #ede9fe;
+  color: #5b21b6;
+  border-color: #c4b5fd;
+}
+.preset-block.libre {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+.preset-block-actions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 2px;
+}
+.preset-block-btn {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  font-size: 9.5px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+.preset-block-btn:hover {
+  background: white;
+}
+
+/* Quick Filter by Year */
+.year-pills {
+  display: flex;
+  gap: 4px;
+}
+.year-pill {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: white;
+}
+.year-pill.active {
+  background: #0f172a;
+  color: white;
+  border-color: #0f172a;
+}
+
+/* Print Styling */
+@media print {
+  body {
+    background: white;
+    padding: 0;
+    font-size: 9.5px;
   }
-} catch(e){}
+  .app-header, .toolbar, .cell-footer, .preset-block-actions, #horaire-color-popover {
+    display: none !important;
+  }
+  .schedule-container {
+    box-shadow: none;
+    border: 1.5px solid black;
+  }
+  .schedule-table th, .schedule-table td {
+    border: 1px solid black !important;
+  }
+  .period-activity-input {
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    font-size: 10px !important;
+    resize: none !important;
+    min-height: auto !important;
+    font-weight: 700 !important;
+  }
+  .fwb-select {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    font-size: 8.5px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+  }
+  @page {
+    size: A4 landscape;
+    margin: 6mm;
+  }
+}
+</style>
+</head>
+<body>
 
+<!-- Header -->
+<header class="app-header">
+  <div class="header-top">
+    <div class="app-title-group">
+      <h1 class="app-title">Mon semainier</h1>
+    </div>
+
+    <!-- Toolbar controls -->
+    <div class="toolbar">
+      <label style="font-weight:700; font-size:12px; color:#475569;">Semaine :</label>
+      <select id="week-selector" class="form-control" onchange="changeActiveWeek(this.value)">
+        <!-- populated dynamically -->
+      </select>
+      
+      <button class="btn btn-primary" onclick="createNewWeek()">＋ Nouvelle semaine</button>
+      <button class="btn" onclick="duplicateCurrentWeek()">📑 Dupliquer</button>
+      <button class="btn" onclick="renameCurrentWeek()">✏️ Renommer</button>
+      <button class="btn btn-danger" onclick="deleteCurrentWeek()">🗑️ Supprimer</button>
+      
+      <div class="view-controls">
+        <button class="btn btn-success" onclick="window.print()">🖨️ Imprimer / PDF</button>
+        <button class="btn" onclick="exportDataJSON()">💾 Exporter JSON</button>
+        <button class="btn" onclick="document.getElementById('import-file').click()">📂 Importer JSON</button>
+        <input type="file" id="import-file" style="display:none" accept=".json" onchange="importDataJSON(event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; padding-top:4px; border-top:1px solid #e2e8f0;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="font-size:11px; font-weight:700; color:#64748b;">Filtre des attendus par cycle :</span>
+      <div class="year-pills">
+        <button class="year-pill active" id="pill-all" onclick="setCycleFilter('all')">Tous (P5 &amp; P6)</button>
+        <button class="year-pill" id="pill-p5" onclick="setCycleFilter('P5')">P5 seulement</button>
+        <button class="year-pill" id="pill-p6" onclick="setCycleFilter('P6')">P6 seulement</button>
+      </div>
+    </div>
+    <span style="font-size:11px; color:#64748b; font-style:italic;">🎨 Cliquez sur le bouton "🎨 Couleurs" de chaque case pour personnaliser le fond et l'écriture.</span>
+  </div>
+</header>
+
+<!-- Main Table Container -->
+<div class="schedule-container" id="schedule-container">
+  <table class="schedule-table" id="schedule-table">
+    <thead>
+      <tr>
+        <th class="col-time">Heures</th>
+        <th>Lundi</th>
+        <th>Mardi</th>
+        <th>Mercredi</th>
+        <th>Jeudi</th>
+        <th>Vendredi</th>
+      </tr>
+    </thead>
+    <tbody id="schedule-tbody">
+      <!-- Generated dynamically -->
+    </tbody>
+  </table>
+
+  <!-- Floating Color Palette Popover -->
+  <div id="horaire-color-popover">
+    <!-- Background Color Row -->
+    <div class="palette-row">
+      <span class="palette-row-title">Couleur de fond du cadre</span>
+      <div class="color-swatches">
+        <button class="color-swatch swatch-none" onclick="applyPopoverBg('')" title="Blanc / Par défaut">✕</button>
+        <button class="color-swatch" style="background-color: #E0E7FF;" onclick="applyPopoverBg('#E0E7FF')" title="Bleu pastel"></button>
+        <button class="color-swatch" style="background-color: #D1FAE5;" onclick="applyPopoverBg('#D1FAE5')" title="Vert pastel"></button>
+        <button class="color-swatch" style="background-color: #FEF3C7;" onclick="applyPopoverBg('#FEF3C7')" title="Jaune pastel"></button>
+        <button class="color-swatch" style="background-color: #FFE4E6;" onclick="applyPopoverBg('#FFE4E6')" title="Rose/Rouge pastel"></button>
+        <button class="color-swatch" style="background-color: #F5F3FF;" onclick="applyPopoverBg('#F5F3FF')" title="Violet pastel"></button>
+        <button class="color-swatch" style="background-color: #CFFAFE;" onclick="applyPopoverBg('#CFFAFE')" title="Cyan pastel"></button>
+        <button class="color-swatch" style="background-color: #FFEDD5;" onclick="applyPopoverBg('#FFEDD5')" title="Orange pastel"></button>
+      </div>
+    </div>
+    <!-- Text Color Row -->
+    <div class="palette-row">
+      <span class="palette-row-title">Couleur de l'écriture ("Ce que je fais")</span>
+      <div class="color-swatches">
+        <button class="color-swatch" style="background-color: #0F172A;" onclick="applyPopoverTextColor('#0F172A')" title="Noir / Défaut"></button>
+        <button class="color-swatch" style="background-color: #1D4ED8;" onclick="applyPopoverTextColor('#1D4ED8')" title="Bleu"></button>
+        <button class="color-swatch" style="background-color: #15803D;" onclick="applyPopoverTextColor('#15803D')" title="Vert"></button>
+        <button class="color-swatch" style="background-color: #B45309;" onclick="applyPopoverTextColor('#B45309')" title="Orange/Marron"></button>
+        <button class="color-swatch" style="background-color: #BE123C;" onclick="applyPopoverTextColor('#BE123C')" title="Rouge"></button>
+        <button class="color-swatch" style="background-color: #6D28D9;" onclick="applyPopoverTextColor('#6D28D9')" title="Violet"></button>
+        <button class="color-swatch swatch-none" onclick="applyPopoverTextColor('')" title="Réinitialiser">↺</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
 // =========================================================================
 // 1. BASE DE DONNÉES COMPLÈTE & OFFICIELLE FWB (P5 - P6)
 // =========================================================================
@@ -1420,54 +2076,62 @@ const FWB_DATABASE = {
   }
 };
 
-// Fast lookup maps
+// Fast lookup map for competencies
 const COMP_MAP = {};
-Object.keys(FWB_DATABASE).forEach(subKey => {
-  const sub = FWB_DATABASE[subKey];
-  sub.competencies.forEach(comp => {
+Object.keys(FWB_DATABASE).forEach(sKey => {
+  FWB_DATABASE[sKey].competencies.forEach(comp => {
     COMP_MAP[comp.id] = {
       ...comp,
-      subjectKey: subKey,
-      subjectName: sub.name,
-      subjectIcon: sub.icon,
-      subjectBg: sub.bg,
-      subjectBorder: sub.border,
-      subjectText: sub.text
+      subjectKey: sKey,
+      subjectName: FWB_DATABASE[sKey].name,
+      icon: FWB_DATABASE[sKey].icon
     };
   });
 });
 
-// =========================================================================
-// 2. CONFIGURATION DE LA GRILLE & PÉRIODES
-// =========================================================================
-const DAYS = [
-  { key: "lundi", label: "Lundi" },
-  { key: "mardi", label: "Mardi" },
-  { key: "mercredi", label: "Mercredi" },
-  { key: "jeudi", label: "Jeudi" },
-  { key: "vendredi", label: "Vendredi" }
-];
-
+// Time slots configuration
 const TIME_SLOTS = [
-  { type: "course", label: "P1", time: "08h30 - 09h20" },
-  { type: "course", label: "P2", time: "09h20 - 10h10" },
-  { type: "recreation", label: "RÉCRÉATION", time: "10h10 - 10h25" },
-  { type: "course", label: "P3", time: "10h25 - 11h15" },
-  { type: "course", label: "P4", time: "11h15 - 12h05" },
-  { type: "midi", label: "MIDI / REPAS", time: "12h05 - 13h20" },
-  { type: "course", label: "P5", time: "13h20 - 14h10" },
-  { type: "course", label: "P6", time: "14h10 - 15h00" },
-  { type: "course", label: "P7", time: "15h00 - 15h25" }
+  { time: "8h30 - 9h20", type: "course", label: "Période 1" },
+  { time: "9h20 - 10h10", type: "course", label: "Période 2" },
+  { time: "10h10 - 10h25", type: "recreation", label: "R É C R É A T I O N" },
+  { time: "10h25 - 11h15", type: "course", label: "Période 3" },
+  { time: "11h15 - 12h05", type: "course", label: "Période 4" },
+  { time: "12h05 - 13h20", type: "midi", label: "M I D I (Repas & Récréation)" },
+  { time: "13h20 - 14h05", type: "course", label: "Période 5" },
+  { time: "14h05 - 14h50", type: "course", label: "Période 6" },
+  { time: "14h50 - 15h05", type: "recreation", label: "R É C R É A T I O N" },
+  { time: "15h05 - 15h50", type: "course", label: "Période 7" }
 ];
 
-// Global state
-let tbiWeeks = [];
+const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+
+// State
+let allWeeks = [];
 let activeWeekId = null;
-let currentCycleFilter = "all";
-let popoverTarget = null; // { rIdx, cIdx }
+let currentCycleFilter = "all"; // 'all', 'P5', 'P6'
+let popoverTarget = null; // { rIdx, cIdx, element }
+
+// =========================================================================
+// 2. INITIALISATION & LOCALSTORAGE
+// =========================================================================
+window.addEventListener("DOMContentLoaded", () => {
+  loadData();
+  renderWeekSelector();
+  renderSchedule();
+
+  // Close popover when clicking outside
+  document.addEventListener("click", (e) => {
+    const popover = document.getElementById("horaire-color-popover");
+    if (popover && popover.style.display === "flex") {
+      if (!popover.contains(e.target) && !e.target.closest(".color-trigger-btn")) {
+        closeColorPopover();
+      }
+    }
+  });
+});
 
 function getStorageKey() {
-  return "tbi_fwb_semainier_v8";
+  return "tbi_fwb_semainier_v7";
 }
 
 function createBlankGrid() {
@@ -1497,18 +2161,18 @@ function createBlankGrid() {
   return grid;
 }
 
-function loadWeeks() {
+function loadData() {
   const raw = localStorage.getItem(getStorageKey());
   if (raw) {
     try {
-      tbiWeeks = JSON.parse(raw);
+      allWeeks = JSON.parse(raw);
     } catch (e) {
-      tbiWeeks = [];
+      allWeeks = [];
     }
   }
   
   // Assurer la présence du modèle permanent
-  let templateWeek = tbiWeeks.find(w => w.isTemplate);
+  let templateWeek = allWeeks.find(w => w.isTemplate);
   if (!templateWeek) {
     templateWeek = {
       id: "template_model",
@@ -1517,10 +2181,10 @@ function loadWeeks() {
       created: new Date().toISOString(),
       grid: createBlankGrid()
     };
-    tbiWeeks.unshift(templateWeek);
+    allWeeks.unshift(templateWeek);
   }
 
-  if (tbiWeeks.length === 1) {
+  if (allWeeks.length === 1) {
     // Créer une première semaine de cours basée sur le modèle
     const firstWeek = {
       id: "week_" + Date.now(),
@@ -1529,36 +2193,30 @@ function loadWeeks() {
       created: new Date().toISOString(),
       grid: JSON.parse(JSON.stringify(templateWeek.grid))
     };
-    tbiWeeks.push(firstWeek);
+    allWeeks.push(firstWeek);
     activeWeekId = templateWeek.id;
-    saveWeeks();
+    saveData();
   } else {
-    const savedActive = localStorage.getItem("tbi_active_week_id");
-    if (savedActive && tbiWeeks.some(w => w.id === savedActive)) {
-      activeWeekId = savedActive;
-    } else {
-      activeWeekId = tbiWeeks[0].id;
-    }
+    activeWeekId = allWeeks[0].id;
   }
 }
 
-function saveWeeks() {
-  localStorage.setItem(getStorageKey(), JSON.stringify(tbiWeeks));
-  localStorage.setItem("tbi_active_week_id", activeWeekId);
+function saveData() {
+  localStorage.setItem(getStorageKey(), JSON.stringify(allWeeks));
 }
 
 function getActiveWeek() {
-  return tbiWeeks.find(w => w.id === activeWeekId) || tbiWeeks[0];
+  return allWeeks.find(w => w.id === activeWeekId) || allWeeks[0];
 }
 
 function getTemplateWeek() {
-  return tbiWeeks.find(w => w.isTemplate) || tbiWeeks[0];
+  return allWeeks.find(w => w.isTemplate) || allWeeks[0];
 }
 
 function getNextMondayString() {
   let latestMonday = null;
   
-  tbiWeeks.forEach(w => {
+  allWeeks.forEach(w => {
     if (!w.isTemplate && w.title && w.title.startsWith("Semaine du ")) {
       const dateStr = w.title.substring("Semaine du ".length).trim();
       const parts = dateStr.split('/');
@@ -1600,12 +2258,11 @@ function getNextMondayString() {
 // 3. RENDU DU SEMAINIER (2 SELECTS + COULEURS DE FOND & TEXTE)
 // =========================================================================
 function renderWeekSelector() {
-  const select = document.getElementById("week-select");
-  if (!select) return;
+  const select = document.getElementById("week-selector");
   select.innerHTML = "";
 
   const templateWeek = getTemplateWeek();
-  const normalWeeks = tbiWeeks.filter(w => !w.isTemplate);
+  const normalWeeks = allWeeks.filter(w => !w.isTemplate);
 
   // 1. Groupe Modèle permanent
   const grpModel = document.createElement("optgroup");
@@ -1630,50 +2287,24 @@ function renderWeekSelector() {
   select.appendChild(grpWeeks);
 }
 
-function selectWeek(weekId) {
+function changeActiveWeek(weekId) {
   activeWeekId = weekId;
   closeColorPopover();
-  saveWeeks();
-  renderWeekSelector();
-  renderScheduleTable();
+  renderSchedule();
 }
 
 function setCycleFilter(cycle) {
   currentCycleFilter = cycle;
-  const pAll = document.getElementById("pill-all");
-  const pP5 = document.getElementById("pill-p5");
-  const pP6 = document.getElementById("pill-p6");
-  if (pAll) pAll.classList.toggle("active", cycle === "all");
-  if (pP5) pP5.classList.toggle("active", cycle === "P5");
-  if (pP6) pP6.classList.toggle("active", cycle === "P6");
-  renderScheduleTable();
+  document.getElementById("pill-all").classList.toggle("active", cycle === "all");
+  document.getElementById("pill-p5").classList.toggle("active", cycle === "P5");
+  document.getElementById("pill-p6").classList.toggle("active", cycle === "P6");
+  renderSchedule();
 }
 
-function renderScheduleTable() {
-  const container = document.getElementById("schedule-table-container");
-  if (!container) return;
-
+function renderSchedule() {
   const currentWeek = getActiveWeek();
-  
-  let html = `
-    <table class="schedule-table" id="schedule-table">
-      <thead>
-        <tr>
-          <th class="col-time">Heures</th>
-          <th>Lundi</th>
-          <th>Mardi</th>
-          <th>Mercredi</th>
-          <th>Jeudi</th>
-          <th>Vendredi</th>
-        </tr>
-      </thead>
-      <tbody id="schedule-tbody">
-      </tbody>
-    </table>
-  `;
-  container.innerHTML = html;
-  
   const tbody = document.getElementById("schedule-tbody");
+  tbody.innerHTML = "";
 
   TIME_SLOTS.forEach((slot, rIdx) => {
     const tr = document.createElement("tr");
@@ -1732,10 +2363,6 @@ function renderScheduleTable() {
 
     tbody.appendChild(tr);
   });
-  
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
 }
 
 function createDirectSelectCellElement(rIdx, cIdx, cellData) {
@@ -1757,7 +2384,7 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   }
   textarea.addEventListener("input", (e) => {
     cellData.activity = e.target.value;
-    saveWeeks();
+    saveData();
   });
   container.appendChild(textarea);
 
@@ -1808,7 +2435,7 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
       attenduSelect.disabled = true;
       const opt = document.createElement("option");
       opt.value = "";
-      opt.textContent = "— Choisissez d'abord une compétence —";
+      opt.textContent = "📌 2. Choisir d'abord la compétence";
       attenduSelect.appendChild(opt);
       return;
     }
@@ -1816,124 +2443,119 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
     attenduSelect.disabled = false;
     const defaultAttOpt = document.createElement("option");
     defaultAttOpt.value = "";
-    defaultAttOpt.textContent = "📌 2. Choisir l'attendu d'apprentissage...";
+    defaultAttOpt.textContent = `📌 2. Choisir attendu (${comp.attendus.length} disp.)...`;
     attenduSelect.appendChild(defaultAttOpt);
 
-    const filtered = comp.attendus.filter(att => {
-      if (currentCycleFilter === "all") return true;
-      if (currentCycleFilter === "P5") return att.cycle === "P5" || att.cycle === "P5-P6";
-      if (currentCycleFilter === "P6") return att.cycle === "P6" || att.cycle === "P5-P6";
-      return true;
-    });
+    let matchFound = false;
+    comp.attendus.forEach(att => {
+      if (currentCycleFilter !== "all" && att.cycle !== currentCycleFilter) {
+        return;
+      }
 
-    filtered.forEach(att => {
       const opt = document.createElement("option");
       opt.value = att.text;
       opt.textContent = `[${att.cycle}] ${att.text}`;
-      if (selectedAttenduText === att.text) {
+      if (selectedAttenduText && selectedAttenduText === att.text) {
         opt.selected = true;
+        matchFound = true;
       }
       attenduSelect.appendChild(opt);
     });
+
+    if (selectedAttenduText && !matchFound) {
+      const opt = document.createElement("option");
+      opt.value = selectedAttenduText;
+      opt.textContent = `[Actuel] ${selectedAttenduText}`;
+      opt.selected = true;
+      attenduSelect.appendChild(opt);
+    }
   }
 
-  // Initial population of attendus
+  // Initial population
   populateAttendus(cellData.compId, cellData.attenduText);
 
-  // Event listener Compétence -> update attendus + auto theme color if default
+  // Event handlers
   compSelect.addEventListener("change", (e) => {
-    const selectedCompId = e.target.value;
-    cellData.compId = selectedCompId;
+    const newCompId = e.target.value;
+    cellData.compId = newCompId;
     cellData.attenduText = "";
 
-    const compInfo = COMP_MAP[selectedCompId];
-    if (compInfo) {
-      compSelect.style.borderLeftColor = compInfo.subjectBorder;
-      if (!cellData.bg) {
-        container.style.backgroundColor = compInfo.subjectBg;
-        cellData.bg = compInfo.subjectBg;
+    // If user has not set a custom background yet, auto-suggest the discipline pastel color!
+    if (!cellData.bg && newCompId) {
+      const comp = COMP_MAP[newCompId];
+      if (comp) {
+        const defaultBgs = {
+          math: "#EFF6FF",
+          fr: "#F0FDF4",
+          sci: "#ECFEFF",
+          hist: "#FFFBEB",
+          eco: "#F5F3FF",
+          fmttn: "#FDF2F8",
+          other: "#F8FAFC"
+        };
+        cellData.bg = defaultBgs[comp.subjectKey] || "";
+        container.style.backgroundColor = cellData.bg;
       }
-    } else {
-      compSelect.style.borderLeftColor = "#94a3b8";
     }
 
-    populateAttendus(selectedCompId, "");
-    saveWeeks();
+    populateAttendus(newCompId, "");
+    saveData();
   });
 
-  // Event listener Attendu
   attenduSelect.addEventListener("change", (e) => {
     cellData.attenduText = e.target.value;
-    saveWeeks();
+    saveData();
   });
 
   dropdownGroup.appendChild(attenduSelect);
   container.appendChild(dropdownGroup);
 
-  // 4. Footer actions de la cellule
+  // Cell footer actions (Palette bouton + Fixe + Vider)
   const footer = document.createElement("div");
   footer.className = "cell-footer";
-
-  const actionGroup = document.createElement("div");
-  actionGroup.className = "cell-action-group";
-
-  // Bouton Palette Couleurs
-  const colorBtn = document.createElement("button");
-  colorBtn.className = "cell-btn color-trigger-btn";
-  colorBtn.title = "Personnaliser la couleur du cadre et de l'écriture";
-  colorBtn.innerHTML = "🎨 Couleurs";
-  colorBtn.addEventListener("click", (e) => {
-    openColorPopover(e, rIdx, cIdx);
-  });
-  actionGroup.appendChild(colorBtn);
-
-  // Bouton Bloc Fixe
-  const fixBtn = document.createElement("button");
-  fixBtn.className = "cell-btn";
-  fixBtn.title = "Transformer en cours fixe (Allemand, Gym...)";
-  fixBtn.innerHTML = "📌 Fixe";
-  fixBtn.addEventListener("click", () => {
-    promptSetPreset(rIdx, cIdx);
-  });
-  actionGroup.appendChild(fixBtn);
-
-  // Bouton Vider
-  const clearBtn = document.createElement("button");
-  clearBtn.className = "cell-btn clear-btn";
-  clearBtn.title = "Vider la période";
-  clearBtn.innerHTML = "🗑️";
-  clearBtn.addEventListener("click", () => {
-    clearCourseCell(rIdx, cIdx);
-  });
-  actionGroup.appendChild(clearBtn);
-
-  footer.appendChild(actionGroup);
+  footer.innerHTML = `
+    <div class="cell-action-group">
+      <button class="cell-btn color-trigger-btn" title="Changer la couleur du fond et du texte" onclick="openColorPopover(event, ${rIdx}, ${cIdx})">🎨 Couleurs</button>
+      <button class="cell-btn" title="Transformer en bloc fixe (Gym, Allemand...)" onclick="promptSetPreset(${rIdx}, ${cIdx})">📌 Fixe</button>
+    </div>
+    <button class="cell-btn clear-btn" title="Réinitialiser la période" onclick="clearCourseCell(${rIdx}, ${cIdx})">↺ Vider</button>
+  `;
   container.appendChild(footer);
 
   return container;
 }
 
 // =========================================================================
-// 4. GESTION DE LA POPOVER FLOTTANTE DE COULEURS
+// 4. GESTION DE LA PALETTE DE COULEURS FLOTTANTE
 // =========================================================================
-function openColorPopover(e, rIdx, cIdx) {
-  e.stopPropagation();
+function openColorPopover(event, rIdx, cIdx) {
+  event.stopPropagation();
   popoverTarget = { rIdx, cIdx };
-
+  
   const popover = document.getElementById("horaire-color-popover");
-  if (!popover) return;
+  const triggerBtn = event.currentTarget;
+  const rect = triggerBtn.getBoundingClientRect();
+  const containerRect = document.getElementById("schedule-container").getBoundingClientRect();
 
-  const rect = e.target.getBoundingClientRect();
-  popover.style.top = (rect.bottom + window.scrollY + 5) + "px";
-  popover.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 260) + "px";
-  popover.classList.add("active");
+  // Show popover to calculate dimension
+  popover.style.display = "flex";
+
+  // Calculate position relative to container
+  let top = rect.bottom - containerRect.top + 6;
+  let left = rect.left - containerRect.left;
+
+  // Adjust if overflow
+  if (left + 230 > containerRect.width) {
+    left = Math.max(10, containerRect.width - 240);
+  }
+
+  popover.style.top = `${top}px`;
+  popover.style.left = `${left}px`;
 }
 
 function closeColorPopover() {
   const popover = document.getElementById("horaire-color-popover");
-  if (popover) {
-    popover.classList.remove("active");
-  }
+  if (popover) popover.style.display = "none";
   popoverTarget = null;
 }
 
@@ -1942,8 +2564,8 @@ function applyPopoverBg(color) {
   const currentWeek = getActiveWeek();
   const cell = currentWeek.grid[popoverTarget.rIdx][popoverTarget.cIdx];
   cell.bg = color;
-  saveWeeks();
-  renderScheduleTable();
+  saveData();
+  renderSchedule();
   closeColorPopover();
 }
 
@@ -1952,20 +2574,10 @@ function applyPopoverTextColor(color) {
   const currentWeek = getActiveWeek();
   const cell = currentWeek.grid[popoverTarget.rIdx][popoverTarget.cIdx];
   cell.textColor = color;
-  saveWeeks();
-  renderScheduleTable();
+  saveData();
+  renderSchedule();
   closeColorPopover();
 }
-
-// Global click listener for closing popover
-document.addEventListener("click", (e) => {
-  const popover = document.getElementById("horaire-color-popover");
-  if (popover && popover.classList.contains("active")) {
-    if (!popover.contains(e.target) && !e.target.closest(".color-trigger-btn")) {
-      closeColorPopover();
-    }
-  }
-});
 
 // =========================================================================
 // 5. GESTION DES CELLULES & PRESETS
@@ -1980,8 +2592,8 @@ function clearCourseCell(rIdx, cIdx) {
     bg: "",
     textColor: ""
   };
-  saveWeeks();
-  renderScheduleTable();
+  saveData();
+  renderSchedule();
 }
 
 function convertToCourseSlot(rIdx, cIdx) {
@@ -1999,15 +2611,15 @@ function promptSetPreset(rIdx, cIdx) {
       bg: "#F1F5F9",
       textColor: "#334155"
     };
-    saveWeeks();
-    renderScheduleTable();
+    saveData();
+    renderSchedule();
   }
 }
 
 // =========================================================================
 // 6. GESTION DES SEMAINES (Créer depuis Modèle, Dupliquer, Renommer, Supprimer)
 // =========================================================================
-function handleAddNewWeek() {
+function createNewWeek() {
   const suggestedTitle = getNextMondayString();
   const title = prompt("Titre de la nouvelle semaine (créée à partir du modèle) :", suggestedTitle);
   if (!title || !title.trim()) return;
@@ -2018,17 +2630,18 @@ function handleAddNewWeek() {
     isTemplate: false,
     title: title.trim(),
     created: new Date().toISOString(),
+    // Clone la grille du modèle avec toutes ses heures de fourche et matières fixes
     grid: JSON.parse(JSON.stringify(template.grid))
   };
 
-  tbiWeeks.push(newWeek);
+  allWeeks.push(newWeek);
   activeWeekId = newWeek.id;
-  saveWeeks();
+  saveData();
   renderWeekSelector();
-  renderScheduleTable();
+  renderSchedule();
 }
 
-function handleDuplicateWeek() {
+function duplicateCurrentWeek() {
   const cur = getActiveWeek();
   const title = prompt("Titre de la copie :", cur.title + " (Copie)");
   if (!title || !title.trim()) return;
@@ -2039,24 +2652,24 @@ function handleDuplicateWeek() {
   newWeek.title = title.trim();
   newWeek.created = new Date().toISOString();
 
-  tbiWeeks.push(newWeek);
+  allWeeks.push(newWeek);
   activeWeekId = newWeek.id;
-  saveWeeks();
+  saveData();
   renderWeekSelector();
-  renderScheduleTable();
+  renderSchedule();
 }
 
-function handleRenameWeek() {
+function renameCurrentWeek() {
   const cur = getActiveWeek();
   const title = prompt("Nouveau nom pour cette semaine :", cur.title);
   if (!title || !title.trim()) return;
 
   cur.title = title.trim();
-  saveWeeks();
+  saveData();
   renderWeekSelector();
 }
 
-function handleDeleteWeek() {
+function deleteCurrentWeek() {
   const cur = getActiveWeek();
   if (cur.isTemplate) {
     alert("⚠️ La Grille Modèle ne peut pas être supprimée car elle sert de canevas de base permanent pour générer toutes vos nouvelles semaines.");
@@ -2064,44 +2677,51 @@ function handleDeleteWeek() {
   }
   
   if (confirm(`Voulez-vous vraiment supprimer "${cur.title}" ?`)) {
-    tbiWeeks = tbiWeeks.filter(w => w.id !== activeWeekId);
-    activeWeekId = tbiWeeks[0].id;
-    saveWeeks();
+    allWeeks = allWeeks.filter(w => w.id !== activeWeekId);
+    activeWeekId = allWeeks[0].id;
+    saveData();
     renderWeekSelector();
-    renderScheduleTable();
+    renderSchedule();
   }
 }
 
 // =========================================================================
-// 7. ZOOM & INITIALISATION
+// 7. EXPORT / IMPORT JSON
 // =========================================================================
-function zoomSchedule(delta) {
-  if (delta === 0) {
-    scheduleZoom = 1.0;
-  } else {
-    scheduleZoom = Math.round((scheduleZoom + delta) * 10) / 10;
-    if (scheduleZoom < 0.6) scheduleZoom = 0.6;
-    if (scheduleZoom > 1.6) scheduleZoom = 1.6;
-  }
-  
-  document.documentElement.style.setProperty('--schedule-zoom', scheduleZoom);
-  localStorage.setItem('tbi_schedule_zoom', scheduleZoom);
-  
-  const label = document.getElementById('schedule-zoom-label');
-  if (label) {
-    label.innerText = Math.round(scheduleZoom * 100) + '%';
-  }
+function exportDataJSON() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allWeeks, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `semainier_tbi_fwb_${new Date().toISOString().slice(0,10)}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
 }
 
-// Initial load
-document.addEventListener('DOMContentLoaded', () => {
-  document.documentElement.style.setProperty('--schedule-zoom', scheduleZoom);
-  const label = document.getElementById('schedule-zoom-label');
-  if (label) {
-    label.innerText = Math.round(scheduleZoom * 100) + '%';
-  }
-  
-  loadWeeks();
-  renderWeekSelector();
-  renderScheduleTable();
-});
+function importDataJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        allWeeks = parsed;
+        activeWeekId = allWeeks[0].id;
+        saveData();
+        renderWeekSelector();
+        renderSchedule();
+        alert("Importation réussie !");
+      } else {
+        alert("Format de fichier JSON invalide.");
+      }
+    } catch (err) {
+      alert("Erreur lors de la lecture du fichier JSON.");
+    }
+  };
+  reader.readAsText(file);
+}
+</script>
+</body>
+</html>
