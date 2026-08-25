@@ -1464,6 +1464,7 @@ const TIME_SLOTS = [
 let tbiWeeks = [];
 let activeWeekId = null;
 let currentCycleFilter = "all";
+let activeCellTarget = null; // { rIdx, cIdx, cellElement, textareaElement, isPreset }
 
 function getStorageKey() {
   return "tbi_fwb_semainier_v8";
@@ -1596,77 +1597,138 @@ function getNextMondayString() {
 }
 
 // =========================================================================
-// 3. CRÉATION DU MENU DE COULEURS INCRUSTÉ DIRECTEMENT DANS LA CASE
+// 3. PALETTE DE COULEURS FLOTTANTE (SYSTÈME ÉPROUVÉ DE L'ANCIEN SEMAINIER)
 // =========================================================================
-function createColorOverlay(rIdx, cIdx, onBgChange, onTextColorChange, onClose) {
-  const overlay = document.createElement("div");
-  overlay.className = "cell-color-overlay";
-  overlay.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:3px; margin-bottom:2px;">
-      <span style="font-size:10px; font-weight:800; color:#1e293b;">🎨 COULEURS DE LA CASE</span>
-      <button class="cell-btn btn-close-overlay" style="font-weight:bold; font-size:12px; padding:0 4px;" title="Fermer">✕</button>
-    </div>
+function showCellFormatToolbar(cellElement, rIdx, cIdx, textareaElement, isPreset) {
+  activeCellTarget = { rIdx, cIdx, cellElement, textareaElement, isPreset };
+  
+  const container = document.querySelector('.horaire-container') || document.getElementById('screen-horaire');
+  if (!container) return;
 
-    <div class="palette-row">
-      <span class="palette-row-title">Fond de la case</span>
-      <div class="color-swatches">
-        <button class="color-swatch swatch-none" data-bg="" title="Blanc / Défaut">✕</button>
-        <button class="color-swatch" style="background:#E0E7FF;" data-bg="#E0E7FF" title="Bleu pastel"></button>
-        <button class="color-swatch" style="background:#D1FAE5;" data-bg="#D1FAE5" title="Vert pastel"></button>
-        <button class="color-swatch" style="background:#FEF3C7;" data-bg="#FEF3C7" title="Jaune pastel"></button>
-        <button class="color-swatch" style="background:#FFE4E6;" data-bg="#FFE4E6" title="Rose pastel"></button>
-        <button class="color-swatch" style="background:#F5F3FF;" data-bg="#F5F3FF" title="Violet pastel"></button>
-        <button class="color-swatch" style="background:#CFFAFE;" data-bg="#CFFAFE" title="Cyan pastel"></button>
-        <button class="color-swatch" style="background:#FFEDD5;" data-bg="#FFEDD5" title="Orange pastel"></button>
+  let toolbar = document.getElementById('horaire-format-toolbar');
+  if (!toolbar) {
+    toolbar = document.createElement('div');
+    toolbar.id = 'horaire-format-toolbar';
+    toolbar.className = 'absolute bg-white border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[4px_4px_0_rgba(0,0,0,1)] z-50 flex flex-col gap-2 no-print';
+    container.appendChild(toolbar);
+  }
+
+  toolbar.innerHTML = `
+    <div class="flex flex-col gap-1 select-none">
+      <div class="flex items-center justify-between">
+        <span class="text-[9px] font-display font-black text-neutral-500 uppercase tracking-wider text-left">Couleur de fond</span>
+        <button class="text-neutral-400 hover:text-neutral-900 text-xs font-bold px-1" onclick="hideCellFormatToolbar()" title="Fermer">✕</button>
+      </div>
+      <div class="flex gap-1.5 flex-wrap">
+        <button data-bg="" class="w-6 h-6 rounded-full border border-neutral-300 bg-white flex items-center justify-center text-[10px] font-bold text-neutral-500 hover:scale-110 active:scale-95 transition cursor-pointer" title="Blanc / Défaut">✕</button>
+        <button data-bg="#E0E7FF" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #E0E7FF" title="Bleu pastel"></button>
+        <button data-bg="#D1FAE5" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #D1FAE5" title="Vert pastel"></button>
+        <button data-bg="#FEF3C7" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #FEF3C7" title="Jaune pastel"></button>
+        <button data-bg="#FFE4E6" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #FFE4E6" title="Rouge/Rose pastel"></button>
+        <button data-bg="#F5F3FF" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #F5F3FF" title="Violet pastel"></button>
+        <button data-bg="#CFFAFE" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #CFFAFE" title="Cyan pastel"></button>
+        <button data-bg="#FFEDD5" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition cursor-pointer" style="background-color: #FFEDD5" title="Orange pastel"></button>
       </div>
     </div>
-
-    <div class="palette-row">
-      <span class="palette-row-title">Couleur du texte ("Ce que je fais")</span>
-      <div class="color-swatches">
-        <button class="color-swatch" style="background:#0F172A;" data-color="#0F172A" title="Noir"></button>
-        <button class="color-swatch" style="background:#1D4ED8;" data-color="#1D4ED8" title="Bleu"></button>
-        <button class="color-swatch" style="background:#15803D;" data-color="#15803D" title="Vert"></button>
-        <button class="color-swatch" style="background:#B45309;" data-color="#B45309" title="Orange"></button>
-        <button class="color-swatch" style="background:#BE123C;" data-color="#BE123C" title="Rouge"></button>
-        <button class="color-swatch" style="background:#6D28D9;" data-color="#6D28D9" title="Violet"></button>
-        <button class="color-swatch swatch-none" data-color="" title="Réinitialiser">↺</button>
+    <div class="flex flex-col gap-1 select-none border-t border-neutral-200 pt-1.5">
+      <span class="text-[9px] font-display font-black text-neutral-500 uppercase tracking-wider text-left">Couleur du texte ("Ce que je fais")</span>
+      <div class="flex gap-1.5 flex-wrap">
+        <button data-color="#1E293B" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition flex items-center justify-center bg-[#1E293B] cursor-pointer" title="Noir / Défaut"></button>
+        <button data-color="#1D4ED8" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#1D4ED8] cursor-pointer" title="Bleu"></button>
+        <button data-color="#15803D" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#15803D] cursor-pointer" title="Vert"></button>
+        <button data-color="#B45309" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#B45309] cursor-pointer" title="Orange/Marron"></button>
+        <button data-color="#BE123C" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#BE123C] cursor-pointer" title="Rouge"></button>
+        <button data-color="#6D28D9" class="w-6 h-6 rounded-full border-2 border-neutral-900 hover:scale-110 active:scale-95 transition bg-[#6D28D9] cursor-pointer" title="Violet"></button>
+        <button data-color="" class="w-6 h-6 rounded-full border border-neutral-300 hover:scale-110 active:scale-95 transition bg-white flex items-center justify-center cursor-pointer text-[10px] text-neutral-500 font-bold" title="Réinitialiser">↺</button>
       </div>
-    </div>
-
-    <div style="text-align:right; margin-top:2px;">
-      <button class="btn-close-overlay" style="background:#0f172a; color:#fff; font-size:10px; font-weight:700; border:none; padding:2px 8px; border-radius:4px; cursor:pointer;">✓ Valider</button>
     </div>
   `;
 
-  // Actions fond
-  overlay.querySelectorAll('[data-bg]').forEach(btn => {
+  // Événements boutons de fond
+  toolbar.querySelectorAll('button[data-bg]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const bg = btn.getAttribute('data-bg');
-      onBgChange(bg);
+      applyCellBg(btn.dataset.bg);
     });
   });
 
-  // Actions couleur écriture
-  overlay.querySelectorAll('[data-color]').forEach(btn => {
+  // Événements boutons de couleur texte
+  toolbar.querySelectorAll('button[data-color]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const col = btn.getAttribute('data-color');
-      onTextColorChange(col);
+      applyCellTextColor(btn.dataset.color);
     });
   });
 
-  // Fermeture
-  overlay.querySelectorAll('.btn-close-overlay').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      onClose();
-    });
-  });
+  // Affichage et mesure
+  toolbar.style.display = 'flex';
 
-  return overlay;
+  const rect = cellElement.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+
+  const toolbarHeight = toolbar.offsetHeight || 135;
+  const toolbarWidth = toolbar.offsetWidth || 235;
+
+  let top = rect.top - containerRect.top + container.scrollTop - toolbarHeight - 8;
+  let left = rect.left - containerRect.left + container.scrollLeft + (rect.width - toolbarWidth) / 2;
+
+  // Si ça dépasse en haut, afficher en dessous de la cellule
+  if (rect.top - containerRect.top - toolbarHeight - 8 < 0) {
+    top = rect.bottom - containerRect.top + container.scrollTop + 8;
+  }
+
+  // Limites de débordement
+  if (left < 10) left = 10;
+  if (left + toolbarWidth > container.scrollWidth - 10) {
+    left = Math.max(10, container.scrollWidth - toolbarWidth - 10);
+  }
+
+  toolbar.style.top = `${Math.round(top)}px`;
+  toolbar.style.left = `${Math.round(left)}px`;
+  toolbar.style.position = 'absolute';
 }
+
+function hideCellFormatToolbar() {
+  const toolbar = document.getElementById('horaire-format-toolbar');
+  if (toolbar) {
+    toolbar.style.display = 'none';
+  }
+  activeCellTarget = null;
+}
+
+function applyCellBg(bg) {
+  if (!activeCellTarget) return;
+  const currentWeek = getActiveWeek();
+  const cell = currentWeek.grid[activeCellTarget.rIdx][activeCellTarget.cIdx];
+  cell.bg = bg;
+  if (activeCellTarget.cellElement) {
+    activeCellTarget.cellElement.style.backgroundColor = bg || '';
+  }
+  saveWeeks();
+}
+
+function applyCellTextColor(textColor) {
+  if (!activeCellTarget) return;
+  const currentWeek = getActiveWeek();
+  const cell = currentWeek.grid[activeCellTarget.rIdx][activeCellTarget.cIdx];
+  cell.textColor = textColor;
+  if (activeCellTarget.textareaElement) {
+    activeCellTarget.textareaElement.style.color = textColor || '';
+  } else if (activeCellTarget.cellElement) {
+    activeCellTarget.cellElement.style.color = textColor || '';
+  }
+  saveWeeks();
+}
+
+// Clic global pour fermer la barre
+document.addEventListener('pointerdown', (e) => {
+  const toolbar = document.getElementById('horaire-format-toolbar');
+  if (toolbar && toolbar.style.display !== 'none') {
+    if (!toolbar.contains(e.target) && !e.target.closest('.color-trigger-btn')) {
+      hideCellFormatToolbar();
+    }
+  }
+});
 
 // =========================================================================
 // 4. RENDU DU SEMAINIER (2 SELECTS + COULEURS DE FOND & TEXTE)
@@ -1704,6 +1766,7 @@ function renderWeekSelector() {
 
 function selectWeek(weekId) {
   activeWeekId = weekId;
+  hideCellFormatToolbar();
   saveWeeks();
   renderWeekSelector();
   renderScheduleTable();
@@ -1799,37 +1862,9 @@ function renderScheduleTable() {
           pColorBtn.title = "Changer les couleurs";
           pColorBtn.textContent = "🎨";
           
-          let pColorOverlay = null;
           pColorBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            if (pColorOverlay) {
-              pColorOverlay.remove();
-              pColorOverlay = null;
-              return;
-            }
-            document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
-
-            pColorOverlay = createColorOverlay(
-              rIdx, 
-              cIdx, 
-              (newBg) => {
-                cellData.bg = newBg;
-                presetContainer.style.backgroundColor = newBg || '';
-                saveWeeks();
-              },
-              (newTextColor) => {
-                cellData.textColor = newTextColor;
-                presetContainer.style.color = newTextColor || '';
-                saveWeeks();
-              },
-              () => {
-                if (pColorOverlay) {
-                  pColorOverlay.remove();
-                  pColorOverlay = null;
-                }
-              }
-            );
-            presetContainer.appendChild(pColorOverlay);
+            showCellFormatToolbar(presetContainer, rIdx, cIdx, null, true);
           });
 
           const pEditBtn = document.createElement("button");
@@ -1864,7 +1899,6 @@ function renderScheduleTable() {
 function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   const container = document.createElement("div");
   container.className = "period-cell";
-  container.style.position = "relative";
 
   // Apply custom background color if set
   if (cellData.bg) {
@@ -2001,43 +2035,15 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   const actionGroup = document.createElement("div");
   actionGroup.className = "cell-action-group";
 
-  // Bouton Palette Couleurs
+  // Bouton Palette Couleurs (Exact comme dans l'ancien semainier)
   const colorBtn = document.createElement("button");
   colorBtn.className = "cell-btn color-trigger-btn";
   colorBtn.title = "Personnaliser la couleur du cadre et de l'écriture";
   colorBtn.innerHTML = "🎨 Couleurs";
   
-  let cellOverlay = null;
   colorBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    if (cellOverlay) {
-      cellOverlay.remove();
-      cellOverlay = null;
-      return;
-    }
-    document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
-
-    cellOverlay = createColorOverlay(
-      rIdx, 
-      cIdx, 
-      (newBg) => {
-        cellData.bg = newBg;
-        container.style.backgroundColor = newBg || '';
-        saveWeeks();
-      },
-      (newTextColor) => {
-        cellData.textColor = newTextColor;
-        textarea.style.color = newTextColor || '';
-        saveWeeks();
-      },
-      () => {
-        if (cellOverlay) {
-          cellOverlay.remove();
-          cellOverlay = null;
-        }
-      }
-    );
-    container.appendChild(cellOverlay);
+    showCellFormatToolbar(container, rIdx, cIdx, textarea, false);
   });
   actionGroup.appendChild(colorBtn);
 
@@ -2066,13 +2072,6 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
 
   return container;
 }
-
-// Clic global pour fermer tout overlay ouvert
-document.addEventListener("click", (e) => {
-  if (!e.target.closest('.cell-color-overlay') && !e.target.closest('.color-trigger-btn')) {
-    document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
-  }
-});
 
 // =========================================================================
 // 5. GESTION DES CELLULES & PRESETS
