@@ -2163,15 +2163,24 @@ function loadData() {
       grid: JSON.parse(JSON.stringify(templateWeek.grid))
     };
     allWeeks.push(firstWeek);
-    activeWeekId = templateWeek.id;
+    activeWeekId = firstWeek.id;
     saveData();
   } else {
-    activeWeekId = allWeeks[0].id;
+    const savedActive = localStorage.getItem("tbi_fwb_active_week_id");
+    if (savedActive && allWeeks.some(w => w.id === savedActive)) {
+      activeWeekId = savedActive;
+    } else {
+      const firstNormal = allWeeks.find(w => !w.isTemplate);
+      activeWeekId = firstNormal ? firstNormal.id : allWeeks[0].id;
+    }
   }
 }
 
 function saveData() {
   localStorage.setItem(getStorageKey(), JSON.stringify(allWeeks));
+  if (activeWeekId) {
+    localStorage.setItem("tbi_fwb_active_week_id", activeWeekId);
+  }
 }
 
 function getActiveWeek() {
@@ -2228,6 +2237,7 @@ function getNextMondayString() {
 // =========================================================================
 function renderWeekSelector() {
   const select = document.getElementById("week-selector");
+  if (!select) return;
   select.innerHTML = "";
 
   const templateWeek = getTemplateWeek();
@@ -2254,11 +2264,32 @@ function renderWeekSelector() {
     grpWeeks.appendChild(opt);
   });
   select.appendChild(grpWeeks);
+
+  // Bannière d'alerte visuelle si on est sur la grille modèle
+  const cur = getActiveWeek();
+  let modelBanner = document.getElementById("model-banner");
+  if (cur.isTemplate) {
+    if (!modelBanner) {
+      modelBanner = document.createElement("div");
+      modelBanner.id = "model-banner";
+      modelBanner.style.cssText = "background:#fef3c7; color:#92400e; font-weight:700; font-size:12px; padding:8px 14px; border-radius:8px; border:2px solid #f59e0b; margin-bottom:12px; display:flex; align-items:center; gap:8px;";
+      modelBanner.innerHTML = "<span>⭐ <strong>Vous êtes actuellement sur la Grille Modèle</strong> : inscrivez-y uniquement vos heures de fourche et cours fixes (Allemand, Gym...). Les leçons spécifiques de chaque semaine doivent être notées dans vos Semaines de cours (choisissez une semaine ci-dessus ou cliquez sur « ＋ Nouvelle semaine »).</span>";
+      const sched = document.getElementById("schedule-container");
+      if (sched && sched.parentNode) {
+        sched.parentNode.insertBefore(modelBanner, sched);
+      }
+    }
+  } else if (modelBanner) {
+    modelBanner.remove();
+  }
 }
 
 function changeActiveWeek(weekId) {
   activeWeekId = weekId;
   closeColorPopover();
+  document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
+  saveData();
+  renderWeekSelector();
   renderSchedule();
 }
 
@@ -2691,13 +2722,28 @@ function clearCourseCell(rIdx, cIdx) {
 }
 
 function convertToCourseSlot(rIdx, cIdx) {
-  clearCourseCell(rIdx, cIdx);
+  const currentWeek = getActiveWeek();
+  if (!currentWeek.grid[rIdx]) currentWeek.grid[rIdx] = {};
+  const existing = currentWeek.grid[rIdx][cIdx] || {};
+  
+  // Conserver le libellé du cours fixe (ex: Allemand) dans "Ce que je fais" et la couleur
+  currentWeek.grid[rIdx][cIdx] = {
+    type: "course",
+    activity: existing.label || existing.activity || "",
+    compId: existing.compId || "",
+    attenduText: existing.attenduText || "",
+    bg: existing.bg || "",
+    textColor: existing.textColor || ""
+  };
+  saveData();
+  renderSchedule();
 }
 
 function promptSetPreset(rIdx, cIdx) {
   const label = prompt("Intitulé du bloc fixe (ex : Allemand, GYM, Natation, Sortie) :");
   if (label && label.trim()) {
     const currentWeek = getActiveWeek();
+    if (!currentWeek.grid[rIdx]) currentWeek.grid[rIdx] = {};
     currentWeek.grid[rIdx][cIdx] = {
       type: "preset",
       presetType: "libre",
@@ -2719,13 +2765,26 @@ function createNewWeek() {
   if (!title || !title.trim()) return;
 
   const template = getTemplateWeek();
+  const cleanGrid = JSON.parse(JSON.stringify(template.grid));
+  
+  // Conserver les blocs fixes / fourches intacts, mais vider les textes de cours pour démarrer la semaine à neuf
+  Object.keys(cleanGrid).forEach(r => {
+    Object.keys(cleanGrid[r]).forEach(c => {
+      const cell = cleanGrid[r][c];
+      if (cell && cell.type === "course") {
+        cell.activity = "";
+        cell.compId = "";
+        cell.attenduText = "";
+      }
+    });
+  });
+
   const newWeek = {
     id: "week_" + Date.now(),
     isTemplate: false,
     title: title.trim(),
     created: new Date().toISOString(),
-    // Clone la grille du modèle avec toutes ses heures de fourche et matières fixes
-    grid: JSON.parse(JSON.stringify(template.grid))
+    grid: cleanGrid
   };
 
   allWeeks.push(newWeek);
