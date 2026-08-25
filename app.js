@@ -445,6 +445,10 @@ function saveWidgetStatesForTab(tab) {
             digitalVisible: (typeof window.getClockDigitalVisible === 'function') ? window.getClockDigitalVisible() : true
         }
     };
+    
+    if (typeof window.debouncedSaveWhiteboard === 'function') {
+        window.debouncedSaveWhiteboard();
+    }
 }
 
 // Sync the visibility of widgets based on the saved state for a specific tab

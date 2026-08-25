@@ -248,13 +248,24 @@ window.addEventListener('DOMContentLoaded', () => {
     // Initialize palette dots selection
     updatePaletteSelection();
     
-    // Create first default tab
-    if (boardTabs.length === 0) {
+    // Load persisted tabs or create first default tab
+    const hasLoaded = loadWhiteboardState();
+    if (!hasLoaded || boardTabs.length === 0) {
         addNewBlankTab();
+    } else {
+        renderTabsUI();
+        renderCurrentPage();
+        const activeTab = getActiveTab();
+        if (activeTab && typeof window.syncWidgetStatesForTab === 'function') {
+            window.syncWidgetStatesForTab(activeTab);
+        }
     }
     
     // Set default active tool visually and logically
     setWhiteboardTool('select');
+    
+    // Auto-save on page exit / unload
+    window.addEventListener('beforeunload', saveWhiteboardState);
     
     // Perform initial canvas sizing
     setTimeout(resizeCanvas, 200);
@@ -357,6 +368,144 @@ function updateZoomUI() {
     resizeCanvas();
 }
 
+// --- AUTO-SAVE & PERSISTENCE ---
+let saveWhiteboardTimeout = null;
+
+function saveWhiteboardState() {
+    saveActiveTabTextboxes();
+    const currentTab = getActiveTab();
+    if (currentTab && typeof window.saveWidgetStatesForTab === 'function') {
+        window.saveWidgetStatesForTab(currentTab);
+    }
+    
+    if (!boardTabs || boardTabs.length === 0) return;
+
+    try {
+        const sanitizedTabs = boardTabs.map(tab => {
+            const pagesCopy = {};
+            if (tab.pages) {
+                Object.keys(tab.pages).forEach(pNum => {
+                    const p = tab.pages[pNum];
+                    pagesCopy[pNum] = {
+                        elements: p.elements || [],
+                        textboxes: p.textboxes || [],
+                        backgroundType: p.backgroundType || 'blank',
+                        bgImage: p.bgImage || null,
+                        undoStack: [],
+                        redoStack: []
+                    };
+                });
+            }
+            
+            return {
+                id: tab.id,
+                name: tab.name,
+                type: tab.type,
+                currentPage: tab.currentPage || 1,
+                totalPages: tab.totalPages || 1,
+                imageSrc: tab.imageSrc || null,
+                pdfUrl: tab.pdfUrl || null,
+                pdfName: tab.pdfName || null,
+                widgetStates: tab.widgetStates || null,
+                pages: pagesCopy
+            };
+        });
+        
+        localStorage.setItem('tbi_whiteboard_tabs', JSON.stringify(sanitizedTabs));
+        if (activeTabId) {
+            localStorage.setItem('tbi_whiteboard_active_tab', activeTabId);
+        }
+    } catch (err) {
+        console.warn("[Whiteboard] Storage quota warning, saving lightweight fallback:", err);
+        try {
+            const lightweightTabs = boardTabs.map(tab => {
+                const pagesCopy = {};
+                if (tab.pages) {
+                    Object.keys(tab.pages).forEach(pNum => {
+                        const p = tab.pages[pNum];
+                        pagesCopy[pNum] = {
+                            elements: p.elements || [],
+                            textboxes: (p.textboxes || []).filter(tb => tb.type !== 'image' || (tb.src && tb.src.length < 50000)),
+                            backgroundType: p.backgroundType || 'blank',
+                            bgImage: null,
+                            undoStack: [],
+                            redoStack: []
+                        };
+                    });
+                }
+                return {
+                    id: tab.id,
+                    name: tab.name,
+                    type: tab.type === 'image' ? 'whiteboard' : tab.type,
+                    currentPage: tab.currentPage || 1,
+                    totalPages: tab.totalPages || 1,
+                    imageSrc: null,
+                    pdfUrl: tab.pdfUrl || null,
+                    pdfName: tab.pdfName || null,
+                    widgetStates: tab.widgetStates || null,
+                    pages: pagesCopy
+                };
+            });
+            localStorage.setItem('tbi_whiteboard_tabs', JSON.stringify(lightweightTabs));
+            if (activeTabId) {
+                localStorage.setItem('tbi_whiteboard_active_tab', activeTabId);
+            }
+        } catch (innerErr) {
+            console.error("[Whiteboard] Failed to save whiteboard state:", innerErr);
+        }
+    }
+}
+
+function debouncedSaveWhiteboard(delay = 300) {
+    if (saveWhiteboardTimeout) clearTimeout(saveWhiteboardTimeout);
+    saveWhiteboardTimeout = setTimeout(() => {
+        saveWhiteboardState();
+    }, delay);
+}
+window.debouncedSaveWhiteboard = debouncedSaveWhiteboard;
+window.saveWhiteboardState = saveWhiteboardState;
+
+function loadWhiteboardState() {
+    const raw = localStorage.getItem('tbi_whiteboard_tabs');
+    const savedActiveId = localStorage.getItem('tbi_whiteboard_active_tab');
+    
+    if (raw) {
+        try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                boardTabs = parsed.map(tab => {
+                    tab.pdfDoc = null;
+                    if (!tab.pages || Object.keys(tab.pages).length === 0) {
+                        tab.pages = {
+                            1: { elements: [], textboxes: [], backgroundType: 'blank', undoStack: [], redoStack: [] }
+                        };
+                        tab.totalPages = 1;
+                        tab.currentPage = 1;
+                    } else {
+                        Object.keys(tab.pages).forEach(pNum => {
+                            if (!tab.pages[pNum].undoStack) tab.pages[pNum].undoStack = [];
+                            if (!tab.pages[pNum].redoStack) tab.pages[pNum].redoStack = [];
+                            if (!tab.pages[pNum].elements) tab.pages[pNum].elements = [];
+                            if (!tab.pages[pNum].textboxes) tab.pages[pNum].textboxes = [];
+                        });
+                    }
+                    return tab;
+                });
+                
+                if (savedActiveId && boardTabs.some(t => t.id === savedActiveId)) {
+                    activeTabId = savedActiveId;
+                } else {
+                    activeTabId = boardTabs[0].id;
+                }
+                return true;
+            }
+        } catch (err) {
+            console.warn("[Whiteboard] Error loading whiteboard state:", err);
+        }
+    }
+    return false;
+}
+
 // --- TABS & STATE MANAGEMENT ---
 function getActiveTab() {
     return boardTabs.find(t => t.id === activeTabId);
@@ -409,6 +558,8 @@ function addNewBlankTab(name) {
     if (isThumbnailsPanelOpen) {
         renderThumbnails();
     }
+    
+    debouncedSaveWhiteboard();
 }
 
 function switchWhiteboardTab(tabId) {
@@ -439,6 +590,8 @@ function switchWhiteboardTab(tabId) {
     if (isThumbnailsPanelOpen) {
         renderThumbnails();
     }
+    
+    debouncedSaveWhiteboard();
 }
 
 function closeTab(tabId, e) {
@@ -475,6 +628,8 @@ function closeTab(tabId, e) {
         if (isThumbnailsPanelOpen) {
             renderThumbnails();
         }
+        
+        saveWhiteboardState();
     }
 }
 
@@ -619,6 +774,8 @@ function saveActiveTabTextboxes() {
             isPostIt: el.dataset.isPostIt === 'true'
         };
     });
+    
+    debouncedSaveWhiteboard();
 }
 
 function restoreActiveTabTextboxes() {
@@ -809,6 +966,8 @@ function renderCurrentPage() {
     if (isThumbnailsPanelOpen) {
         updateActiveThumbnailHighlight();
     }
+    
+    debouncedSaveWhiteboard();
 }
 
 // Draw a single vector element on a canvas context
