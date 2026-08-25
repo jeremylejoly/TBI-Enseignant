@@ -983,7 +983,7 @@
             </div>
             <!-- Iframe contenant directement le semainier validé semainier_fwb_prototype.html -->
             <div class="flex-1 w-full relative min-h-0 bg-white">
-                <iframe src="semainier_fwb_prototype.html?v=103" id="horaire-fullscreen-iframe" class="absolute inset-0 w-full h-full border-none"></iframe>
+                <iframe src="semainier_fwb_prototype.html?v=104" id="horaire-fullscreen-iframe" class="absolute inset-0 w-full h-full border-none"></iframe>
             </div>
         </section>
 
@@ -1613,7 +1613,7 @@
       // Enregistrement du service worker pour le mode hors-ligne avec détection de mise à jour
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-          navigator.serviceWorker.register('sw.js?v=103')
+          navigator.serviceWorker.register('sw.js?v=104')
             .then(function(reg) {
               console.log('✅ Service Worker de la Console TBI enregistré !', reg);
               

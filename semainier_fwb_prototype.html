@@ -2078,7 +2078,6 @@ const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 let allWeeks = [];
 let activeWeekId = null;
 let currentCycleFilter = "all"; // 'all', 'P5', 'P6'
-let popoverTarget = null; // { rIdx, cIdx, element }
 
 // =========================================================================
 // 2. INITIALISATION & LOCALSTORAGE
@@ -2087,16 +2086,6 @@ window.addEventListener("DOMContentLoaded", () => {
   loadData();
   renderWeekSelector();
   renderSchedule();
-
-  // Close popover when clicking outside
-  document.addEventListener("click", (e) => {
-    const popover = document.getElementById("horaire-color-popover");
-    if (popover && popover.style.display === "flex") {
-      if (!popover.contains(e.target) && !e.target.closest(".color-trigger-btn")) {
-        closeColorPopover();
-      }
-    }
-  });
 });
 
 function getStorageKey() {
@@ -2330,7 +2319,6 @@ function renderWeekSelector() {
 
 function changeActiveWeek(weekId) {
   activeWeekId = weekId;
-  closeColorPopover();
   document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
   saveData();
   renderWeekSelector();
