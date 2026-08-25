@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v105';
+const CACHE_NAME = 'tbi-enseignant-cache-v106';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -45,7 +45,7 @@ const ASSETS_TO_CACHE = [
     './Guide_de_l_eco-citoyen.png',
     './photos/classification_phylogenetique_detaillee.jpg',
     './formation-economique-sociale.html',
-    './Où_va_l_argent_de_ton_salaire.m4a',
+    './Où_va_l_argent_de_ton_salaire.m4a',
     './Le_voyage_de_ton_salaire.png',
     './Voyage_de_la_fiche_paie.png',
     './fiche-de-paie-belge.pdf',
@@ -72,7 +72,13 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('[Service Worker] Caching app shell and CDNs');
-                return cache.addAll(ASSETS_TO_CACHE);
+                return Promise.allSettled(
+                    ASSETS_TO_CACHE.map(url => 
+                        cache.add(url).catch(err => {
+                            console.warn('[Service Worker] Fichier ignoré ou non disponible pour le cache :', url);
+                        })
+                    )
+                );
             })
     );
 });
