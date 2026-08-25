@@ -1726,6 +1726,9 @@
             .then(function(reg) {
               console.log('✅ Service Worker de la Console TBI enregistré !', reg);
               
+              // Forcer la vérification immédiate des mises à jour auprès du serveur/GitHub
+              try { reg.update(); } catch(e) {}
+              
               // Détecter les mises à jour en cours
               reg.onupdatefound = () => {
                 const installingWorker = reg.installing;
