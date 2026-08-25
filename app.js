@@ -101,6 +101,16 @@ function switchTab(tabId) {
                 iframe.contentWindow.renderSheet();
             }
         }
+    } else if (tabId === 'horaire') {
+        // Synchroniser et rafraîchir le semainier
+        const iframe = document.getElementById('horaire-fullscreen-iframe');
+        if (iframe && iframe.contentWindow) {
+            if (typeof iframe.contentWindow.loadData === 'function') {
+                iframe.contentWindow.loadData();
+                iframe.contentWindow.renderWeekSelector();
+                iframe.contentWindow.renderSchedule();
+            }
+        }
     } else if (tabId === 'globe') {
         // Forcer le redimensionnement du Globe 3D lors de l'activation
         const iframe = document.getElementById('globe-fullscreen-iframe');

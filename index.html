@@ -981,88 +981,9 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-1 overflow-y-auto p-6 md:p-8">
-                <div class="max-w-5xl mx-auto w-full space-y-6 animate-fadeIn pb-12">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-amber-100 border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                            <i data-lucide="calendar" class="w-6 h-6 text-amber-600"></i>
-                        </div>
-                        <div>
-                            <h2 class="font-display font-black text-2xl text-neutral-800 leading-none">Semainier</h2>
-                            <p class="text-xs text-neutral-500 font-semibold mt-1">Semainier interactif des cours</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Barre d'outils de gestion de l'horaire -->
-                    <div class="horaire-controls flex flex-col gap-3 bg-white border-[3px] border-neutral-900 p-4 rounded-3xl shadow-[4px_4px_0_rgba(0,0,0,1)] no-print">
-                        <div class="flex flex-wrap items-center justify-between gap-4">
-                            <div class="flex items-center gap-3">
-                                <label for="week-select" class="text-xs font-display font-black text-neutral-600 uppercase">Semaine :</label>
-                                <select id="week-select" onchange="selectWeek(this.value)" class="text-sm bg-neutral-100 border-2 border-neutral-900 rounded-xl p-2 font-bold text-neutral-800 outline-none cursor-pointer">
-                                    <!-- Les options seront injectées dynamiquement -->
-                                </select>
-                                <span class="w-px h-6 bg-neutral-300 mx-1"></span>
-                                <div class="flex items-center gap-1">
-                                    <button onclick="zoomSchedule(-0.1)" class="w-8 h-8 bg-neutral-50 hover:bg-neutral-100 text-neutral-800 border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Zoom arrière">
-                                        <i data-lucide="zoom-out" class="w-4 h-4"></i>
-                                    </button>
-                                    <span id="schedule-zoom-label" class="text-xs font-mono font-bold px-1.5 min-w-[42px] text-center">100%</span>
-                                    <button onclick="zoomSchedule(0.1)" class="w-8 h-8 bg-neutral-50 hover:bg-neutral-100 text-neutral-800 border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Zoom avant">
-                                        <i data-lucide="zoom-in" class="w-4 h-4"></i>
-                                    </button>
-                                    <button onclick="zoomSchedule(0)" class="px-2.5 h-8 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Réinitialiser le zoom">
-                                        Réinit.
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="flex flex-wrap gap-2.5">
-                                <button onclick="handleAddNewWeek()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
-                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i> Nouvelle semaine
-                                </button>
-                                <button onclick="handleDuplicateWeek()" class="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
-                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i> Dupliquer
-                                </button>
-                                <button onclick="handleRenameWeek()" class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
-                                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Renommer
-                                </button>
-                                <button onclick="handleDeleteWeek()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
-                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Supprimer
-                                </button>
-                                <span class="w-px h-6 bg-neutral-300 mx-1"></span>
-                                <button onclick="window.print()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
-                                    <i data-lucide="printer" class="w-3.5 h-3.5"></i> Imprimer / PDF
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Filtre de cycle FWB & Astuce -->
-                        <div class="flex items-center justify-between flex-wrap gap-3 pt-3 border-t border-neutral-200">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-neutral-500">Filtre des attendus FWB :</span>
-                                <div class="year-pills flex gap-1.5">
-                                    <button class="year-pill active" id="pill-all" onclick="setCycleFilter('all')">Tous (P5 & P6)</button>
-                                    <button class="year-pill" id="pill-p5" onclick="setCycleFilter('P5')">P5 seulement</button>
-                                    <button class="year-pill" id="pill-p6" onclick="setCycleFilter('P6')">P6 seulement</button>
-                                </div>
-                            </div>
-                            <span class="text-xs text-neutral-400 italic">🎨 Cliquez sur "🎨 Couleurs" dans une case pour personnaliser le cadre et le texte.</span>
-                        </div>
-                    </div>
-
-                    <!-- Table du Semainier -->
-                    <div class="horaire-container overflow-x-auto">
-                        <div id="schedule-table-container">
-                            <!-- Généré en JS -->
-                        </div>
-                    </div>
-                    
-                    <!-- Footer -->
-                    <footer class="border-t border-neutral-300/60 pt-6 text-center text-xs text-neutral-400 font-mono tracking-wider no-print">
-                       Waimes Centre • Plateforme Console TBI Enseignant • P5 & P6
-                    </footer>
-
-                </div>
+            <!-- Iframe contenant directement le semainier validé semainier_fwb_prototype.html -->
+            <div class="flex-1 w-full relative min-h-0 bg-white">
+                <iframe src="semainier_fwb_prototype.html?v=98" id="horaire-fullscreen-iframe" class="absolute inset-0 w-full h-full border-none"></iframe>
             </div>
         </section>
 
