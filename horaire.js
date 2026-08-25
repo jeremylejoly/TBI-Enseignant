@@ -1923,9 +1923,25 @@ function openColorPopover(e, rIdx, cIdx) {
   const popover = document.getElementById("horaire-color-popover");
   if (!popover) return;
 
-  const rect = e.target.getBoundingClientRect();
-  popover.style.top = (rect.bottom + window.scrollY + 5) + "px";
-  popover.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 260) + "px";
+  const btn = e.currentTarget || e.target;
+  const rect = btn.getBoundingClientRect();
+  
+  let top = rect.bottom + 6;
+  let left = rect.left;
+
+  // Si ça dépasse en bas de l'écran (hauteur popover ~ 125px)
+  if (top + 130 > window.innerHeight) {
+    top = Math.max(10, rect.top - 125);
+  }
+
+  // Si ça dépasse à droite de l'écran (largeur popover ~ 240px)
+  if (left + 245 > window.innerWidth) {
+    left = Math.max(10, window.innerWidth - 255);
+  }
+
+  popover.style.position = "fixed";
+  popover.style.top = top + "px";
+  popover.style.left = left + "px";
   popover.classList.add("active");
 }
 

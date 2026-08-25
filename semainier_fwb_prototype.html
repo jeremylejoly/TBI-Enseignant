@@ -362,13 +362,13 @@ select.form-control:focus, input.form-control:focus {
 
 /* Floating Color Palette Toolbar (like in TBI) */
 #horaire-color-popover {
-  position: absolute;
+  position: fixed !important;
   background: white;
   border: 2px solid #1e293b;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.18);
   padding: 10px 12px;
-  z-index: 1000;
+  z-index: 99999 !important;
   display: none;
   flex-direction: column;
   gap: 8px;
@@ -2533,20 +2533,21 @@ function openColorPopover(event, rIdx, cIdx) {
   popoverTarget = { rIdx, cIdx };
   
   const popover = document.getElementById("horaire-color-popover");
-  const triggerBtn = event.currentTarget;
+  const triggerBtn = event.currentTarget || event.target;
   const rect = triggerBtn.getBoundingClientRect();
-  const containerRect = document.getElementById("schedule-container").getBoundingClientRect();
 
-  // Show popover to calculate dimension
+  // Show popover
   popover.style.display = "flex";
+  popover.style.position = "fixed";
 
-  // Calculate position relative to container
-  let top = rect.bottom - containerRect.top + 6;
-  let left = rect.left - containerRect.left;
+  let top = rect.bottom + 6;
+  let left = rect.left;
 
-  // Adjust if overflow
-  if (left + 230 > containerRect.width) {
-    left = Math.max(10, containerRect.width - 240);
+  if (top + 130 > window.innerHeight) {
+    top = Math.max(10, rect.top - 125);
+  }
+  if (left + 245 > window.innerWidth) {
+    left = Math.max(10, window.innerWidth - 255);
   }
 
   popover.style.top = `${top}px`;
