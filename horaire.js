@@ -1920,35 +1920,47 @@ function openColorPopover(e, rIdx, cIdx) {
   e.stopPropagation();
   popoverTarget = { rIdx, cIdx };
 
-  const popover = document.getElementById("horaire-color-popover");
+  let popover = document.getElementById("horaire-color-popover");
   if (!popover) return;
+
+  // Déplacer impérativement dans body pour neutraliser les transforms et animations des conteneurs parents
+  if (popover.parentElement !== document.body) {
+    document.body.appendChild(popover);
+  }
 
   const btn = e.currentTarget || e.target;
   const rect = btn.getBoundingClientRect();
   
+  popover.style.display = "flex";
+  popover.style.position = "fixed";
+  popover.style.zIndex = "999999";
+  popover.classList.add("active");
+
+  const popWidth = popover.offsetWidth || 240;
+  const popHeight = popover.offsetHeight || 130;
+
   let top = rect.bottom + 6;
   let left = rect.left;
 
-  // Si ça dépasse en bas de l'écran (hauteur popover ~ 125px)
-  if (top + 130 > window.innerHeight) {
-    top = Math.max(10, rect.top - 125);
+  // Si ça dépasse en bas de l'écran, afficher au-dessus du bouton
+  if (top + popHeight > window.innerHeight - 10) {
+    top = Math.max(10, rect.top - popHeight - 6);
   }
 
-  // Si ça dépasse à droite de l'écran (largeur popover ~ 240px)
-  if (left + 245 > window.innerWidth) {
-    left = Math.max(10, window.innerWidth - 255);
+  // Si ça dépasse à droite de l'écran, aligner vers la gauche
+  if (left + popWidth > window.innerWidth - 10) {
+    left = Math.max(10, window.innerWidth - popWidth - 15);
   }
 
-  popover.style.position = "fixed";
-  popover.style.top = top + "px";
-  popover.style.left = left + "px";
-  popover.classList.add("active");
+  popover.style.top = Math.round(top) + "px";
+  popover.style.left = Math.round(left) + "px";
 }
 
 function closeColorPopover() {
   const popover = document.getElementById("horaire-color-popover");
   if (popover) {
     popover.classList.remove("active");
+    popover.style.display = "none";
   }
   popoverTarget = null;
 }

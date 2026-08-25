@@ -2532,26 +2532,35 @@ function openColorPopover(event, rIdx, cIdx) {
   event.stopPropagation();
   popoverTarget = { rIdx, cIdx };
   
-  const popover = document.getElementById("horaire-color-popover");
+  let popover = document.getElementById("horaire-color-popover");
+  if (!popover) return;
+
+  if (popover.parentElement !== document.body) {
+    document.body.appendChild(popover);
+  }
+
   const triggerBtn = event.currentTarget || event.target;
   const rect = triggerBtn.getBoundingClientRect();
 
-  // Show popover
   popover.style.display = "flex";
   popover.style.position = "fixed";
+  popover.style.zIndex = "999999";
+
+  const popWidth = popover.offsetWidth || 240;
+  const popHeight = popover.offsetHeight || 130;
 
   let top = rect.bottom + 6;
   let left = rect.left;
 
-  if (top + 130 > window.innerHeight) {
-    top = Math.max(10, rect.top - 125);
+  if (top + popHeight > window.innerHeight - 10) {
+    top = Math.max(10, rect.top - popHeight - 6);
   }
-  if (left + 245 > window.innerWidth) {
-    left = Math.max(10, window.innerWidth - 255);
+  if (left + popWidth > window.innerWidth - 10) {
+    left = Math.max(10, window.innerWidth - popWidth - 15);
   }
 
-  popover.style.top = `${top}px`;
-  popover.style.left = `${left}px`;
+  popover.style.top = `${Math.round(top)}px`;
+  popover.style.left = `${Math.round(left)}px`;
 }
 
 function closeColorPopover() {
