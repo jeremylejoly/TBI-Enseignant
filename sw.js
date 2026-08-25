@@ -1,5 +1,5 @@
 // Service Worker for TBI Enseignant — sw.js
-const CACHE_NAME = 'tbi-enseignant-cache-v98';
+const CACHE_NAME = 'tbi-enseignant-cache-v99';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -68,13 +68,13 @@ const ASSETS_TO_CACHE = [
 
 // Install Event — caching files
 self.addEventListener('install', event => {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('[Service Worker] Caching app shell and CDNs');
                 return cache.addAll(ASSETS_TO_CACHE);
             })
-            .then(() => self.skipWaiting())
     );
 });
 
@@ -94,11 +94,35 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Fetch Event — cache first with network fallback
+// Fetch Event — Network-first for HTML/navigation, Cache-first for static assets
 self.addEventListener('fetch', event => {
-    // Ignore non-GET requests or different schemes (like chrome-extension)
     if (event.request.method !== 'GET') return;
     
+    const url = new URL(event.request.url);
+    const isNavigationOrHtml = event.request.mode === 'navigate' || 
+                               url.pathname.endsWith('.html') || 
+                               url.pathname === '/' || 
+                               url.pathname.endsWith('/TBI-Enseignant/');
+
+    if (isNavigationOrHtml) {
+        // Network-First strategy for HTML & navigation
+        event.respondWith(
+            fetch(event.request)
+                .then(response => {
+                    if (response && response.status === 200) {
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME).then(cache => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // Cache-First strategy for heavy static assets (images, fonts, sounds)
     event.respondWith(
         caches.match(event.request)
             .then(cachedResponse => {
@@ -106,10 +130,8 @@ self.addEventListener('fetch', event => {
                     return cachedResponse;
                 }
                 
-                // If not in cache, fetch from network and cache dynamically if it's from fonts.gstatic.com (Google Fonts files)
                 return fetch(event.request)
                     .then(response => {
-                        // Check if valid response
                         if (!response || response.status !== 200 || response.type !== 'basic' && !event.request.url.includes('gstatic.com')) {
                             return response;
                         }
