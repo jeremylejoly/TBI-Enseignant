@@ -517,6 +517,10 @@
 .time-header-cell.course {
     min-height: 140px;
 }
+.time-header-cell.notes {
+    min-height: 80px;
+    background: #f8fafc;
+}
 .time-header-cell.recreation, .time-header-cell.midi {
     min-height: 28px;
     height: 28px;
@@ -572,6 +576,52 @@
     box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
 }
 .period-activity-input::placeholder {
+    color: #94a3b8;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 11px;
+}
+
+.notes-cell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 80px;
+    padding: 6px;
+    gap: 4px;
+    background: #ffffff;
+    box-sizing: border-box;
+    position: relative;
+    transition: background-color 0.15s ease;
+}
+
+.notes-input {
+    width: 100%;
+    flex: 1;
+    min-height: 48px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #0f172a;
+    background: rgba(255, 255, 255, 0.95);
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    line-height: 1.35;
+}
+
+.notes-input:focus {
+    border-color: #2563eb;
+    border-style: solid;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+.notes-input::placeholder {
     color: #94a3b8;
     font-weight: normal;
     font-style: italic;

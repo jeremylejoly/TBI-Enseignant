@@ -215,6 +215,10 @@ select.form-control:focus, input.form-control:focus {
 .time-header-cell.course {
   min-height: 140px;
 }
+.time-header-cell.notes {
+  min-height: 80px;
+  background: #f8fafc;
+}
 .time-header-cell.recreation, .time-header-cell.midi {
   min-height: 26px;
   height: 26px;
@@ -270,6 +274,52 @@ select.form-control:focus, input.form-control:focus {
 .period-activity-input::placeholder {
   color: #94a3b8;
   font-weight: 400;
+  font-style: italic;
+  font-size: 11px;
+}
+
+/* Notes Row Cell */
+.notes-cell {
+  height: 100%;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  position: relative;
+  padding: 6px;
+  gap: 4px;
+  transition: background-color 0.15s ease;
+}
+
+.notes-input {
+  width: 100%;
+  flex: 1;
+  min-height: 48px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.95);
+  resize: vertical;
+  line-height: 1.35;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  border-style: solid;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+.notes-input::placeholder {
+  color: #94a3b8;
+  font-weight: normal;
   font-style: italic;
   font-size: 11px;
 }
@@ -545,7 +595,7 @@ select.form-control:focus, input.form-control:focus {
   .schedule-table th, .schedule-table td {
     border: 1px solid black !important;
   }
-  .period-activity-input {
+  .period-activity-input, .notes-input {
     border: none !important;
     padding: 0 !important;
     background: transparent !important;
@@ -2069,7 +2119,8 @@ const TIME_SLOTS = [
   { time: "13h20 - 14h05", type: "course", label: "Période 5" },
   { time: "14h05 - 14h50", type: "course", label: "Période 6" },
   { time: "14h50 - 15h05", type: "recreation", label: "R É C R É A T I O N" },
-  { time: "15h05 - 15h50", type: "course", label: "Période 7" }
+  { time: "15h05 - 15h50", type: "course", label: "Période 7" },
+  { time: "Remarques", type: "notes", label: "Notes" }
 ];
 
 const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
@@ -2122,6 +2173,13 @@ function sanitizeWeekGrid(rawGrid) {
             textColor: (rawCell && rawCell.textColor) || ""
           };
         }
+      } else if (slot.type === "notes") {
+        newGrid[rIdx][cIdx] = {
+          type: "notes",
+          text: (rawCell && (rawCell.text || rawCell.activity || rawCell.note)) || "",
+          bg: (rawCell && rawCell.bg) || "",
+          textColor: (rawCell && rawCell.textColor) || ""
+        };
       } else {
         newGrid[rIdx][cIdx] = { type: slot.type };
       }
@@ -2176,13 +2234,15 @@ function loadData() {
     // Créer une première semaine de cours basée sur le modèle
     const template = allWeeks[0];
     const firstWeekGrid = sanitizeWeekGrid(template.grid);
-    // Vider les cours de la semaine 1
+    // Vider les cours et notes de la semaine 1
     Object.keys(firstWeekGrid).forEach(r => {
       Object.keys(firstWeekGrid[r]).forEach(c => {
         if (firstWeekGrid[r][c].type === "course") {
           firstWeekGrid[r][c].activity = "";
           firstWeekGrid[r][c].compId = "";
           firstWeekGrid[r][c].attenduText = "";
+        } else if (firstWeekGrid[r][c].type === "notes") {
+          firstWeekGrid[r][c].text = "";
         }
       });
     });
@@ -2349,6 +2409,11 @@ function renderSchedule() {
     timeTd.className = `time-header-cell ${slot.type}`;
     if (slot.type === "recreation" || slot.type === "midi") {
       timeTd.innerHTML = `<span class="period-time" style="font-size:10px;">${slot.time}</span>`;
+    } else if (slot.type === "notes") {
+      timeTd.innerHTML = `
+        <span class="period-idx" style="font-weight:800; font-size:11px; color:#1e293b; letter-spacing:0.5px;">📝 Notes</span>
+        <span class="period-time" style="font-size:9.5px; color:#64748b; font-weight:500;">Remarques</span>
+      `;
     } else {
       timeTd.innerHTML = `
         <span class="period-idx">${slot.label}</span>
@@ -2363,6 +2428,15 @@ function renderSchedule() {
       specTd.className = `special-row ${slot.type}`;
       specTd.textContent = slot.label;
       tr.appendChild(specTd);
+    } else if (slot.type === "notes") {
+      DAYS.forEach((day, cIdx) => {
+        const td = document.createElement("td");
+        const cellData = (currentWeek.grid[rIdx] && currentWeek.grid[rIdx][cIdx]) || { 
+          type: "notes", text: "", bg: "", textColor: "" 
+        };
+        td.appendChild(createNotesCellElement(rIdx, cIdx, cellData));
+        tr.appendChild(td);
+      });
     } else {
       DAYS.forEach((day, cIdx) => {
         const td = document.createElement("td");
@@ -2453,6 +2527,114 @@ function renderSchedule() {
 
     tbody.appendChild(tr);
   });
+}
+
+function createNotesCellElement(rIdx, cIdx, cellData) {
+  const container = document.createElement("div");
+  container.className = "notes-cell";
+
+  const getNotesCell = () => {
+    const cur = getActiveWeek();
+    if (!cur.grid) cur.grid = sanitizeWeekGrid({});
+    if (!cur.grid[rIdx]) cur.grid[rIdx] = {};
+    if (!cur.grid[rIdx][cIdx]) {
+      cur.grid[rIdx][cIdx] = {
+        type: "notes", text: "", bg: "", textColor: ""
+      };
+    }
+    return cur.grid[rIdx][cIdx];
+  };
+
+  const directCell = getNotesCell();
+
+  // Appliquer la couleur de fond personnalisée si définie
+  if (directCell.bg) {
+    container.style.backgroundColor = directCell.bg;
+  }
+
+  // Zone de texte libre pour les notes de la journée
+  const textarea = document.createElement("textarea");
+  textarea.className = "notes-input";
+  textarea.placeholder = "Remarques, sorties, devoirs, rappels...";
+  textarea.value = directCell.text || "";
+  if (directCell.textColor) {
+    textarea.style.color = directCell.textColor;
+  }
+  textarea.addEventListener("input", (e) => {
+    const c = getNotesCell();
+    c.text = e.target.value;
+    saveData();
+  });
+  container.appendChild(textarea);
+
+  // Barre d'actions du bas (Couleurs + Vider)
+  const footer = document.createElement("div");
+  footer.className = "cell-footer";
+
+  const actionGroup = document.createElement("div");
+  actionGroup.className = "cell-action-group";
+
+  const colorBtn = document.createElement("button");
+  colorBtn.className = "cell-btn color-trigger-btn";
+  colorBtn.title = "Changer la couleur du fond et du texte de la note";
+  colorBtn.innerHTML = "🎨 Couleurs";
+  
+  let cellOverlay = null;
+  colorBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (cellOverlay) {
+      cellOverlay.remove();
+      cellOverlay = null;
+      return;
+    }
+    document.querySelectorAll('.cell-color-overlay').forEach(el => el.remove());
+
+    cellOverlay = createColorOverlay(
+      rIdx, 
+      cIdx, 
+      (newBg) => {
+        const c = getNotesCell();
+        c.bg = newBg;
+        container.style.backgroundColor = newBg || '';
+        saveData();
+      },
+      (newTextColor) => {
+        const c = getNotesCell();
+        c.textColor = newTextColor;
+        textarea.style.color = newTextColor || '';
+        saveData();
+      },
+      () => {
+        if (cellOverlay) {
+          cellOverlay.remove();
+          cellOverlay = null;
+        }
+      }
+    );
+    container.appendChild(cellOverlay);
+  });
+  actionGroup.appendChild(colorBtn);
+
+  const clearBtn = document.createElement("button");
+  clearBtn.className = "cell-btn clear-btn";
+  clearBtn.title = "Effacer les remarques de ce jour";
+  clearBtn.innerHTML = "↺ Vider";
+  clearBtn.addEventListener("click", () => {
+    const c = getNotesCell();
+    c.text = "";
+    c.bg = "";
+    c.textColor = "";
+    textarea.value = "";
+    textarea.style.color = "";
+    container.style.backgroundColor = "";
+    saveData();
+  });
+
+  footer.appendChild(actionGroup);
+  footer.appendChild(clearBtn);
+  container.appendChild(footer);
+
+  return container;
 }
 
 function createDirectSelectCellElement(rIdx, cIdx, cellData) {
@@ -2833,6 +3015,8 @@ function createNewWeek() {
         cell.activity = "";
         cell.compId = "";
         cell.attenduText = "";
+      } else if (cell && cell.type === "notes") {
+        cell.text = "";
       }
     });
   });
