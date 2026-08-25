@@ -1599,18 +1599,18 @@ function getNextMondayString() {
 // =========================================================================
 // 3. PALETTE DE COULEURS FLOTTANTE (SYSTÈME ÉPROUVÉ DE L'ANCIEN SEMAINIER)
 // =========================================================================
-function showCellFormatToolbar(cellElement, rIdx, cIdx, textareaElement, isPreset) {
-  activeCellTarget = { rIdx, cIdx, cellElement, textareaElement, isPreset };
+function showCellFormatToolbar(cellElement, rIdx, cIdx, textareaElement, isPreset, anchorBtn) {
+  activeCellTarget = { rIdx, cIdx, cellElement, textareaElement, isPreset, anchorBtn };
   
-  const container = document.querySelector('.horaire-container') || document.getElementById('screen-horaire');
-  if (!container) return;
-
   let toolbar = document.getElementById('horaire-format-toolbar');
   if (!toolbar) {
     toolbar = document.createElement('div');
     toolbar.id = 'horaire-format-toolbar';
-    toolbar.className = 'absolute bg-white border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[4px_4px_0_rgba(0,0,0,1)] z-50 flex flex-col gap-2 no-print';
-    container.appendChild(toolbar);
+    toolbar.className = 'fixed bg-white border-2 border-neutral-900 p-2.5 rounded-2xl shadow-[4px_4px_0_rgba(0,0,0,1)] flex flex-col gap-2 no-print';
+    toolbar.style.zIndex = '99999';
+    document.body.appendChild(toolbar);
+  } else if (toolbar.parentElement !== document.body) {
+    document.body.appendChild(toolbar);
   }
 
   toolbar.innerHTML = `
@@ -1662,30 +1662,39 @@ function showCellFormatToolbar(cellElement, rIdx, cIdx, textareaElement, isPrese
 
   // Affichage et mesure
   toolbar.style.display = 'flex';
+  toolbar.style.position = 'fixed';
+  toolbar.style.zIndex = '99999';
 
-  const rect = cellElement.getBoundingClientRect();
-  const containerRect = container.getBoundingClientRect();
-
-  const toolbarHeight = toolbar.offsetHeight || 135;
+  const anchor = anchorBtn || cellElement;
+  const anchorRect = anchor.getBoundingClientRect();
   const toolbarWidth = toolbar.offsetWidth || 235;
+  const toolbarHeight = toolbar.offsetHeight || 135;
 
-  let top = rect.top - containerRect.top + container.scrollTop - toolbarHeight - 8;
-  let left = rect.left - containerRect.left + container.scrollLeft + (rect.width - toolbarWidth) / 2;
-
-  // Si ça dépasse en haut, afficher en dessous de la cellule
-  if (rect.top - containerRect.top - toolbarHeight - 8 < 0) {
-    top = rect.bottom - containerRect.top + container.scrollTop + 8;
+  // Calcul du placement vertical : juste sous le bouton/logo cliqué
+  let top = anchorRect.bottom + 6;
+  // Si ça dépasse en bas de l'écran, afficher au-dessus du bouton
+  if (top + toolbarHeight > window.innerHeight - 10) {
+    if (anchorRect.top - toolbarHeight - 6 > 10) {
+      top = anchorRect.top - toolbarHeight - 6;
+    } else {
+      top = Math.max(10, window.innerHeight - toolbarHeight - 10);
+    }
   }
 
-  // Limites de débordement
+  // Calcul du placement horizontal : aligné avec le bouton
+  let left = anchorRect.left;
+  // Si le bouton est trop à droite (par exemple bouton sur le coin droit d'une case fixe)
+  if (left + toolbarWidth > window.innerWidth - 12) {
+    left = anchorRect.right - toolbarWidth;
+  }
+  // Limites strictes dans l'écran
   if (left < 10) left = 10;
-  if (left + toolbarWidth > container.scrollWidth - 10) {
-    left = Math.max(10, container.scrollWidth - toolbarWidth - 10);
+  if (left + toolbarWidth > window.innerWidth - 10) {
+    left = Math.max(10, window.innerWidth - toolbarWidth - 10);
   }
 
   toolbar.style.top = `${Math.round(top)}px`;
   toolbar.style.left = `${Math.round(left)}px`;
-  toolbar.style.position = 'absolute';
 }
 
 function hideCellFormatToolbar() {
@@ -1729,6 +1738,14 @@ document.addEventListener('pointerdown', (e) => {
     }
   }
 });
+
+// Fermeture sur défilement pour éviter le décalage de la barre flottante
+window.addEventListener('scroll', () => {
+  const toolbar = document.getElementById('horaire-format-toolbar');
+  if (toolbar && toolbar.style.display !== 'none') {
+    hideCellFormatToolbar();
+  }
+}, true);
 
 // =========================================================================
 // 4. RENDU DU SEMAINIER (2 SELECTS + COULEURS DE FOND & TEXTE)
@@ -1864,7 +1881,12 @@ function renderScheduleTable() {
           
           pColorBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            showCellFormatToolbar(presetContainer, rIdx, cIdx, null, true);
+            const toolbar = document.getElementById('horaire-format-toolbar');
+            if (activeCellTarget && activeCellTarget.rIdx === rIdx && activeCellTarget.cIdx === cIdx && toolbar && toolbar.style.display !== 'none') {
+              hideCellFormatToolbar();
+              return;
+            }
+            showCellFormatToolbar(presetContainer, rIdx, cIdx, null, true, pColorBtn);
           });
 
           const pEditBtn = document.createElement("button");
@@ -2043,7 +2065,12 @@ function createDirectSelectCellElement(rIdx, cIdx, cellData) {
   
   colorBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    showCellFormatToolbar(container, rIdx, cIdx, textarea, false);
+    const toolbar = document.getElementById('horaire-format-toolbar');
+    if (activeCellTarget && activeCellTarget.rIdx === rIdx && activeCellTarget.cIdx === cIdx && toolbar && toolbar.style.display !== 'none') {
+      hideCellFormatToolbar();
+      return;
+    }
+    showCellFormatToolbar(container, rIdx, cIdx, textarea, false, colorBtn);
   });
   actionGroup.appendChild(colorBtn);
 
