@@ -583,7 +583,7 @@ window.syncWidgetStatesForTab = syncWidgetStatesForTab;
 window.widgetStates = widgetStates;
 
 // --- GESTION DE LA SAUVEGARDE & RESTAURATION ---
-function exportClassData() {
+async function exportClassData() {
     const data = {};
     const keysToBackup = [
         'tbi_weeks',
