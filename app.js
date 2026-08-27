@@ -591,6 +591,7 @@ async function exportClassData() {
         'tbi_devoirs_weeks',
         'tbi_active_devoirs_week_id',
         'tbi_roue_students',
+        'tbi_cotes_data',
         'p5p6v4',
         'tbi_eraser_size'
     ];

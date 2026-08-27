@@ -140,30 +140,34 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
             <!-- Sync élèves -->
             <button id="btn-sync-students" onclick="syncWithTbiStudents()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl transition" title="Synchroniser les prénoms avec le TBI">
                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-indigo-600"></i>
-                <span>Synchroniser Élèves</span>
+                <span class="hidden md:inline">Synchroniser Élèves</span>
+                <span class="inline md:hidden">Sync</span>
             </button>
             <!-- Gestion élèves -->
             <button id="btn-manage-class" onclick="openStudentsModal()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl transition" title="Gérer la liste des élèves">
                 <i data-lucide="users" class="w-3.5 h-3.5 text-amber-600"></i>
-                <span>Gérer la Classe</span>
+                <span class="hidden md:inline">Gérer la Classe</span>
+                <span class="inline md:hidden">Classe</span>
             </button>
             <span class="w-px h-6 bg-neutral-300"></span>
             <!-- Export CSV -->
-            <button onclick="exportCSV()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl" title="Télécharger sous Excel CSV">
+            <button onclick="exportCSV()" class="neo-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-neutral-50 hover:bg-neutral-100 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl" title="Télécharger sous format tableur Excel CSV">
                 <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i>
-                <span>Exporter CSV</span>
+                <span class="hidden lg:inline">CSV</span>
             </button>
-            <!-- Sauvegarde / Restauration -->
-            <button onclick="exportJSON()" class="neo-btn p-1.5 bg-neutral-100 hover:bg-neutral-200 border-2 border-neutral-900 rounded-xl" title="Exporter Sauvegarde JSON">
-                <i data-lucide="save" class="w-4 h-4 text-neutral-700"></i>
+            <!-- Sauvegarde Disquette Google Drive -->
+            <button id="btn-save-disk" onclick="saveToDriveFile(event.shiftKey)" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition active:translate-x-0.5 active:translate-y-0.5" title="Sauvegarder tout le cahier de cotes sur Google Drive (Shift + Clic pour changer de fichier)">
+                <i data-lucide="save" class="w-4 h-4"></i>
+                <span id="save-btn-text">Sauvegarder</span>
             </button>
             <input type="file" id="import-json-input" accept="application/json" class="hidden" onchange="importJSON(event)">
-            <button onclick="document.getElementById('import-json-input').click()" class="neo-btn p-1.5 bg-neutral-100 hover:bg-neutral-200 border-2 border-neutral-900 rounded-xl" title="Importer Sauvegarde JSON">
-                <i data-lucide="upload" class="w-4 h-4 text-neutral-700"></i>
+            <button onclick="document.getElementById('import-json-input').click()" class="neo-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-neutral-100 hover:bg-neutral-200 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl" title="Restaurer / Importer une sauvegarde JSON du cahier de cotes">
+                <i data-lucide="upload" class="w-3.5 h-3.5 text-neutral-700"></i>
+                <span class="hidden sm:inline">Restaurer</span>
             </button>
         </div>
     </header>
@@ -2009,40 +2013,89 @@
             URL.revokeObjectURL(url);
         }
         
-        async function exportJSON() {
-            const filename = `tbi_cotes_sauvegarde_${new Date().toISOString().split('T')[0]}.json`;
-            const dataStr = JSON.stringify(cotesData, null, 2);
+        let driveFileHandle = null;
+        let lastSaveTime = null;
 
+        function getFullCahierData() {
+            return {
+                app: "TBI_Cahier_De_Cotes",
+                version: 2,
+                exportedAt: new Date().toISOString(),
+                students: students,
+                cotesData: cotesData
+            };
+        }
+
+        async function saveToDriveFile(forceNewPicker = false) {
+            const dataObj = getFullCahierData();
+            const jsonStr = JSON.stringify(dataObj, null, 2);
+            const defaultFilename = `cahier_de_cotes_${new Date().getFullYear()}.json`;
+
+            // 1. File System Access API supportée (Chrome / Edge / Safari moderne)
             if ('showSaveFilePicker' in window) {
                 try {
-                    const handle = await window.showSaveFilePicker({
-                        suggestedName: filename,
-                        types: [{
-                            description: 'Fichier Sauvegarde JSON (*.json)',
-                            accept: { 'application/json': ['.json'] }
-                        }]
-                    });
-                    const writable = await handle.createWritable();
-                    await writable.write(dataStr);
+                    if (!driveFileHandle || forceNewPicker) {
+                        driveFileHandle = await window.showSaveFilePicker({
+                            suggestedName: defaultFilename,
+                            types: [{
+                                description: 'Fichier Cahier de Cotes JSON (*.json)',
+                                accept: { 'application/json': ['.json'] }
+                            }]
+                        });
+                    }
+
+                    // Écrire directement dans le fichier
+                    const writable = await driveFileHandle.createWritable();
+                    await writable.write(jsonStr);
                     await writable.close();
+
+                    updateSaveStatus(true, driveFileHandle.name);
                     return;
                 } catch (err) {
-                    if (err.name === 'AbortError') return;
-                    console.warn('showSaveFilePicker fallback:', err);
+                    if (err.name === 'AbortError') return; // Annulé par l'utilisateur
+                    console.warn('Erreur File System Access, fallback téléchargement:', err);
+                    driveFileHandle = null;
                 }
             }
 
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            // 2. Fallback classique de téléchargement si l'API n'est pas dispo
+            try {
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = defaultFilename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                updateSaveStatus(true, defaultFilename);
+            } catch (err) {
+                alert("Erreur lors de la sauvegarde : " + err.message);
+            }
         }
-        
+
+        function updateSaveStatus(success, fileName) {
+            const saveBtn = document.getElementById('btn-save-disk');
+            const saveBtnText = document.getElementById('save-btn-text');
+            const now = new Date();
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            lastSaveTime = timeStr;
+
+            if (saveBtn && saveBtnText) {
+                saveBtn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+                saveBtn.classList.add('bg-emerald-600');
+                saveBtnText.innerHTML = `Sauvegardé (${timeStr}) ✅`;
+                saveBtn.title = `Dernière sauvegarde réussie à ${timeStr}\nFichier : ${fileName || 'Google Drive'}\n(Shift + Clic pour changer de fichier)`;
+
+                setTimeout(() => {
+                    if (saveBtnText) {
+                        saveBtnText.innerHTML = `Sauvegarder <span class="text-[10px] opacity-80">(${timeStr})</span>`;
+                    }
+                }, 4000);
+            }
+        }
+
         function importJSON(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -2051,16 +2104,37 @@
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
-                    if (data.evaluations && data.grades) {
-                        cotesData = data;
-                        saveCotesData();
-                        alert("Données importées avec succès !");
-                        renderSheet();
+                    
+                    // Format complet V2 (students + cotesData)
+                    if (data.students && data.cotesData) {
+                        const countStudents = Array.isArray(data.students) ? data.students.length : 0;
+                        const dateInfo = data.exportedAt ? new Date(data.exportedAt).toLocaleString('fr-FR') : 'date inconnue';
+                        
+                        if (confirm(`Voulez-vous restaurer cette sauvegarde du cahier de cotes ?\n\n• ${countStudents} élève(s)\n• Date de sauvegarde : ${dateInfo}\n\n⚠️ Cela remplacera l'ensemble des données actuelles du cahier de cotes.`)) {
+                            students = data.students;
+                            cotesData = data.cotesData;
+                            saveStudents();
+                            saveCotesData();
+                            renderTabHeaders();
+                            renderSheet();
+                            alert("✅ Cahier de cotes restauré avec succès !");
+                        }
+                    } else if (data.evaluations && data.grades) {
+                        // Rétrocompatibilité format V1
+                        if (confirm("Voulez-vous restaurer ces données d'évaluations et de notes ?\n\n⚠️ Cela remplacera vos évaluations et notes actuelles.")) {
+                            cotesData = data;
+                            saveCotesData();
+                            renderTabHeaders();
+                            renderSheet();
+                            alert("✅ Données d'évaluations restaurées avec succès !");
+                        }
                     } else {
-                        alert("Le fichier sélectionné n'est pas un fichier de sauvegarde valide.");
+                        alert("⚠️ Le fichier sélectionné ne semble pas être une sauvegarde valide du Cahier de Cotes.");
                     }
                 } catch(err) {
-                    alert("Erreur lors de la lecture du fichier : " + err.message);
+                    alert("Erreur lors de la lecture du fichier de sauvegarde : " + err.message);
+                } finally {
+                    event.target.value = ""; // Permet de re-sélectionner le même fichier si besoin
                 }
             };
             reader.readAsText(file);
