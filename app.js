@@ -603,13 +603,34 @@ function exportClassData() {
     });
     
     const jsonStr = JSON.stringify(data, null, 2);
+    const dateStr = new Date().toISOString().split('T')[0];
+    const filename = `console-tbi-sauvegarde-${dateStr}.json`;
+
+    if ('showSaveFilePicker' in window) {
+        try {
+            const handle = await window.showSaveFilePicker({
+                suggestedName: filename,
+                types: [{
+                    description: 'Fichier Sauvegarde JSON (*.json)',
+                    accept: { 'application/json': ['.json'] }
+                }]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(jsonStr);
+            await writable.close();
+            return;
+        } catch (err) {
+            if (err.name === 'AbortError') return;
+            console.warn('showSaveFilePicker fallback:', err);
+        }
+    }
+
     const blob = new Blob([jsonStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
     const a = document.createElement('a');
-    const dateStr = new Date().toISOString().split('T')[0];
     a.href = url;
-    a.download = `console-tbi-sauvegarde-${dateStr}.json`;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

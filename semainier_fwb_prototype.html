@@ -2713,11 +2713,33 @@ function deleteCurrentWeek() {
 // =========================================================================
 // 8. EXPORT / IMPORT JSON
 // =========================================================================
-function exportDataJSON() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allWeeks, null, 2));
+async function exportDataJSON() {
+  const jsonStr = JSON.stringify(allWeeks, null, 2);
+  const filename = 'semainier_tbi_fwb_' + new Date().toISOString().slice(0,10) + '.json';
+
+  if ('showSaveFilePicker' in window) {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: filename,
+        types: [{
+          description: 'Fichier Sauvegarde JSON (*.json)',
+          accept: { 'application/json': ['.json'] }
+        }]
+      });
+      const writable = await handle.createWritable();
+      await writable.write(jsonStr);
+      await writable.close();
+      return;
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      console.warn('showSaveFilePicker fallback:', err);
+    }
+  }
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonStr);
   const downloadAnchor = document.createElement('a');
   downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", 'semainier_tbi_fwb_' + new Date().toISOString().slice(0,10) + '.json');
+  downloadAnchor.setAttribute("download", filename);
   document.body.appendChild(downloadAnchor);
   downloadAnchor.click();
   downloadAnchor.remove();

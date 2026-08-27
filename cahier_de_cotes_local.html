@@ -1977,24 +1977,66 @@
             });
             
             // Création et téléchargement du fichier
+            const filename = `cahier_de_cotes_excel_${new Date().toISOString().split('T')[0]}.csv`;
+
+            if ('showSaveFilePicker' in window) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: filename,
+                        types: [{
+                            description: 'Fichier CSV (*.csv)',
+                            accept: { 'text/csv': ['.csv'] }
+                        }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(csvContent);
+                    await writable.close();
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') return;
+                    console.warn('showSaveFilePicker fallback:', err);
+                }
+            }
+
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `cahier_de_cotes_excel_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = filename;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
         
-        function exportJSON() {
+        async function exportJSON() {
+            const filename = `tbi_cotes_sauvegarde_${new Date().toISOString().split('T')[0]}.json`;
             const dataStr = JSON.stringify(cotesData, null, 2);
+
+            if ('showSaveFilePicker' in window) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: filename,
+                        types: [{
+                            description: 'Fichier Sauvegarde JSON (*.json)',
+                            accept: { 'application/json': ['.json'] }
+                        }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(dataStr);
+                    await writable.close();
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') return;
+                    console.warn('showSaveFilePicker fallback:', err);
+                }
+            }
+
             const blob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `tbi_cotes_sauvegarde_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = filename;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
