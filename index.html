@@ -675,11 +675,15 @@
                         <button onclick="toggleThumbnailsPanel()" class="p-1 hover:bg-neutral-200 rounded transition ml-1 text-neutral-850" title="Voir les miniatures des pages"><i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i></button>
                     </div>
 
-                    <!-- Contrôles de zoom -->
+                    <!-- Contrôles de zoom et d'orientation -->
                     <div class="flex items-center gap-1 bg-white border-[3px] border-neutral-900 px-3 py-1 rounded-xl text-neutral-800 shadow-[3px_3px_0_rgba(0,0,0,1)]">
                         <button onclick="zoomOut()" class="p-1 hover:bg-neutral-200 rounded transition" title="Zoomer arrière"><i data-lucide="zoom-out" class="w-4 h-4"></i></button>
                         <span id="zoom-level-text" class="text-xs font-bold font-mono px-1 min-w-[36px] text-center select-none">100%</span>
                         <button onclick="zoomIn()" class="p-1 hover:bg-neutral-200 rounded transition" title="Zoomer avant"><i data-lucide="zoom-in" class="w-4 h-4"></i></button>
+                        <span class="w-px h-4 bg-neutral-300 mx-0.5"></span>
+                        <button onclick="rotateCurrentPage()" class="p-1 hover:bg-neutral-200 rounded transition text-indigo-600 hover:text-indigo-800 flex items-center justify-center cursor-pointer" title="Faire pivoter cette page (90°)">
+                            <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+                        </button>
                     </div>
                 </div>
                 

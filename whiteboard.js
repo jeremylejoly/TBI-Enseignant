@@ -391,6 +391,7 @@ function saveWhiteboardState() {
                         textboxes: p.textboxes || [],
                         backgroundType: p.backgroundType || 'blank',
                         bgImage: p.bgImage || null,
+                        rotation: p.rotation || 0,
                         undoStack: [],
                         redoStack: []
                     };
@@ -428,6 +429,7 @@ function saveWhiteboardState() {
                             textboxes: (p.textboxes || []).filter(tb => tb.type !== 'image' || (tb.src && tb.src.length < 50000)),
                             backgroundType: p.backgroundType || 'blank',
                             bgImage: null,
+                            rotation: p.rotation || 0,
                             undoStack: [],
                             redoStack: []
                         };
@@ -477,7 +479,7 @@ function loadWhiteboardState() {
                     tab.pdfDoc = null;
                     if (!tab.pages || Object.keys(tab.pages).length === 0) {
                         tab.pages = {
-                            1: { elements: [], textboxes: [], backgroundType: 'blank', undoStack: [], redoStack: [] }
+                            1: { elements: [], textboxes: [], backgroundType: 'blank', rotation: 0, undoStack: [], redoStack: [] }
                         };
                         tab.totalPages = 1;
                         tab.currentPage = 1;
@@ -487,6 +489,7 @@ function loadWhiteboardState() {
                             if (!tab.pages[pNum].redoStack) tab.pages[pNum].redoStack = [];
                             if (!tab.pages[pNum].elements) tab.pages[pNum].elements = [];
                             if (!tab.pages[pNum].textboxes) tab.pages[pNum].textboxes = [];
+                            if (tab.pages[pNum].rotation === undefined) tab.pages[pNum].rotation = 0;
                         });
                     }
                     return tab;
@@ -2802,14 +2805,16 @@ function renderPdfPage() {
                 elements: [],
                 textboxes: [],
                 backgroundType: 'blank',
+                rotation: 0,
                 undoStack: [],
                 redoStack: []
             };
             tab.pages[pageNum] = pageData;
         }
         
+        const rotation = (pageData.rotation || 0) % 360;
         const dpr = window.devicePixelRatio || 1;
-        const tempViewport = page.getViewport({ scale: 1.0 });
+        const tempViewport = page.getViewport({ scale: 1.0, rotation: rotation });
         
         // Lock scale and offsets based on first render to prevent misalignment on window resize (like HDMI plug/unplug)
         if (pageData.pdfScale === undefined || pageData.pdfScale === null) {
@@ -2822,8 +2827,8 @@ function renderPdfPage() {
         
         const scale = pageData.pdfScale;
         
-        // Render at Retina scale adjusted by zoomScale
-        const viewport = page.getViewport({ scale: scale * zoomScale * dpr });
+        // Render at Retina scale adjusted by zoomScale with rotation
+        const viewport = page.getViewport({ scale: scale * zoomScale * dpr, rotation: rotation });
         
         bgCanvas.width = container.clientWidth * zoomScale * dpr;
         bgCanvas.height = container.clientHeight * zoomScale * dpr;
@@ -2879,12 +2884,14 @@ function renderImageToBg(img) {
             elements: [],
             textboxes: [],
             backgroundType: 'blank',
+            rotation: 0,
             undoStack: [],
             redoStack: []
         };
         tab.pages[pageNum] = pageData;
     }
     
+    const rotation = (pageData.rotation || 0) % 360;
     const w = container.clientWidth;
     const h = container.clientHeight;
     const dpr = window.devicePixelRatio || 1;
@@ -2896,21 +2903,67 @@ function renderImageToBg(img) {
     
     bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
     
+    const isRotated90or270 = (rotation === 90 || rotation === 270);
+    const effWidth = isRotated90or270 ? img.height : img.width;
+    const effHeight = isRotated90or270 ? img.width : img.height;
+    
     // Lock scale and offsets based on first render to prevent misalignment on window resize
     if (pageData.imgScale === undefined || pageData.imgScale === null) {
-        const scaleX = w / img.width;
-        const scaleY = h / img.height;
+        const scaleX = w / effWidth;
+        const scaleY = h / effHeight;
         pageData.imgScale = Math.min(scaleX, scaleY) * 0.96;
-        pageData.imgXOffset = (w - img.width * pageData.imgScale) / 2;
-        pageData.imgYOffset = (h - img.height * pageData.imgScale) / 2;
+        pageData.imgXOffset = (w - effWidth * pageData.imgScale) / 2;
+        pageData.imgYOffset = (h - effHeight * pageData.imgScale) / 2;
     }
     
-    const imgW = img.width * pageData.imgScale * zoomScale * dpr;
-    const imgH = img.height * pageData.imgScale * zoomScale * dpr;
-    const x = pageData.imgXOffset * zoomScale * dpr;
-    const y = pageData.imgYOffset * zoomScale * dpr;
+    const scale = pageData.imgScale * zoomScale * dpr;
+    const centerX = (pageData.imgXOffset + effWidth * pageData.imgScale / 2) * zoomScale * dpr;
+    const centerY = (pageData.imgYOffset + effHeight * pageData.imgScale / 2) * zoomScale * dpr;
     
-    bgCtx.drawImage(img, x, y, imgW, imgH);
+    bgCtx.save();
+    bgCtx.translate(centerX, centerY);
+    bgCtx.rotate((rotation * Math.PI) / 180);
+    bgCtx.drawImage(img, - (img.width * scale) / 2, - (img.height * scale) / 2, img.width * scale, img.height * scale);
+    bgCtx.restore();
+}
+
+function rotateCurrentPage(delta = 90) {
+    const tab = getActiveTab();
+    if (!tab) return;
+    
+    const pageNum = tab.currentPage || 1;
+    let pageData = tab.pages[pageNum];
+    if (!pageData) {
+        pageData = {
+            elements: [],
+            textboxes: [],
+            backgroundType: 'blank',
+            rotation: 0,
+            undoStack: [],
+            redoStack: []
+        };
+        tab.pages[pageNum] = pageData;
+    }
+    
+    savePageStateForUndo(pageData);
+    
+    pageData.rotation = (((pageData.rotation || 0) + delta) % 360 + 360) % 360;
+    
+    // Reset cached scales and offsets to adapt to new landscape/portrait dimensions
+    pageData.pdfScale = null;
+    pageData.pdfXOffset = null;
+    pageData.pdfYOffset = null;
+    pageData.imgScale = null;
+    pageData.imgXOffset = null;
+    pageData.imgYOffset = null;
+    
+    renderCurrentPage();
+    
+    if (isThumbnailsPanelOpen) {
+        renderThumbnails();
+    }
+    
+    debouncedSaveWhiteboard();
 }
 
 // --- THUMBNAILS PANEL CONTROLLER ---
@@ -2971,9 +3024,13 @@ function renderThumbnails() {
 
 async function renderPdfThumbnail(pdf, pageNum, canvas) {
     try {
+        const tab = getActiveTab();
+        const pageData = (tab && tab.pages) ? tab.pages[pageNum] : null;
+        const rotation = (pageData && pageData.rotation) ? pageData.rotation : 0;
+        
         const page = await pdf.getPage(pageNum);
         const ctx = canvas.getContext('2d');
-        const viewport = page.getViewport({ scale: 0.18 });
+        const viewport = page.getViewport({ scale: 0.18, rotation: rotation });
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         canvas.style.width = '100%';
@@ -2993,8 +3050,9 @@ function renderWhiteboardThumbnail(pageNum, canvas) {
     canvas.style.height = 'auto';
     
     const tab = getActiveTab();
-    const pageData = tab.pages[pageNum];
+    const pageData = tab ? tab.pages[pageNum] : null;
     const bgType = pageData ? pageData.backgroundType : 'blank';
+    const rotation = (pageData && pageData.rotation) ? pageData.rotation : 0;
     
     if (bgType === 'blackboard') {
         ctx.fillStyle = '#1b2621';
@@ -3005,17 +3063,21 @@ function renderWhiteboardThumbnail(pageNum, canvas) {
     }
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Dessiner l'image d'arrière-plan si présente
+    // Dessiner l'image d'arrière-plan si présente avec rotation
     if (pageData && pageData.bgImage) {
         const img = pageData.bgImage;
-        const scaleX = canvas.width / img.width;
-        const scaleY = canvas.height / img.height;
+        const isRotated90or270 = (rotation === 90 || rotation === 270);
+        const effW = isRotated90or270 ? img.height : img.width;
+        const effH = isRotated90or270 ? img.width : img.height;
+        const scaleX = canvas.width / effW;
+        const scaleY = canvas.height / effH;
         const scale = Math.min(scaleX, scaleY);
-        const imgW = img.width * scale;
-        const imgH = img.height * scale;
-        const x = (canvas.width - imgW) / 2;
-        const y = (canvas.height - imgH) / 2;
-        ctx.drawImage(img, x, y, imgW, imgH);
+        
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate((rotation * Math.PI) / 180);
+        ctx.drawImage(img, - (img.width * scale) / 2, - (img.height * scale) / 2, img.width * scale, img.height * scale);
+        ctx.restore();
     }
     
     // Draw simple background guides
@@ -3696,5 +3758,6 @@ function toggleFillShapes() {
     }
 }
 window.toggleFillShapes = toggleFillShapes;
+window.rotateCurrentPage = rotateCurrentPage;
 
 
