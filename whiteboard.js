@@ -259,6 +259,14 @@ window.addEventListener('DOMContentLoaded', () => {
         if (activeTab && typeof window.syncWidgetStatesForTab === 'function') {
             window.syncWidgetStatesForTab(activeTab);
         }
+        // Asynchronously restore PDF documents and images from IndexedDB
+        restoreAllTabFiles().then(() => {
+            renderTabsUI();
+            renderCurrentPage();
+            if (isThumbnailsPanelOpen) {
+                renderThumbnails();
+            }
+        });
     }
     
     // Set default active tool visually and logically
@@ -368,6 +376,147 @@ function updateZoomUI() {
     resizeCanvas();
 }
 
+// --- INDEXEDDB STORAGE FOR LARGE PDF & IMAGE FILES ---
+const TbiFileStore = {
+    dbPromise: null,
+    getDB() {
+        if (this.dbPromise) return this.dbPromise;
+        this.dbPromise = new Promise((resolve) => {
+            if (!window.indexedDB) {
+                console.warn("[TbiFileStore] IndexedDB not supported in this environment");
+                resolve(null);
+                return;
+            }
+            const request = indexedDB.open('tbi_whiteboard_storage', 1);
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('files')) {
+                    db.createObjectStore('files', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = (e) => resolve(e.target.result);
+            request.onerror = (e) => {
+                console.error("[TbiFileStore] IndexedDB open error:", e);
+                resolve(null);
+            };
+        });
+        return this.dbPromise;
+    },
+    async setFile(id, fileData) {
+        try {
+            const db = await this.getDB();
+            if (!db) return false;
+            return new Promise((resolve) => {
+                const tx = db.transaction('files', 'readwrite');
+                const store = tx.objectStore('files');
+                tx.oncomplete = () => resolve(true);
+                tx.onerror = (e) => {
+                    console.warn("[TbiFileStore] setFile transaction error:", e);
+                    resolve(false);
+                };
+                store.put({ id, ...fileData });
+            });
+        } catch (err) {
+            console.warn("[TbiFileStore] setFile exception:", err);
+            return false;
+        }
+    },
+    async getFile(id) {
+        try {
+            const db = await this.getDB();
+            if (!db) return null;
+            return new Promise((resolve) => {
+                const tx = db.transaction('files', 'readonly');
+                const store = tx.objectStore('files');
+                const req = store.get(id);
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = () => resolve(null);
+            });
+        } catch (err) {
+            console.warn("[TbiFileStore] getFile exception:", err);
+            return null;
+        }
+    },
+    async deleteFile(id) {
+        try {
+            const db = await this.getDB();
+            if (!db) return false;
+            return new Promise((resolve) => {
+                const tx = db.transaction('files', 'readwrite');
+                const store = tx.objectStore('files');
+                tx.oncomplete = () => resolve(true);
+                tx.onerror = () => resolve(false);
+                store.delete(id);
+            });
+        } catch (err) {
+            return false;
+        }
+    }
+};
+
+async function restoreAllTabFiles() {
+    if (!boardTabs || boardTabs.length === 0) return;
+    
+    let activeTabNeedsRender = false;
+    
+    for (const tab of boardTabs) {
+        if (tab.type === 'pdf' && !tab.pdfDoc) {
+            try {
+                const record = await TbiFileStore.getFile(tab.id);
+                if (record && record.buffer) {
+                    if (typeof pdfjsLib !== 'undefined') {
+                        pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
+                        const pdf = await pdfjsLib.getDocument(new Uint8Array(record.buffer)).promise;
+                        tab.pdfDoc = pdf;
+                        tab.totalPages = pdf.numPages;
+                        if (tab.id === activeTabId) {
+                            activeTabNeedsRender = true;
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("[Whiteboard] Error restoring PDF for tab", tab.id, err);
+            }
+        }
+        
+        // Restore background images if any
+        if (tab.pages) {
+            for (const pNum of Object.keys(tab.pages)) {
+                const pageData = tab.pages[pNum];
+                if (!pageData.bgImage) {
+                    const bgRecord = (await TbiFileStore.getFile(`${tab.id}_page_${pNum}_bg`)) || 
+                                     (pNum == 1 ? await TbiFileStore.getFile(tab.id) : null);
+                    if (bgRecord && (bgRecord.dataUrl || bgRecord.buffer)) {
+                        const img = new Image();
+                        const src = bgRecord.dataUrl || (bgRecord.buffer ? URL.createObjectURL(new Blob([bgRecord.buffer])) : null);
+                        if (src) {
+                            await new Promise((res) => {
+                                img.onload = () => {
+                                    pageData.bgImage = img;
+                                    if (tab.id === activeTabId && tab.currentPage == pNum) {
+                                        activeTabNeedsRender = true;
+                                    }
+                                    res();
+                                };
+                                img.onerror = () => res();
+                                img.src = src;
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    if (activeTabNeedsRender) {
+        renderTabsUI();
+        renderCurrentPage();
+        if (isThumbnailsPanelOpen) {
+            renderThumbnails();
+        }
+    }
+}
+
 // --- AUTO-SAVE & PERSISTENCE ---
 let saveWhiteboardTimeout = null;
 
@@ -390,8 +539,13 @@ function saveWhiteboardState() {
                         elements: p.elements || [],
                         textboxes: p.textboxes || [],
                         backgroundType: p.backgroundType || 'blank',
-                        bgImage: p.bgImage || null,
                         rotation: p.rotation || 0,
+                        pdfScale: p.pdfScale !== undefined ? p.pdfScale : null,
+                        pdfXOffset: p.pdfXOffset !== undefined ? p.pdfXOffset : null,
+                        pdfYOffset: p.pdfYOffset !== undefined ? p.pdfYOffset : null,
+                        imgScale: p.imgScale !== undefined ? p.imgScale : null,
+                        imgXOffset: p.imgXOffset !== undefined ? p.imgXOffset : null,
+                        imgYOffset: p.imgYOffset !== undefined ? p.imgYOffset : null,
                         undoStack: [],
                         redoStack: []
                     };
@@ -404,9 +558,6 @@ function saveWhiteboardState() {
                 type: tab.type,
                 currentPage: tab.currentPage || 1,
                 totalPages: tab.totalPages || 1,
-                imageSrc: tab.imageSrc || null,
-                pdfUrl: tab.pdfUrl || null,
-                pdfName: tab.pdfName || null,
                 widgetStates: tab.widgetStates || null,
                 pages: pagesCopy
             };
@@ -428,8 +579,13 @@ function saveWhiteboardState() {
                             elements: p.elements || [],
                             textboxes: (p.textboxes || []).filter(tb => tb.type !== 'image' || (tb.src && tb.src.length < 50000)),
                             backgroundType: p.backgroundType || 'blank',
-                            bgImage: null,
                             rotation: p.rotation || 0,
+                            pdfScale: p.pdfScale !== undefined ? p.pdfScale : null,
+                            pdfXOffset: p.pdfXOffset !== undefined ? p.pdfXOffset : null,
+                            pdfYOffset: p.pdfYOffset !== undefined ? p.pdfYOffset : null,
+                            imgScale: p.imgScale !== undefined ? p.imgScale : null,
+                            imgXOffset: p.imgXOffset !== undefined ? p.imgXOffset : null,
+                            imgYOffset: p.imgYOffset !== undefined ? p.imgYOffset : null,
                             undoStack: [],
                             redoStack: []
                         };
@@ -438,12 +594,9 @@ function saveWhiteboardState() {
                 return {
                     id: tab.id,
                     name: tab.name,
-                    type: tab.type === 'image' ? 'whiteboard' : tab.type,
+                    type: tab.type,
                     currentPage: tab.currentPage || 1,
                     totalPages: tab.totalPages || 1,
-                    imageSrc: null,
-                    pdfUrl: tab.pdfUrl || null,
-                    pdfName: tab.pdfName || null,
                     widgetStates: tab.widgetStates || null,
                     pages: pagesCopy
                 };
@@ -565,7 +718,7 @@ function addNewBlankTab(name) {
     debouncedSaveWhiteboard();
 }
 
-function switchWhiteboardTab(tabId) {
+async function switchWhiteboardTab(tabId) {
     if (tabId === activeTabId) return;
     
     saveActiveTabTextboxes();
@@ -585,6 +738,21 @@ function switchWhiteboardTab(tabId) {
     const newTab = getActiveTab();
     if (newTab && typeof window.syncWidgetStatesForTab === 'function') {
         window.syncWidgetStatesForTab(newTab);
+    }
+    
+    // Ensure PDF doc is loaded if missing
+    if (newTab && newTab.type === 'pdf' && !newTab.pdfDoc) {
+        try {
+            const record = await TbiFileStore.getFile(newTab.id);
+            if (record && record.buffer && typeof pdfjsLib !== 'undefined') {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
+                const pdf = await pdfjsLib.getDocument(new Uint8Array(record.buffer)).promise;
+                newTab.pdfDoc = pdf;
+                newTab.totalPages = pdf.numPages;
+            }
+        } catch (err) {
+            console.error("Error loading PDF on tab switch:", err);
+        }
     }
     
     renderTabsUI();
@@ -609,7 +777,16 @@ function closeTab(tabId, e) {
     }
     
     if (confirm(`Voulez-vous fermer l'onglet "${boardTabs[index].name}" ? Ses modifications seront perdues.`)) {
+        const closedTab = boardTabs[index];
         boardTabs.splice(index, 1);
+        
+        // Clean up from IndexedDB
+        TbiFileStore.deleteFile(tabId);
+        if (closedTab && closedTab.pages) {
+            Object.keys(closedTab.pages).forEach(pNum => {
+                TbiFileStore.deleteFile(`${tabId}_page_${pNum}_bg`);
+            });
+        }
         
         if (activeTabId === tabId) {
             const newActiveIndex = Math.min(index, boardTabs.length - 1);
@@ -922,12 +1099,47 @@ function renderCurrentPage() {
     
     // 2. Render background canvas (PDF or imported Image)
     const bgCanvas = document.getElementById('bg-canvas');
-    if (bgCanvas) {
-        const bgCtx = bgCanvas.getContext('2d');
-        
-        if (tab.type === 'pdf' && tab.pdfDoc) {
+    let relinkBanner = document.getElementById('pdf-relink-banner');
+    
+    if (tab.type === 'pdf') {
+        if (tab.pdfDoc) {
+            if (relinkBanner) relinkBanner.remove();
             renderPdfPage();
         } else {
+            if (bgCanvas) {
+                const bgCtx = bgCanvas.getContext('2d');
+                bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            }
+            if (!relinkBanner) {
+                const viewport = document.getElementById('whiteboard-viewport');
+                if (viewport) {
+                    relinkBanner = document.createElement('div');
+                    relinkBanner.id = 'pdf-relink-banner';
+                    relinkBanner.className = 'absolute inset-0 flex flex-col items-center justify-center pointer-events-auto z-20 p-6 bg-slate-900/10 backdrop-blur-[2px] select-none';
+                    const safeName = (tab.name || 'Document PDF').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                    relinkBanner.innerHTML = `
+                        <div class="bg-white border-2 border-neutral-800 shadow-[4px_4px_0_rgba(0,0,0,1)] rounded-2xl p-6 max-w-md text-center">
+                            <div class="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl font-bold border-2 border-red-200">
+                                📄
+                            </div>
+                            <h3 class="font-display font-black text-lg text-neutral-900 mb-1">${safeName}</h3>
+                            <p class="text-xs text-neutral-600 mb-4 leading-relaxed">
+                                Le document PDF d'origine n'est pas encore en mémoire locale. Cliquez ci-dessous pour le ré-associer : vos annotations, surlignages et notes seront conservés !
+                            </p>
+                            <label class="cursor-pointer inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-xs px-4 py-2.5 rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] border-2 border-neutral-900 transition-all active:translate-x-0.5 active:translate-y-0.5">
+                                <span>Recharger le fichier PDF</span>
+                                <input type="file" accept="application/pdf" class="hidden" onchange="if (this.files && this.files[0]) { window.relinkPdfToActiveTab(this.files[0]); this.value = ''; }">
+                            </label>
+                        </div>
+                    `;
+                    viewport.appendChild(relinkBanner);
+                }
+            }
+        }
+    } else {
+        if (relinkBanner) relinkBanner.remove();
+        if (bgCanvas) {
+            const bgCtx = bgCanvas.getContext('2d');
             bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
             if (pageData.bgImage) {
                 renderImageToBg(pageData.bgImage);
@@ -2517,7 +2729,8 @@ function importPdfFile(file) {
     
     const fileReader = new FileReader();
     fileReader.onload = function() {
-        const typedarray = new Uint8Array(this.result);
+        const arrayBuffer = this.result;
+        const typedarray = new Uint8Array(arrayBuffer);
         
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
         
@@ -2533,12 +2746,18 @@ function importPdfFile(file) {
             const tabId = 'tab-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
             const tabName = file.name.replace(/\.[^/.]+$/, "");
             
+            // Save PDF binary to IndexedDB persistently
+            TbiFileStore.setFile(tabId, {
+                type: 'pdf',
+                name: file.name,
+                buffer: arrayBuffer
+            });
+            
             const newTab = {
                 id: tabId,
                 name: tabName,
                 type: 'pdf',
                 pdfDoc: pdf,
-                pdfFile: file,
                 currentPage: 1,
                 totalPages: pdf.numPages,
                 pages: {}
@@ -2565,6 +2784,7 @@ function importPdfFile(file) {
                 sidebar.style.width = '240px';
                 renderThumbnails();
             }
+            debouncedSaveWhiteboard();
         }).catch(err => {
             console.error("PDF Loading Error:", err);
             alert("Erreur lors de la lecture du fichier PDF.");
@@ -2572,6 +2792,40 @@ function importPdfFile(file) {
     };
     fileReader.readAsArrayBuffer(file);
 }
+
+window.relinkPdfToActiveTab = function(file) {
+    const tab = getActiveTab();
+    if (!tab || tab.type !== 'pdf' || !file || file.type !== 'application/pdf') return;
+    
+    const fileReader = new FileReader();
+    fileReader.onload = function() {
+        const arrayBuffer = this.result;
+        const typedarray = new Uint8Array(arrayBuffer);
+        
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
+        pdfjsLib.getDocument(typedarray).promise.then(pdf => {
+            tab.pdfDoc = pdf;
+            tab.totalPages = pdf.numPages;
+            
+            TbiFileStore.setFile(tab.id, {
+                type: 'pdf',
+                name: file.name,
+                buffer: arrayBuffer
+            });
+            
+            renderTabsUI();
+            renderCurrentPage();
+            if (isThumbnailsPanelOpen) {
+                renderThumbnails();
+            }
+            debouncedSaveWhiteboard();
+        }).catch(err => {
+            console.error("PDF Relink Error:", err);
+            alert("Erreur lors de la lecture du fichier PDF.");
+        });
+    };
+    fileReader.readAsArrayBuffer(file);
+};
 
 function loadPdfFile(event) {
     const file = event.target.files[0];
@@ -2606,46 +2860,58 @@ function loadImageAsNewTab(file) {
         window.saveWidgetStatesForTab(currentTab);
     }
     
-    const img = new Image();
-    img.onload = function() {
-        const tabId = 'tab-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
-        const tabName = file.name.replace(/\.[^/.]+$/, "");
-        
-        const newTab = {
-            id: tabId,
-            name: tabName,
-            type: 'whiteboard',
-            currentPage: 1,
-            totalPages: 1,
-            pages: {
-                1: {
-                    elements: [],
-                    textboxes: [],
-                    backgroundType: 'blank',
-                    bgImage: img,
-                    imgScale: null,
-                    imgXOffset: null,
-                    imgYOffset: null,
-                    undoStack: [],
-                    redoStack: []
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const img = new Image();
+        img.onload = function() {
+            const tabId = 'tab-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+            const tabName = file.name.replace(/\.[^/.]+$/, "");
+            
+            TbiFileStore.setFile(tabId, {
+                type: 'image',
+                name: file.name,
+                dataUrl: dataUrl
+            });
+            
+            const newTab = {
+                id: tabId,
+                name: tabName,
+                type: 'whiteboard',
+                currentPage: 1,
+                totalPages: 1,
+                pages: {
+                    1: {
+                        elements: [],
+                        textboxes: [],
+                        backgroundType: 'blank',
+                        bgImage: img,
+                        imgScale: null,
+                        imgXOffset: null,
+                        imgYOffset: null,
+                        undoStack: [],
+                        redoStack: []
+                    }
                 }
+            };
+            
+            boardTabs.push(newTab);
+            activeTabId = tabId;
+            selectedElement = null;
+            zoomScale = 1.0;
+            updateZoomUI();
+            
+            if (typeof window.syncWidgetStatesForTab === 'function') {
+                window.syncWidgetStatesForTab(newTab);
             }
+            
+            renderTabsUI();
+            renderCurrentPage();
+            debouncedSaveWhiteboard();
         };
-        
-        boardTabs.push(newTab);
-        activeTabId = tabId;
-        selectedElement = null;
-        zoomScale = 1.0;
-        updateZoomUI();
-        
-        if (typeof window.syncWidgetStatesForTab === 'function') {
-            window.syncWidgetStatesForTab(newTab);
-        }
-        
-        renderTabsUI();
-        renderCurrentPage();
+        img.src = dataUrl;
     };
-    img.src = URL.createObjectURL(file);
+    reader.readAsDataURL(file);
 }
 
 // État temporaire du fichier image pour le modal d'importation
@@ -2700,30 +2966,43 @@ function loadImageAsBackground(file) {
     const tab = getActiveTab();
     if (!tab || tab.type === 'pdf') return;
     
-    const img = new Image();
-    img.onload = function() {
-        const pageNum = tab.currentPage;
-        let pageData = tab.pages[pageNum];
-        if (!pageData) {
-            pageData = { 
-                elements: [], 
-                textboxes: [], 
-                backgroundType: 'blank',
-                undoStack: [],
-                redoStack: []
-            };
-            tab.pages[pageNum] = pageData;
-        }
-        pageData.bgImage = img;
-        pageData.imgScale = null;
-        pageData.imgXOffset = null;
-        pageData.imgYOffset = null;
-        renderCurrentPage();
-        if (isThumbnailsPanelOpen) {
-            renderThumbnails();
-        }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const img = new Image();
+        img.onload = function() {
+            const pageNum = tab.currentPage;
+            let pageData = tab.pages[pageNum];
+            if (!pageData) {
+                pageData = { 
+                    elements: [], 
+                    textboxes: [], 
+                    backgroundType: 'blank',
+                    undoStack: [],
+                    redoStack: []
+                };
+                tab.pages[pageNum] = pageData;
+            }
+            pageData.bgImage = img;
+            pageData.imgScale = null;
+            pageData.imgXOffset = null;
+            pageData.imgYOffset = null;
+            
+            TbiFileStore.setFile(`${tab.id}_page_${pageNum}_bg`, {
+                type: 'image_bg',
+                name: file.name,
+                dataUrl: dataUrl
+            });
+            
+            renderCurrentPage();
+            if (isThumbnailsPanelOpen) {
+                renderThumbnails();
+            }
+            debouncedSaveWhiteboard();
+        };
+        img.src = dataUrl;
     };
-    img.src = URL.createObjectURL(file);
+    reader.readAsDataURL(file);
 }
 
 function loadImageAsMovable(file) {
