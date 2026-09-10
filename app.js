@@ -582,43 +582,132 @@ window.saveWidgetStatesForTab = saveWidgetStatesForTab;
 window.syncWidgetStatesForTab = syncWidgetStatesForTab;
 window.widgetStates = widgetStates;
 
-// --- GESTION DE LA SAUVEGARDE & RESTAURATION ---
-async function exportClassData() {
-    const data = {};
-    const keysToBackup = [
-        'tbi_weeks',
-        'tbi_active_week_id',
-        'tbi_devoirs_weeks',
-        'tbi_active_devoirs_week_id',
-        'tbi_roue_students',
-        'tbi_cotes_data',
-        'p5p6v4',
-        'tbi_eraser_size'
-    ];
-    
-    keysToBackup.forEach(key => {
-        const val = localStorage.getItem(key);
-        if (val !== null) {
-            data[key] = val;
-        }
+// --- GESTION DE LA SAUVEGARDE & RESTAURATION INTÉGRALE ---
+
+function bufferToBase64(buffer) {
+    return new Promise((resolve, reject) => {
+        const blob = new Blob([buffer]);
+        const reader = new FileReader();
+        reader.onload = () => {
+            const dataUrl = reader.result;
+            const base64 = dataUrl.split(',')[1];
+            resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
     });
-    
-    const jsonStr = JSON.stringify(data, null, 2);
+}
+
+function base64ToBuffer(base64) {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+async function getAllIndexedDBFiles() {
+    return new Promise((resolve) => {
+        if (!window.indexedDB) return resolve([]);
+        const req = indexedDB.open('tbi_whiteboard_storage', 1);
+        req.onerror = () => resolve([]);
+        req.onsuccess = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('files')) return resolve([]);
+            const tx = db.transaction('files', 'readonly');
+            const store = tx.objectStore('files');
+            const getAllReq = store.getAll();
+            getAllReq.onsuccess = () => resolve(getAllReq.result || []);
+            getAllReq.onerror = () => resolve([]);
+        };
+    });
+}
+
+async function restoreIndexedDBFiles(files) {
+    if (!files || !Array.isArray(files) || files.length === 0) return true;
+    return new Promise((resolve) => {
+        const req = indexedDB.open('tbi_whiteboard_storage', 1);
+        req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('files')) {
+                db.createObjectStore('files', { keyPath: 'id' });
+            }
+        };
+        req.onsuccess = (e) => {
+            const db = e.target.result;
+            const tx = db.transaction('files', 'readwrite');
+            const store = tx.objectStore('files');
+            files.forEach(fileObj => {
+                const toStore = { ...fileObj };
+                if (toStore.bufferBase64) {
+                    toStore.buffer = base64ToBuffer(toStore.bufferBase64);
+                    delete toStore.bufferBase64;
+                }
+                store.put(toStore);
+            });
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = (e) => {
+                console.error("IndexedDB restore error:", e);
+                resolve(false);
+            };
+        };
+        req.onerror = () => resolve(false);
+    });
+}
+
+async function exportClassData() {
+    // Sauvegarder l'état actif du tableau blanc avant export
+    if (typeof window.saveWhiteboardState === 'function') {
+        window.saveWhiteboardState();
+    }
+
+    const localData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('tbi_') || key === 'p5p6v4' || key.startsWith('cahier_') || key.startsWith('classe_'))) {
+            localData[key] = localStorage.getItem(key);
+        }
+    }
+
+    // Récupérer les fichiers PDF et images binaires stockés dans IndexedDB
+    const rawFiles = await getAllIndexedDBFiles();
+    const serializedFiles = [];
+    for (const f of rawFiles) {
+        const fileCopy = { ...f };
+        if (fileCopy.buffer) {
+            fileCopy.bufferBase64 = await bufferToBase64(fileCopy.buffer);
+            delete fileCopy.buffer;
+        }
+        serializedFiles.push(fileCopy);
+    }
+
+    const backupPayload = {
+        version: "2.0",
+        type: "tbi_full_backup",
+        exportDate: new Date().toISOString(),
+        localStorage: localData,
+        indexedDbFiles: serializedFiles
+    };
+
+    const jsonStr = JSON.stringify(backupPayload, null, 2);
     const dateStr = new Date().toISOString().split('T')[0];
-    const filename = `console-tbi-sauvegarde-${dateStr}.json`;
+    const filename = `backup-tbi-integral-${dateStr}.json`;
 
     if ('showSaveFilePicker' in window) {
         try {
             const handle = await window.showSaveFilePicker({
                 suggestedName: filename,
                 types: [{
-                    description: 'Fichier Sauvegarde JSON (*.json)',
+                    description: 'Sauvegarde Intégrale TBI (*.json)',
                     accept: { 'application/json': ['.json'] }
                 }]
             });
             const writable = await handle.createWritable();
             await writable.write(jsonStr);
             await writable.close();
+            alert("✅ Sauvegarde intégrale réussie ! Le fichier a été enregistré.");
             return;
         } catch (err) {
             if (err.name === 'AbortError') return;
@@ -638,16 +727,31 @@ async function exportClassData() {
     URL.revokeObjectURL(url);
 }
 
-function importClassData(event) {
+async function importClassData(event) {
     const file = event.target.files[0];
     if (!file) return;
     
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
         try {
             const data = JSON.parse(e.target.result);
             
-            // Validate that it contains some of our keys
+            // Format 2.0 (Sauvegarde Intégrale avec IndexedDB)
+            if (data.type === "tbi_full_backup" && data.localStorage) {
+                if (confirm("Voulez-vous restaurer cette sauvegarde intégrale ?\n\nCela restaurera tous vos semainiers, devoirs, élèves, cahier de cotes, ainsi que tous vos tableaux blancs et leurs documents PDF associés.")) {
+                    Object.keys(data.localStorage).forEach(key => {
+                        localStorage.setItem(key, data.localStorage[key]);
+                    });
+                    if (data.indexedDbFiles && data.indexedDbFiles.length > 0) {
+                        await restoreIndexedDBFiles(data.indexedDbFiles);
+                    }
+                    alert("✅ Sauvegarde intégrale restaurée avec succès ! L'application va se recharger.");
+                    window.location.reload();
+                }
+                return;
+            }
+
+            // Format 1.0 (Sauvegarde simple)
             const hasTbiKeys = Object.keys(data).some(key => key.startsWith('tbi_') || key === 'p5p6v4');
             if (!hasTbiKeys) {
                 alert("Le fichier sélectionné ne semble pas être une sauvegarde valide de la Console TBI.");
@@ -658,7 +762,7 @@ function importClassData(event) {
                 Object.keys(data).forEach(key => {
                     localStorage.setItem(key, data[key]);
                 });
-                alert("Données restaurées avec succès ! L'application va se recharger.");
+                alert("✅ Données restaurées avec succès ! L'application va se recharger.");
                 window.location.reload();
             }
         } catch(err) {
@@ -666,6 +770,7 @@ function importClassData(event) {
         }
     };
     reader.readAsText(file);
+    event.target.value = '';
 }
 
 function exportYearlyArchive() {
