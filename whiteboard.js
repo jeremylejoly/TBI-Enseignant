@@ -47,6 +47,19 @@ let dragStartX = 0;
 let dragStartY = 0;
 let dragStartElementCopy = null;
 
+// Movable Images states
+let selectedImage = null;
+let isDraggingImage = false;
+let isResizingImage = false;
+let activeImageResizeHandle = null; // 'nw', 'ne', 'sw', 'se'
+let imageDragStartX = 0;
+let imageDragStartY = 0;
+let startImageX = 0;
+let startImageY = 0;
+let startImageW = 0;
+let startImageH = 0;
+let startImageRatio = 1;
+
 // Zoom states
 let zoomScale = 1.0;
 
@@ -121,7 +134,38 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (file.type === 'application/pdf') {
                     importPdfFile(file);
                 } else if (file.type.startsWith('image/')) {
-                    showImageImportModal(file);
+                    // Positionnement exact au point de dépôt
+                    const rect = viewport.getBoundingClientRect();
+                    const dropX = (viewport.scrollLeft + (e.clientX - rect.left)) / zoomScale;
+                    const dropY = (viewport.scrollTop + (e.clientY - rect.top)) / zoomScale;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        const src = evt.target.result;
+                        const img = new Image();
+                        img.onload = function() {
+                            let displayW = img.width;
+                            let displayH = img.height;
+                            const maxW = (viewport.clientWidth * 0.8) / zoomScale;
+                            const maxH = (viewport.clientHeight * 0.8) / zoomScale;
+                            if (displayW > maxW || displayH > maxH) {
+                                const ratio = Math.min(maxW / displayW, maxH / displayH);
+                                displayW = Math.round(displayW * ratio);
+                                displayH = Math.round(displayH * ratio);
+                            }
+                            const finalX = Math.max(0, dropX - displayW / 2);
+                            const finalY = Math.max(0, dropY - displayH / 2);
+                            createMovableImage(finalX, finalY, displayW, displayH, src);
+                            saveActiveTabTextboxes();
+                            setWhiteboardTool('select');
+                            const allImgs = document.querySelectorAll('.movable-image-box');
+                            if (allImgs.length > 0) {
+                                selectImageElement(allImgs[allImgs.length - 1]);
+                            }
+                        };
+                        img.src = src;
+                    };
+                    reader.readAsDataURL(file);
                 } else {
                     alert("Seuls les fichiers PDF et les images (PNG, JPG, GIF, WebP) sont supportés.");
                 }
@@ -152,10 +196,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // Écouteur global pour le copier-coller (texte et images)
     window.addEventListener('paste', handleGlobalPaste);
     
-    // Key listener for deleting selected vector elements
+    // Key listener for deleting selected vector elements or selected images
     window.addEventListener('keydown', (e) => {
-        if ((e.key === 'Delete' || e.key === 'Backspace') && activeTool === 'select' && selectedElement) {
-            // Prevent deleting inside input elements or contenteditable
+        if ((e.key === 'Delete' || e.key === 'Backspace') && activeTool === 'select') {
             if (document.activeElement && (
                 document.activeElement.contentEditable === 'true' || 
                 document.activeElement.tagName === 'INPUT' || 
@@ -163,9 +206,16 @@ window.addEventListener('DOMContentLoaded', () => {
             )) {
                 return;
             }
-            deleteElement(selectedElement);
-            selectedElement = null;
-            renderCurrentPage();
+            if (selectedImage) {
+                deleteSelectedImage();
+                renderCurrentPage();
+                return;
+            }
+            if (selectedElement) {
+                deleteElement(selectedElement);
+                selectedElement = null;
+                renderCurrentPage();
+            }
         }
     });
     
@@ -911,7 +961,7 @@ function renderTabsUI() {
     });
 }
 
-// --- TEXTBOX SYNC ---
+// --- TEXTBOX & MOVABLE IMAGES SYNC ---
 function saveActiveTabTextboxes() {
     const activeTab = getActiveTab();
     if (!activeTab) return;
@@ -929,21 +979,25 @@ function saveActiveTabTextboxes() {
         activeTab.pages[pageNum] = pageData;
     }
     
-    pageData.textboxes = Array.from(document.querySelectorAll('.text-box')).map(el => {
-        if (el.classList.contains('movable-image-box')) {
-            return {
-                type: 'image',
-                src: el.dataset.src,
-                x: parseFloat(el.dataset.x) || 0,
-                y: parseFloat(el.dataset.y) || 0,
-                w: parseFloat(el.dataset.w) || 100,
-                h: parseFloat(el.dataset.h) || 100
-            };
-        }
-        
+    const items = [];
+    
+    // 1. Collect all movable images
+    document.querySelectorAll('.movable-image-box').forEach(el => {
+        items.push({
+            type: 'image',
+            src: el.dataset.src,
+            x: parseFloat(el.dataset.x) || 0,
+            y: parseFloat(el.dataset.y) || 0,
+            w: parseFloat(el.dataset.w) || 100,
+            h: parseFloat(el.dataset.h) || 100
+        });
+    });
+    
+    // 2. Collect all textboxes and post-its
+    document.querySelectorAll('.text-box:not(.movable-image-box)').forEach(el => {
         const textSpan = el.querySelector('.text-content-node');
         const text = textSpan ? textSpan.textContent : el.textContent.replace('✕', '').trim();
-        return {
+        items.push({
             type: 'text',
             text: text,
             x: parseFloat(el.dataset.x) || 0,
@@ -952,17 +1006,19 @@ function saveActiveTabTextboxes() {
             underline: el.dataset.underline === 'true',
             color: el.dataset.color || '#4f46e5',
             isPostIt: el.dataset.isPostIt === 'true'
-        };
+        });
     });
     
+    pageData.textboxes = items;
     debouncedSaveWhiteboard();
 }
 
 function restoreActiveTabTextboxes() {
-    const layer = document.getElementById('annotations-layer');
-    if (!layer) return;
+    const imagesLayer = document.getElementById('images-layer');
+    const annotationsLayer = document.getElementById('annotations-layer');
     
-    layer.innerHTML = '';
+    if (imagesLayer) imagesLayer.innerHTML = '';
+    if (annotationsLayer) annotationsLayer.innerHTML = '';
     
     const activeTab = getActiveTab();
     if (!activeTab) return;
@@ -1277,7 +1333,78 @@ function drawVectorElement(ctx, el) {
         }
     }
     
-    ctx.restore();
+ // --- MOVABLE IMAGES HELPERS ---
+function deselectAllImages() {
+    selectedImage = null;
+    document.querySelectorAll('.movable-image-box').forEach(box => {
+        box.classList.remove('selected');
+    });
+}
+
+function selectImageElement(el) {
+    deselectAllImages();
+    selectedElement = null;
+    selectedImage = el;
+    if (el) {
+        el.classList.add('selected');
+    }
+}
+
+function deleteSelectedImage() {
+    if (selectedImage) {
+        selectedImage.remove();
+        selectedImage = null;
+        saveActiveTabTextboxes();
+    }
+}
+
+function findImageAt(x, y) {
+    const images = Array.from(document.querySelectorAll('.movable-image-box')).reverse();
+    for (const img of images) {
+        const ix = parseFloat(img.dataset.x) || 0;
+        const iy = parseFloat(img.dataset.y) || 0;
+        const iw = parseFloat(img.dataset.w) || 100;
+        const ih = parseFloat(img.dataset.h) || 100;
+        if (x >= ix && x <= ix + iw && y >= iy && y <= iy + ih) {
+            return img;
+        }
+    }
+    return null;
+}
+
+function findImageHandleAt(x, y) {
+    if (!selectedImage) return null;
+    const ix = parseFloat(selectedImage.dataset.x) || 0;
+    const iy = parseFloat(selectedImage.dataset.y) || 0;
+    const iw = parseFloat(selectedImage.dataset.w) || 100;
+    const ih = parseFloat(selectedImage.dataset.h) || 100;
+    const hitRadius = 24 / zoomScale;
+
+    const handles = [
+        { handle: 'nw', hx: ix, hy: iy },
+        { handle: 'ne', hx: ix + iw, hy: iy },
+        { handle: 'sw', hx: ix, hy: iy + ih },
+        { handle: 'se', hx: ix + iw, hy: iy + ih }
+    ];
+
+    for (const h of handles) {
+        const dist = Math.hypot(x - h.hx, y - h.hy);
+        if (dist <= hitRadius) {
+            return h.handle;
+        }
+    }
+    return null;
+}
+
+function findImageDeleteBtnAt(x, y) {
+    if (!selectedImage) return false;
+    const ix = parseFloat(selectedImage.dataset.x) || 0;
+    const iy = parseFloat(selectedImage.dataset.y) || 0;
+    const iw = parseFloat(selectedImage.dataset.w) || 100;
+    const btnX = ix + iw;
+    const btnY = iy;
+    const hitRadius = 24 / zoomScale;
+    return Math.hypot(x - btnX, y - btnY) <= hitRadius;
 }
 
 // --- POINTER EVENT HANDLERS ---
@@ -1311,8 +1438,31 @@ function handlePointerDown(e) {
     
     // 1. SELECT MODE
     if (activeTool === 'select') {
+        // A. Clic sur le bouton supprimer ou poignée d'une image sélectionnée
+        if (selectedImage) {
+            if (findImageDeleteBtnAt(x, y)) {
+                deleteSelectedImage();
+                renderCurrentPage();
+                return;
+            }
+            const imgHandle = findImageHandleAt(x, y);
+            if (imgHandle) {
+                isResizingImage = true;
+                activeImageResizeHandle = imgHandle;
+                imageDragStartX = x;
+                imageDragStartY = y;
+                startImageX = parseFloat(selectedImage.dataset.x) || 0;
+                startImageY = parseFloat(selectedImage.dataset.y) || 0;
+                startImageW = parseFloat(selectedImage.dataset.w) || 100;
+                startImageH = parseFloat(selectedImage.dataset.h) || 100;
+                startImageRatio = (startImageH > 0) ? (startImageW / startImageH) : 1;
+                canvas.setPointerCapture(e.pointerId);
+                return;
+            }
+        }
+        
+        // B. Clic sur le bouton supprimer ou poignée d'un tracé vectoriel sélectionné
         if (selectedElement) {
-            // Check if clicked delete button of currently selected element
             const box = getElementBoundingBox(selectedElement);
             if (box) {
                 const pad = 6 / zoomScale;
@@ -1327,7 +1477,6 @@ function handlePointerDown(e) {
                 }
             }
             
-            // Check if clicked near any resize handles of the selected element
             const handles = getResizeHandles(selectedElement);
             for (let i = 0; i < handles.length; i++) {
                 const h = handles[i];
@@ -1347,9 +1496,27 @@ function handlePointerDown(e) {
             }
         }
         
-        // Find if clicked near any stroke or shape (calculated in 1x space)
+        // C. Clic sur une image mobile pour la sélectionner et la déplacer
+        const clickedImg = findImageAt(x, y);
+        if (clickedImg) {
+            selectImageElement(clickedImg);
+            isDraggingImage = true;
+            imageDragStartX = x;
+            imageDragStartY = y;
+            startImageX = parseFloat(clickedImg.dataset.x) || 0;
+            startImageY = parseFloat(clickedImg.dataset.y) || 0;
+            startImageW = parseFloat(clickedImg.dataset.w) || 100;
+            startImageH = parseFloat(clickedImg.dataset.h) || 100;
+            startImageRatio = (startImageH > 0) ? (startImageW / startImageH) : 1;
+            canvas.setPointerCapture(e.pointerId);
+            renderCurrentPage();
+            return;
+        }
+        
+        // D. Clic sur un tracé/forme vectorielle
         const clickedEl = findElementAt(x, y);
         if (clickedEl) {
+            deselectAllImages();
             selectedElement = clickedEl;
             isDraggingElement = true;
             dragStartX = x;
@@ -1357,10 +1524,13 @@ function handlePointerDown(e) {
             dragStartElementCopy = JSON.parse(JSON.stringify(selectedElement));
             canvas.setPointerCapture(e.pointerId);
             renderCurrentPage();
-        } else {
-            selectedElement = null;
-            renderCurrentPage();
+            return;
         }
+        
+        // E. Clic dans le vide -> désélection globale
+        deselectAllImages();
+        selectedElement = null;
+        renderCurrentPage();
         return;
     }
     
@@ -1469,6 +1639,58 @@ function handlePointerMove(e) {
     
     // 1. SELECT MODE
     if (activeTool === 'select') {
+        if (isResizingImage && selectedImage) {
+            e.preventDefault();
+            const dx = x - imageDragStartX;
+            const dy = y - imageDragStartY;
+            
+            let newW = startImageW;
+            let newH = startImageH;
+            let newX = startImageX;
+            let newY = startImageY;
+            
+            if (activeImageResizeHandle === 'se') {
+                newW = Math.max(30, startImageW + dx);
+                newH = newW / startImageRatio;
+            } else if (activeImageResizeHandle === 'sw') {
+                newW = Math.max(30, startImageW - dx);
+                newH = newW / startImageRatio;
+                newX = startImageX + (startImageW - newW);
+            } else if (activeImageResizeHandle === 'ne') {
+                newW = Math.max(30, startImageW + dx);
+                newH = newW / startImageRatio;
+                newY = startImageY + (startImageH - newH);
+            } else if (activeImageResizeHandle === 'nw') {
+                newW = Math.max(30, startImageW - dx);
+                newH = newW / startImageRatio;
+                newX = startImageX + (startImageW - newW);
+                newY = startImageY + (startImageH - newH);
+            }
+            
+            selectedImage.dataset.x = newX;
+            selectedImage.dataset.y = newY;
+            selectedImage.dataset.w = newW;
+            selectedImage.dataset.h = newH;
+            selectedImage.style.left = `${newX * zoomScale}px`;
+            selectedImage.style.top = `${newY * zoomScale}px`;
+            selectedImage.style.width = `${newW * zoomScale}px`;
+            selectedImage.style.height = `${newH * zoomScale}px`;
+            return;
+        }
+        
+        if (isDraggingImage && selectedImage) {
+            e.preventDefault();
+            const dx = x - imageDragStartX;
+            const dy = y - imageDragStartY;
+            const newX = startImageX + dx;
+            const newY = startImageY + dy;
+            selectedImage.dataset.x = newX;
+            selectedImage.dataset.y = newY;
+            selectedImage.style.left = `${newX * zoomScale}px`;
+            selectedImage.style.top = `${newY * zoomScale}px`;
+            return;
+        }
+
         if (isResizing && selectedElement) {
             e.preventDefault();
             const dx = x - dragStartX;
@@ -1496,7 +1718,7 @@ function handlePointerMove(e) {
                         shape.y1 = orig.y1 + dy;
                     } else if (resizeHandleIndex === 1) { // TR
                         shape.x2 = orig.x2 + dx;
-                        shape.y1 = orig.y1 + dy;
+                        shape.y2 = orig.y2 + dy;
                     } else if (resizeHandleIndex === 2) { // BL
                         shape.x1 = orig.x1 + dx;
                         shape.y2 = orig.y2 + dy;
@@ -1660,6 +1882,25 @@ function handlePointerUp(e) {
     }
     
     if (activeTool === 'select') {
+        if (isResizingImage) {
+            isResizingImage = false;
+            activeImageResizeHandle = null;
+            if (canvas) canvas.releasePointerCapture(e.pointerId);
+            saveActiveTabTextboxes();
+            if (isThumbnailsPanelOpen) {
+                renderThumbnails();
+            }
+            return;
+        }
+        if (isDraggingImage) {
+            isDraggingImage = false;
+            if (canvas) canvas.releasePointerCapture(e.pointerId);
+            saveActiveTabTextboxes();
+            if (isThumbnailsPanelOpen) {
+                renderThumbnails();
+            }
+            return;
+        }
         if (isResizing) {
             isResizing = false;
             resizeHandleIndex = -1;
@@ -2027,11 +2268,18 @@ function setWhiteboardTool(toolName) {
             layer.classList.add('text-mode-active');
         }
     }
+    const imgLayer = document.getElementById('images-layer');
+    if (imgLayer) {
+        imgLayer.classList.remove('select-mode-active');
+        if (toolName === 'select') {
+            imgLayer.classList.add('select-mode-active');
+        }
+    }
     
     // Update cursor style on drawing canvas
     const canvas = document.getElementById('drawing-canvas');
     if (canvas) {
-        canvas.className = 'absolute inset-0 z-10 touch-none';
+        canvas.className = 'absolute inset-0 z-20 touch-none';
         if (targetTool === 'pen') canvas.classList.add('canvas-cursor-pen');
         if (targetTool === 'highlighter') canvas.classList.add('canvas-cursor-highlighter');
         if (targetTool === 'eraser') canvas.classList.add('canvas-cursor-eraser');
@@ -2043,6 +2291,7 @@ function setWhiteboardTool(toolName) {
     
     if (toolName !== 'select') {
         selectedElement = null;
+        deselectAllImages();
     }
     
     renderCurrentPage();
@@ -2526,6 +2775,11 @@ function handleGlobalPaste(e) {
                     
                     createMovableImage(x, y, displayW, displayH, src);
                     saveActiveTabTextboxes();
+                    setWhiteboardTool('select');
+                    const allImgs = document.querySelectorAll('.movable-image-box');
+                    if (allImgs.length > 0) {
+                        selectImageElement(allImgs[allImgs.length - 1]);
+                    }
                 };
                 img.src = src;
             };
@@ -3042,6 +3296,11 @@ function loadImageAsMovable(file) {
             
             createMovableImage(x, y, displayW, displayH, src);
             saveActiveTabTextboxes();
+            setWhiteboardTool('select');
+            const allImgs = document.querySelectorAll('.movable-image-box');
+            if (allImgs.length > 0) {
+                selectImageElement(allImgs[allImgs.length - 1]);
+            }
         };
         img.src = src;
     };
@@ -3660,6 +3919,26 @@ function exportCurrentTab() {
     // 2. Draw background canvas scaled down back to 1x
     tempCtx.drawImage(bgCanvas, 0, 0, bgCanvas.width, bgCanvas.height, 0, 0, w * dpr, h * dpr);
     
+    // 2.5 Draw movable images from images-layer
+    tempCtx.save();
+    tempCtx.scale(dpr, dpr);
+    const movableImgs = document.querySelectorAll('.movable-image-box');
+    movableImgs.forEach(box => {
+        const x = parseFloat(box.dataset.x) || 0;
+        const y = parseFloat(box.dataset.y) || 0;
+        const w = parseFloat(box.dataset.w) || 100;
+        const h = parseFloat(box.dataset.h) || 100;
+        const img = box.querySelector('img');
+        if (img && img.complete && img.naturalWidth > 0) {
+            try {
+                tempCtx.drawImage(img, x, y, w, h);
+            } catch (err) {
+                console.warn("Could not draw movable image to export canvas:", err);
+            }
+        }
+    });
+    tempCtx.restore();
+    
     // 3. Draw drawing canvas scaled down back to 1x
     tempCtx.drawImage(dCanvas, 0, 0, dCanvas.width, dCanvas.height, 0, 0, w * dpr, h * dpr);
     
@@ -3763,11 +4042,11 @@ window.triggerToolAction = triggerToolAction;
 
 // --- DYNAMIC CROP AND IMAGE ANNOTATIONS ---
 function createMovableImage(x, y, w, h, src) {
-    const layer = document.getElementById('annotations-layer');
+    const layer = document.getElementById('images-layer') || document.getElementById('annotations-layer');
     if (!layer) return;
     
     const imgBox = document.createElement('div');
-    imgBox.className = 'movable-image-box text-box';
+    imgBox.className = 'movable-image-box';
     imgBox.style.left = `${x * zoomScale}px`;
     imgBox.style.top = `${y * zoomScale}px`;
     imgBox.style.width = `${w * zoomScale}px`;
@@ -3781,14 +4060,22 @@ function createMovableImage(x, y, w, h, src) {
     imgBox.dataset.src = src;
     imgBox.dataset.type = 'image';
     
-    // Delete handle
-    const deleteBtn = document.createElement('span');
-    deleteBtn.className = 'text-box-delete';
+    // 4 Corner resize handles
+    ['nw', 'ne', 'sw', 'se'].forEach(pos => {
+        const handle = document.createElement('div');
+        handle.className = `resize-handle resize-handle-${pos}`;
+        handle.dataset.handle = pos;
+        imgBox.appendChild(handle);
+    });
+    
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'image-delete-btn';
     deleteBtn.innerHTML = '✕';
-    deleteBtn.contentEditable = false;
-    deleteBtn.title = 'Supprimer cette capture';
+    deleteBtn.title = "Supprimer cette image";
     deleteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
+        if (selectedImage === imgBox) selectedImage = null;
         imgBox.remove();
         saveActiveTabTextboxes();
     });
@@ -3801,74 +4088,6 @@ function createMovableImage(x, y, w, h, src) {
     imgBox.appendChild(img);
     
     layer.appendChild(imgBox);
-    makeTextBoxDraggable(imgBox);
-    makeMovableImageResizable(imgBox);
-}
-
-function makeMovableImageResizable(imgBox) {
-    if (imgBox.querySelector('.resize-handle')) return;
-    
-    const handle = document.createElement('div');
-    handle.className = 'resize-handle';
-    imgBox.appendChild(handle);
-    
-    let isResizing = false;
-    let startWidth = 0;
-    let startHeight = 0;
-    let startX = 0;
-    let startY = 0;
-    
-    handle.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        isResizing = true;
-        startX = e.clientX;
-        startY = e.clientY;
-        startWidth = imgBox.offsetWidth;
-        startHeight = imgBox.offsetHeight;
-        
-        handle.setPointerCapture(e.pointerId);
-        
-        document.addEventListener('pointermove', onPointerMove);
-        document.addEventListener('pointerup', onPointerUp);
-        document.addEventListener('pointercancel', onPointerUp);
-    });
-    
-    function onPointerMove(e) {
-        if (!isResizing) return;
-        e.preventDefault();
-        
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
-        
-        // Redimensionnement proportionnel (garder le ratio d'aspect)
-        const newW = Math.max(30, startWidth + dx);
-        const ratio = startHeight / startWidth;
-        const newH = newW * ratio;
-        
-        imgBox.style.width = `${newW}px`;
-        imgBox.style.height = `${newH}px`;
-    }
-    
-    function onPointerUp(e) {
-        if (!isResizing) return;
-        isResizing = false;
-        
-        try {
-            handle.releasePointerCapture(e.pointerId);
-        } catch (err) {}
-        
-        document.removeEventListener('pointermove', onPointerMove);
-        document.removeEventListener('pointerup', onPointerUp);
-        document.removeEventListener('pointercancel', onPointerUp);
-        
-        // Enregistrer la nouvelle taille en coordonnées 1x
-        imgBox.dataset.w = imgBox.offsetWidth / zoomScale;
-        imgBox.dataset.h = imgBox.offsetHeight / zoomScale;
-        
-        saveActiveTabTextboxes();
-    }
 }
 
 function cropWhiteboardArea(x1, y1, x2, y2) {
