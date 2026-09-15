@@ -1366,7 +1366,10 @@ function drawVectorElement(ctx, el) {
         }
     }
     
- // --- MOVABLE IMAGES HELPERS ---
+    ctx.restore();
+}
+
+// --- MOVABLE IMAGES HELPERS ---
 function deselectAllImages() {
     selectedImage = null;
     document.querySelectorAll('.movable-image-box').forEach(box => {
