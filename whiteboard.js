@@ -1545,7 +1545,7 @@ function handlePointerDown(e) {
             startImageH = parseFloat(clickedImg.dataset.h) || 100;
             startImageRatio = (startImageH > 0) ? (startImageW / startImageH) : 1;
             canvas.setPointerCapture(e.pointerId);
-            renderCurrentPage();
+            redrawDrawingCanvas();
             return;
         }
         
@@ -1559,14 +1559,14 @@ function handlePointerDown(e) {
             dragStartY = y;
             dragStartElementCopy = JSON.parse(JSON.stringify(selectedElement));
             canvas.setPointerCapture(e.pointerId);
-            renderCurrentPage();
+            redrawDrawingCanvas();
             return;
         }
         
         // E. Clic dans le vide -> désélection globale
         deselectAllImages();
         selectedElement = null;
-        renderCurrentPage();
+        redrawDrawingCanvas();
         return;
     }
     
