@@ -88,6 +88,7 @@ window.addEventListener('DOMContentLoaded', () => {
     drawingCanvas.addEventListener('pointerdown', handlePointerDown);
     drawingCanvas.addEventListener('pointermove', handlePointerMove);
     drawingCanvas.addEventListener('pointerup', handlePointerUp);
+    drawingCanvas.addEventListener('pointercancel', handlePointerUp);
     
     // Initialize eraser cursor element
     initEraserCursor();
@@ -1241,6 +1242,38 @@ function renderCurrentPage() {
     debouncedSaveWhiteboard();
 }
 
+// Redraw only the drawing canvas layer (used during drawing/moving for ultra-fast performance without DOM thrashing)
+function redrawDrawingCanvas() {
+    const tab = getActiveTab();
+    if (!tab) return;
+    const pageData = tab.pages[tab.currentPage];
+    if (!pageData) return;
+    
+    const drawingCanvas = document.getElementById('drawing-canvas');
+    if (!drawingCanvas) return;
+    
+    const ctx = drawingCanvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    
+    ctx.clearRect(0, 0, drawingCanvas.width / dpr, drawingCanvas.height / dpr);
+    
+    if (pageData.elements) {
+        pageData.elements.forEach(el => {
+            drawVectorElement(ctx, el);
+        });
+    }
+    
+    if (activeTool === 'select' && selectedElement) {
+        drawSelectionHighlight(ctx, selectedElement);
+    }
+    
+    if (typeof laserStrokes !== 'undefined' && laserStrokes.length > 0) {
+        laserStrokes.forEach(stroke => {
+            drawLaserStroke(ctx, stroke);
+        });
+    }
+}
+
 // Draw a single vector element on a canvas context
 function drawVectorElement(ctx, el) {
     ctx.save();
@@ -1604,7 +1637,7 @@ function handlePointerDown(e) {
         }
     }
     
-    renderCurrentPage();
+    redrawDrawingCanvas();
 }
 
 function handlePointerMove(e) {
@@ -1763,7 +1796,7 @@ function handlePointerMove(e) {
                     }
                 }
             }
-            renderCurrentPage();
+            redrawDrawingCanvas();
         } else if (isDraggingElement && selectedElement) {
             e.preventDefault();
             const dx = x - dragStartX;
@@ -1780,7 +1813,7 @@ function handlePointerMove(e) {
                 selectedElement.x2 = dragStartElementCopy.x2 + dx;
                 selectedElement.y2 = dragStartElementCopy.y2 + dy;
             }
-            renderCurrentPage();
+            redrawDrawingCanvas();
         }
         return;
     }
@@ -1801,7 +1834,7 @@ function handlePointerMove(e) {
             currentDrawingElement.x2 = x;
             currentDrawingElement.y2 = y;
             
-            renderCurrentPage();
+            redrawDrawingCanvas();
             
             const drawingCanvas = document.getElementById('drawing-canvas');
             const ctx = drawingCanvas.getContext('2d');
@@ -1835,7 +1868,7 @@ function handlePointerMove(e) {
         currentDrawingElement.points.push({ x, y });
     }
     
-    renderCurrentPage();
+    redrawDrawingCanvas();
 }
 
 function handlePointerUp(e) {
@@ -1907,7 +1940,7 @@ function handlePointerUp(e) {
             dragStartElementCopy = null;
             dragStartStrokeBox = null;
             if (canvas) canvas.releasePointerCapture(e.pointerId);
-            renderCurrentPage();
+            redrawDrawingCanvas();
             if (isThumbnailsPanelOpen) {
                 renderThumbnails();
             }
@@ -1929,7 +1962,8 @@ function handlePointerUp(e) {
     canvas.releasePointerCapture(e.pointerId);
     currentDrawingElement = null;
     
-    renderCurrentPage();
+    redrawDrawingCanvas();
+    debouncedSaveWhiteboard();
     
     if (isThumbnailsPanelOpen) {
         renderThumbnails();
@@ -3810,8 +3844,11 @@ function clearCurrentTab() {
         
         const layer = document.getElementById('annotations-layer');
         if (layer) layer.innerHTML = '';
+        const imgLayer = document.getElementById('images-layer');
+        if (imgLayer) imgLayer.innerHTML = '';
         
         selectedElement = null;
+        deselectAllImages();
         renderCurrentPage();
         
         if (isThumbnailsPanelOpen) {
