@@ -235,16 +235,16 @@
 }
 
 /* Lignes d'écriture (anciennement Seyes) */
-/* Réduit de 33% : ligne principale tous les 54px, lignes secondaires tous les 13.5px. Marge en rouge. */
+/* Ligne principale tous les 54px, lignes secondaires tous les 13.5px. Marge en rouge. */
 .board-bg-seyes {
-    background-color: #f7fafc !important;
+    background-color: #ffffff !important;
     background-image: 
         /* Marge Rouge à gauche à 120px */
         linear-gradient(90deg, transparent 119px, #ef4444 119px, #ef4444 121px, transparent 121px),
         /* Lignes principales violettes tous les 54px */
-        linear-gradient(#c7d2fe 53px, #818cf8 53px, #818cf8 55px, transparent 55px),
+        linear-gradient(to bottom, transparent 52px, #818cf8 52px, #818cf8 54px),
         /* Lignes secondaires bleues tous les 13.5px */
-        linear-gradient(#e0f2fe 12.5px, #bae6fd 12.5px, #bae6fd 13.5px, transparent 13.5px) !important;
+        linear-gradient(to bottom, transparent 12.5px, #bae6fd 12.5px, #bae6fd 13.5px) !important;
     background-size: 100% 100%, 100% 54px, 100% 13.5px !important;
 }
 

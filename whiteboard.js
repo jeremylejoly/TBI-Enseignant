@@ -3898,7 +3898,7 @@ function exportCurrentTab() {
             }
         }
     } else if (bgType === 'seyes') {
-        tempCtx.fillStyle = '#f7fafc';
+        tempCtx.fillStyle = '#ffffff';
         tempCtx.fillRect(0, 0, w, h);
         
         tempCtx.lineWidth = 1;
