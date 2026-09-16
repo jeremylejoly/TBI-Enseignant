@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Programme 5e & 6e Primaire — Checklist</title>
 <style>
-:root{--math:#2563eb;--fr:#16a34a;--sci:#0891b2;--hist:#b45309;--eco:#7c3aed;--fmttn:#db2777;--p5:#6d28d9;--p6:#b45309;--p5-bg:#ede9fe;--p6-bg:#fef3c7;--checked:#15803d;--bg:#f8fafc;--border:#e2e8f0;--text:#1e293b;--muted:#64748b;}
+:root{--math:#2563eb;--fr:#16a34a;--sci:#0891b2;--hist:#b45309;--eco:#7c3aed;--fmttn:#db2777;--eca:#ea580c;--p5:#6d28d9;--p6:#b45309;--p5-bg:#ede9fe;--p6-bg:#fef3c7;--checked:#15803d;--bg:#f8fafc;--border:#e2e8f0;--text:#1e293b;--muted:#64748b;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
 header{background:white;border-bottom:2px solid var(--border);padding:12px 20px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,.08);}
@@ -29,6 +29,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
 .tab.hist.active{background:var(--hist-pale);border-color:var(--hist);color:var(--hist-text);}
 .tab.eco.active{background:var(--eco-pale);border-color:var(--eco);color:var(--eco-text);}
 .tab.fmttn.active{background:var(--fmttn-pale);border-color:var(--fmttn);color:var(--fmttn-text);}
+.tab.eca.active{background:var(--eca-pale);border-color:var(--eca);color:var(--eca-text);}
 .content{padding:18px;max-width:1100px;margin:0 auto;}
 .section{display:none;}
 .section.active{display:block;}
@@ -41,6 +42,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
 .subject-header.hist{background:var(--hist-pale);color:var(--hist-text);}
 .subject-header.eco {background:var(--eco-pale); color:var(--eco-text);}
 .subject-header.fmttn{background:var(--fmttn-pale);color:var(--fmttn-text);}
+.subject-header.eca{background:var(--eca-pale);color:var(--eca-text);}
 .uncheck-btn{font-size:11px;padding:3px 8px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .15s;}
 .uncheck-btn:hover{background:#fff7ed;color:#c2410c;border-color:#fdba74;}
 .subject-uncheck{font-size:12px;padding:4px 12px;}
@@ -58,6 +60,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
   --hist-pale:#fffbeb; --hist-mid:#fde68a; --hist-text:#92400e;
   --eco-pale:#f5f3ff;  --eco-mid:#ddd6fe;  --eco-text:#6d28d9;
   --fmttn-pale:#fdf2f8;--fmttn-mid:#fbcfe8;--fmttn-text:#be185d;
+  --eca-pale:#fff7ed;  --eca-mid:#fed7aa;  --eca-text:#c2410c;
 }
 
 /* Domain card */
@@ -74,6 +77,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
 #tab-hist  .domain-header{background:var(--hist-pale);}
 #tab-eco   .domain-header{background:var(--eco-pale);}
 #tab-fmttn .domain-header{background:var(--fmttn-pale);}
+#tab-eca   .domain-header{background:var(--eca-pale);}
 
 #tab-math  .domain-header:hover{background:var(--math-mid);}
 #tab-fr    .domain-header:hover{background:var(--fr-mid);}
@@ -81,6 +85,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
 #tab-hist  .domain-header:hover{background:var(--hist-mid);}
 #tab-eco   .domain-header:hover{background:var(--eco-mid);}
 #tab-fmttn .domain-header:hover{background:var(--fmttn-mid);}
+#tab-eca   .domain-header:hover{background:var(--eca-mid);}
 
 /* Domain icon & title colored per subject */
 #tab-math  .domain-title{color:var(--math-text);}
@@ -89,6 +94,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
 #tab-hist  .domain-title{color:var(--hist-text);}
 #tab-eco   .domain-title{color:var(--eco-text);}
 #tab-fmttn .domain-title{color:var(--fmttn-text);}
+#tab-eca   .domain-title{color:var(--eca-text);}
 
 .domain-icon{font-size:18px;}
 .domain-title{font-weight:700;font-size:14px;flex:1;}
@@ -106,6 +112,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
 .hist .mini-prog-bar{background:var(--hist);}
 .eco  .mini-prog-bar{background:var(--eco);}
 .fmttn .mini-prog-bar{background:var(--fmttn);}
+.eca .mini-prog-bar{background:var(--eca);}
 
 /* Subsection */
 .subsection{padding:12px 18px 4px;border-bottom:1px solid var(--border);}
@@ -121,6 +128,7 @@ header h1{font-size:17px;font-weight:800;letter-spacing:-.01em;}
 #tab-hist  .subsection-title{background:var(--hist-pale);color:var(--hist-text);border-left:3px solid var(--hist);}
 #tab-eco   .subsection-title{background:var(--eco-pale); color:var(--eco-text); border-left:3px solid var(--eco);}
 #tab-fmttn .subsection-title{background:var(--fmttn-pale);color:var(--fmttn-text);border-left:3px solid var(--fmttn);}
+#tab-eca   .subsection-title{background:var(--eca-pale); color:var(--eca-text); border-left:3px solid var(--eca);}
 
 /* Items */
 .item{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:8px;transition:background .1s;cursor:pointer;}
@@ -172,6 +180,7 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
   <div class="tab hist" onclick="showTab('hist')">🌍 Histoire &amp; Géo</div>
   <div class="tab eco" onclick="showTab('eco')">💰 Éco &amp; Social</div>
   <div class="tab fmttn" onclick="showTab('fmttn')">💻 FMTTN</div>
+  <div class="tab eca" onclick="showTab('eca')">🎨 ECA</div>
 </div>
 <div class="content">
 <div class="section  active" id="tab-math">
@@ -231,7 +240,11 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p5"><input type="checkbox"><label>Tracer l'image d'une figure selon un axe de symétrie dans un quadrillage</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Tracer l'agrandissement (×2) ou la réduction (÷2) d'une figure</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Réaliser une production artistique (frises, pavages, rosaces)</label><span class="badge p5">P5</span></div>
-<div class="item" data-year="p6"><input type="checkbox"><label>[P6] Tracer un assemblage de figures selon un axe de symétrie</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Tracer un assemblage de figures selon un axe de symétrie</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Utiliser le vocabulaire exprimant des positions ordinales : premier, deuxième, troisième… dernier ; au début, à la fin, avant, après</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Identifier les éléments du plan : droite, segment de droite</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Reconnaitre les figures possibles correspondant aux faces d'un assemblage de maximum 3 cubes</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Reconnaitre les figures possibles correspondant aux faces d'un assemblage de maximum 5 cubes</label><span class="badge p6">P6</span></div>
 </div>
 </div>
 </div>
@@ -258,7 +271,7 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Durées pouvant dépasser 1 heure</label><span class="badge p6">P6</span></div>
 </div>
 <div class="subsection"><div class="subsection-title">Aires, périmètres &amp; volumes — P5</div><div class="item" data-year="p5"><input type="checkbox"><label>Calculer le périmètre de polygones</label><span class="badge p5">P5</span></div>
-<div class="item" data-year="p5"><input type="checkbox"><label>Énoncer la formule de l'aire du rectangle, du carré</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Énoncer la formule de l'aire du rectangle, du carré et du parallélogramme</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Énoncer que le volume d'un solide est la place occupée par ce solide</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Déterminer l'aire d'un parallélogramme en lien avec l'aire d'un rectangle</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Calculer l'aire : rectangle, carré, parallélogramme (avec formule)</label><span class="badge p5">P5</span></div>
@@ -296,6 +309,10 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Représenter à l'échelle 1/50 et 1/100</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Cartes : 1/100 000, 1/250 000 — calculer distances réelles</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Problème proportionnalité volume/capacité</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Distinguer dans l'expression d'une grandeur mesurée : la grandeur, la mesure et l'unité de mesure</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Reconnaitre la grandeur « durée » dans des expressions courantes (ex : garantie, délai de livraison, période de soldes, date de péremption…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Énoncer les relations entre certaines unités conventionnelles de durées (ex : 1 seconde = 10 dixièmes de seconde = 100 centièmes de seconde)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Utiliser les relations entre les unités conventionnelles de durées</label><span class="badge p6">P6</span></div>
 </div>
 </div>
 </div>
@@ -344,6 +361,9 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Multiplication écrite : produit limité à 2 chiffres après la virgule</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Division écrite : diviseur naturel ≤ 20, quotient à 1 chiffre après la virgule</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Rédiger un énoncé (max 3 calculs consécutifs)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Décomposer et recomposer des nombres de trois à six chiffres en lien avec la numération décimale (valeur de position)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Décomposer un nombre en sa partie entière et sa partie non entière</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Reconnaitre les parenthèses comme symbole intervenant dans des procédures de calcul</label><span class="badge p5">P5</span></div>
 </div>
 </div>
 </div>
@@ -402,7 +422,7 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="subsection"><div class="subsection-title">Accord du participe passé — P5 &amp; P6</div><div class="item" data-year="p5"><input type="checkbox"><label>PP employé sans auxiliaire (accord avec le nom)</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>PP avec avoir (pas d'accord en général)</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>PP avec être (accord avec le sujet)</label><span class="badge p5">P5</span></div>
-<div class="item" data-year="p6"><input type="checkbox"><label>[P6] Consolidation et automatisation des accords du PP</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Consolidation et automatisation des accords du PP</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 <div class="domain fr" id="domain-fr-gram"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">📝</span><span class="domain-title">Grammaire &amp; orthographe grammaticale</span><span class="domain-progress" id="prog-fr-gram">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog fr"><div class="mini-prog-bar" id="bar-fr-gram" style="width:0%"></div></div>
@@ -419,7 +439,7 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p5"><input type="checkbox"><label>Pronoms : démonstratif, possessif, numéral, indéfini</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Connecteurs</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Identifier toutes les classes de mots dans une phrase</label><span class="badge p5">P5</span></div>
-<div class="item" data-year="p5"><input type="checkbox"><label>Terminologie : mode, radical, terminaison, auxiliaire, anaphore, référent</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Terminologie : classe, fonction, accord, genre, nombre, personne, substitut grammatical, anaphore, référent, mode, radical, terminaison, auxiliaire</label><span class="badge p5">P5</span></div>
 </div>
 <div class="subsection"><div class="subsection-title">Pluriel, féminin &amp; adverbes — P5</div><div class="item" data-year="p5"><input type="checkbox"><label>Règle particulière de formation du pluriel des noms et adjectifs</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Exceptions aux règles de formation du pluriel des noms</label><span class="badge p5">P5</span></div>
@@ -432,6 +452,10 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p5"><input type="checkbox"><label>Repérer les modes : infinitif, indicatif, impératif, participe</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Utiliser les formes verbales assurant la cohérence temporelle</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Utiliser toutes les marques de ponctuation dans une production personnelle</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Repérer et verbaliser les nuances apportées par les marques de la négation</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Repérer et verbaliser les nuances apportées par les marques de l'assertion, de l'interrogation, de l'injonction</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Repérer les structures passives</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Repérer les structures de mise en évidence</label><span class="badge p5">P5</span></div>
 </div>
 </div></div>
 <div class="domain fr" id="domain-fr-ortho"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🔤</span><span class="domain-title">Orthographe lexicale &amp; vocabulaire</span><span class="domain-progress" id="prog-fr-ortho">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog fr"><div class="mini-prog-bar" id="bar-fr-ortho" style="width:0%"></div></div>
@@ -494,6 +518,12 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p5"><input type="checkbox"><label>Structure dialoguée</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Structure explicative</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Aborder au moins 3 structures différentes par année, les 5 sur les 2 ans</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Désigner la maison d'édition, la collection, le sommaire ou la table des matières (paratexte)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Repérer les organisateurs textuels pour construire du sens</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Utiliser les organisateurs textuels pour construire la cohérence</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Utiliser les termes du support de lecture (paratexte) : titres, sous-titres, paragraphes</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Noter des mots-clés du message lu ou entendu</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Organiser ses notes (schéma, ligne du temps, carte mentale…)</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 <div class="domain fr" id="domain-fr-prod"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🖊️</span><span class="domain-title">Production écrite &amp; expression orale</span><span class="domain-progress" id="prog-fr-prod">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog fr"><div class="mini-prog-bar" id="bar-fr-prod" style="width:0%"></div></div>
@@ -520,6 +550,17 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p5"><input type="checkbox"><label>Connaitre des œuvres contemporaines pour la jeunesse vues en classe</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Se construire une identité de lecteur (préférences, défis, pratique extrascolaire)</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Connaitre des procédés langagiers et artistiques des auteurs rencontrés</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>S'adapter à la diversité des interlocuteurs : connu/inconnu, familier/non familier, un/plusieurs, du même âge/plus jeune/plus âgé, d'ici/d'ailleurs</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Oser proposer des idées nouvelles</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Oser s'exprimer en dépit des maladresses syntaxiques, des répétitions et des hésitations dans les formulations</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Proposer diverses formulations</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Accepter d'utiliser provisoirement un vocabulaire approximatif ou le même mot pour exprimer diverses choses</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Questionner ses interlocuteurs suite à une difficulté de compréhension ou pour en savoir plus sur le sujet</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Répondre à des questions posées à la suite d'une prise de parole préparée</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Clarifier ses propos ou ses réactions en faisant des liens entre ses idées</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Revenir au sujet lorsqu'on s'en éloigne</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Enchainer une prise de parole à la suite de celle d'un autre</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Utiliser à bon escient des expressions types pour respecter les règles de courtoisie</label><span class="badge p5">P5</span></div>
 </div>
 </div></div>
 </div>
@@ -554,6 +595,8 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p5"><input type="checkbox"><label>Construire une synthèse commune des concepts appris</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>S'exprimer de manière structurée avec terminologie appropriée</label><span class="badge p5">P5</span></div>
 <div class="item" data-year="p5"><input type="checkbox"><label>Réaliser une trace (dessin, photo, rapport d'expérience…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Proposer des moyens d'investigation</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Utiliser des symboles pertinents pour représenter une situation expérimentale</label><span class="badge p5">P5</span></div>
 </div>
 </div></div>
 <div class="domain sci" id="domain-sci-viv"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🌱</span><span class="domain-title">Vivants</span><span class="domain-progress" id="prog-sci-viv">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog sci"><div class="mini-prog-bar" id="bar-sci-viv" style="width:0%"></div></div>
@@ -585,6 +628,13 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Classification phylogénétique : montre les liens de parenté entre espèces</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Nommer des attributs des espèces (squelette interne/externe, pattes articulées, antennes, poils…)</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Réaliser une classification sous forme d'ensembles emboîtés selon attributs partagés</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Préciser le rôle respectif des deux sexes au cours de la reproduction sexuée (l'homme produit les spermatozoïdes, la femme les ovules)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Réaliser une représentation pour illustrer la fécondation (rencontre spermatozoïde/ovule)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Identifier l'organe de la plante contenant la/les graine(s) comme étant le fruit provenant de la fleur fécondée</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Identifier la fécondation chez les plantes comme la rencontre entre un grain de pollen et un ovule présent dans la plante</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Préciser que l'eau est absorbée au niveau du côlon</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Préciser que les matières non absorbées sont évacuées au niveau de l'anus</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Préciser que certains déchets sont évacués dans les urines, d'autres au niveau des poumons (dioxyde de carbone)</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 <div class="domain sci" id="domain-sci-mat"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">⚗️</span><span class="domain-title">Matière</span><span class="domain-progress" id="prog-sci-mat">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog sci"><div class="mini-prog-bar" id="bar-sci-mat" style="width:0%"></div></div>
@@ -599,6 +649,8 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Phénomène chimique : la nature de la matière se transforme (ex. : combustion, cuisson)</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>La combustion nécessite de l'air (dioxygène) et libère énergie thermique, eau et CO₂</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Proposer des moyens d'éteindre un feu en toute sécurité</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Préparer des mélanges de deux constituants</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Préciser que l'énergie chimique stockée dans la matière est transformée en énergie thermique lors de la combustion</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 <div class="domain sci" id="domain-sci-ene"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">⚡</span><span class="domain-title">Énergie</span><span class="domain-progress" id="prog-sci-ene">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog sci"><div class="mini-prog-bar" id="bar-sci-ene" style="width:0%"></div></div>
@@ -621,6 +673,10 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Formes d'énergie se transformant en thermique : mécanique, lumineuse, électrique, chimique</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Justifier des moyens pour limiter les pertes d'énergie thermique</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Tester des matériaux pour éprouver leur caractère isolant ou conducteur thermique</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Préciser que le Soleil est une source de lumière, tandis que la Lune renvoie la lumière qu'elle reçoit du Soleil</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Repérer s'il fait jour ou nuit à un endroit donné, en fonction des positions respectives de l'observateur et du Soleil</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Tester différents matériaux dans un circuit électrique simple, pour distinguer un isolant d'un conducteur</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Mettre en évidence expérimentalement comment empêcher un objet chaud de se refroidir, et inversement</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 </div>
@@ -665,6 +721,23 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Comparer deux documents iconographiques pour identifier ressemblances/différences</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Distinguer ce qu'on lit de ce qu'on peut en inférer</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Sélectionner une information utile pour répondre à une question</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Exemplifier des obligations réciproques entre le seigneur et la communauté villageoise</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Exemplifier des droits acquis par la bourgeoisie (villes médiévales)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Savoir culturel : un∙e acteur∙rice du développement industriel au XIXe s. (ex. : John Cockerill, Antoinette Brepols…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Savoir culturel : patrimoine régional lié aux périodes étudiées (sites archéologiques, villes médiévales, quartiers industriels XIXe-XXe s., Atomium, 1er mai…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Sélectionner l'outil d'information adéquat en fonction de la recherche menée (dictionnaire, atlas, corpus documentaire, moteur de recherche…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Relever des informations explicites dans une trace du passé ou un document reconstitué, en lien avec un repère temporel</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Identifier l'auteur, la date et le lieu de réalisation d'un document grâce à sa référence</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Justifier la pertinence d'un document donné en lien avec une problématique historique</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Identifier des apports culturels des migrations en Belgique de 1945 à nos jours</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer pourquoi la Belgique a officiellement demandé à d'autres pays de la main-d'œuvre ouvrière de 1945 à 1970</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer une facilité et un obstacle à l'intégration des migrants de 1945 à 1970</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer un impact des colonisations européennes du XVe au XVIIIe siècle sur les peuples colonisés</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Énoncer des produits de consommation originaires des régions colonisées entre le XVe et le XVIIIe siècle</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Savoir culturel : patrimoine régional — sites archéologiques et industriels, édifices religieux, artéfacts et objets d'art</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Identifier l'auteur, la date et le lieu de réalisation d'un document</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Sélectionner une information en recourant à une table des matières, à un index alphabétique ou à un moteur de recherche</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Justifier la pertinence ou la non-pertinence d'un document donné par rapport à une problématique liée à la multiculturalité</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 <div class="domain hist" id="domain-hist-geo"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🗺️</span><span class="domain-title">Formation géographique</span><span class="domain-progress" id="prog-hist-geo">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog hist"><div class="mini-prog-bar" id="bar-hist-geo" style="width:0%"></div></div>
@@ -690,7 +763,7 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Les 5 océans : Atlantique, Pacifique, Indien, Arctique, Antarctique</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Principaux parallèles : tropiques, équateur, cercles polaires, hémisphères, pôles</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Densité de population (nombre d'habitants par unité de surface)</label><span class="badge p6">P6</span></div>
-<div class="item" data-year="p6"><input type="checkbox"><label>Répartition mondiale : ~7,9 milliards ; 60% en Asie, 10% en Europe ; 70% en ville</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Répartition mondiale : ~7,9 milliards ; 60% en Asie, 10% en Europe ; un peu plus de 20% à moins de 30 km des côtes ; 70% en ville</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Zones thermiques d'Europe : froid au nord, tempéré, méditerranéen au sud</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>3 zones thermiques mondiales : chaude (équateur), tempérée, polaire</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Grands types de climat : aride, tropical, polaire, tempéré (océanique, méditerranéen), continental</label><span class="badge p6">P6</span></div>
@@ -703,6 +776,15 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Comparer deux paysages (vues verticales) à des moments différents</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Caractériser le climat d'un espace (températures, précipitations)</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Expliquer la présence de population en référence au relief, hydrographie, climat</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Relever l'altitude d'un point sur une carte, un globe virtuel ou un géoportail</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Repérer les variations d'altitude sur un profil du relief</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Situer une occupation/utilisation du sol en Belgique ou en Europe, en référence aux directions cardinales et à des repères</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Sur la base de représentations de l'espace actuelles et antérieures, identifier des transformations/permanences dans l'occupation du sol en Belgique</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Annoter une carte pour mettre en évidence le nom des pays, les principaux parallèles et d'autres repères utiles pour situer un fait ou un phénomène</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Annoter une photographie verticale pour mettre en évidence un changement d'occupation du sol</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Situer en quelques mots des espaces plus ou moins peuplés à l'aide des repères connus ou identifiés sur une carte</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Situer un fait ou un phénomène à l'échelle d'un continent ou du monde, en référence à des repères, à la répartition de la population et aux zones thermiques</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Caractériser dans un espace des activités humaines relevant de la production, des transports ou de la consommation</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 </div>
@@ -727,6 +809,8 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Enrichir le circuit économique avec le rôle des banques</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Développement durable : impacts environnementaux et sociaux des modes de production/consommation</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Communiquer les résultats d'une recherche sous forme d'un texte argumenté</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Modes de financement alternatifs et participatifs</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>En comparant les impacts économiques, sociaux et environnementaux de différents modes de production/consommation, justifier l'appartenance d'acteurs au commerce équitable</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 <div class="domain eco" id="domain-eco-soc"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🤝</span><span class="domain-title">Formation sociale</span><span class="domain-progress" id="prog-eco-soc">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog eco"><div class="mini-prog-bar" id="bar-eco-soc" style="width:0%"></div></div>
@@ -739,7 +823,8 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="subsection"><div class="subsection-title">Formation sociale — P6 (nouvelles)</div><div class="item" data-year="p6"><input type="checkbox"><label>Comprendre que les choix individuels ont une influence sur autrui et sur la planète</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Notion d'interdépendance entre acteurs économiques et sociaux</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Ressources naturelles et énergétiques non infinies et inégalement réparties</label><span class="badge p6">P6</span></div>
-<div class="item" data-year="p6"><input type="checkbox"><label>Modes de financement alternatifs et participatifs</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Pour une organisation pratiquant l'économie sociale et solidaire ou circulaire, décrire comment les biens/services sont produits et l'incidence sur l'environnement local (relations producteurs-consommateurs, proximité, savoir-faire local)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Pour un acte de consommation/production donné, formuler des questions sur les tensions entre intérêts individuels et intérêts collectifs des générations actuelles et futures (développement durable)</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 </div>
@@ -793,12 +878,14 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Concevoir, tester et déboguer un programme intégrant boucle et condition</label><span class="badge p6">P6</span></div>
 </div>
 <div class="subsection"><div class="subsection-title">Sécurité numérique — P6</div><div class="item" data-year="p6"><input type="checkbox"><label>Vocabulaire protection des personnes : identité numérique, cyberharcèlement, cyberdépendance</label><span class="badge p6">P6</span></div>
-<div class="item" data-year="p6"><input type="checkbox"><label>Vocabulaire protection des données : sauvegarde, cookie, hameçonnage, spam, piratage, antivirus, mot de passe</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Vocabulaire protection des données : sauvegarde, mise à jour, cookie, hameçonnage, spam, piratage, cyberattaque, antivirus, mot de passe, authentification</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Créer un mot de passe respectant un niveau de sécurité élevé</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Effacer ses fichiers personnels sur un équipement partagé</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Reconnaitre des situations de cyberattaque, cyberharcèlement, cybermanipulation</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Proposer des pistes d'action face à ces situations</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Adopter un comportement responsable relatif à la protection des données</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>S'intégrer au sein d'un espace collaboratif numérique, en respectant la cohérence (fond et forme) de l'environnement choisi</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Adopter un comportement responsable face à une situation de cyberattaque, cyberharcèlement, cyberdépendance</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
 <div class="domain fmttn" id="domain-fmttn-mtt"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🔧</span><span class="domain-title">Volet manuel, technique &amp; technologique</span><span class="domain-progress" id="prog-fmttn-mtt">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog fmttn"><div class="mini-prog-bar" id="bar-fmttn-mtt" style="width:0%"></div></div>
@@ -837,8 +924,148 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
 <div class="item" data-year="p6"><input type="checkbox"><label>Démonter et remonter un objet technologique simple avec outils adaptés</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Représenter en 2D ou 3D un objet technologique avec schématisation des mouvements</label><span class="badge p6">P6</span></div>
 <div class="item" data-year="p6"><input type="checkbox"><label>Concevoir, construire et mettre en service un objet technologique intégrant une/des machine(s) simple(s)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Appliquer la posture ergonomique recommandée par l'enseignant</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Adopter, avec l'aide de l'enseignant, une attitude proactive tenant compte des risques et dangers pour soi et pour les autres, lors de la préparation du poste de travail et de l'exécution des gestes techniques, en recourant aux équipements de protection adéquats</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Expliquer en quoi les aménagements proposés répondent aux besoins d'amélioration et tiennent compte des contraintes identifiées</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Aménager un lieu de production en vue de rencontrer les conditions de réussite d'un semis ou d'une plantation</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Énoncer les précautions à prendre pour assurer la sécurité sanitaire des aliments au regard des risques encourus</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Citer des conditions de stockage et de conservation des préparations culinaires réalisées</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Réaliser un ouvrage en sélectionnant et en utilisant les outils, les consommables et les techniques proposés</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Énoncer un ou plusieurs usages courants de matériaux et de matières</label><span class="badge p6">P6</span></div>
 </div>
 </div></div>
+</div>
+
+<div class="section" id="tab-eca">
+<div class="subject-header eca"><span style="font-size:24px">🎨</span><div><h2>Éducation culturelle et artistique</h2><div style="font-size:11px;color:#64748b;margin-top:2px">Référentiel FWB — Repères culturels · Expression corporelle · musicale · plastique</div></div><div class="desc" id="eca-desc">—</div><button class="uncheck-btn subject-uncheck" onclick="uncheckSubject('eca')">↺ Tout décocher</button></div>
+<div class="year-filter"><span>Afficher :</span><button class="filter-btn all active" onclick="filterYear('eca','all',this)">Tout</button><button class="filter-btn p5f" onclick="filterYear('eca','p5',this)">5e seulement</button><button class="filter-btn p6f" onclick="filterYear('eca','p6',this)">6e seulement</button></div>
+
+<div class="domain eca" id="domain-eca-reperes"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🗺️</span><span class="domain-title">Repères culturels et artistiques</span><span class="domain-progress" id="prog-eca-reperes">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog eca"><div class="mini-prog-bar" id="bar-eca-reperes" style="width:0%"></div></div>
+<div class="subsection"><div class="subsection-title">Repères culturels — P5</div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Sélectionner au moins un exemple par mode d'expression (théâtre/danse, musique — écoute et expression, arts plastiques)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Découvrir une trace du passé (vestiges archéologiques, ruines, site de fouilles…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Découvrir un patrimoine immatériel d'ici ou d'ailleurs (fêtes, traditions, croyances, savoir-faire artisanal…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Découvrir un mythe ou une légende d'ici ou d'ailleurs</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Présenter, suite à des visites in situ, un site archéologique, un élément du patrimoine immatériel ou un mythe/une légende</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Exemplifier le contexte, identifier la signification et formuler son appréciation esthétique d'une œuvre, d'un lieu ou d'un objet culturel</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Observer de façon objective des éléments du patrimoine, un site archéologique</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Enrichir sa collection de traces</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Interroger le sens des recherches et de la conservation des traces du passé</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Établir des liens interdisciplinaires lors de la découverte d'éléments culturels</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Explorer un patrimoine matériel et immatériel d'ici ou d'ailleurs</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Interroger collectivement le sens et l'origine d'une œuvre, d'un lieu, d'un objet culturel</label><span class="badge p5">P5</span></div>
+</div>
+<div class="subsection"><div class="subsection-title">Repères culturels — P6 (nouvelles)</div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Sélectionner au moins un exemple par mode d'expression</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Découvrir un lieu de culture complétant le panel déjà observé</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Découvrir un patrimoine matériel d'ici et d'ailleurs (ex : pyramides, Taj Mahal, Muraille de Chine…)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Compléter son répertoire de lieux culturels et d'objets de cultures, d'époques et de pays différents</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer l'origine d'une œuvre, d'un lieu, d'un objet culturel et confronter sa propre appréciation esthétique à celle des autres</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Différencier les observations subjectives et objectives ; élargir son champ d'observation</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Créer son propre répertoire de traces</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Interroger son appréciation face à un élément culturel ou artistique</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer des liens interdisciplinaires lors de la découverte d'éléments culturels</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Explorer d'autres lieux, œuvres et objets culturels d'ici et d'ailleurs</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Interroger le sens et l'origine d'une œuvre, d'un lieu, d'un objet culturel</label><span class="badge p6">P6</span></div>
+</div>
+</div></div>
+
+<div class="domain eca" id="domain-eca-corporelle"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🎭</span><span class="domain-title">Expression française et corporelle</span><span class="domain-progress" id="prog-eca-corporelle">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog eca"><div class="mini-prog-bar" id="bar-eca-corporelle" style="width:0%"></div></div>
+<div class="subsection"><div class="subsection-title">Expression corporelle — P5</div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Expliquer le déroulement du temps dans une représentation (chronologie, flash-back, ellipse temporelle…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Identifier différentes techniques vocales et de diction (accent tonique, articulation, intonation, prononciation…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Identifier l'énergie des mouvements : le tonus musculaire (tension/détente, flexion/extension…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Comparer différentes occupations de l'espace et du plateau (regroupement, équilibre/déséquilibre, division des espaces scéniques…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Comparer des genres de jeux (comédie, tragédie, comédie musicale, seul en scène…) et de danses (indiennes, africaines, contemporaines, tango, flamenco…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Pratiquer des exercices d'articulation, vire-langues…</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Lire des extraits de texte avec expressivité</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Occuper différents rôles lors d'une production : principal, secondaire, « spect-acteur »</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Exécuter plusieurs mouvements avec une énergie différente</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Pratiquer différentes occupations de l'espace</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Proposer plusieurs manières d'occuper l'espace et un enchainement de mouvements avec des énergies différentes</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Exercer les différents rôles et fonctions dans une représentation (coulisse, plateau, rôles principaux/secondaires, spect-acteurs)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Expérimenter les fondamentaux rencontrés durant l'année dans une mise en jeu et en espace</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Inventer et mettre en espace une production scénique à partir de combinaisons de moyens corporels et verbaux</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Interpréter des chœurs parlés en résistant aux attirances sonores</label><span class="badge p5">P5</span></div>
+</div>
+<div class="subsection"><div class="subsection-title">Expression corporelle — P6 (nouvelles)</div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Comparer le temps de la représentation et le temps réel (ex : temps de l'intrigue/de la réalité)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Décrire la chorégraphie/structure de la phrase dansée, le jeu masqué, le rôle des partenaires/points de contact, les parties du corps initiatrices du mouvement</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Décrire la mise en scène (musique, bruitages, lumière, costumes, décors) et leur rôle illustratif ou symbolique</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Exemplifier l'ambiance sonore au regard de la mise en scène (illustrative/en contrepoint)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Participer à une mise en scène collective : proposer une phrase dansée, synchroniser mouvement et univers sonore</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Inventer une courte composition scénique ou chorégraphique</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Imaginer sa mise en espace, les costumes, les accessoires, le décor</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Organiser la préparation d'une représentation (répétitions, filages, répétition générale…)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Mettre en œuvre, dans une courte création, les fondamentaux abordés durant l'année</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>S'exprimer corporellement en tenant compte des fondamentaux abordés durant l'année</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>S'exprimer au travers d'un jeu masqué</label><span class="badge p6">P6</span></div>
+</div>
+</div></div>
+
+<div class="domain eca" id="domain-eca-musicale"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🎵</span><span class="domain-title">Expression musicale</span><span class="domain-progress" id="prog-eca-musicale">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog eca"><div class="mini-prog-bar" id="bar-eca-musicale" style="width:0%"></div></div>
+<div class="subsection"><div class="subsection-title">Expression musicale — P5</div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Différencier la pulsation et le rythme</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Décrire des éléments constitutifs du langage musical (partition, portée, gamme, clé de sol…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Décrire des formes musicales au travers de chansons contemporaines, traditionnelles ou extraits classiques</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Reconnaitre visuellement et auditivement des membranophones et des idiophones d'ici ou d'ailleurs</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Interpréter en chœur ou individuellement des chansons en expérimentant des techniques vocales (échauffement, respiration, posture, pose de la voix, prononciation, justesse mélodique)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Chanter des chansons contemporaines d'ici et d'ailleurs et en aborder les thématiques</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Effectuer un canon à deux voix en parlé/rythmé</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Accompagner vocalement, corporellement ou instrumentalement un extrait sonore</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Interpréter collectivement des accompagnements vocaux, corporels ou instrumentaux à partir d'une chanson</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Réaliser collectivement une production vocale, corporelle ou instrumentale à partir d'un support numérique donné</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Choisir au moins une référence pour l'écoute et une pour l'expression musicale</label><span class="badge p5">P5</span></div>
+</div>
+<div class="subsection"><div class="subsection-title">Expression musicale — P6 (nouvelles)</div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer la pulsation et le rythme</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Connaitre des symboles du langage musical traditionnel (portée, gamme, clé de sol, notes et silences…)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Prendre conscience des organes mobilisés pour chanter</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer la polyphonie avec ses propres mots</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Décrire des formes musicales (structures) au travers de chansons contemporaines ou extraits classiques, d'ici et d'ailleurs</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Décrire la composition d'ensembles vocaux et instrumentaux (orchestre symphonique, Big Band, groupe rock, chorale…)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Reconnaitre, à l'audition, des instruments issus des 5 familles et différents ensembles vocaux/instrumentaux</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Interpréter, en chœur ou individuellement, des chansons en expérimentant les techniques vocales</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Interpréter des chants polyphoniques simples à deux voix (ex : chansons traditionnelles africaines)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Relier, à l'audition et visuellement, des formes musicales simples à des extraits musicaux (partition codée, musicogramme, canon, ritournelle, ABA…)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Proposer un accompagnement vocal, corporel et instrumental à partir d'un extrait sonore</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Interpréter en petits groupes des accompagnements vocaux, corporels ou instrumentaux</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Résister aux attirances sonores lors de l'interprétation de chansons polyphoniques et de chœurs parlés</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Réaliser en petits groupes des productions vocales, corporelles ou instrumentales à partir d'un support numérique</label><span class="badge p6">P6</span></div>
+</div>
+</div></div>
+
+<div class="domain eca" id="domain-eca-plastique"><div class="domain-header" onclick="toggleDomain(this)"><span class="domain-icon">🖌️</span><span class="domain-title">Expression plastique</span><span class="domain-progress" id="prog-eca-plastique">—</span><span class="domain-toggle">▼</span></div><div class="domain-body"><div class="mini-prog eca"><div class="mini-prog-bar" id="bar-eca-plastique" style="width:0%"></div></div>
+<div class="subsection"><div class="subsection-title">Expression plastique — P5</div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Caractériser une image fixe et une image en mouvement</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Distinguer le croquis/dessin, la photographie numérique, les outils graphiques spécialisés (pinceaux, couteaux, spatule, rouleau, brosse, éponge…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Distinguer fond/forme/mise en page/plan/format/échelles/proportions et les volumes simples</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Identifier des valeurs (gradation de nuances) de couleurs, des contrastes de couleurs, les ombres et la lumière dans une œuvre d'art</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Explorer les relations entre les objets et la lumière</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Varier les types de compositions (rapports fond/forme, juxtapositions, oppositions entre couleurs, matières, supports…)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Réaliser des croquis, dessins, peinture à l'aide d'outils graphiques spécialisés (y compris numériques)</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Exercer le cadrage, y compris photographique</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Réaliser la mise en valeur d'une production individuelle ou collective</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Exemplifier la composition et la lumière dans une production plastique</label><span class="badge p5">P5</span></div>
+<div class="item" data-year="p5"><input type="checkbox"><label>Traduire des effets de lumière, d'angles de vue variés dans une production plastique, quel que soit le support</label><span class="badge p5">P5</span></div>
+</div>
+<div class="subsection"><div class="subsection-title">Expression plastique — P6 (nouvelles)</div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expliquer l'équilibre dans une mise en page</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Aborder des techniques de captures vidéo simples</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Relever les caractéristiques numériques dans une œuvre d'art</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Identifier des points de vue (haut, profil, face…) et des plans (gros plan, plan moyen…)</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Identifier dans une œuvre d'art : nuance, valeur, monochromie, polychromie, harmonie…</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Identifier des effets de l'ombre et de la lumière sur des formes volumiques</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Expérimenter des effets de lumière à partir de couleurs</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Réaliser des prises de vues diversifiées (fixes ou animées) et les traiter</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Produire une image fixe ou animée à l'aide d'un support choisi</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Mettre des volumes en œuvre</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Mettre en valeur une production individuelle en proposant un dispositif de présentation</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Exemplifier les fondamentaux caractérisant une image fixe ou animée (formes, rythmes, mouvements, lumière…) et les volumes</label><span class="badge p6">P6</span></div>
+<div class="item" data-year="p6"><input type="checkbox"><label>Élaborer des images fixes et/ou animées à l'aide d'outils, de supports, de gestes et de techniques variées</label><span class="badge p6">P6</span></div>
+</div>
+</div></div>
+
 </div>
 </div>
 <script>
@@ -865,7 +1092,7 @@ function loadState(){
 }
 function resetAll(){
   if(!confirm('Réinitialiser toute la progression ?'))return;
-  try{localStorage.removeItem('p5p6v3');}catch(e){}
+  try{localStorage.removeItem('p5p6v4');}catch(e){}
   history.replaceState(null,'',location.pathname+location.search);
   document.querySelectorAll('input[type=checkbox]').forEach(cb=>{cb.checked=false;cb.closest('.item').classList.remove('checked');});
   updateAll();
@@ -902,8 +1129,8 @@ function updateGlobal(){
   document.getElementById('global-count').textContent=done+'/'+all.length;
   document.getElementById('global-bar').style.width=pct+'%';
 }
-const DOMAINS=['math-geo','math-grand','math-nb','math-data','fr-conj','fr-gram','fr-ortho','fr-lect','fr-prod','sci-inv','sci-viv','sci-mat','sci-ene','hist-hist','hist-geo','eco-eco','eco-soc','fmttn-info','fmttn-num','fmttn-mtt'];
-const SUBJECTS=['math','fr','sci','hist','eco','fmttn'];
+const DOMAINS=['math-geo','math-grand','math-nb','math-data','fr-conj','fr-gram','fr-ortho','fr-lect','fr-prod','sci-inv','sci-viv','sci-mat','sci-ene','hist-hist','hist-geo','eco-eco','eco-soc','fmttn-info','fmttn-num','fmttn-mtt','eca-reperes','eca-corporelle','eca-musicale','eca-plastique'];
+const SUBJECTS=['math','fr','sci','hist','eco','fmttn','eca'];
 function updateAll(){
   DOMAINS.forEach(d=>updateDomain('domain-'+d,'prog-'+d,'bar-'+d));
   SUBJECTS.forEach(s=>updateSubjectDesc(s));
@@ -941,7 +1168,7 @@ function filterYear(subj,year,btn){
 }
 // ===== UNCHECK =====
 function uncheckSubject(subj){
-  const labels={math:'Mathématiques',fr:'Français',sci:'Sciences',hist:'Histoire & Géo',eco:'Éco & Social',fmttn:'FMTTN'};
+  const labels={math:'Mathématiques',fr:'Français',sci:'Sciences',hist:'Histoire & Géo',eco:'Éco & Social',fmttn:'FMTTN',eca:'Éducation culturelle et artistique'};
   if(!confirm('Tout décocher dans "'+( labels[subj]||subj)+'" ?'))return;
   document.querySelectorAll('#tab-'+subj+' input[type=checkbox]').forEach(cb=>{cb.checked=false;cb.closest('.item').classList.remove('checked');});
   saveState(); updateAll();
@@ -971,6 +1198,7 @@ const SMETA={
   'tab-hist':{label:'Histoire & Géo',icon:'🌍'},
   'tab-eco':{label:'Éco & Social',icon:'💰'},
   'tab-fmttn':{label:'FMTTN',icon:'💻'},
+  'tab-eca':{label:'ECA',icon:'🎨'},
 };
 let sDebounce;
 function onSearch(val){
