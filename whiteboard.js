@@ -209,13 +209,13 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             if (selectedImage) {
                 deleteSelectedImage();
-                renderCurrentPage();
                 return;
             }
             if (selectedElement) {
                 deleteElement(selectedElement);
                 selectedElement = null;
-                renderCurrentPage();
+                redrawDrawingCanvas();
+                debouncedSaveWhiteboard();
             }
         }
     });
@@ -555,6 +555,30 @@ async function restoreAllTabFiles() {
                         }
                     }
                 }
+                
+                // Restore movable images from IndexedDB if stored with imageId
+                if (pageData.textboxes) {
+                    for (const tb of pageData.textboxes) {
+                        if (tb.type === 'image' && (!tb.src || tb.src.length === 0) && tb.imageId) {
+                            try {
+                                const imgRecord = await TbiFileStore.getFile(tb.imageId);
+                                if (imgRecord && imgRecord.dataUrl) {
+                                    tb.src = imgRecord.dataUrl;
+                                    if (tab.id === activeTabId && tab.currentPage == pNum) {
+                                        const domBox = document.querySelector(`.movable-image-box[data-image-id="${tb.imageId}"]`);
+                                        if (domBox) {
+                                            domBox.dataset.src = tb.src;
+                                            const imgEl = domBox.querySelector('img');
+                                            if (imgEl) imgEl.src = tb.src;
+                                        }
+                                    }
+                                }
+                            } catch (e) {
+                                console.warn("[Whiteboard] Error restoring movable image:", tb.imageId, e);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -586,9 +610,29 @@ function saveWhiteboardState() {
             if (tab.pages) {
                 Object.keys(tab.pages).forEach(pNum => {
                     const p = tab.pages[pNum];
+                    // Clean textboxes: store large base64 images in IndexedDB instead of localStorage
+                    const cleanTextboxes = (p.textboxes || []).map(tb => {
+                        if (tb.type === 'image') {
+                            if (tb.src && tb.src.length > 20000) {
+                                const imgId = tb.imageId || `movable_img_${tab.id}_p${pNum}_${Date.now()}`;
+                                TbiFileStore.setFile(imgId, { dataUrl: tb.src });
+                                return {
+                                    type: 'image',
+                                    imageId: imgId,
+                                    src: '', // Keep localStorage lightweight and instant
+                                    x: tb.x,
+                                    y: tb.y,
+                                    w: tb.w,
+                                    h: tb.h
+                                };
+                            }
+                        }
+                        return tb;
+                    });
+
                     pagesCopy[pNum] = {
                         elements: p.elements || [],
-                        textboxes: p.textboxes || [],
+                        textboxes: cleanTextboxes,
                         backgroundType: p.backgroundType || 'blank',
                         rotation: p.rotation || 0,
                         pdfScale: p.pdfScale !== undefined ? p.pdfScale : null,
@@ -628,7 +672,7 @@ function saveWhiteboardState() {
                         const p = tab.pages[pNum];
                         pagesCopy[pNum] = {
                             elements: p.elements || [],
-                            textboxes: (p.textboxes || []).filter(tb => tb.type !== 'image' || (tb.src && tb.src.length < 50000)),
+                            textboxes: (p.textboxes || []).filter(tb => tb.type !== 'image' || (tb.src && tb.src.length < 20000)),
                             backgroundType: p.backgroundType || 'blank',
                             rotation: p.rotation || 0,
                             pdfScale: p.pdfScale !== undefined ? p.pdfScale : null,
@@ -662,10 +706,14 @@ function saveWhiteboardState() {
     }
 }
 
-function debouncedSaveWhiteboard(delay = 300) {
+function debouncedSaveWhiteboard(delay = 1200) {
     if (saveWhiteboardTimeout) clearTimeout(saveWhiteboardTimeout);
     saveWhiteboardTimeout = setTimeout(() => {
-        saveWhiteboardState();
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(() => saveWhiteboardState(), { timeout: 1000 });
+        } else {
+            saveWhiteboardState();
+        }
     }, delay);
 }
 window.debouncedSaveWhiteboard = debouncedSaveWhiteboard;
@@ -984,9 +1032,17 @@ function saveActiveTabTextboxes() {
     
     // 1. Collect all movable images
     document.querySelectorAll('.movable-image-box').forEach(el => {
+        const src = el.dataset.src || '';
+        let imageId = el.dataset.imageId || null;
+        if (!imageId && src.length > 20000) {
+            imageId = `movable_img_${activeTab.id}_p${pageNum}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+            el.dataset.imageId = imageId;
+            TbiFileStore.setFile(imageId, { dataUrl: src });
+        }
         items.push({
             type: 'image',
-            src: el.dataset.src,
+            src: src,
+            imageId: imageId,
             x: parseFloat(el.dataset.x) || 0,
             y: parseFloat(el.dataset.y) || 0,
             w: parseFloat(el.dataset.w) || 100,
@@ -1029,7 +1085,7 @@ function restoreActiveTabTextboxes() {
     if (pageData && pageData.textboxes) {
         pageData.textboxes.forEach(tb => {
             if (tb.type === 'image') {
-                createMovableImage(tb.x, tb.y, tb.w, tb.h, tb.src);
+                createMovableImage(tb.x, tb.y, tb.w, tb.h, tb.src, tb.imageId);
             } else {
                 createTextbox(tb.x, tb.y, tb.text, tb.fontSize, tb.underline, tb.color, tb.isPostIt === true);
             }
@@ -2209,8 +2265,6 @@ function drawSelectionHighlight(ctx, el) {
 
 // --- TOOL & COLOR SWITCHERS ---
 function setWhiteboardTool(toolName) {
-    saveActiveTabTextboxes();
-    
     // Fermer le popover de réglage d'outils lors du changement d'outil
     const popover = document.getElementById('tool-settings-popover');
     
@@ -2226,13 +2280,18 @@ function setWhiteboardTool(toolName) {
     }
     
     if (isClickingActive) {
-        // Si on clique sur l'outil déjà actif, on affiche/masque ses réglages
+        // Si on clique sur l'outil déjà actif, on affiche/masque ses réglages instantanément
         if (toolName === 'pen1' || toolName === 'pen2' || toolName === 'pen3' || toolName === 'highlighter' || toolName === 'line' || toolName === 'eraser') {
             toggleToolSettingsPopover(toolName, `tool-btn-${toolName}`);
             return;
         }
     } else {
         if (popover) popover.classList.add('hidden');
+    }
+    
+    // Sauvegarder les textboxes uniquement si on quitte le mode texte ou sélection
+    if (activeTool === 'text' || activeTool === 'select') {
+        saveActiveTabTextboxes();
     }
     
     let targetTool = toolName;
@@ -2327,11 +2386,12 @@ function setWhiteboardTool(toolName) {
     }
     
     if (toolName !== 'select') {
-        selectedElement = null;
-        deselectAllImages();
+        if (selectedElement || selectedImage) {
+            selectedElement = null;
+            deselectAllImages();
+            redrawDrawingCanvas();
+        }
     }
-    
-    renderCurrentPage();
 }
 
 // Logique pour le popover de réglage d'outil (couleurs & épaisseurs)
@@ -2509,7 +2569,7 @@ function animateLaser() {
     
     laserStrokes = laserStrokes.filter(stroke => stroke.points.length > 0);
     
-    renderCurrentPage();
+    redrawDrawingCanvas();
     
     if (hasPoints) {
         laserAnimFrame = requestAnimationFrame(animateLaser);
@@ -2582,7 +2642,8 @@ function setStrokeColor(color) {
     if (activeTool === 'select' && selectedElement) {
         saveStateToUndo();
         selectedElement.color = color;
-        renderCurrentPage();
+        redrawDrawingCanvas();
+        debouncedSaveWhiteboard();
     }
 }
 
@@ -2602,7 +2663,8 @@ function setStrokeWidth(widthValue) {
     if (activeTool === 'select' && selectedElement) {
         saveStateToUndo();
         selectedElement.width = strokeWidth;
-        renderCurrentPage();
+        redrawDrawingCanvas();
+        debouncedSaveWhiteboard();
     }
 }
 
@@ -3742,6 +3804,16 @@ function updateActiveThumbnailHighlight() {
     });
 }
 
+function cloneVectorElements(elements) {
+    if (!elements) return [];
+    return elements.map(el => {
+        if (el.points) {
+            return { ...el, points: el.points.map(p => ({ x: p.x, y: p.y, time: p.time })) };
+        }
+        return { ...el };
+    });
+}
+
 // --- UNDO / REDO HISTORY ---
 function saveStateToUndo() {
     const tab = getActiveTab();
@@ -3751,9 +3823,8 @@ function saveStateToUndo() {
     
     if (!pageData.undoStack) pageData.undoStack = [];
     
-    // Save deep cloned elements state
-    const state = JSON.parse(JSON.stringify(pageData.elements));
-    pageData.undoStack.push(state);
+    // Save fast cloned elements state
+    pageData.undoStack.push(cloneVectorElements(pageData.elements));
     
     if (pageData.undoStack.length > maxHistorySteps) {
         pageData.undoStack.shift();
@@ -3771,11 +3842,12 @@ function undo() {
     
     if (!pageData.redoStack) pageData.redoStack = [];
     
-    pageData.redoStack.push(JSON.parse(JSON.stringify(pageData.elements)));
+    pageData.redoStack.push(cloneVectorElements(pageData.elements));
     pageData.elements = pageData.undoStack.pop();
     
     selectedElement = null;
-    renderCurrentPage();
+    redrawDrawingCanvas();
+    debouncedSaveWhiteboard();
     
     if (isThumbnailsPanelOpen) {
         renderThumbnails();
@@ -3790,11 +3862,12 @@ function redo() {
     
     if (!pageData.undoStack) pageData.undoStack = [];
     
-    pageData.undoStack.push(JSON.parse(JSON.stringify(pageData.elements)));
+    pageData.undoStack.push(cloneVectorElements(pageData.elements));
     pageData.elements = pageData.redoStack.pop();
     
     selectedElement = null;
-    renderCurrentPage();
+    redrawDrawingCanvas();
+    debouncedSaveWhiteboard();
     
     if (isThumbnailsPanelOpen) {
         renderThumbnails();
@@ -4067,7 +4140,8 @@ window.drawCompassArc = function(centerX, centerY, radius, startAngle, endAngle)
         }
     }
     
-    renderCurrentPage();
+    redrawDrawingCanvas();
+    debouncedSaveWhiteboard();
 };
 
 // Global exports for inline HTML onclick/onchange handlers
@@ -4081,7 +4155,7 @@ window.toggleToolsMenu = toggleToolsMenu;
 window.triggerToolAction = triggerToolAction;
 
 // --- DYNAMIC CROP AND IMAGE ANNOTATIONS ---
-function createMovableImage(x, y, w, h, src) {
+function createMovableImage(x, y, w, h, src, imageId = null) {
     const layer = document.getElementById('images-layer') || document.getElementById('annotations-layer');
     if (!layer) return;
     
@@ -4099,6 +4173,9 @@ function createMovableImage(x, y, w, h, src) {
     imgBox.dataset.h = h;
     imgBox.dataset.src = src;
     imgBox.dataset.type = 'image';
+    if (imageId) {
+        imgBox.dataset.imageId = imageId;
+    }
     
     // 4 Corner resize handles
     ['nw', 'ne', 'sw', 'se'].forEach(pos => {

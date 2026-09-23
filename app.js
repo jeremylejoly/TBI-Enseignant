@@ -117,10 +117,15 @@ function switchTab(tabId) {
         if (iframe && iframe.contentWindow) {
             iframe.contentWindow.dispatchEvent(new Event('resize'));
         }
+    } else if (tabId === 'curriculum') {
+        // Synchroniser la progression de l'iframe seulement si on affiche le programme
+        syncCurriculumChecks();
     }
     
-    // Synchroniser la progression des iframes
-    syncCurriculumChecks();
+    // Synchroniser la progression de la barre latérale uniquement si elle est ouverte
+    if (isSidebarOpen) {
+        syncCurriculumChecks();
+    }
 }
 
 function toggleWidget(name) {
