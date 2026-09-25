@@ -1,0 +1,3361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Récits Express — Journal de classe P5-P6</title>
+  
+  <!-- Polices Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS & Lucide Icons locaux -->
+  <script src="tailwind.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Fredoka', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          boxShadow: {
+            'neo': '3px 3px 0 #171717',
+            'neo-sm': '2px 2px 0 #171717',
+            'neo-lg': '5px 5px 0 #171717',
+          }
+        }
+      }
+    }
+  </script>
+  <script src="lucide.min.js"></script>
+  
+  <style>
+    /* Styles spécifiques TBI Neubrutaliste */
+    .neo-card {
+      background-color: #ffffff;
+      border: 2px solid #171717;
+      box-shadow: 3px 3px 0 #171717;
+      border-radius: 16px;
+    }
+    .neo-btn {
+      border: 2px solid #171717;
+      box-shadow: 2px 2px 0 #171717;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .neo-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 #171717;
+    }
+    .neo-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #171717;
+    }
+    
+    /* Scrollbars stylisées */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+      border: 1px solid #171717;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    /* Matrice Excel-like */
+    .matrix-table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .matrix-table th, .matrix-table td {
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .matrix-table th:last-child, .matrix-table td:last-child {
+      border-right: none;
+    }
+    
+    /* En-têtes avec titres verticaux */
+    .matrix-table thead tr {
+      height: 165px;
+    }
+    .th-book-col {
+      width: 34px;
+      min-width: 34px;
+      max-width: 34px;
+      height: 165px;
+      vertical-align: bottom;
+      padding: 6px 1px 4px 1px;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 2px solid #171717;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 15;
+      background: #f8fafc;
+    }
+    .th-book-col:hover {
+      background: #eef2ff !important;
+    }
+    .th-book-vertical-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 155px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .th-book-title-vertical {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      white-space: nowrap;
+      max-height: 130px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: left;
+      line-height: 1.15;
+      color: #1e293b;
+      letter-spacing: -0.2px;
+      padding-top: 2px;
+    }
+    .th-book-num-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 800;
+      color: #4338ca;
+      background: #e0e7ff;
+      border: 1px solid #c7d2fe;
+      padding: 1px 2px;
+      border-radius: 4px;
+      margin-top: 4px;
+      display: inline-block;
+      line-height: 1;
+    }
+    
+    /* Colonnes fixées */
+    .matrix-col-student {
+      position: sticky;
+      left: 0;
+      background: #ffffff;
+      z-index: 20;
+      border-right: 2px solid #171717 !important;
+    }
+    .matrix-col-student-th {
+      position: sticky;
+      left: 0;
+      top: 0;
+      background: #f1f5f9 !important;
+      z-index: 25;
+      vertical-align: bottom;
+      padding: 8px !important;
+      border-right: 2px solid #171717 !important;
+      border-bottom: 2px solid #171717 !important;
+    }
+    .matrix-col-total-th {
+      position: sticky;
+      right: 0;
+      top: 0;
+      background: #f1f5f9 !important;
+      z-index: 25;
+      vertical-align: bottom;
+      padding: 8px 4px !important;
+      border-left: 2px solid #171717 !important;
+      border-bottom: 2px solid #171717 !important;
+    }
+    .matrix-table tr:hover td {
+      background-color: #f8fafc;
+    }
+    .matrix-table tr:hover .matrix-col-student {
+      background-color: #f1f5f9;
+    }
+    
+    /* Cellule de statut cliquable */
+    .matrix-cell {
+      width: 34px;
+      min-width: 34px;
+      max-width: 34px;
+      height: 32px;
+      padding: 0;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .matrix-cell:hover {
+      outline: 2px solid #4f46e5;
+      outline-offset: -2px;
+      z-index: 5;
+      position: relative;
+    }
+    
+    /* --- STYLES D'IMPRESSION A4 --- */
+    @media screen {
+      .print-only {
+        display: none !important;
+      }
+    }
+    
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 8pt !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      @page {
+        size: A4 landscape;
+        margin: 4mm 4mm 4mm 4mm;
+      }
+      
+      .print-grid-container {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      
+      table.print-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      table.print-table th, table.print-table td {
+        border: 1px solid #333333;
+        padding: 1px 0.5px;
+        text-align: center;
+        font-size: 6.5pt;
+        line-height: 1.1;
+      }
+      table.print-table th.col-book-print {
+        height: 36mm;
+        max-height: 36mm;
+        vertical-align: bottom;
+        padding: 2px 0;
+        background-color: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .print-vertical-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        height: 34mm;
+        width: 100%;
+        overflow: hidden;
+      }
+      .print-vertical-title {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        white-space: nowrap;
+        max-height: 29mm;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 5.5pt;
+        font-weight: bold;
+        text-align: left;
+        line-height: 1.1;
+        color: #111;
+      }
+      .print-book-num {
+        display: block;
+        font-size: 5pt;
+        font-weight: 800;
+        font-family: monospace;
+        color: #333;
+        margin-top: 1px;
+      }
+      table.print-table td.col-student {
+        text-align: left;
+        padding-left: 3px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 7pt;
+      }
+      table.print-table td.is-read {
+        background-color: #d1fae5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-weight: bold;
+      }
+      table.print-table td.is-reading {
+        background-color: #fef3c7 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-weight: bold;
+      }
+      
+      .print-legend-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5px 8px;
+        font-size: 6pt;
+        line-height: 1.15;
+        border: 1px solid #999;
+        padding: 3px 5px;
+        background: #fafafa;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        margin-top: 3px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#FDFBF7] text-neutral-900 min-h-screen flex flex-col font-sans select-none print:bg-white print:p-0">
+
+  <!-- ======================================================== -->
+  <!-- BARRE SUPÉRIEURE (HEADER) -->
+  <!-- ======================================================== -->
+  <header class="bg-white border-b-2 border-neutral-900 px-4 md:px-6 py-2.5 flex items-center justify-between shadow-sm no-print sticky top-0 z-30">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center border-2 border-neutral-900 shadow-neo-sm">
+        <i data-lucide="book-open-check" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="font-display font-black text-lg md:text-xl text-neutral-900 tracking-tight leading-none">Récits Express</h1>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">P5-P6</span>
+        </div>
+        <p class="text-[11px] font-medium text-neutral-500">Journal de classe • Waimes Centre • <span id="header-books-count">56</span> Livres & Questionnaires</p>
+      </div>
+    </div>
+
+    <!-- Stats rapides d'en-tête -->
+    <div class="hidden xl:flex items-center gap-2">
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-300">
+        <span class="text-xs font-semibold text-emerald-800">Lus :</span>
+        <span id="stat-total-read" class="font-mono font-bold text-sm text-emerald-700">0</span>
+      </div>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-300">
+        <span class="text-xs font-semibold text-amber-800">En cours :</span>
+        <span id="stat-total-reading" class="font-mono font-bold text-sm text-amber-700">0</span>
+      </div>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-300">
+        <span class="text-xs font-semibold text-indigo-800">Moyenne :</span>
+        <span id="stat-avg-read" class="font-mono font-bold text-sm text-indigo-700">0.0 / élève</span>
+      </div>
+    </div>
+
+    <!-- Actions toolbar -->
+    <div class="flex items-center gap-2">
+      <!-- BOUTON AJOUTER UN LIVRE -->
+      <button onclick="openAddBookModal()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white text-xs shadow-neo-sm">
+        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+        <span>Ajouter un livre</span>
+      </button>
+
+      <button onclick="triggerPrintGridA4()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-neutral-900 text-xs">
+        <i data-lucide="printer" class="w-4 h-4"></i>
+        <span>Imprimer Grille A4</span>
+      </button>
+
+      <button onclick="triggerPrintPassportPrompt()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-sky-400 hover:bg-sky-300 text-neutral-900 text-xs">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        <span>Passeport Élève A4</span>
+      </button>
+
+      <button onclick="openStudentsModal()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs" title="Gérer ou importer les élèves">
+        <i data-lucide="users" class="w-4 h-4"></i>
+        <span>Élèves</span>
+      </button>
+
+      <button onclick="openBackupModal()" class="neo-btn p-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800" title="Sauvegarde / Export JSON">
+        <i data-lucide="hard-drive" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- CORPS PRINCIPAL DE L'APPLICATION (ÉCRAN) -->
+  <!-- ======================================================== -->
+  <main class="flex-1 flex flex-col lg:flex-row p-3 md:p-4 gap-4 overflow-hidden no-print">
+
+    <!-- ---------------------------------------------------- -->
+    <!-- PANNEAU GAUCHE : LE GUICHET D'ATTRIBUTION & ÉLÈVE   -->
+    <!-- ---------------------------------------------------- -->
+    <section class="w-full lg:w-[380px] shrink-0 flex flex-col gap-3">
+      
+      <!-- Carte : Sélection de l'élève & Statut -->
+      <div class="neo-card p-4 flex flex-col gap-3.5 bg-white">
+        <div class="flex items-center justify-between border-b-2 border-neutral-100 pb-2.5">
+          <div class="flex items-center gap-2">
+            <span class="p-1 rounded-lg bg-indigo-100 text-indigo-700">
+              <i data-lucide="user-check" class="w-4 h-4"></i>
+            </span>
+            <h2 class="font-display font-bold text-sm text-neutral-800 uppercase tracking-wide">Guichet d'attribution</h2>
+          </div>
+          <span id="badge-student-count" class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-600 border border-neutral-300">0 élèves</span>
+        </div>
+
+        <!-- Menu déroulant pour choisir l'élève -->
+        <div>
+          <label for="select-student" class="block text-xs font-bold text-neutral-700 mb-1">Élève sélectionné :</label>
+          <div class="relative">
+            <select id="select-student" onchange="onStudentChanged()" class="w-full px-3 py-2 pr-8 text-sm font-semibold rounded-xl border-2 border-neutral-900 bg-neutral-50 shadow-neo-sm focus:outline-none focus:bg-white focus:border-indigo-600 cursor-pointer">
+              <!-- Options générées en JS -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Carte d'état de l'élève sélectionné -->
+        <div id="student-summary-card" class="bg-neutral-50 border border-neutral-200 rounded-xl p-3 flex flex-col gap-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div id="student-avatar" class="w-8 h-8 rounded-full bg-indigo-600 text-white font-display font-bold text-sm flex items-center justify-center border border-neutral-900">
+                ?
+              </div>
+              <div>
+                <h3 id="student-name-display" class="font-display font-bold text-sm text-neutral-900 leading-tight">Aucun élève</h3>
+                <p id="student-read-count" class="text-[11px] text-neutral-500 font-medium">0 livre lu sur 56</p>
+              </div>
+            </div>
+            <!-- Jauge de progression % -->
+            <div class="text-right">
+              <span id="student-progress-percent" class="font-mono font-bold text-sm text-indigo-600">0%</span>
+            </div>
+          </div>
+
+          <!-- Barre de progression -->
+          <div class="w-full h-2 rounded-full bg-neutral-200 overflow-hidden border border-neutral-300">
+            <div id="student-progress-bar" class="h-full bg-indigo-600 transition-all duration-300" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- BLOC 1 : LIVRE ACTUELLEMENT EN COURS -->
+        <div id="box-current-reading" class="hidden rounded-xl border-2 border-amber-600 bg-amber-50/90 p-3.5 flex flex-col gap-2.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-200 text-amber-900 border border-amber-400 animate-pulse">
+              <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+              LIVRE EN COURS
+            </span>
+            <span id="current-reading-date" class="text-[10px] font-mono text-amber-800 font-semibold">Emprunté le --/--</span>
+          </div>
+
+          <div>
+            <div class="flex items-start gap-1.5">
+              <span id="current-book-num" class="font-mono font-black text-xs px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 border border-amber-300">N° 00</span>
+              <h4 id="current-book-title" class="font-bold text-xs text-amber-950 leading-snug">Titre du livre</h4>
+            </div>
+          </div>
+
+          <!-- Boutons d'action sur le livre en cours -->
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="openCompleteModalCurrent()" class="neo-btn flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-500 hover:bg-emerald-400 text-white text-xs">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+              <span>Marquer Lu ✅</span>
+            </button>
+            <a id="btn-open-questionnaire-current" href="#" target="_blank" class="neo-btn flex items-center justify-center gap-1.5 py-1.5 px-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs text-center">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              <span>Questionnaire 🎯</span>
+            </a>
+          </div>
+
+          <div class="text-center pt-1 border-t border-amber-200">
+            <button onclick="returnCurrentBook()" class="text-[11px] font-semibold text-neutral-600 hover:text-rose-600 underline cursor-pointer">
+              Rendre sans terminer (annuler l'emprunt)
+            </button>
+          </div>
+        </div>
+
+        <!-- BLOC 2 : ATTRIBUER UN NOUVEAU LIVRE -->
+        <div id="box-assign-book" class="flex flex-col gap-2.5 pt-1">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-neutral-800">Attribuer un livre :</label>
+            <label class="flex items-center gap-1.5 text-[11px] font-semibold text-neutral-600 cursor-pointer select-none">
+              <input type="checkbox" id="chk-hide-already-read" onchange="renderBookSelectOptions()" checked class="rounded accent-indigo-600">
+              <span>Masquer déjà lus</span>
+            </label>
+          </div>
+
+          <!-- Menu déroulant des livres -->
+          <select id="select-book-to-assign" class="w-full px-3 py-2 text-xs font-semibold rounded-xl border-2 border-neutral-900 bg-white shadow-neo-sm focus:outline-none focus:border-indigo-600">
+            <!-- Rempli dynamiquement -->
+          </select>
+
+          <!-- Bouton Attribuer -->
+          <button onclick="assignSelectedBook()" class="neo-btn flex items-center justify-center gap-2 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs">
+            <i data-lucide="book-plus" class="w-4 h-4"></i>
+            <span>Attribuer ce livre à l'élève 📚</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Carte : Dernières lectures de l'élève -->
+      <div class="neo-card p-3.5 flex-1 flex flex-col min-h-0 bg-white">
+        <div class="flex items-center justify-between border-b border-neutral-200 pb-2 mb-2">
+          <h3 class="font-display font-bold text-xs text-neutral-700 uppercase tracking-wide">Lectures terminées par cet élève</h3>
+          <span id="student-read-badge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">0</span>
+        </div>
+
+        <div id="student-read-list" class="flex-1 overflow-y-auto pr-1 flex flex-col gap-1.5 text-xs max-h-[220px]">
+          <!-- Rempli dynamiquement en JS -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- PANNEAU DROIT : LA VUE GLOBALE (MATRICE & VUES)     -->
+    <!-- ---------------------------------------------------- -->
+    <section class="flex-1 flex flex-col gap-3 min-w-0">
+
+      <!-- Barre d'onglets de vue & Filtres -->
+      <div class="neo-card px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 bg-white">
+        <div class="flex items-center gap-1.5">
+          <button id="tab-btn-matrix" onclick="switchMainTab('matrix')" class="px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-indigo-600 text-white shadow-none translate-x-0.5 translate-y-0.5 cursor-pointer">
+            📊 Matrice des Livres
+          </button>
+          <button id="tab-btn-students" onclick="switchMainTab('students')" class="px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-white text-neutral-800 shadow-neo-sm hover:bg-neutral-100 cursor-pointer">
+            👥 Suivi par Élève
+          </button>
+          <button id="tab-btn-books" onclick="switchMainTab('books')" class="px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-white text-neutral-800 shadow-neo-sm hover:bg-neutral-100 cursor-pointer">
+            📚 Catalogue (<span id="tab-books-count">56</span>)
+          </button>
+        </div>
+
+        <!-- Recherche rapide & Bouton nouveau livre -->
+        <div class="flex items-center gap-2">
+          <div class="relative w-48 md:w-64">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-neutral-400 absolute left-2.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="filter-search" oninput="renderCurrentView()" placeholder="Filtrer élève ou livre..." class="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border-2 border-neutral-900 bg-neutral-50 focus:bg-white focus:outline-none">
+          </div>
+          
+          <button onclick="resetFilters()" class="p-1.5 rounded-lg border border-neutral-300 hover:bg-neutral-100 text-neutral-600" title="Réinitialiser les filtres">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- VUE 1 : LA MATRICE COMPLÈTE ÉLÈVES × LIVRES -->
+      <div id="view-matrix" class="neo-card flex-1 flex flex-col min-h-0 bg-white overflow-hidden">
+        
+        <!-- Légende miniature au-dessus de la table -->
+        <div class="px-4 py-2 border-b border-neutral-200 bg-neutral-50/70 flex flex-wrap items-center justify-between text-[11px] text-neutral-600 gap-2">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="font-bold text-neutral-800">Légende :</span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-4 h-4 rounded bg-emerald-500 text-white flex items-center justify-center text-[10px] font-mono font-bold">1</span>
+              <span><strong>1, 2, 3...</strong> Ordre de lecture (1er, 2è...)</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-4 h-4 rounded bg-amber-400 text-neutral-900 flex items-center justify-center text-[10px]">📖</span>
+              <span>En cours</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-4 h-4 rounded bg-neutral-100 border border-neutral-300 flex items-center justify-center text-[10px] text-neutral-400 font-bold">·</span>
+              <span>Non lu</span>
+            </span>
+            <span id="matrix-colors-summary" class="hidden items-center gap-1.5 pl-2 border-l border-neutral-300">
+              <!-- Rempli en JS avec les pastilles de couleurs des livres -->
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="toggleQuickColorBar()" id="btn-toggle-color-mode" class="neo-btn px-2.5 py-1 text-[11px] bg-white hover:bg-neutral-100 text-neutral-800 flex items-center gap-1.5 font-bold transition shadow-neo-sm" title="Activer le mode surligneur pour colorer rapidement les cadres des livres">
+              <i data-lucide="palette" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>🎨 Colorer les cadres</span>
+            </button>
+            <div class="text-neutral-500 font-medium hidden lg:block">
+              💡 Cliquez sur un livre pour le modifier.
+            </div>
+          </div>
+        </div>
+
+        <!-- Bannière du Mode Coloration Rapide des Livres -->
+        <div id="quick-color-banner" class="hidden px-4 py-2.5 bg-indigo-50 border-b-2 border-indigo-300 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <span class="font-display font-bold text-indigo-950 flex items-center gap-1.5">
+              <i data-lucide="brush" class="w-4 h-4 text-indigo-600"></i>
+              <span>Mode coloration des cadres :</span>
+            </span>
+            <span class="text-indigo-800 text-[11px]">Choisissez une couleur, puis cliquez directement sur les titres des livres pour colorer leurs cadres :</span>
+            <div class="flex items-center gap-1.5 flex-wrap ml-1" id="quick-color-swatches">
+              <!-- Swatches remplis en JS -->
+            </div>
+          </div>
+          <button type="button" onclick="toggleQuickColorBar(false)" class="neo-btn px-3 py-1 bg-neutral-900 hover:bg-neutral-800 text-white text-[11px] font-bold">
+            Terminer ✓
+          </button>
+        </div>
+
+        <!-- Table scrollable horizontalement et verticalement -->
+        <div class="flex-1 overflow-auto relative">
+          <table class="matrix-table w-full text-xs text-center border-collapse">
+            <thead>
+              <tr>
+                <th class="matrix-col-student-th text-left font-display font-bold text-neutral-800 w-44 min-w-[170px] max-w-[170px]">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-1">
+                      <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                      <span>Élève</span>
+                      <button onclick="sortStudentsAlphabetically()" class="p-0.5 text-neutral-400 hover:text-indigo-600 transition" title="Trier les élèves par ordre alphabétique (A-Z)">
+                        <i data-lucide="arrow-down-a-z" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                    <button onclick="openAddBookModal()" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300" title="Ajouter un nouveau livre">+ Livre</button>
+                  </div>
+                </th>
+                <!-- Colonnes livres avec titres verticaux générées en JS -->
+                <!-- Colonne Total Lu -->
+                <th class="matrix-col-total-th font-display font-bold text-neutral-800 w-16 min-w-[60px]">
+                  Total
+                </th>
+              </tr>
+            </thead>
+            <tbody id="matrix-tbody">
+              <!-- Rempli en JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VUE 2 : SUIVI PAR ÉLÈVE (CARTES) -->
+      <div id="view-students" class="hidden neo-card flex-1 flex flex-col min-h-0 bg-white p-4 overflow-y-auto">
+        <div id="students-cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+          <!-- Rempli en JS -->
+        </div>
+      </div>
+
+      <!-- VUE 3 : LE CATALOGUE DES LIVRES & ÉTAT DU STOCK -->
+      <div id="view-books" class="hidden neo-card flex-1 flex flex-col min-h-0 bg-white overflow-hidden">
+        <div class="p-3 border-b border-neutral-200 bg-neutral-50 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <h3 class="font-display font-bold text-sm text-neutral-800">Catalogue des Récits Express (<span id="books-count-badge">56</span> livres)</h3>
+          </div>
+          <button onclick="openAddBookModal()" class="neo-btn flex items-center gap-1 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white text-xs">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+            <span>Ajouter un livre</span>
+          </button>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead class="bg-neutral-100 sticky top-0 border-b-2 border-neutral-900 text-neutral-800 font-bold">
+              <tr>
+                <th class="p-2.5 w-14 text-center">N°</th>
+                <th class="p-2.5">Titre du Récit Express</th>
+                <th class="p-2.5 w-28 text-center">Questions</th>
+                <th class="p-2.5 w-40 text-center">Statut actuel</th>
+                <th class="p-2.5 w-28 text-center">Fois lu</th>
+                <th class="p-2.5 w-32 text-center">Questionnaire</th>
+                <th class="p-2.5 w-24 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="books-tbody" class="divide-y divide-neutral-200">
+              <!-- Rempli en JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL : AJOUTER UN NOUVEAU LIVRE                         -->
+  <!-- ======================================================== -->
+  <div id="modal-add-book" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 no-print">
+    <div class="neo-card w-full max-w-md p-5 bg-white flex flex-col gap-4 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center justify-between border-b border-neutral-200 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-1 rounded-lg bg-emerald-100 text-emerald-700">
+            <i data-lucide="book-plus" class="w-4 h-4"></i>
+          </span>
+          <h3 class="font-display font-bold text-base text-neutral-900">Ajouter un Récit Express</h3>
+        </div>
+        <button onclick="closeModal('modal-add-book')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <!-- Numéro / Position du livre -->
+        <div>
+          <label class="block text-xs font-bold text-neutral-700 mb-1">Numéro du livre (place dans le tableau) :</label>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-neutral-500">N°</span>
+            <input type="number" id="add-book-num" min="1" max="999" oninput="onAddBookNumChanged()" class="w-24 px-3 py-1.5 text-xs font-mono font-bold rounded-xl border-2 border-neutral-900 bg-neutral-50">
+            <span class="text-[11px] text-neutral-500 font-medium">Par défaut à la suite, ou à la place d'un numéro existant.</span>
+          </div>
+        </div>
+
+        <!-- Encadré d'avertissement de décalage automatique -->
+        <div id="box-shift-notice" class="hidden p-2.5 rounded-xl bg-amber-50 border-2 border-amber-300 text-xs">
+          <div class="font-bold text-amber-900 flex items-center gap-1.5 mb-1">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span id="shift-notice-title">Ce numéro existe déjà !</span>
+          </div>
+          <p class="text-[11px] text-amber-800 mb-2 leading-relaxed" id="shift-notice-desc">
+            Le numéro est déjà attribué. Cochez ci-dessous pour insérer ce nouveau livre et décaler tous les livres suivants.
+          </p>
+          <label class="flex items-center gap-2 font-bold text-amber-950 cursor-pointer select-none text-[11px]">
+            <input type="checkbox" id="chk-shift-books" checked class="rounded accent-amber-600">
+            <span>Décaler automatiquement les livres suivants (+1)</span>
+          </label>
+        </div>
+
+        <!-- Titre du livre -->
+        <div>
+          <label class="block text-xs font-bold text-neutral-700 mb-1">Titre du Récit Express * :</label>
+          <input type="text" id="add-book-title" placeholder="Ex: L'énigme du phare abandonné" class="w-full px-3 py-2 text-xs font-semibold rounded-xl border-2 border-neutral-900 bg-neutral-50 focus:bg-white focus:outline-none focus:border-indigo-600">
+        </div>
+
+        <!-- Nombre de questions -->
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Nombre de questions :</label>
+            <input type="number" id="add-book-questions" min="1" max="50" value="16" class="w-full px-3 py-1.5 text-xs font-mono font-bold rounded-xl border-2 border-neutral-900 bg-neutral-50">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Nom de fichier HTML (facultatif) :</label>
+            <input type="text" id="add-book-filename" placeholder="Ex: 57_Mon_livre.html" class="w-full px-3 py-1.5 text-xs rounded-xl border-2 border-neutral-900 bg-neutral-50">
+          </div>
+        </div>
+
+        <!-- Couleur du cadre (longueur du livre) -->
+        <div class="pt-1">
+          <label class="block text-[11px] font-bold text-neutral-700 mb-1.5 flex items-center justify-between">
+            <span>Couleur du cadre (longueur / difficulté) :</span>
+            <span id="add-book-color-label" class="text-[10px] font-semibold text-neutral-500">⚪ Standard (Neutre)</span>
+          </label>
+          <div class="flex flex-wrap gap-1.5" id="add-book-color-swatches">
+            <!-- Rempli en JS -->
+          </div>
+          <input type="hidden" id="add-book-color" value="none">
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-neutral-200 flex items-center justify-end gap-2">
+        <button onclick="closeModal('modal-add-book')" class="px-3 py-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-900">
+          Annuler
+        </button>
+        <button onclick="confirmAddBook()" class="neo-btn px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-xs flex items-center gap-1.5">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>Insérer dans le tableau 📚</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL : FICHE & MODIFICATION D'UN LIVRE                   -->
+  <!-- ======================================================== -->
+  <div id="modal-edit-book" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 no-print">
+    <div class="neo-card w-full max-w-md p-5 bg-white flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-neutral-200 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-1 rounded-lg bg-indigo-100 text-indigo-700">
+            <i data-lucide="book" class="w-4 h-4"></i>
+          </span>
+          <h3 class="font-display font-bold text-base text-neutral-900">Fiche du Récit Express</h3>
+        </div>
+        <button onclick="closeModal('modal-edit-book')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="edit-book-id">
+
+      <div class="flex flex-col gap-3">
+        <div class="grid grid-cols-4 gap-2">
+          <div class="col-span-1">
+            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Numéro :</label>
+            <input type="text" id="edit-book-num" class="w-full px-2.5 py-1.5 text-xs font-mono font-bold rounded-xl border-2 border-neutral-900 bg-neutral-50">
+          </div>
+          <div class="col-span-3">
+            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Titre du livre :</label>
+            <input type="text" id="edit-book-title" class="w-full px-3 py-1.5 text-xs font-bold rounded-xl border-2 border-neutral-900 bg-neutral-50">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Questions :</label>
+            <input type="number" id="edit-book-questions" min="1" max="50" class="w-full px-3 py-1.5 text-xs font-mono rounded-xl border-2 border-neutral-900 bg-neutral-50">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Fichier questionnaire :</label>
+            <input type="text" id="edit-book-filename" class="w-full px-3 py-1.5 text-xs rounded-xl border-2 border-neutral-900 bg-neutral-50">
+          </div>
+        </div>
+
+        <!-- Couleur du cadre (longueur du livre) -->
+        <div class="pt-1">
+          <label class="block text-[11px] font-bold text-neutral-700 mb-1.5 flex items-center justify-between">
+            <span>Couleur du cadre (longueur / difficulté) :</span>
+            <span id="edit-book-color-label" class="text-[10px] font-semibold text-neutral-500">⚪ Standard (Neutre)</span>
+          </label>
+          <div class="flex flex-wrap gap-1.5" id="edit-book-color-swatches">
+            <!-- Rempli en JS -->
+          </div>
+          <input type="hidden" id="edit-book-color" value="none">
+        </div>
+
+        <!-- Stats rapides de ce livre -->
+        <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200 text-xs flex flex-col gap-1">
+          <div class="flex justify-between">
+            <span class="text-neutral-500">Statut actuel :</span>
+            <span id="edit-book-status" class="font-bold text-neutral-800">--</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-neutral-500">Total lectures terminées :</span>
+            <span id="edit-book-readers" class="font-bold text-neutral-800">--</span>
+          </div>
+          <div class="pt-1 mt-1 border-t border-neutral-200 flex justify-end">
+            <a id="edit-book-link-q" href="#" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1 text-[11px]">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              <span>Tester le questionnaire interactif</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-neutral-200 flex items-center justify-between">
+        <button onclick="confirmDeleteBook()" class="text-xs font-bold text-rose-600 hover:text-rose-800 flex items-center gap-1">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          <span>Supprimer ce livre</span>
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="closeModal('modal-edit-book')" class="px-3 py-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-900">
+            Annuler
+          </button>
+          <button onclick="confirmSaveEditedBook()" class="neo-btn px-4 py-2 bg-indigo-600 text-white text-xs">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL : ACTION RAPIDE SUR UNE CELLULE DE LECTURE          -->
+  <!-- ======================================================== -->
+  <div id="modal-cell-action" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 no-print">
+    <div class="neo-card w-full max-w-md p-5 bg-white flex flex-col gap-4">
+      <div class="flex items-start justify-between border-b border-neutral-200 pb-3">
+        <div>
+          <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-indigo-100 text-indigo-800" id="modal-cell-book-num">N° --</span>
+          <h3 id="modal-cell-book-title" class="font-display font-bold text-base text-neutral-900 mt-1">Titre</h3>
+          <p id="modal-cell-student-name" class="text-xs text-neutral-500 font-semibold">Élève : --</p>
+        </div>
+        <button onclick="closeModal('modal-cell-action')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Choix de statut -->
+      <div class="flex flex-col gap-2">
+        <label class="text-xs font-bold text-neutral-700">Statut de lecture :</label>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" onclick="setModalStatus('none')" id="btn-status-none" class="neo-btn py-2 text-xs text-center bg-neutral-100 hover:bg-neutral-200 text-neutral-700">
+            Non lu
+          </button>
+          <button type="button" onclick="setModalStatus('reading')" id="btn-status-reading" class="neo-btn py-2 text-xs text-center bg-amber-100 hover:bg-amber-200 text-amber-900">
+            📖 En cours
+          </button>
+          <button type="button" onclick="setModalStatus('completed')" id="btn-status-completed" class="neo-btn py-2 text-xs text-center bg-emerald-100 hover:bg-emerald-200 text-emerald-900">
+            ✅ Lu
+          </button>
+        </div>
+      </div>
+
+      <!-- Détails (date & ordre de lecture) -->
+      <div id="modal-cell-extra-fields" class="flex flex-col gap-3 pt-1 border-t border-neutral-100">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-600 mb-1">Date d'achèvement :</label>
+            <input type="date" id="modal-cell-date" class="w-full px-2.5 py-1.5 text-xs rounded-lg border-2 border-neutral-900 bg-neutral-50 font-medium">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-600 mb-1">Ordre de lecture :</label>
+            <div class="flex items-center gap-1.5">
+              <input type="number" id="modal-cell-order" min="1" max="999" placeholder="Auto" class="w-full px-2.5 py-1.5 text-xs rounded-lg border-2 border-neutral-900 bg-neutral-50 font-bold font-mono">
+              <span class="text-[11px] font-bold text-neutral-500 whitespace-nowrap" id="modal-cell-order-suffix">e livre</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lien vers le questionnaire -->
+      <div class="pt-2 flex items-center justify-between border-t border-neutral-200">
+        <a id="modal-cell-link-questionnaire" href="#" target="_blank" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>Ouvrir le questionnaire interactif</span>
+        </a>
+
+        <div class="flex items-center gap-2">
+          <button onclick="closeModal('modal-cell-action')" class="px-3 py-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-900">
+            Annuler
+          </button>
+          <button onclick="saveModalCellAction()" class="neo-btn px-4 py-1.5 bg-indigo-600 text-white text-xs">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL : GESTION DES ÉLÈVES                               -->
+  <!-- ======================================================== -->
+  <div id="modal-students" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 no-print">
+    <div class="neo-card w-full max-w-lg p-5 bg-white flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-neutral-200 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-1 rounded-lg bg-indigo-100 text-indigo-700">
+            <i data-lucide="users" class="w-4 h-4"></i>
+          </span>
+          <h3 class="font-display font-bold text-base text-neutral-900">Gestion de la liste des élèves</h3>
+        </div>
+        <button onclick="closeModal('modal-students')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Ajout d'un élève avec choix de placement -->
+      <div class="flex flex-col gap-1.5 p-3 rounded-xl bg-neutral-50 border border-neutral-200">
+        <label class="text-[11px] font-bold text-neutral-700">Ajouter un élève :</label>
+        <div class="flex gap-2 items-center">
+          <input type="text" id="new-student-name" placeholder="Prénom (ex: Joshua)" class="flex-1 px-3 py-2 text-xs rounded-xl border-2 border-neutral-900 bg-white focus:outline-none" onkeydown="if(event.key==='Enter') addStudentFromInput()">
+          <select id="new-student-position" class="px-2 py-2 text-xs font-semibold rounded-xl border-2 border-neutral-900 bg-white cursor-pointer max-w-[170px] truncate" title="Position d'insertion">
+            <option value="alpha">🔤 Alphabétique (Auto)</option>
+            <option value="last">En dernier (bas de liste)</option>
+            <option value="first">En premier (haut de liste)</option>
+          </select>
+          <button onclick="addStudentFromInput()" class="neo-btn px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs flex items-center gap-1 shrink-0 font-bold">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+            <span>Ajouter</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barre d'outils de liste (Tri A-Z) -->
+      <div class="flex items-center justify-between pt-1">
+        <span class="text-xs font-bold text-neutral-600" id="modal-students-count">Élèves enregistrés :</span>
+        <button type="button" onclick="sortStudentsAlphabetically()" class="neo-btn px-3 py-1 text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 flex items-center gap-1.5 font-bold" title="Trier automatiquement tous les élèves de A à Z">
+          <i data-lucide="arrow-down-a-z" class="w-3.5 h-3.5"></i>
+          <span>Trier de A à Z</span>
+        </button>
+      </div>
+
+      <!-- Boutons de synchronisation et importation -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div>
+            <h4 class="text-xs font-bold text-indigo-900">Synchroniser avec le TBI / Cahier de cotes</h4>
+            <p class="text-[11px] text-indigo-700">Recharger la mémoire locale (Roue & Cahier de cotes)</p>
+          </div>
+          <button onclick="importStudentsFromTBI()" class="neo-btn px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs flex items-center gap-1">
+            <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+            <span>Synchroniser</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div>
+            <h4 class="text-xs font-bold text-emerald-900">Importer depuis un fichier Cahier de cotes</h4>
+            <p class="text-[11px] text-emerald-700">Fichier .json sauvegardé sur Google Drive ou le disque</p>
+          </div>
+          <button onclick="document.getElementById('import-cotes-json-file').click()" class="neo-btn px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs flex items-center gap-1">
+            <i data-lucide="upload" class="w-3 h-3"></i>
+            <span>Fichier .json</span>
+          </button>
+          <input type="file" id="import-cotes-json-file" class="hidden" accept=".json" onchange="importStudentsFromCotesJSON(event)">
+        </div>
+      </div>
+
+      <!-- Liste des élèves -->
+      <div class="flex flex-col gap-1 max-h-60 overflow-y-auto pr-1" id="modal-students-list">
+        <!-- Rempli en JS -->
+      </div>
+
+      <div class="pt-2 border-t border-neutral-200 flex justify-end">
+        <button onclick="closeModal('modal-students')" class="neo-btn px-4 py-1.5 bg-neutral-800 text-white text-xs">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL : SAUVEGARDE & EXPORT JSON                          -->
+  <!-- ======================================================== -->
+  <div id="modal-backup" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 no-print">
+    <div class="neo-card w-full max-w-md p-5 bg-white flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-neutral-200 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-1 rounded-lg bg-emerald-100 text-emerald-700">
+            <i data-lucide="hard-drive" class="w-4 h-4"></i>
+          </span>
+          <h3 class="font-display font-bold text-base text-neutral-900">Sauvegarde & Restauration</h3>
+        </div>
+        <button onclick="closeModal('modal-backup')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-neutral-600 leading-relaxed">
+        Vos données (livres, élèves et lectures) sont stockées en local dans votre navigateur (<code class="font-mono bg-neutral-100 px-1 py-0.5 rounded">localStorage</code>).
+      </p>
+
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <button onclick="exportBackupJSON()" class="neo-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-white text-xs">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Télécharger JSON</span>
+        </button>
+
+        <button onclick="document.getElementById('import-json-file').click()" class="neo-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs">
+          <i data-lucide="upload" class="w-4 h-4"></i>
+          <span>Importer un JSON</span>
+        </button>
+        <input type="file" id="import-json-file" class="hidden" accept=".json" onchange="importBackupJSON(event)">
+      </div>
+
+      <div class="pt-3 border-t border-neutral-200">
+        <button onclick="resetAllDataConfirm()" class="text-xs font-semibold text-rose-600 hover:text-rose-800">
+          ⚠️ Réinitialiser toutes les données de lecture
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL : VALIDATION DE LECTURE TERMINÉE                   -->
+  <!-- ======================================================== -->
+  <div id="modal-complete" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 no-print">
+    <div class="neo-card w-full max-w-sm p-5 bg-white flex flex-col gap-3.5">
+      <div class="flex items-center justify-between border-b border-neutral-200 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="p-1 rounded-lg bg-emerald-100 text-emerald-700">
+            <i data-lucide="check-check" class="w-4 h-4"></i>
+          </span>
+          <h3 class="font-display font-bold text-sm text-neutral-900">Valider la fin de lecture</h3>
+        </div>
+        <button onclick="closeModal('modal-complete')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="bg-neutral-50 p-2.5 rounded-xl border border-neutral-200">
+        <div class="text-[11px] font-bold text-indigo-700" id="complete-modal-book-label">Livre</div>
+        <div class="text-xs font-bold text-neutral-900" id="complete-modal-book-title">--</div>
+        <div class="text-[11px] text-neutral-500 mt-0.5" id="complete-modal-student-name">Élève : --</div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="block text-xs font-bold text-neutral-700 mb-1">Date de fin :</label>
+          <input type="date" id="complete-modal-date" class="w-full px-3 py-1.5 text-xs rounded-xl border-2 border-neutral-900 bg-neutral-50 font-medium">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-neutral-700 mb-1">Ordre de lecture :</label>
+          <div class="flex items-center gap-1.5">
+            <input type="number" id="complete-modal-order" min="1" max="999" placeholder="1" class="w-full px-3 py-1.5 text-xs rounded-xl border-2 border-neutral-900 bg-neutral-50 font-bold font-mono">
+            <span class="text-xs font-bold text-neutral-500 whitespace-nowrap" id="complete-modal-order-suffix">e livre</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-neutral-200">
+        <button onclick="closeModal('modal-complete')" class="px-3 py-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-900">
+          Annuler
+        </button>
+        <button onclick="confirmCompleteCurrent()" class="neo-btn px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-xs flex items-center gap-1">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>Enregistrer ✅</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- VUES D'IMPRESSION A4 (CACHÉES À L'ÉCRAN, ACTIVES EN PRINT)-->
+  <!-- ======================================================== -->
+
+  <!-- 1. VUE IMPRESSION A4 PAYSAGE : GRILLE CLASSE COMPLETE -->
+  <div id="print-area-grid" class="print-only print-grid-container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #000; padding-bottom:4px; margin-bottom:4px;">
+      <div>
+        <h1 style="font-size:13pt; font-weight:900; margin:0; text-transform:uppercase; letter-spacing:0.5px;">
+          Suivi de lecture — Récits Express
+        </h1>
+        <p style="font-size:7.5pt; margin:1px 0 0 0; color:#333;">
+          École fondamentale Waimes Centre • Classe de P5 - P6 • Récits Express & Questionnaires
+        </p>
+      </div>
+      <div style="text-align:right; font-size:7pt; color:#444;">
+        <span>Édité le : <strong id="print-date-today">--/--/----</strong></span> • 
+        <span>Année scolaire 2026-2027</span>
+      </div>
+    </div>
+
+    <!-- Table de la grille imprimée -->
+    <table class="print-table" id="print-table-matrix">
+      <thead id="print-table-thead">
+        <!-- Rempli en JS -->
+      </thead>
+      <tbody id="print-table-tbody">
+        <!-- Rempli en JS -->
+      </tbody>
+    </table>
+
+    <!-- Légende & Table de correspondance en bas de page A4 -->
+    <div style="margin-top:4px;">
+      <div style="font-size:7pt; font-weight:bold; margin-bottom:1px; display:flex; justify-content:space-between;">
+        <span>Index de correspondance des livres :</span>
+        <span style="font-weight:normal; font-style:italic;">■ Vert (1, 2, 3...) = Ordre chronologique de lecture de l'élève • □ Jaune (📖) = En cours</span>
+      </div>
+      <div class="print-legend-grid" id="print-legend-grid">
+        <!-- Rempli en JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. VUE IMPRESSION A4 PORTRAIT : PASSEPORT ÉLÈVE INDIVIDUEL -->
+  <div id="print-area-passport" class="print-only" style="display:none;">
+    <div style="border-bottom:2px solid #000; padding-bottom:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:flex-end;">
+      <div>
+        <span style="font-size:8pt; font-weight:bold; background:#e0e7ff; padding:2px 6px; border-radius:4px;">PASSEPORT DE LECTURE</span>
+        <h1 style="font-size:16pt; font-weight:900; margin:4px 0 0 0;">
+          Récits Express — P5/P6
+        </h1>
+        <p style="font-size:9pt; color:#555; margin:0;">École communale Waimes Centre</p>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:13pt; font-weight:900; border:2px solid #000; padding:4px 12px; border-radius:8px;" id="passport-print-student-name">
+          Élève : Lucas
+        </div>
+        <div style="font-size:8pt; color:#666; margin-top:3px;">
+          Bilan : <strong id="passport-print-count">0</strong> / <span id="passport-print-total">56</span> livres lus
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille 2 colonnes des livres avec cases à cocher -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px 12px;" id="passport-print-books-list">
+      <!-- Rempli en JS -->
+    </div>
+
+    <div style="margin-top:10px; border-top:1px dashed #999; padding-top:6px; display:flex; justify-content:space-between; font-size:8pt;">
+      <div>Signature de l'élève : _______________________</div>
+      <div>Visa de l'enseignant : _______________________</div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- SCRIPTS & LOGIQUE JAVASCRIPT                              -->
+  <!-- ======================================================== -->
+  <script>
+    // 1. LIVRES PAR DÉFAUT
+    const DEFAULT_BOOKS = [
+  {
+    "id": 1,
+    "num": "01",
+    "title": "Au pays des longs nuages blancs",
+    "questions": 16,
+    "filename": "01_Au_pays_des_longs_nuages_blancs.html",
+    "path": "../LCML/Questionnaire récits express/01_Au_pays_des_longs_nuages_blancs.html"
+  },
+  {
+    "id": 2,
+    "num": "02",
+    "title": "Au-dessus des nuages",
+    "questions": 16,
+    "filename": "02_Au-dessus_des_nuages.html",
+    "path": "../LCML/Questionnaire récits express/02_Au-dessus_des_nuages.html"
+  },
+  {
+    "id": 3,
+    "num": "03",
+    "title": "Aventures au pays de la neige",
+    "questions": 16,
+    "filename": "03_Aventures_au_pays_de_la_neige.html",
+    "path": "../LCML/Questionnaire récits express/03_Aventures_au_pays_de_la_neige.html"
+  },
+  {
+    "id": 4,
+    "num": "04",
+    "title": "Back to the 80's !",
+    "questions": 16,
+    "filename": "04_Back_to_the_80_s_.html",
+    "path": "../LCML/Questionnaire récits express/04_Back_to_the_80_s_.html"
+  },
+  {
+    "id": 5,
+    "num": "05",
+    "title": "Collège Momiji",
+    "questions": 16,
+    "filename": "05_College_Momiji.html",
+    "path": "../LCML/Questionnaire récits express/05_College_Momiji.html"
+  },
+  {
+    "id": 6,
+    "num": "06",
+    "title": "Comme sur des roulettes !",
+    "questions": 16,
+    "filename": "06_Comme_sur_des_roulettes_.html",
+    "path": "../LCML/Questionnaire récits express/06_Comme_sur_des_roulettes_.html"
+  },
+  {
+    "id": 7,
+    "num": "07",
+    "title": "Crash au cœur de la jungle",
+    "questions": 16,
+    "filename": "07_Crash_au_cur_de_la_jungle.html",
+    "path": "../LCML/Questionnaire récits express/07_Crash_au_cur_de_la_jungle.html"
+  },
+  {
+    "id": 8,
+    "num": "08",
+    "title": "Drôles d'arbres",
+    "questions": 16,
+    "filename": "08_Droles_d_arbres.html",
+    "path": "../LCML/Questionnaire récits express/08_Droles_d_arbres.html"
+  },
+  {
+    "id": 9,
+    "num": "09",
+    "title": "Du sel sur mes lèvres",
+    "questions": 16,
+    "filename": "09_Du_sel_sur_mes_levres.html",
+    "path": "../LCML/Questionnaire récits express/09_Du_sel_sur_mes_levres.html"
+  },
+  {
+    "id": 10,
+    "num": "10",
+    "title": "Enquête à l'hôpital désaffecté",
+    "questions": 16,
+    "filename": "10_Enquete_a_l_hopital_desaffecte.html",
+    "path": "../LCML/Questionnaire récits express/10_Enquete_a_l_hopital_desaffecte.html"
+  },
+  {
+    "id": 11,
+    "num": "11",
+    "title": "Étoiles filantes",
+    "questions": 16,
+    "filename": "11_Etoiles_filantes.html",
+    "path": "../LCML/Questionnaire récits express/11_Etoiles_filantes.html"
+  },
+  {
+    "id": 12,
+    "num": "12",
+    "title": "L'exposé intergalactique",
+    "questions": 16,
+    "filename": "12_L_expose_intergalactique.html",
+    "path": "../LCML/Questionnaire récits express/12_L_expose_intergalactique.html"
+  },
+  {
+    "id": 13,
+    "num": "13",
+    "title": "L'échappée belle",
+    "questions": 16,
+    "filename": "13_L_echappee_belle.html",
+    "path": "../LCML/Questionnaire récits express/13_L_echappee_belle.html"
+  },
+  {
+    "id": 14,
+    "num": "14",
+    "title": "L'ombre et la lumière",
+    "questions": 16,
+    "filename": "14_L_ombre_et_la_lumiere.html",
+    "path": "../LCML/Questionnaire récits express/14_L_ombre_et_la_lumiere.html"
+  },
+  {
+    "id": 15,
+    "num": "15",
+    "title": "La gardienne des eaux vives",
+    "questions": 16,
+    "filename": "15_La_gardienne_des_eaux_vives.html",
+    "path": "../LCML/Questionnaire récits express/15_La_gardienne_des_eaux_vives.html"
+  },
+  {
+    "id": 16,
+    "num": "16",
+    "title": "La goutte d'eau qui…",
+    "questions": 16,
+    "filename": "16_La_goutte_d_eau_qui.html",
+    "path": "../LCML/Questionnaire récits express/16_La_goutte_d_eau_qui.html"
+  },
+  {
+    "id": 17,
+    "num": "17",
+    "title": "La légende de la princesse moche",
+    "questions": 16,
+    "filename": "17_La_legende_de_la_princesse_moche.html",
+    "path": "../LCML/Questionnaire récits express/17_La_legende_de_la_princesse_moche.html"
+  },
+  {
+    "id": 18,
+    "num": "18",
+    "title": "La résistance des enfants",
+    "questions": 16,
+    "filename": "18_La_resistance_des_enfants.html",
+    "path": "../LCML/Questionnaire récits express/18_La_resistance_des_enfants.html"
+  },
+  {
+    "id": 19,
+    "num": "19",
+    "title": "La terrible Miss Tucson",
+    "questions": 16,
+    "filename": "19_La_terrible_Miss_Tucson.html",
+    "path": "../LCML/Questionnaire récits express/19_La_terrible_Miss_Tucson.html"
+  },
+  {
+    "id": 20,
+    "num": "20",
+    "title": "La villa",
+    "questions": 16,
+    "filename": "20_La_villa.html",
+    "path": "../LCML/Questionnaire récits express/20_La_villa.html"
+  },
+  {
+    "id": 21,
+    "num": "21",
+    "title": "Le bug de Mamie Henriette",
+    "questions": 16,
+    "filename": "21_Le_bug_de_Mamie_Henriette.html",
+    "path": "../LCML/Questionnaire récits express/21_Le_bug_de_Mamie_Henriette.html"
+  },
+  {
+    "id": 22,
+    "num": "22",
+    "title": "Le contrôle de géo n'aura pas lieu",
+    "questions": 16,
+    "filename": "22_Le_controle_de_geo_n_aura_pas_lieu.html",
+    "path": "../LCML/Questionnaire récits express/22_Le_controle_de_geo_n_aura_pas_lieu.html"
+  },
+  {
+    "id": 23,
+    "num": "23",
+    "title": "Le fil bleu",
+    "questions": 16,
+    "filename": "23_Le_fil_bleu.html",
+    "path": "../LCML/Questionnaire récits express/23_Le_fil_bleu.html"
+  },
+  {
+    "id": 24,
+    "num": "24",
+    "title": "Le journal secret",
+    "questions": 16,
+    "filename": "24_Le_journal_secret.html",
+    "path": "../LCML/Questionnaire récits express/24_Le_journal_secret.html"
+  },
+  {
+    "id": 25,
+    "num": "25",
+    "title": "Le mystérieux inconnu",
+    "questions": 16,
+    "filename": "25_Le_mysterieux_inconnu.html",
+    "path": "../LCML/Questionnaire récits express/25_Le_mysterieux_inconnu.html"
+  },
+  {
+    "id": 26,
+    "num": "26",
+    "title": "Le renne aux sabots d'or",
+    "questions": 16,
+    "filename": "26_Le_renne_aux_sabots_d_or.html",
+    "path": "../LCML/Questionnaire récits express/26_Le_renne_aux_sabots_d_or.html"
+  },
+  {
+    "id": 27,
+    "num": "27",
+    "title": "Le Requin",
+    "questions": 16,
+    "filename": "27_Le_Requin.html",
+    "path": "../LCML/Questionnaire récits express/27_Le_Requin.html"
+  },
+  {
+    "id": 28,
+    "num": "28",
+    "title": "Le secret de la pleine lune",
+    "questions": 16,
+    "filename": "28_Le_secret_de_la_pleine_lune.html",
+    "path": "../LCML/Questionnaire récits express/28_Le_secret_de_la_pleine_lune.html"
+  },
+  {
+    "id": 29,
+    "num": "29",
+    "title": "Le Smartphone",
+    "questions": 16,
+    "filename": "29_Le_Smartphone.html",
+    "path": "../LCML/Questionnaire récits express/29_Le_Smartphone.html"
+  },
+  {
+    "id": 30,
+    "num": "30",
+    "title": "Le Trophée Gorumna",
+    "questions": 16,
+    "filename": "30_Le_Trophee_Gorumna.html",
+    "path": "../LCML/Questionnaire récits express/30_Le_Trophee_Gorumna.html"
+  },
+  {
+    "id": 31,
+    "num": "31",
+    "title": "Le vieil homme et le chien",
+    "questions": 16,
+    "filename": "31_Le_vieil_homme_et_le_chien.html",
+    "path": "../LCML/Questionnaire récits express/31_Le_vieil_homme_et_le_chien.html"
+  },
+  {
+    "id": 32,
+    "num": "32",
+    "title": "Ma petite sœur chérie",
+    "questions": 16,
+    "filename": "32_Ma_petite_sur_cherie.html",
+    "path": "../LCML/Questionnaire récits express/32_Ma_petite_sur_cherie.html"
+  },
+  {
+    "id": 33,
+    "num": "33",
+    "title": "Menace sur la classe rousse",
+    "questions": 16,
+    "filename": "33_Menace_sur_la_classe_rousse.html",
+    "path": "../LCML/Questionnaire récits express/33_Menace_sur_la_classe_rousse.html"
+  },
+  {
+    "id": 34,
+    "num": "34",
+    "title": "Nature et sortilège à l'institut Lemn",
+    "questions": 16,
+    "filename": "34_Nature_et_sortilege_a_l_institut_Lemn.html",
+    "path": "../LCML/Questionnaire récits express/34_Nature_et_sortilege_a_l_institut_Lemn.html"
+  },
+  {
+    "id": 35,
+    "num": "35",
+    "title": "Nico et Loïc et la mouche de mai",
+    "questions": 16,
+    "filename": "35_Nico_et_Loic_et_la_mouche_de_mai.html",
+    "path": "../LCML/Questionnaire récits express/35_Nico_et_Loic_et_la_mouche_de_mai.html"
+  },
+  {
+    "id": 36,
+    "num": "36",
+    "title": "Papier froissé",
+    "questions": 16,
+    "filename": "36_Papier_froisse.html",
+    "path": "../LCML/Questionnaire récits express/36_Papier_froisse.html"
+  },
+  {
+    "id": 37,
+    "num": "37",
+    "title": "Partie remise",
+    "questions": 16,
+    "filename": "37_Partie_remise.html",
+    "path": "../LCML/Questionnaire récits express/37_Partie_remise.html"
+  },
+  {
+    "id": 38,
+    "num": "38",
+    "title": "Poussières et Vieilleries",
+    "questions": 16,
+    "filename": "38_Poussieres_et_Vieilleries.html",
+    "path": "../LCML/Questionnaire récits express/38_Poussieres_et_Vieilleries.html"
+  },
+  {
+    "id": 39,
+    "num": "39",
+    "title": "Quelle histoire !",
+    "questions": 16,
+    "filename": "39_Quelle_histoire_.html",
+    "path": "../LCML/Questionnaire récits express/39_Quelle_histoire_.html"
+  },
+  {
+    "id": 40,
+    "num": "40",
+    "title": "Qui a le plus de chance ?",
+    "questions": 16,
+    "filename": "40_Qui_a_le_plus_de_chance_.html",
+    "path": "../LCML/Questionnaire récits express/40_Qui_a_le_plus_de_chance_.html"
+  },
+  {
+    "id": 41,
+    "num": "41",
+    "title": "Saint-Jean-des-Vignes en Australie",
+    "questions": 16,
+    "filename": "41_Saint-Jean-des-Vignes_en_Australie.html",
+    "path": "../LCML/Questionnaire récits express/41_Saint-Jean-des-Vignes_en_Australie.html"
+  },
+  {
+    "id": 42,
+    "num": "42",
+    "title": "Souvenirs classés Top-secret !",
+    "questions": 16,
+    "filename": "42_Souvenirs_classes_Top-secret_.html",
+    "path": "../LCML/Questionnaire récits express/42_Souvenirs_classes_Top-secret_.html"
+  },
+  {
+    "id": 43,
+    "num": "43",
+    "title": "Surtout n'ouvre jamais ce livre maudit",
+    "questions": 16,
+    "filename": "43_Surtout_n_ouvre_jamais_ce_livre_maudit.html",
+    "path": "../LCML/Questionnaire récits express/43_Surtout_n_ouvre_jamais_ce_livre_maudit.html"
+  },
+  {
+    "id": 44,
+    "num": "44",
+    "title": "Trois gâteaux d'anniversaire",
+    "questions": 16,
+    "filename": "44_Trois_gateaux_d_anniversaire.html",
+    "path": "../LCML/Questionnaire récits express/44_Trois_gateaux_d_anniversaire.html"
+  },
+  {
+    "id": 45,
+    "num": "45",
+    "title": "Un porte-plume chez les Poilus",
+    "questions": 16,
+    "filename": "45_Un_porte-plume_chez_les_Poilus.html",
+    "path": "../LCML/Questionnaire récits express/45_Un_porte-plume_chez_les_Poilus.html"
+  },
+  {
+    "id": 46,
+    "num": "46",
+    "title": "Une tête de clown",
+    "questions": 16,
+    "filename": "46_Une_tete_de_clown.html",
+    "path": "../LCML/Questionnaire récits express/46_Une_tete_de_clown.html"
+  },
+  {
+    "id": 47,
+    "num": "47",
+    "title": "Une vie de robot",
+    "questions": 16,
+    "filename": "47_Une_vie_de_robot.html",
+    "path": "../LCML/Questionnaire récits express/47_Une_vie_de_robot.html"
+  },
+  {
+    "id": 48,
+    "num": "48",
+    "title": "Vers un nouveau départ",
+    "questions": 16,
+    "filename": "48_Vers_un_nouveau_depart.html",
+    "path": "../LCML/Questionnaire récits express/48_Vers_un_nouveau_depart.html"
+  },
+  {
+    "id": 49,
+    "num": "49",
+    "title": "Voyage au Valhalla",
+    "questions": 16,
+    "filename": "49_Voyage_au_Valhalla.html",
+    "path": "../LCML/Questionnaire récits express/49_Voyage_au_Valhalla.html"
+  },
+  {
+    "id": 50,
+    "num": "50",
+    "title": "La ferme aux magots",
+    "questions": 16,
+    "filename": "50_La_ferme_aux_magots.html",
+    "path": "../LCML/Questionnaire récits express/50_La_ferme_aux_magots.html"
+  },
+  {
+    "id": 51,
+    "num": "51",
+    "title": "Louistiti, le promeneur de Masina",
+    "questions": 16,
+    "filename": "51_Louistiti_le_promeneur_de_Masina.html",
+    "path": "../LCML/Questionnaire récits express/51_Louistiti_le_promeneur_de_Masina.html"
+  },
+  {
+    "id": 52,
+    "num": "52",
+    "title": "Partie de poker à Nightingale House",
+    "questions": 16,
+    "filename": "52_Partie_de_poker_a_Nightingale_House.html",
+    "path": "../LCML/Questionnaire récits express/52_Partie_de_poker_a_Nightingale_House.html"
+  },
+  {
+    "id": 53,
+    "num": "53",
+    "title": "Trois lézards pour six",
+    "questions": 16,
+    "filename": "53_Trois_lezards_pour_six.html",
+    "path": "../LCML/Questionnaire récits express/53_Trois_lezards_pour_six.html"
+  },
+  {
+    "id": 54,
+    "num": "54",
+    "title": "Murphy et le mystère d'Halloween",
+    "questions": 16,
+    "filename": "54_Murphy_et_le_mystere_d_Halloween.html",
+    "path": "../LCML/Questionnaire récits express/54_Murphy_et_le_mystere_d_Halloween.html"
+  },
+  {
+    "id": 55,
+    "num": "55",
+    "title": "Un frère tombé du ciel",
+    "questions": 16,
+    "filename": "55_Un_frere_tombe_du_ciel.html",
+    "path": "../LCML/Questionnaire récits express/55_Un_frere_tombe_du_ciel.html"
+  },
+  {
+    "id": 56,
+    "num": "56",
+    "title": "L'hôtel du bon vent",
+    "questions": 16,
+    "filename": "56_L_hotel_du_bon_vent.html",
+    "path": "../LCML/Questionnaire récits express/56_L_hotel_du_bon_vent.html"
+  }
+];
+
+    // PALETTE DE COULEURS POUR LES CADRES DES LIVRES (Longueur / Difficulté)
+    const BOOK_COLORS = {
+      none: {
+        id: 'none',
+        name: 'Standard (Neutre)',
+        shortLabel: 'Standard',
+        bg: '#ffffff',
+        border: '#cbd5e1',
+        text: '#1e293b',
+        badgeBg: '#e0e7ff',
+        badgeText: '#4338ca',
+        dot: '⚪'
+      },
+      green: {
+        id: 'green',
+        name: 'Court (Vert)',
+        shortLabel: 'Court',
+        bg: '#ecfdf5',
+        border: '#059669',
+        text: '#064e3b',
+        badgeBg: '#a7f3d0',
+        badgeText: '#065f46',
+        dot: '🟢'
+      },
+      yellow: {
+        id: 'yellow',
+        name: 'Très court (Jaune)',
+        shortLabel: 'Très court',
+        bg: '#fefce8',
+        border: '#d97706',
+        text: '#78350f',
+        badgeBg: '#fef08a',
+        badgeText: '#92400e',
+        dot: '🟡'
+      },
+      blue: {
+        id: 'blue',
+        name: 'Moyen (Bleu)',
+        shortLabel: 'Moyen',
+        bg: '#eff6ff',
+        border: '#2563eb',
+        text: '#1e3a8a',
+        badgeBg: '#bfdbfe',
+        badgeText: '#1e40af',
+        dot: '🔵'
+      },
+      orange: {
+        id: 'orange',
+        name: 'Plus long (Orange)',
+        shortLabel: 'Long',
+        bg: '#fff7ed',
+        border: '#ea580c',
+        text: '#7c2d12',
+        badgeBg: '#fed7aa',
+        badgeText: '#9a3412',
+        dot: '🟠'
+      },
+      purple: {
+        id: 'purple',
+        name: 'Défi / Long (Violet)',
+        shortLabel: 'Défi',
+        bg: '#faf5ff',
+        border: '#9333ea',
+        text: '#581c87',
+        badgeBg: '#e9d5ff',
+        badgeText: '#6b21a8',
+        dot: '🟣'
+      },
+      pink: {
+        id: 'pink',
+        name: 'Spécial (Rose)',
+        shortLabel: 'Spécial',
+        bg: '#fdf2f8',
+        border: '#db2777',
+        text: '#831843',
+        badgeBg: '#fbcfe8',
+        badgeText: '#9d174d',
+        dot: '🌸'
+      }
+    };
+
+    // État du mode surligneur / coloration rapide
+    let isColoringModeActive = false;
+    let activeColoringTool = 'green';
+
+    // CLÉS LOCALSTORAGE
+    const STORAGE_KEY_DATA = 'tbi_recits_express_data';
+    const STORAGE_KEY_BOOKS = 'tbi_recits_express_books';
+    const STORAGE_KEY_STUDENTS = 'tbi_roue_students';
+
+    // VARIABLE ACTIVE DES LIVRES
+    let BOOKS = [];
+
+    // ÉTAT GLOBAL DE L'APPLICATION
+    let state = {
+      students: [],
+      books: [],
+      readings: {},
+      selectedStudentId: null,
+      currentView: 'matrix',
+      filterSearch: '',
+      modalCellContext: null
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadData();
+      initUI();
+      renderAll();
+    });
+
+    function loadData() {
+      // 1. Charger les livres (localStorage ou défaut)
+      const storedBooks = localStorage.getItem(STORAGE_KEY_BOOKS);
+      if (storedBooks) {
+        try {
+          state.books = JSON.parse(storedBooks);
+        } catch(e) {
+          state.books = [...DEFAULT_BOOKS];
+        }
+      } else {
+        state.books = [...DEFAULT_BOOKS];
+        saveBooksList();
+      }
+      sortBooks();
+      BOOKS = state.books;
+
+      // 2. Charger les élèves depuis tbi_roue_students ou défaut
+      const storedStudents = localStorage.getItem(STORAGE_KEY_STUDENTS);
+      if (storedStudents) {
+        try {
+          state.students = JSON.parse(storedStudents);
+        } catch(e) {
+          state.students = [];
+        }
+      }
+      
+      if (!state.students || state.students.length === 0) {
+        state.students = [
+          { id: "st-1", name: "Lucas", active: true },
+          { id: "st-2", name: "Emma", active: true },
+          { id: "st-3", name: "Mathis", active: true },
+          { id: "st-4", name: "Léa", active: true },
+          { id: "st-5", name: "Nathan", active: true },
+          { id: "st-6", name: "Chloé", active: true },
+          { id: "st-7", name: "Thomas", active: true },
+          { id: "st-8", name: "Sarah", active: true },
+          { id: "st-9", name: "Arthur", active: true },
+          { id: "st-10", name: "Camille", active: true },
+          { id: "st-11", name: "Jules", active: true },
+          { id: "st-12", name: "Zoé", active: true },
+          { id: "st-13", name: "Noah", active: true },
+          { id: "st-14", name: "Manon", active: true },
+          { id: "st-15", name: "Hugo", active: true }
+        ];
+        saveStudentsList();
+      }
+
+      // 3. Charger les lectures
+      const storedData = localStorage.getItem(STORAGE_KEY_DATA);
+      if (storedData) {
+        try {
+          const parsed = JSON.parse(storedData);
+          state.readings = parsed.readings || {};
+        } catch(e) {
+          state.readings = {};
+        }
+      } else {
+        state.readings = {};
+      }
+
+      if (state.students.length > 0 && !state.selectedStudentId) {
+        state.selectedStudentId = state.students[0].id;
+      }
+    }
+
+    function sortBooks() {
+      state.books.sort((a, b) => {
+        const na = parseInt(a.num, 10);
+        const nb = parseInt(b.num, 10);
+        if (!isNaN(na) && !isNaN(nb) && na !== nb) return na - nb;
+        return a.num.localeCompare(b.num, undefined, { numeric: true });
+      });
+      BOOKS = state.books;
+    }
+
+    function saveBooksList() {
+      sortBooks();
+      localStorage.setItem(STORAGE_KEY_BOOKS, JSON.stringify(state.books));
+    }
+
+    function saveData() {
+      const payload = {
+        version: 2,
+        lastUpdated: new Date().toISOString(),
+        readings: state.readings
+      };
+      localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(payload));
+    }
+
+    function saveStudentsList() {
+      localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(state.students));
+    }
+
+    // --- GESTION DES LIVRES (AJOUT / DÉCALAGE / ÉDITION / SUPPRESSION) ---
+    function openAddBookModal() {
+      // Calculer le prochain numéro disponible
+      let maxNum = 0;
+      state.books.forEach(b => {
+        const n = parseInt(b.num, 10);
+        if (!isNaN(n) && n > maxNum) maxNum = n;
+      });
+      const nextNum = maxNum + 1;
+
+      document.getElementById('add-book-num').value = nextNum;
+      document.getElementById('add-book-title').value = '';
+      document.getElementById('add-book-questions').value = 16;
+      document.getElementById('add-book-filename').value = `${String(nextNum).padStart(2, '0')}_Livre.html`;
+      document.getElementById('box-shift-notice').classList.add('hidden');
+      selectAddBookColor('none');
+
+      openModal('modal-add-book');
+      document.getElementById('add-book-title').focus();
+    }
+
+    function onAddBookNumChanged() {
+      const numInput = parseInt(document.getElementById('add-book-num').value, 10);
+      const existing = state.books.find(b => parseInt(b.num, 10) === numInput);
+      const boxNotice = document.getElementById('box-shift-notice');
+
+      if (existing) {
+        boxNotice.classList.remove('hidden');
+        document.getElementById('shift-notice-title').textContent = `Le N° ${existing.num} est déjà pris par "${existing.title}".`;
+        document.getElementById('shift-notice-desc').textContent = `Si vous cochez ci-dessous, ce nouveau livre prendra la place N° ${existing.num}, et "${existing.title}" ainsi que tous les livres suivants seront décalés de +1 vers la droite.`;
+      } else {
+        boxNotice.classList.add('hidden');
+      }
+    }
+
+    function confirmAddBook() {
+      const title = document.getElementById('add-book-title').value.trim();
+      if (!title) return alert("Veuillez saisir un titre pour le livre.");
+
+      const targetNum = parseInt(document.getElementById('add-book-num').value, 10);
+      if (isNaN(targetNum) || targetNum < 1) return alert("Numéro de livre invalide.");
+
+      const questions = parseInt(document.getElementById('add-book-questions').value, 10) || 16;
+      let filename = document.getElementById('add-book-filename').value.trim();
+      if (!filename) filename = `${String(targetNum).padStart(2, '0')}_${title.replace(/\s+/g, '_')}.html`;
+
+      const path = `../LCML/Questionnaire récits express/${filename}`;
+      const shouldShift = !document.getElementById('box-shift-notice').classList.contains('hidden') && 
+                          document.getElementById('chk-shift-books').checked;
+
+      // Si décalage demandé : on incrémente tous les numéros >= targetNum
+      if (shouldShift) {
+        state.books.forEach(b => {
+          const n = parseInt(b.num, 10);
+          if (!isNaN(n) && n >= targetNum) {
+            b.num = String(n + 1).padStart(2, '0');
+          }
+        });
+      }
+
+      // Création du livre
+      const colorVal = document.getElementById('add-book-color')?.value || 'none';
+      const newBook = {
+        id: "b-" + Date.now(),
+        num: String(targetNum).padStart(2, '0'),
+        title: title,
+        questions: questions,
+        filename: filename,
+        path: path,
+        color: colorVal
+      };
+
+      state.books.push(newBook);
+      saveBooksList();
+      closeModal('modal-add-book');
+
+      initMatrixHeaders();
+      renderAll();
+      alert(`Livre "${title}" ajouté avec succès en position N° ${newBook.num} ! Les colonnes du tableau ont été mises à jour.`);
+    }
+
+    function selectEditBookColor(colorKey) {
+      const val = colorKey || 'none';
+      document.getElementById('edit-book-color').value = val;
+      const cfg = BOOK_COLORS[val] || BOOK_COLORS.none;
+      const lbl = document.getElementById('edit-book-color-label');
+      if (lbl) lbl.textContent = `${cfg.dot} ${cfg.name}`;
+
+      const container = document.getElementById('edit-book-color-swatches');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (const [k, c] of Object.entries(BOOK_COLORS)) {
+        const isSelected = (k === val);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `px-2 py-1 rounded-lg border-2 text-xs font-bold flex items-center gap-1 transition cursor-pointer ${isSelected ? 'border-neutral-900 shadow-neo-sm ring-2 ring-indigo-500 scale-105' : 'border-neutral-300 hover:border-neutral-400 opacity-80'}`;
+        btn.style.backgroundColor = c.bg;
+        btn.style.color = c.text;
+        btn.innerHTML = `<span>${c.dot}</span><span>${c.shortLabel}</span>`;
+        btn.onclick = () => selectEditBookColor(k);
+        container.appendChild(btn);
+      }
+    }
+
+    function selectAddBookColor(colorKey) {
+      const val = colorKey || 'none';
+      const input = document.getElementById('add-book-color');
+      if (input) input.value = val;
+      const cfg = BOOK_COLORS[val] || BOOK_COLORS.none;
+      const lbl = document.getElementById('add-book-color-label');
+      if (lbl) lbl.textContent = `${cfg.dot} ${cfg.name}`;
+
+      const container = document.getElementById('add-book-color-swatches');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (const [k, c] of Object.entries(BOOK_COLORS)) {
+        const isSelected = (k === val);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `px-2 py-1 rounded-lg border-2 text-xs font-bold flex items-center gap-1 transition cursor-pointer ${isSelected ? 'border-neutral-900 shadow-neo-sm ring-2 ring-indigo-500 scale-105' : 'border-neutral-300 hover:border-neutral-400 opacity-80'}`;
+        btn.style.backgroundColor = c.bg;
+        btn.style.color = c.text;
+        btn.innerHTML = `<span>${c.dot}</span><span>${c.shortLabel}</span>`;
+        btn.onclick = () => selectAddBookColor(k);
+        container.appendChild(btn);
+      }
+    }
+
+    function openBookDetailsModal(bookId) {
+      const book = state.books.find(b => b.id == bookId);
+      if (!book) return;
+
+      document.getElementById('edit-book-id').value = book.id;
+      document.getElementById('edit-book-num').value = book.num;
+      document.getElementById('edit-book-title').value = book.title;
+      document.getElementById('edit-book-questions').value = book.questions || 16;
+      document.getElementById('edit-book-filename').value = book.filename || '';
+      selectEditBookColor(book.color || 'none');
+
+      const borrower = getBookBorrower(book.id);
+      const readCount = getBookCompletedCount(book.id);
+
+      document.getElementById('edit-book-status').innerHTML = borrower ? 
+        `<span class="text-amber-700">📖 Chez ${borrower.student.name}</span>` : 
+        `<span class="text-emerald-700">🟢 Disponible</span>`;
+      
+      document.getElementById('edit-book-readers').textContent = `${readCount} élève${readCount > 1 ? 's' : ''}`;
+      document.getElementById('edit-book-link-q').href = book.path;
+
+      openModal('modal-edit-book');
+    }
+
+    function confirmSaveEditedBook() {
+      const bookId = document.getElementById('edit-book-id').value;
+      const book = state.books.find(b => b.id == bookId);
+      if (!book) return;
+
+      const title = document.getElementById('edit-book-title').value.trim();
+      if (!title) return alert("Le titre ne peut pas être vide.");
+
+      const num = document.getElementById('edit-book-num').value.trim();
+      const questions = parseInt(document.getElementById('edit-book-questions').value, 10) || 16;
+      const filename = document.getElementById('edit-book-filename').value.trim();
+      const colorVal = document.getElementById('edit-book-color').value || 'none';
+
+      book.title = title;
+      book.num = String(num).padStart(2, '0');
+      book.questions = questions;
+      book.filename = filename;
+      book.path = `../LCML/Questionnaire récits express/${filename}`;
+      book.color = colorVal;
+
+      saveBooksList();
+      closeModal('modal-edit-book');
+      initMatrixHeaders();
+      renderAll();
+    }
+
+    function confirmDeleteBook() {
+      const bookId = document.getElementById('edit-book-id').value;
+      const book = state.books.find(b => b.id == bookId);
+      if (!book) return;
+
+      if (confirm(`Êtes-vous certain de vouloir supprimer le livre "${book.title}" (N° ${book.num}) ?`)) {
+        const deletedNum = parseInt(book.num, 10);
+        state.books = state.books.filter(b => b.id != bookId);
+
+        // Proposer de recalculer les numéros suivants
+        if (!isNaN(deletedNum) && confirm("Voulez-vous décaler automatiquement les numéros des livres suivants (-1) pour combler le trou ?")) {
+          state.books.forEach(b => {
+            const n = parseInt(b.num, 10);
+            if (!isNaN(n) && n > deletedNum) {
+              b.num = String(n - 1).padStart(2, '0');
+            }
+          });
+        }
+
+        saveBooksList();
+        closeModal('modal-edit-book');
+        initMatrixHeaders();
+        renderAll();
+      }
+    }
+
+    // --- RESTE DES FONCTIONS ---
+    function getStudentReadings(studentId) {
+      return state.readings[studentId] || {};
+    }
+
+    function getStudentCurrentReading(studentId) {
+      const stReadings = getStudentReadings(studentId);
+      for (const bId in stReadings) {
+        if (stReadings[bId].status === 'reading') {
+          const book = state.books.find(b => b.id == bId);
+          if (book) return { bookId: bId, book, data: stReadings[bId] };
+        }
+      }
+      return null;
+    }
+
+    function getStudentFinishedBooks(studentId) {
+      const stReadings = getStudentReadings(studentId);
+      const list = [];
+      for (const bId in stReadings) {
+        if (stReadings[bId].status === 'completed') {
+          const book = state.books.find(b => b.id == bId);
+          if (book) list.push({ bookId: bId, book, data: stReadings[bId] });
+        }
+      }
+      list.sort((a, b) => (b.data.finishDate || '').localeCompare(a.data.finishDate || ''));
+      return list;
+    }
+
+    function getStudentBookReadOrder(studentId, bookId) {
+      const stReadings = getStudentReadings(studentId);
+      const target = stReadings[bookId];
+      if (!target || target.status !== 'completed') return null;
+
+      // 1. Ordre manuel explicite si enregistré
+      if (typeof target.readOrder === 'number' && target.readOrder > 0) {
+        return target.readOrder;
+      }
+
+      // 2. Sinon, calcul dynamique par ordre chronologique
+      const completed = [];
+      for (const bId in stReadings) {
+        if (stReadings[bId].status === 'completed') {
+          completed.push({
+            bookId: bId,
+            readOrder: stReadings[bId].readOrder,
+            finishDate: stReadings[bId].finishDate || '',
+            borrowDate: stReadings[bId].borrowDate || '',
+            timestamp: stReadings[bId].timestamp || 0
+          });
+        }
+      }
+
+      completed.sort((a, b) => {
+        if (a.readOrder && b.readOrder && a.readOrder !== b.readOrder) {
+          return a.readOrder - b.readOrder;
+        }
+        if (a.finishDate && b.finishDate && a.finishDate !== b.finishDate) {
+          return a.finishDate.localeCompare(b.finishDate);
+        }
+        if (a.borrowDate && b.borrowDate && a.borrowDate !== b.borrowDate) {
+          return a.borrowDate.localeCompare(b.borrowDate);
+        }
+        return (a.timestamp || 0) - (b.timestamp || 0);
+      });
+
+      const idx = completed.findIndex(c => c.bookId == bookId);
+      return idx !== -1 ? (idx + 1) : null;
+    }
+
+    function isBookReadByStudent(studentId, bookId) {
+      const stReadings = getStudentReadings(studentId);
+      return stReadings[bookId] && stReadings[bookId].status === 'completed';
+    }
+
+    function getBookBorrower(bookId) {
+      for (const s of state.students) {
+        const stReadings = getStudentReadings(s.id);
+        if (stReadings[bookId] && stReadings[bookId].status === 'reading') {
+          return { student: s, data: stReadings[bookId] };
+        }
+      }
+      return null;
+    }
+
+    function getBookCompletedCount(bookId) {
+      let count = 0;
+      for (const s of state.students) {
+        if (isBookReadByStudent(s.id, bookId)) {
+          count++;
+        }
+      }
+      return count;
+    }
+
+    function assignSelectedBook() {
+      const studentId = state.selectedStudentId;
+      if (!studentId) return alert("Veuillez sélectionner un élève.");
+
+      const selectEl = document.getElementById('select-book-to-assign');
+      const bookId = selectEl.value;
+      if (!bookId) return alert("Veuillez choisir un livre à attribuer.");
+
+      const book = state.books.find(b => b.id == bookId);
+      const student = state.students.find(s => s.id === studentId);
+
+      const current = getStudentCurrentReading(studentId);
+      if (current) {
+        if (!confirm(`${student.name} a déjà un livre en cours : "${current.book.title}".\n\nVoulez-vous remplacer son emprunt actuel ?`)) {
+          return;
+        }
+      }
+
+      const borrower = getBookBorrower(bookId);
+      if (borrower && borrower.student.id !== studentId) {
+        if (!confirm(`Attention : Le livre "${book.title}" est actuellement emprunté par ${borrower.student.name}.\n\nVoulez-vous quand même l'attribuer à ${student.name} ?`)) {
+          return;
+        }
+      }
+
+      if (!state.readings[studentId]) state.readings[studentId] = {};
+      state.readings[studentId][bookId] = {
+        status: 'reading',
+        borrowDate: new Date().toISOString().split('T')[0],
+        finishDate: null,
+        score: null,
+        note: ''
+      };
+
+      saveData();
+      renderAll();
+    }
+
+    function returnCurrentBook() {
+      const studentId = state.selectedStudentId;
+      const current = getStudentCurrentReading(studentId);
+      if (!current) return;
+
+      const student = state.students.find(s => s.id === studentId);
+      if (confirm(`Rendre le livre "${current.book.title}" sans le marquer comme lu pour ${student.name} ?`)) {
+        delete state.readings[studentId][current.bookId];
+        saveData();
+        renderAll();
+      }
+    }
+
+    function openCompleteModalCurrent() {
+      const studentId = state.selectedStudentId;
+      const current = getStudentCurrentReading(studentId);
+      if (!current) return;
+
+      const student = state.students.find(s => s.id === studentId);
+      document.getElementById('complete-modal-book-label').textContent = `N° ${current.book.num}`;
+      document.getElementById('complete-modal-book-title').textContent = current.book.title;
+      document.getElementById('complete-modal-student-name').textContent = `Élève : ${student.name}`;
+      document.getElementById('complete-modal-date').value = new Date().toISOString().split('T')[0];
+
+      const finished = getStudentFinishedBooks(studentId);
+      const nextOrder = finished.length + 1;
+      const orderEl = document.getElementById('complete-modal-order');
+      if (orderEl) {
+        orderEl.value = nextOrder;
+        const suffixEl = document.getElementById('complete-modal-order-suffix');
+        if (suffixEl) suffixEl.textContent = (nextOrder === 1 ? 'er livre' : 'è livre');
+      }
+
+      openModal('modal-complete');
+    }
+
+    function confirmCompleteCurrent() {
+      const studentId = state.selectedStudentId;
+      const current = getStudentCurrentReading(studentId);
+      if (!current) return;
+
+      const finishDate = document.getElementById('complete-modal-date').value || new Date().toISOString().split('T')[0];
+      const orderInput = document.getElementById('complete-modal-order');
+      const finished = getStudentFinishedBooks(studentId);
+      const readOrder = (orderInput && orderInput.value !== '' && !isNaN(parseInt(orderInput.value, 10))) ? 
+        parseInt(orderInput.value, 10) : (finished.length + 1);
+
+      state.readings[studentId][current.bookId] = {
+        status: 'completed',
+        borrowDate: current.data.borrowDate || finishDate,
+        finishDate: finishDate,
+        readOrder: readOrder,
+        timestamp: Date.now(),
+        note: ''
+      };
+
+      saveData();
+      closeModal('modal-complete');
+      renderAll();
+    }
+
+    function deleteReadingRecord(studentId, bookId) {
+      const book = state.books.find(b => b.id == bookId);
+      const student = state.students.find(s => s.id === studentId);
+      if (confirm(`Supprimer la lecture de "${book.title}" pour ${student.name} ?`)) {
+        if (state.readings[studentId]) {
+          delete state.readings[studentId][bookId];
+          saveData();
+          renderAll();
+        }
+      }
+    }
+
+    function initUI() {
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      document.getElementById('print-date-today').textContent = formattedDate;
+
+      initMatrixHeaders();
+      initPrintLegend();
+    }
+
+    function toggleQuickColorBar(forceState) {
+      if (typeof forceState === 'boolean') {
+        isColoringModeActive = forceState;
+      } else {
+        isColoringModeActive = !isColoringModeActive;
+      }
+
+      const banner = document.getElementById('quick-color-banner');
+      const btn = document.getElementById('btn-toggle-color-mode');
+
+      if (isColoringModeActive) {
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+        btn.classList.remove('bg-white', 'text-neutral-800');
+        btn.classList.add('bg-indigo-600', 'text-white');
+        renderQuickColorSwatches();
+      } else {
+        banner.classList.add('hidden');
+        banner.classList.remove('flex');
+        btn.classList.remove('bg-indigo-600', 'text-white');
+        btn.classList.add('bg-white', 'text-neutral-800');
+      }
+
+      initMatrixHeaders();
+      lucide.createIcons();
+    }
+
+    function setActiveColoringTool(colorKey) {
+      activeColoringTool = colorKey;
+      renderQuickColorSwatches();
+      initMatrixHeaders();
+    }
+
+    function renderQuickColorSwatches() {
+      const container = document.getElementById('quick-color-swatches');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (const [key, cfg] of Object.entries(BOOK_COLORS)) {
+        const isSelected = (key === activeColoringTool);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `px-2 py-1 rounded-lg border-2 text-[11px] font-bold flex items-center gap-1 transition cursor-pointer ${isSelected ? 'border-neutral-900 shadow-neo-sm ring-2 ring-indigo-500 scale-105' : 'border-neutral-300 hover:border-neutral-500 opacity-90'}`;
+        btn.style.backgroundColor = cfg.bg;
+        btn.style.color = cfg.text;
+        btn.innerHTML = `<span>${cfg.dot}</span><span>${cfg.shortLabel}</span>`;
+        btn.onclick = () => setActiveColoringTool(key);
+        container.appendChild(btn);
+      }
+    }
+
+    function applyColorToBook(bookId, colorKey) {
+      const book = state.books.find(b => b.id == bookId);
+      if (!book) return;
+
+      book.color = colorKey;
+      saveBooksList();
+      initMatrixHeaders();
+      updateColorsSummary();
+      renderBooksView();
+    }
+
+    function updateColorsSummary() {
+      const container = document.getElementById('matrix-colors-summary');
+      if (!container) return;
+
+      const counts = {};
+      state.books.forEach(b => {
+        const c = b.color || 'none';
+        if (c !== 'none') {
+          counts[c] = (counts[c] || 0) + 1;
+        }
+      });
+
+      const keys = Object.keys(counts);
+      if (keys.length === 0) {
+        container.classList.add('hidden');
+        container.classList.remove('inline-flex');
+        container.innerHTML = '';
+        return;
+      }
+
+      container.classList.remove('hidden');
+      container.classList.add('inline-flex');
+      let html = `<span class="font-bold text-neutral-500 text-[10px]">Cadres :</span>`;
+      keys.forEach(k => {
+        const cfg = BOOK_COLORS[k] || BOOK_COLORS.none;
+        html += `
+          <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold" style="background-color:${cfg.badgeBg}; color:${cfg.badgeText}; border:1px solid ${cfg.border};">
+            <span>${cfg.dot}</span>
+            <span>${cfg.shortLabel} (${counts[k]})</span>
+          </span>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function initMatrixHeaders() {
+      const thead = document.querySelector('#view-matrix table thead tr');
+      const totalTh = thead.lastElementChild;
+      
+      const existingBookHeaders = thead.querySelectorAll('.th-book-col');
+      existingBookHeaders.forEach(th => th.remove());
+
+      state.books.forEach(book => {
+        const colorKey = book.color || 'none';
+        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const hasColor = colorKey !== 'none';
+
+        const th = document.createElement('th');
+        th.className = 'th-book-col matrix-cell transition select-none';
+        if (isColoringModeActive) {
+          th.classList.add('hover:ring-2', 'hover:ring-indigo-500', 'cursor-pointer');
+        } else {
+          th.classList.add('cursor-pointer');
+        }
+
+        th.style.backgroundColor = hasColor ? colorCfg.bg : '#f8fafc';
+        if (hasColor) {
+          th.style.borderTop = `3.5px solid ${colorCfg.border}`;
+        }
+
+        const tagInfo = hasColor ? ` [Cadre: ${colorCfg.name}]` : '';
+        th.title = isColoringModeActive ? 
+          `Mode Coloration : Cliquer pour appliquer la couleur "${BOOK_COLORS[activeColoringTool].name}" à "${book.title}"` : 
+          `N° ${book.num} : ${book.title}${tagInfo} (Cliquez pour afficher/modifier la fiche du livre)`;
+
+        th.onclick = () => {
+          if (isColoringModeActive) {
+            applyColorToBook(book.id, activeColoringTool);
+          } else {
+            openBookDetailsModal(book.id);
+          }
+        };
+
+        const containerBorder = hasColor ? 
+          `border: 2px solid ${colorCfg.border}; background-color: ${colorCfg.bg}; box-shadow: 0 1px 3px rgba(0,0,0,0.08);` : 
+          `border: 1px solid #cbd5e1; background-color: #ffffff;`;
+        const titleStyle = hasColor ? 
+          `color: ${colorCfg.text}; font-weight: 800;` : 
+          `color: #1e293b; font-weight: 700;`;
+        const badgeStyle = hasColor ? 
+          `background-color: ${colorCfg.badgeBg}; color: ${colorCfg.badgeText}; border: 1px solid ${colorCfg.border}; font-weight: 900;` : 
+          `background-color: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe;`;
+
+        th.innerHTML = `
+          <div class="th-book-vertical-container" style="${containerBorder}">
+            <span class="th-book-title-vertical" style="${titleStyle}">${book.title}</span>
+            <span class="th-book-num-badge" style="${badgeStyle}">${book.num}</span>
+          </div>
+        `;
+        thead.insertBefore(th, totalTh);
+      });
+
+      // En-tête d'impression
+      const printThead = document.getElementById('print-table-thead');
+      let printThHtml = `<tr>
+        <th style="width:95px; text-align:left; padding-left:3px; vertical-align:bottom; padding-bottom:3px;">Élève</th>`;
+      state.books.forEach(b => {
+        const colorKey = b.color || 'none';
+        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const hasColor = colorKey !== 'none';
+
+        const printContainerBorder = hasColor ? 
+          `border: 1.5px solid ${colorCfg.border}; background-color: ${colorCfg.bg} !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;` : 
+          `border: 0.5px solid #ccc; background-color: #f8fafc !important;`;
+        const printTitleColor = hasColor ? `color: ${colorCfg.text}; font-weight: 900;` : `color: #111;`;
+        const printBadgeStyle = hasColor ? `background-color: ${colorCfg.badgeBg} !important; color: ${colorCfg.badgeText}; border: 1px solid ${colorCfg.border}; -webkit-print-color-adjust: exact; print-color-adjust: exact;` : ``;
+
+        printThHtml += `
+          <th class="col-book-print" style="${hasColor ? 'background-color:' + colorCfg.bg + ' !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;' : ''}">
+            <div class="print-vertical-container" style="${printContainerBorder}">
+              <span class="print-vertical-title" style="${printTitleColor}">${b.title}</span>
+              <span class="print-book-num" style="${printBadgeStyle}">${b.num}</span>
+            </div>
+          </th>`;
+      });
+      printThHtml += `<th style="width:30px; vertical-align:bottom; padding-bottom:3px; font-size:6.5pt;">Total</th></tr>`;
+      printThead.innerHTML = printThHtml;
+
+      updateColorsSummary();
+    }
+
+    function initPrintLegend() {
+      const legendContainer = document.getElementById('print-legend-grid');
+      let html = '';
+      state.books.forEach(b => {
+        const colorKey = b.color || 'none';
+        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const dot = colorKey !== 'none' ? `<span style="color:${colorCfg.border}; margin-right:2px; font-size:7pt;">■</span>` : '';
+        html += `<div>${dot}<strong>${b.num}</strong> : ${b.title}</div>`;
+      });
+      legendContainer.innerHTML = html;
+    }
+
+    function renderAll() {
+      const totalBooks = state.books.length;
+      document.getElementById('header-books-count').textContent = totalBooks;
+      document.getElementById('tab-books-count').textContent = totalBooks;
+      document.getElementById('books-count-badge').textContent = totalBooks;
+      document.getElementById('passport-print-total').textContent = totalBooks;
+
+      initMatrixHeaders();
+      renderStudentSelectDropdown();
+      renderStudentPanel();
+      renderStats();
+      renderCurrentView();
+      initPrintLegend();
+      lucide.createIcons();
+    }
+
+    function renderStats() {
+      let totalRead = 0;
+      let totalReading = 0;
+
+      for (const sId in state.readings) {
+        for (const bId in state.readings[sId]) {
+          if (state.readings[sId][bId].status === 'completed') totalRead++;
+          if (state.readings[sId][bId].status === 'reading') totalReading++;
+        }
+      }
+
+      const studentCount = state.students.length || 1;
+      const avgRead = (totalRead / studentCount).toFixed(1);
+
+      document.getElementById('stat-total-read').textContent = totalRead;
+      document.getElementById('stat-total-reading').textContent = totalReading;
+      document.getElementById('stat-avg-read').textContent = `${avgRead} / élève`;
+      document.getElementById('badge-student-count').textContent = `${state.students.length} élèves`;
+    }
+
+    function renderStudentSelectDropdown() {
+      const select = document.getElementById('select-student');
+      select.innerHTML = '';
+
+      if (state.students.length === 0) {
+        select.innerHTML = '<option value="">Aucun élève enregistré</option>';
+        return;
+      }
+
+      state.students.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.name;
+        if (s.id === state.selectedStudentId) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function onStudentChanged() {
+      const select = document.getElementById('select-student');
+      state.selectedStudentId = select.value;
+      renderStudentPanel();
+      lucide.createIcons();
+    }
+
+    function renderStudentPanel() {
+      const studentId = state.selectedStudentId;
+      const student = state.students.find(s => s.id === studentId);
+      const totalBooks = state.books.length || 1;
+
+      if (!student) {
+        document.getElementById('student-name-display').textContent = "Aucun élève";
+        document.getElementById('student-avatar').textContent = "?";
+        document.getElementById('student-read-count').textContent = `0 livre lu sur ${totalBooks}`;
+        document.getElementById('student-progress-percent').textContent = "0%";
+        document.getElementById('student-progress-bar').style.width = "0%";
+        document.getElementById('box-current-reading').classList.add('hidden');
+        document.getElementById('student-read-list').innerHTML = '<div class="text-neutral-400 italic p-2 text-center">Sélectionnez un élève</div>';
+        return;
+      }
+
+      document.getElementById('student-name-display').textContent = student.name;
+      document.getElementById('student-avatar').textContent = student.name.charAt(0).toUpperCase();
+
+      const finished = getStudentFinishedBooks(studentId);
+      const count = finished.length;
+      const percent = Math.round((count / totalBooks) * 100);
+
+      document.getElementById('student-read-count').textContent = `${count} livre${count > 1 ? 's' : ''} lu${count > 1 ? 's' : ''} sur ${totalBooks}`;
+      document.getElementById('student-progress-percent').textContent = `${percent}%`;
+      document.getElementById('student-progress-bar').style.width = `${percent}%`;
+      document.getElementById('student-read-badge').textContent = count;
+
+      const current = getStudentCurrentReading(studentId);
+      const boxCurrent = document.getElementById('box-current-reading');
+
+      if (current) {
+        boxCurrent.classList.remove('hidden');
+        document.getElementById('current-book-num').textContent = `N° ${current.book.num}`;
+        document.getElementById('current-book-title').textContent = current.book.title;
+        
+        let borrowInfo = 'Emprunté récemment';
+        if (current.data.borrowDate) {
+          const bDate = new Date(current.data.borrowDate);
+          const diffDays = Math.floor((new Date() - bDate) / (1000 * 60 * 60 * 24));
+          const diffText = diffDays === 0 ? "aujourd'hui" : `il y a ${diffDays} j.`;
+          borrowInfo = `Prêté le ${current.data.borrowDate} (${diffText})`;
+        }
+        document.getElementById('current-reading-date').textContent = borrowInfo;
+
+        const qBtn = document.getElementById('btn-open-questionnaire-current');
+        qBtn.href = current.book.path;
+      } else {
+        boxCurrent.classList.add('hidden');
+      }
+
+      renderBookSelectOptions();
+
+      const listEl = document.getElementById('student-read-list');
+      if (finished.length === 0) {
+        listEl.innerHTML = '<div class="text-neutral-400 italic p-3 text-center bg-neutral-50 rounded-lg">Aucun livre lu pour le moment</div>';
+      } else {
+        let html = '';
+        finished.forEach(item => {
+          const orderNum = getStudentBookReadOrder(studentId, item.bookId);
+          const suffix = orderNum === 1 ? 'er' : 'è';
+          const orderBadge = orderNum ? 
+            `<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono font-bold text-[10px]">${orderNum}${suffix} lu</span>` : 
+            `<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono font-bold text-[10px]">Lu</span>`;
+          const dateStr = item.data.finishDate ? `<span class="text-[9px] text-neutral-400 font-mono">${item.data.finishDate}</span>` : '';
+          
+          html += `
+            <div class="flex items-center justify-between p-2 rounded-lg bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 transition group">
+              <div class="flex items-center gap-1.5 min-w-0 pr-2">
+                <span class="font-mono font-bold text-neutral-500 text-[10px] bg-white px-1 border border-neutral-300 rounded">${item.book.num}</span>
+                <span class="font-semibold text-neutral-800 truncate" title="${item.book.title}">${item.book.title}</span>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                ${dateStr}
+                ${orderBadge}
+                <a href="${item.book.path}" target="_blank" class="p-1 text-indigo-600 hover:text-indigo-800" title="Revoir le questionnaire">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+                <button onclick="deleteReadingRecord('${studentId}', '${item.bookId}')" class="p-1 text-neutral-400 hover:text-rose-600 transition" title="Supprimer cette lecture">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+        listEl.innerHTML = html;
+      }
+    }
+
+    function renderBookSelectOptions() {
+      const select = document.getElementById('select-book-to-assign');
+      const hideAlreadyRead = document.getElementById('chk-hide-already-read').checked;
+      const studentId = state.selectedStudentId;
+
+      select.innerHTML = `<option value="">-- Choisir un livre dans les ${state.books.length} --</option>`;
+
+      state.books.forEach(b => {
+        const isRead = isBookReadByStudent(studentId, b.id);
+        const borrower = getBookBorrower(b.id);
+
+        if (hideAlreadyRead && isRead) {
+          return;
+        }
+
+        let statusPrefix = '🟢 ';
+        let statusSuffix = ' (Disponible)';
+
+        if (borrower) {
+          if (borrower.student.id === studentId) {
+            statusPrefix = '📖 ';
+            statusSuffix = ' [Actuellement en cours]';
+          } else {
+            statusPrefix = '⚠️ ';
+            statusSuffix = ` [Chez ${borrower.student.name}]`;
+          }
+        } else if (isRead) {
+          statusPrefix = '✅ ';
+          statusSuffix = ' (Déjà lu)';
+        }
+
+        const opt = document.createElement('option');
+        opt.value = b.id;
+        opt.textContent = `${statusPrefix}N° ${b.num} — ${b.title}${statusSuffix}`;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderCurrentView() {
+      if (state.currentView === 'matrix') renderMatrixView();
+      else if (state.currentView === 'students') renderStudentsCardsView();
+      else if (state.currentView === 'books') renderBooksView();
+    }
+
+    function switchMainTab(tab) {
+      state.currentView = tab;
+      
+      const btnMatrix = document.getElementById('tab-btn-matrix');
+      const btnStudents = document.getElementById('tab-btn-students');
+      const btnBooks = document.getElementById('tab-btn-books');
+
+      const viewMatrix = document.getElementById('view-matrix');
+      const viewStudents = document.getElementById('view-students');
+      const viewBooks = document.getElementById('view-books');
+
+      const inactiveClass = "px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-white text-neutral-800 shadow-neo-sm hover:bg-neutral-100 cursor-pointer";
+      const activeClass = "px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-indigo-600 text-white shadow-none translate-x-0.5 translate-y-0.5 cursor-pointer";
+
+      btnMatrix.className = tab === 'matrix' ? activeClass : inactiveClass;
+      btnStudents.className = tab === 'students' ? activeClass : inactiveClass;
+      btnBooks.className = tab === 'books' ? activeClass : inactiveClass;
+
+      viewMatrix.classList.toggle('hidden', tab !== 'matrix');
+      viewStudents.classList.toggle('hidden', tab !== 'students');
+      viewBooks.classList.toggle('hidden', tab !== 'books');
+
+      renderCurrentView();
+      lucide.createIcons();
+    }
+
+    function renderMatrixView() {
+      const tbody = document.getElementById('matrix-tbody');
+      const printTbody = document.getElementById('print-table-tbody');
+      const filter = (document.getElementById('filter-search').value || '').toLowerCase().trim();
+      const totalBooks = state.books.length || 1;
+
+      tbody.innerHTML = '';
+      printTbody.innerHTML = '';
+
+      if (state.students.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="100" class="p-8 text-center text-neutral-400 italic">Aucun élève enregistré. Cliquez sur "Élèves" pour en ajouter.</td></tr>`;
+        return;
+      }
+
+      state.students.forEach((student, index) => {
+        if (filter && !student.name.toLowerCase().includes(filter)) {
+          return;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = index % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50';
+
+        let printRowHtml = `<tr><td class="col-student">${student.name}</td>`;
+
+        const tdStudent = document.createElement('td');
+        tdStudent.className = 'matrix-col-student px-3 py-2 text-left font-bold text-neutral-900 truncate';
+        tdStudent.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="truncate cursor-pointer hover:text-indigo-600" onclick="selectStudentById('${student.id}')">${student.name}</span>
+            <span class="text-[10px] font-mono text-neutral-400 font-normal">#${index + 1}</span>
+          </div>
+        `;
+        tr.appendChild(tdStudent);
+
+        let totalReadByStudent = 0;
+        const studentData = getStudentReadings(student.id);
+
+        state.books.forEach(book => {
+          const record = studentData[book.id];
+          const td = document.createElement('td');
+          td.className = 'matrix-cell';
+          td.onclick = () => openCellActionModal(student.id, book.id);
+
+          if (record && record.status === 'completed') {
+            totalReadByStudent++;
+            const orderNum = getStudentBookReadOrder(student.id, book.id) || totalReadByStudent;
+            const suffix = orderNum === 1 ? 'er' : 'è';
+            td.className += ' bg-emerald-500 text-white font-bold hover:bg-emerald-600';
+            td.innerHTML = `<span class="font-mono text-xs font-black">${orderNum}</span>`;
+            td.title = `${student.name} : ${orderNum}${suffix} livre lu — "${book.title}" (le ${record.finishDate || '?'})`;
+            printRowHtml += `<td class="is-read" style="font-weight:bold; font-size:7pt;">${orderNum}</td>`;
+          } else if (record && record.status === 'reading') {
+            td.className += ' bg-amber-400 text-neutral-900 font-bold hover:bg-amber-300';
+            td.innerHTML = '<span class="text-xs">📖</span>';
+            td.title = `${student.name} est en train de lire "${book.title}" (emprunté le ${record.borrowDate || '?'})`;
+            printRowHtml += `<td class="is-reading" style="font-size:6pt;">📖</td>`;
+          } else {
+            td.className += ' text-neutral-300 hover:bg-indigo-50';
+            td.innerHTML = '·';
+            td.title = `Cliquer pour attribuer ou marquer "${book.title}" pour ${student.name}`;
+            printRowHtml += `<td></td>`;
+          }
+
+          tr.appendChild(td);
+        });
+
+        const tdTotal = document.createElement('td');
+        tdTotal.className = 'px-2 py-1.5 font-mono font-bold text-xs text-neutral-800 bg-neutral-100 border-l-2 border-neutral-900 sticky right-0 z-10';
+        tdTotal.innerHTML = `
+          <span>${totalReadByStudent}</span>
+          <span class="text-[10px] font-normal text-neutral-400 block">${Math.round((totalReadByStudent/totalBooks)*100)}%</span>
+        `;
+        tr.appendChild(tdTotal);
+
+        tbody.appendChild(tr);
+
+        printRowHtml += `<td style="font-weight:bold; font-size:7pt;">${totalReadByStudent}</td></tr>`;
+        printTbody.innerHTML += printRowHtml;
+      });
+    }
+
+    function selectStudentById(id) {
+      state.selectedStudentId = id;
+      renderStudentSelectDropdown();
+      renderStudentPanel();
+      lucide.createIcons();
+    }
+
+    function renderStudentsCardsView() {
+      const container = document.getElementById('students-cards-container');
+      const filter = (document.getElementById('filter-search').value || '').toLowerCase().trim();
+      const totalBooks = state.books.length || 1;
+      container.innerHTML = '';
+
+      state.students.forEach(student => {
+        if (filter && !student.name.toLowerCase().includes(filter)) return;
+
+        const finished = getStudentFinishedBooks(student.id);
+        const current = getStudentCurrentReading(student.id);
+        const count = finished.length;
+        const percent = Math.round((count / totalBooks) * 100);
+
+        const card = document.createElement('div');
+        card.className = 'neo-card p-3.5 bg-white flex flex-col gap-2.5 transition hover:shadow-neo cursor-pointer';
+        card.onclick = () => selectStudentById(student.id);
+
+        let currentHtml = '<div class="text-[11px] text-neutral-400 italic">Aucun livre en cours</div>';
+        if (current) {
+          currentHtml = `
+            <div class="p-2 rounded-lg bg-amber-50 border border-amber-300 flex items-center justify-between">
+              <div class="truncate pr-2">
+                <span class="text-[9px] font-bold px-1 rounded bg-amber-200 text-amber-900 font-mono">N° ${current.book.num}</span>
+                <span class="text-xs font-bold text-amber-950 truncate">${current.book.title}</span>
+              </div>
+              <a href="${current.book.path}" target="_blank" onclick="event.stopPropagation()" class="p-1 text-indigo-600 hover:text-indigo-800" title="Questionnaire">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between border-b border-neutral-100 pb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-display font-bold text-sm flex items-center justify-center border border-neutral-900">
+                ${student.name.charAt(0).toUpperCase()}
+              </div>
+              <h4 class="font-display font-bold text-sm text-neutral-900">${student.name}</h4>
+            </div>
+            <span class="font-mono font-bold text-xs text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">
+              ${count} / ${totalBooks}
+            </span>
+          </div>
+
+          <div class="w-full h-2 rounded-full bg-neutral-100 overflow-hidden border border-neutral-300">
+            <div class="h-full bg-indigo-600" style="width: ${percent}%;"></div>
+          </div>
+
+          <div>
+            <div class="text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-1">En cours :</div>
+            ${currentHtml}
+          </div>
+
+          <div class="text-[11px] text-neutral-600 flex justify-between items-center pt-1 border-t border-neutral-100">
+            <span>Dernière lecture :</span>
+            <span class="font-semibold text-neutral-800 truncate pl-2">${finished[0] ? finished[0].book.title : 'Aucune'}</span>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function renderBooksView() {
+      const tbody = document.getElementById('books-tbody');
+      const filter = (document.getElementById('filter-search').value || '').toLowerCase().trim();
+      tbody.innerHTML = '';
+
+      state.books.forEach(b => {
+        if (filter && !b.title.toLowerCase().includes(filter) && !b.num.includes(filter)) return;
+
+        const borrower = getBookBorrower(b.id);
+        const readCount = getBookCompletedCount(b.id);
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-neutral-50';
+
+        let statusHtml = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">🟢 Disponible</span>';
+        if (borrower) {
+          statusHtml = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">📖 Chez ${borrower.student.name}</span>`;
+        }
+
+        const colorKey = b.color || 'none';
+        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const colorBadgeHtml = colorKey !== 'none' ? 
+          `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full mr-1.5" style="background-color:${colorCfg.badgeBg}; color:${colorCfg.badgeText}; border:1px solid ${colorCfg.border};">${colorCfg.dot} ${colorCfg.shortLabel}</span>` : '';
+
+        tr.innerHTML = `
+          <td class="p-2.5 font-mono font-bold text-center text-neutral-700 bg-neutral-50">${b.num}</td>
+          <td class="p-2.5 font-bold text-neutral-900 cursor-pointer hover:text-indigo-600" onclick="openBookDetailsModal('${b.id}')">${colorBadgeHtml}${b.title}</td>
+          <td class="p-2.5 text-center font-mono text-neutral-500">${b.questions || 16} questions</td>
+          <td class="p-2.5 text-center">${statusHtml}</td>
+          <td class="p-2.5 text-center font-mono font-bold text-neutral-800">${readCount} élève${readCount > 1 ? 's' : ''}</td>
+          <td class="p-2.5 text-center">
+            <a href="${b.path}" target="_blank" class="neo-btn inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-[11px]">
+              <i data-lucide="external-link" class="w-3 h-3"></i>
+              <span>Ouvrir</span>
+            </a>
+          </td>
+          <td class="p-2.5 text-center">
+            <button onclick="openBookDetailsModal('${b.id}')" class="neo-btn p-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs" title="Modifier ce livre">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-search').value = '';
+      renderCurrentView();
+    }
+
+    let currentModalStatus = 'none';
+
+    function openCellActionModal(studentId, bookId) {
+      const student = state.students.find(s => s.id === studentId);
+      const book = state.books.find(b => b.id == bookId);
+      if (!student || !book) return;
+
+      state.modalCellContext = { studentId, bookId };
+      const record = (state.readings[studentId] || {})[bookId];
+
+      document.getElementById('modal-cell-book-num').textContent = `N° ${book.num}`;
+      document.getElementById('modal-cell-book-title').textContent = book.title;
+      document.getElementById('modal-cell-student-name').textContent = `Élève : ${student.name}`;
+      document.getElementById('modal-cell-link-questionnaire').href = book.path;
+
+      const orderInput = document.getElementById('modal-cell-order');
+      const suffixEl = document.getElementById('modal-cell-order-suffix');
+
+      if (record && record.status === 'completed') {
+        currentModalStatus = record.status;
+        document.getElementById('modal-cell-date').value = record.finishDate || record.borrowDate || '';
+        const order = getStudentBookReadOrder(studentId, bookId);
+        if (orderInput) {
+          orderInput.value = record.readOrder || order || '';
+        }
+        if (suffixEl) {
+          suffixEl.textContent = (order === 1 ? 'er livre lu' : 'è livre lu');
+        }
+      } else if (record && record.status === 'reading') {
+        currentModalStatus = record.status;
+        document.getElementById('modal-cell-date').value = record.borrowDate || new Date().toISOString().split('T')[0];
+        const nextOrder = getStudentFinishedBooks(studentId).length + 1;
+        if (orderInput) orderInput.value = nextOrder;
+        if (suffixEl) suffixEl.textContent = (nextOrder === 1 ? 'er livre lu' : 'è livre lu');
+      } else {
+        currentModalStatus = 'none';
+        document.getElementById('modal-cell-date').value = new Date().toISOString().split('T')[0];
+        const nextOrder = getStudentFinishedBooks(studentId).length + 1;
+        if (orderInput) orderInput.value = nextOrder;
+        if (suffixEl) suffixEl.textContent = (nextOrder === 1 ? 'er livre lu' : 'è livre lu');
+      }
+
+      updateModalStatusButtons();
+      openModal('modal-cell-action');
+    }
+
+    function setModalStatus(status) {
+      currentModalStatus = status;
+      updateModalStatusButtons();
+    }
+
+    function updateModalStatusButtons() {
+      const bNone = document.getElementById('btn-status-none');
+      const bReading = document.getElementById('btn-status-reading');
+      const bCompleted = document.getElementById('btn-status-completed');
+
+      bNone.className = `neo-btn py-2 text-xs text-center ${currentModalStatus === 'none' ? 'bg-neutral-800 text-white' : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'}`;
+      bReading.className = `neo-btn py-2 text-xs text-center ${currentModalStatus === 'reading' ? 'bg-amber-500 text-white font-black' : 'bg-amber-100 hover:bg-amber-200 text-amber-900'}`;
+      bCompleted.className = `neo-btn py-2 text-xs text-center ${currentModalStatus === 'completed' ? 'bg-emerald-600 text-white font-black' : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-900'}`;
+    }
+
+    function saveModalCellAction() {
+      if (!state.modalCellContext) return;
+      const { studentId, bookId } = state.modalCellContext;
+
+      if (!state.readings[studentId]) state.readings[studentId] = {};
+
+      if (currentModalStatus === 'none') {
+        delete state.readings[studentId][bookId];
+      } else {
+        const dateVal = document.getElementById('modal-cell-date').value || new Date().toISOString().split('T')[0];
+        const orderInput = document.getElementById('modal-cell-order');
+        let readOrder = null;
+        if (currentModalStatus === 'completed') {
+          if (orderInput && orderInput.value !== '' && !isNaN(parseInt(orderInput.value, 10))) {
+            readOrder = parseInt(orderInput.value, 10);
+          } else {
+            const finished = getStudentFinishedBooks(studentId);
+            readOrder = finished.length + 1;
+          }
+        }
+
+        state.readings[studentId][bookId] = {
+          status: currentModalStatus,
+          borrowDate: currentModalStatus === 'reading' ? dateVal : (state.readings[studentId][bookId]?.borrowDate || dateVal),
+          finishDate: currentModalStatus === 'completed' ? dateVal : null,
+          readOrder: readOrder,
+          timestamp: state.readings[studentId][bookId]?.timestamp || Date.now(),
+          note: ''
+        };
+      }
+
+      saveData();
+      closeModal('modal-cell-action');
+      renderAll();
+    }
+
+    function openStudentsModal() {
+      renderModalStudentsList();
+      openModal('modal-students');
+      document.getElementById('new-student-name').focus();
+    }
+
+    function renderModalStudentsList() {
+      const list = document.getElementById('modal-students-list');
+      list.innerHTML = '';
+
+      const countEl = document.getElementById('modal-students-count');
+      if (countEl) countEl.textContent = `${state.students.length} élève${state.students.length > 1 ? 's' : ''} enregistré${state.students.length > 1 ? 's' : ''} :`;
+
+      if (state.students.length === 0) {
+        list.innerHTML = '<div class="text-neutral-400 italic p-3 text-center">Aucun élève dans la liste</div>';
+        updatePositionDropdown();
+        return;
+      }
+
+      state.students.forEach((s, idx) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-2 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 transition gap-2';
+        row.innerHTML = `
+          <div class="flex items-center gap-2 flex-1 min-w-0">
+            <span class="text-xs font-mono font-bold text-neutral-400 w-6 text-right">${idx + 1}.</span>
+            <input type="text" value="${s.name}" onchange="renameStudent('${s.id}', this.value)" class="text-xs font-bold text-neutral-800 bg-transparent focus:bg-white px-2 py-1 rounded border border-transparent focus:border-indigo-500 outline-none flex-1 min-w-0" title="Cliquer pour renommer">
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="moveStudent('${s.id}', -1)" class="p-1 hover:bg-neutral-200 text-neutral-600 rounded border border-transparent transition" title="Monter d'une place" ${idx === 0 ? 'disabled opacity-35 cursor-not-allowed' : ''}>
+              <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="moveStudent('${s.id}', 1)" class="p-1 hover:bg-neutral-200 text-neutral-600 rounded border border-transparent transition" title="Descendre d'une place" ${idx === state.students.length - 1 ? 'disabled opacity-35 cursor-not-allowed' : ''}>
+              <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="removeStudent('${s.id}')" class="p-1 hover:bg-rose-100 text-rose-500 rounded border border-transparent transition" title="Supprimer cet élève">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+      updatePositionDropdown();
+      lucide.createIcons();
+    }
+
+    function moveStudent(studentId, direction) {
+      const idx = state.students.findIndex(s => s.id === studentId);
+      if (idx === -1) return;
+
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= state.students.length) return;
+
+      // Échange de position
+      const temp = state.students[idx];
+      state.students[idx] = state.students[targetIdx];
+      state.students[targetIdx] = temp;
+
+      saveStudentsList();
+      renderModalStudentsList();
+      renderAll();
+    }
+
+    function sortStudentsAlphabetically() {
+      state.students.sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }));
+      saveStudentsList();
+      renderModalStudentsList();
+      renderAll();
+    }
+
+    function updatePositionDropdown() {
+      const select = document.getElementById('new-student-position');
+      if (!select) return;
+      const currentVal = select.value;
+      let html = `
+        <option value="alpha">🔤 Alphabétique (Auto)</option>
+        <option value="last">En dernier (bas de liste)</option>
+        <option value="first">En premier (haut de liste)</option>
+      `;
+      state.students.forEach((st, idx) => {
+        html += `<option value="after-${st.id}">Après ${idx + 1}. ${st.name}</option>`;
+      });
+      select.innerHTML = html;
+      if (currentVal && select.querySelector(`option[value="${currentVal}"]`)) {
+        select.value = currentVal;
+      }
+    }
+
+    function addStudentFromInput() {
+      const input = document.getElementById('new-student-name');
+      const name = input.value.trim();
+      if (!name) return;
+
+      const newStudent = {
+        id: 'st-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+        name: name,
+        active: true
+      };
+
+      const select = document.getElementById('new-student-position');
+      const pos = select ? select.value : 'alpha';
+
+      if (pos === 'first') {
+        state.students.unshift(newStudent);
+      } else if (pos.startsWith('after-')) {
+        const afterId = pos.substring(6);
+        const targetIdx = state.students.findIndex(s => s.id === afterId);
+        if (targetIdx !== -1) {
+          state.students.splice(targetIdx + 1, 0, newStudent);
+        } else {
+          state.students.push(newStudent);
+        }
+      } else if (pos === 'last') {
+        state.students.push(newStudent);
+      } else {
+        // 'alpha' : Insérer et trier automatiquement par ordre alphabétique
+        state.students.push(newStudent);
+        state.students.sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }));
+      }
+
+      saveStudentsList();
+      input.value = '';
+      input.focus();
+      renderModalStudentsList();
+      renderAll();
+    }
+
+    function renameStudent(id, newName) {
+      const clean = newName.trim();
+      if (!clean) return;
+      const s = state.students.find(x => x.id === id);
+      if (s) {
+        s.name = clean;
+        saveStudentsList();
+        renderAll();
+      }
+    }
+
+    function removeStudent(id) {
+      const s = state.students.find(x => x.id === id);
+      if (confirm(`Supprimer l'élève "${s.name}" ? (Ses lectures seront conservées en mémoire)`)) {
+        state.students = state.students.filter(x => x.id !== id);
+        if (state.selectedStudentId === id) {
+          state.selectedStudentId = state.students[0] ? state.students[0].id : null;
+        }
+        saveStudentsList();
+        renderModalStudentsList();
+        renderAll();
+      }
+    }
+
+    function importStudentsFromTBI() {
+      const stored = localStorage.getItem(STORAGE_KEY_STUDENTS);
+      if (stored) {
+        try {
+          const list = JSON.parse(stored);
+          if (Array.isArray(list) && list.length > 0) {
+            state.students = list;
+            saveStudentsList();
+            renderModalStudentsList();
+            renderAll();
+            alert(`✅ ${list.length} élève(s) synchronisé(s) avec succès depuis le TBI !`);
+            return;
+          }
+        } catch(e) {}
+      }
+      alert("Aucune liste d'élèves trouvée dans la mémoire du TBI.");
+    }
+
+    function importStudentsFromCotesJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          let newStudents = null;
+          if (Array.isArray(imported.students) && imported.students.length > 0) {
+            newStudents = imported.students;
+          } else if (Array.isArray(imported) && imported.length > 0) {
+            newStudents = imported;
+          }
+
+          if (newStudents) {
+            state.students = newStudents;
+            saveStudentsList();
+            renderModalStudentsList();
+            renderAll();
+            alert(`✅ ${newStudents.length} élèves importés avec succès depuis votre fichier du Cahier de cotes !`);
+          } else {
+            alert("⚠️ Aucune liste d'élèves valide trouvée dans ce fichier JSON.");
+          }
+        } catch(err) {
+          alert("Erreur lors de la lecture du fichier : " + err.message);
+        } finally {
+          e.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function syncStudentsFromStorage() {
+      const stored = localStorage.getItem(STORAGE_KEY_STUDENTS);
+      if (stored) {
+        try {
+          const list = JSON.parse(stored);
+          if (Array.isArray(list) && list.length > 0) {
+            const currentNames = (state.students || []).map(s => s.name).join('|||');
+            const newNames = list.map(s => s.name).join('|||');
+            if (currentNames !== newNames || state.students.length !== list.length) {
+              state.students = list;
+              if (state.students.length > 0 && (!state.selectedStudentId || !state.students.find(s => s.id === state.selectedStudentId))) {
+                state.selectedStudentId = state.students[0].id;
+              }
+              renderAll();
+              const mStudents = document.getElementById('modal-students');
+              if (mStudents && !mStudents.classList.contains('hidden')) {
+                renderModalStudentsList();
+              }
+            }
+          }
+        } catch(e) {}
+      }
+    }
+
+    // Synchronisation automatique inter-onglets en direct (si Joshua ou un autre élève est ajouté dans le Cahier de cotes)
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY_STUDENTS) {
+        syncStudentsFromStorage();
+      }
+    });
+
+    // Re-vérifier dès que l'enseignant revient sur l'onglet
+    window.addEventListener('focus', () => {
+      syncStudentsFromStorage();
+    });
+
+    function setPrintOrientation(orientation) {
+      let styleEl = document.getElementById('dynamic-print-style');
+      if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = 'dynamic-print-style';
+        document.head.appendChild(styleEl);
+      }
+      if (orientation === 'portrait') {
+        styleEl.innerHTML = '@page { size: A4 portrait; margin: 8mm; }';
+      } else {
+        styleEl.innerHTML = '@page { size: A4 landscape; margin: 4mm; }';
+      }
+    }
+
+    window.onafterprint = () => {
+      document.body.className = "bg-[#FDFBF7] text-neutral-900 min-h-screen flex flex-col font-sans select-none print:bg-white print:p-0";
+    };
+
+    function triggerPrintGridA4() {
+      setPrintOrientation('landscape');
+      document.body.className = "bg-white text-neutral-900 min-h-screen flex flex-col font-sans print:bg-white print:p-0";
+      document.getElementById('print-area-grid').style.display = 'block';
+      document.getElementById('print-area-passport').style.display = 'none';
+
+      renderMatrixView();
+
+      window.print();
+    }
+
+    function triggerPrintPassportPrompt() {
+      const studentId = state.selectedStudentId;
+      const student = state.students.find(s => s.id === studentId);
+      if (!student) return alert("Veuillez sélectionner un élève d'abord.");
+
+      setPrintOrientation('portrait');
+      document.body.className = "bg-white text-neutral-900 min-h-screen flex flex-col font-sans print:bg-white print:p-0";
+      document.getElementById('print-area-grid').style.display = 'none';
+      document.getElementById('print-area-passport').style.display = 'block';
+
+      document.getElementById('passport-print-student-name').textContent = `Élève : ${student.name}`;
+      const finished = getStudentFinishedBooks(studentId);
+      document.getElementById('passport-print-count').textContent = finished.length;
+      document.getElementById('passport-print-total').textContent = state.books.length;
+
+      const container = document.getElementById('passport-print-books-list');
+      let html = '';
+
+      state.books.forEach(b => {
+        const isRead = isBookReadByStudent(studentId, b.id);
+        const record = (state.readings[studentId] || {})[b.id];
+        const checkMark = isRead ? '☒' : '☐';
+        const orderNum = isRead ? getStudentBookReadOrder(studentId, b.id) : null;
+        const orderText = orderNum ? ` (${orderNum}${orderNum === 1 ? 'er' : 'è'} livre lu${record.finishDate ? ' le ' + record.finishDate : ''})` : '';
+        const readInfo = isRead && record ? 
+          `<span style="font-size:7pt; color:#15803d; font-weight:bold; margin-left:4px;">${orderText}</span>` : '';
+
+        html += `
+          <div style="font-size:7pt; display:flex; align-items:center; border-bottom:1px dotted #ccc; padding:1.5px 0;">
+            <span style="font-size:9.5pt; font-family:monospace; margin-right:4px;">${checkMark}</span>
+            <strong style="margin-right:4px;">${b.num}.</strong>
+            <span style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${b.title}</span>
+            ${readInfo}
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      window.print();
+    }
+
+    function openBackupModal() {
+      openModal('modal-backup');
+    }
+
+    function exportBackupJSON() {
+      const dataToExport = {
+        application: "TBI-Waimes-RecitsExpress",
+        version: "2.0",
+        exportDate: new Date().toISOString(),
+        books: state.books,
+        students: state.students,
+        readings: state.readings
+      };
+
+      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `recits_express_sauvegarde_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function importBackupJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          if (imported.readings && Array.isArray(imported.students)) {
+            if (confirm(`Restaurer cette sauvegarde ?\n\n• ${imported.students.length} élèves\n• ${imported.books ? imported.books.length : state.books.length} livres\n• Date : ${imported.exportDate || 'Inconnue'}\n\n⚠️ Cela remplacera les données actuelles.`)) {
+              if (Array.isArray(imported.books)) {
+                state.books = imported.books;
+                saveBooksList();
+              }
+              state.students = imported.students;
+              state.readings = imported.readings;
+              saveStudentsList();
+              saveData();
+              closeModal('modal-backup');
+              initMatrixHeaders();
+              renderAll();
+              alert("Données restaurées avec succès !");
+            }
+          } else {
+            alert("Format de fichier JSON invalide.");
+          }
+        } catch(err) {
+          alert("Erreur lors de la lecture du fichier : " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetAllDataConfirm() {
+      if (confirm(`⚠️ Êtes-vous certain de vouloir EFFACER TOUTES les lectures enregistrées ?\n\n(La liste des livres et des élèves sera conservée)`)) {
+        state.readings = {};
+        saveData();
+        closeModal('modal-backup');
+        renderAll();
+        alert("Les lectures ont été réinitialisées.");
+      }
+    }
+
+    function openModal(id) {
+      const m = document.getElementById(id);
+      if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      }
+    }
+
+    function closeModal(id) {
+      const m = document.getElementById(id);
+      if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+      }
+    }
+  </script>
+</body>
+</html>
