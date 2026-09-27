@@ -225,6 +225,7 @@
         font-size: 8pt !important;
         margin: 0 !important;
         padding: 0 !important;
+        overflow: hidden !important;
       }
       
       @page {
@@ -235,12 +236,25 @@
       .print-grid-container {
         width: 100% !important;
         max-width: 100% !important;
+        height: 100% !important;
+        max-height: 200mm !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        overflow: hidden !important;
       }
       
       table.print-table {
         width: 100%;
         border-collapse: collapse;
         table-layout: fixed;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      table.print-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       table.print-table th, table.print-table td {
         border: 1px solid #333333;
@@ -250,8 +264,8 @@
         line-height: 1.1;
       }
       table.print-table th.col-book-print {
-        height: 36mm;
-        max-height: 36mm;
+        height: 35mm;
+        max-height: 35mm;
         vertical-align: bottom;
         padding: 2px 0;
         background-color: #f0f0f0 !important;
@@ -263,7 +277,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
-        height: 34mm;
+        height: 33mm;
         width: 100%;
         overflow: hidden;
       }
@@ -271,7 +285,7 @@
         writing-mode: vertical-rl;
         transform: rotate(180deg);
         white-space: nowrap;
-        max-height: 29mm;
+        max-height: 28mm;
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 5.5pt;
@@ -309,20 +323,6 @@
         print-color-adjust: exact;
         font-weight: bold;
       }
-      
-      .print-legend-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5px 8px;
-        font-size: 6pt;
-        line-height: 1.15;
-        border: 1px solid #999;
-        padding: 3px 5px;
-        background: #fafafa;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        margin-top: 3px;
-      }
     }
   </style>
 </head>
@@ -337,11 +337,7 @@
         <i data-lucide="book-open-check" class="w-6 h-6"></i>
       </div>
       <div>
-        <div class="flex items-center gap-2">
-          <h1 class="font-display font-black text-lg md:text-xl text-neutral-900 tracking-tight leading-none">Récits Express</h1>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">P5-P6</span>
-        </div>
-        <p class="text-[11px] font-medium text-neutral-500">Journal de classe • Waimes Centre • <span id="header-books-count">56</span> Livres & Questionnaires</p>
+        <h1 class="font-display font-black text-lg md:text-xl text-neutral-900 tracking-tight leading-none">Récits Express</h1>
       </div>
     </div>
 
@@ -372,11 +368,6 @@
       <button onclick="triggerPrintGridA4()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-neutral-900 text-xs">
         <i data-lucide="printer" class="w-4 h-4"></i>
         <span>Imprimer Grille A4</span>
-      </button>
-
-      <button onclick="triggerPrintPassportPrompt()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-sky-400 hover:bg-sky-300 text-neutral-900 text-xs">
-        <i data-lucide="award" class="w-4 h-4"></i>
-        <span>Passeport Élève A4</span>
       </button>
 
       <button onclick="openStudentsModal()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs" title="Gérer ou importer les élèves">
@@ -593,7 +584,7 @@
               <i data-lucide="brush" class="w-4 h-4 text-indigo-600"></i>
               <span>Mode coloration des cadres :</span>
             </span>
-            <span class="text-indigo-800 text-[11px]">Choisissez une couleur, puis cliquez directement sur les titres des livres pour colorer leurs cadres :</span>
+            <span class="text-indigo-800 text-[11px]">Choisissez une catégorie (Récit court ou Récit long), puis cliquez directement sur les titres des livres :</span>
             <div class="flex items-center gap-1.5 flex-wrap ml-1" id="quick-color-swatches">
               <!-- Swatches remplis en JS -->
             </div>
@@ -739,8 +730,8 @@
         <!-- Couleur du cadre (longueur du livre) -->
         <div class="pt-1">
           <label class="block text-[11px] font-bold text-neutral-700 mb-1.5 flex items-center justify-between">
-            <span>Couleur du cadre (longueur / difficulté) :</span>
-            <span id="add-book-color-label" class="text-[10px] font-semibold text-neutral-500">⚪ Standard (Neutre)</span>
+            <span>Cadre du livre (longueur du récit) :</span>
+            <span id="add-book-color-label" class="text-[10px] font-semibold text-neutral-500">⚪ Standard / Neutre</span>
           </label>
           <div class="flex flex-wrap gap-1.5" id="add-book-color-swatches">
             <!-- Rempli en JS -->
@@ -806,8 +797,8 @@
         <!-- Couleur du cadre (longueur du livre) -->
         <div class="pt-1">
           <label class="block text-[11px] font-bold text-neutral-700 mb-1.5 flex items-center justify-between">
-            <span>Couleur du cadre (longueur / difficulté) :</span>
-            <span id="edit-book-color-label" class="text-[10px] font-semibold text-neutral-500">⚪ Standard (Neutre)</span>
+            <span>Cadre du livre (longueur du récit) :</span>
+            <span id="edit-book-color-label" class="text-[10px] font-semibold text-neutral-500">⚪ Standard / Neutre</span>
           </label>
           <div class="flex flex-wrap gap-1.5" id="edit-book-color-swatches">
             <!-- Rempli en JS -->
@@ -1099,22 +1090,16 @@
 
   <!-- 1. VUE IMPRESSION A4 PAYSAGE : GRILLE CLASSE COMPLETE -->
   <div id="print-area-grid" class="print-only print-grid-container">
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #000; padding-bottom:4px; margin-bottom:4px;">
-      <div>
-        <h1 style="font-size:13pt; font-weight:900; margin:0; text-transform:uppercase; letter-spacing:0.5px;">
-          Suivi de lecture — Récits Express
-        </h1>
-        <p style="font-size:7.5pt; margin:1px 0 0 0; color:#333;">
-          École fondamentale Waimes Centre • Classe de P5 - P6 • Récits Express & Questionnaires
-        </p>
-      </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #000; padding-bottom:2px; margin-bottom:3px;">
+      <h1 style="font-size:11pt; font-weight:900; margin:0; text-transform:uppercase; letter-spacing:0.5px;">
+        Suivi de lecture — Récits Express
+      </h1>
       <div style="text-align:right; font-size:7pt; color:#444;">
-        <span>Édité le : <strong id="print-date-today">--/--/----</strong></span> • 
-        <span>Année scolaire 2026-2027</span>
+        <span>Édité le : <strong id="print-date-today">--/--/----</strong></span>
       </div>
     </div>
 
-    <!-- Table de la grille imprimée -->
+    <!-- Table de la grille imprimée (Tableau à double entrée unique) -->
     <table class="print-table" id="print-table-matrix">
       <thead id="print-table-thead">
         <!-- Rempli en JS -->
@@ -1123,49 +1108,9 @@
         <!-- Rempli en JS -->
       </tbody>
     </table>
-
-    <!-- Légende & Table de correspondance en bas de page A4 -->
-    <div style="margin-top:4px;">
-      <div style="font-size:7pt; font-weight:bold; margin-bottom:1px; display:flex; justify-content:space-between;">
-        <span>Index de correspondance des livres :</span>
-        <span style="font-weight:normal; font-style:italic;">■ Vert (1, 2, 3...) = Ordre chronologique de lecture de l'élève • □ Jaune (📖) = En cours</span>
-      </div>
-      <div class="print-legend-grid" id="print-legend-grid">
-        <!-- Rempli en JS -->
-      </div>
-    </div>
   </div>
 
-  <!-- 2. VUE IMPRESSION A4 PORTRAIT : PASSEPORT ÉLÈVE INDIVIDUEL -->
-  <div id="print-area-passport" class="print-only" style="display:none;">
-    <div style="border-bottom:2px solid #000; padding-bottom:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:flex-end;">
-      <div>
-        <span style="font-size:8pt; font-weight:bold; background:#e0e7ff; padding:2px 6px; border-radius:4px;">PASSEPORT DE LECTURE</span>
-        <h1 style="font-size:16pt; font-weight:900; margin:4px 0 0 0;">
-          Récits Express — P5/P6
-        </h1>
-        <p style="font-size:9pt; color:#555; margin:0;">École communale Waimes Centre</p>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:13pt; font-weight:900; border:2px solid #000; padding:4px 12px; border-radius:8px;" id="passport-print-student-name">
-          Élève : Lucas
-        </div>
-        <div style="font-size:8pt; color:#666; margin-top:3px;">
-          Bilan : <strong id="passport-print-count">0</strong> / <span id="passport-print-total">56</span> livres lus
-        </div>
-      </div>
-    </div>
 
-    <!-- Grille 2 colonnes des livres avec cases à cocher -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px 12px;" id="passport-print-books-list">
-      <!-- Rempli en JS -->
-    </div>
-
-    <div style="margin-top:10px; border-top:1px dashed #999; padding-top:6px; display:flex; justify-content:space-between; font-size:8pt;">
-      <div>Signature de l'élève : _______________________</div>
-      <div>Visa de l'enseignant : _______________________</div>
-    </div>
-  </div>
 
   <!-- ======================================================== -->
   <!-- SCRIPTS & LOGIQUE JAVASCRIPT                              -->
@@ -1623,23 +1568,12 @@
   }
 ];
 
-    // PALETTE DE COULEURS POUR LES CADRES DES LIVRES (Longueur / Difficulté)
+    // PALETTE DE COULEURS POUR LES CADRES DES LIVRES (2 catégories : Récits courts / Récits longs)
     const BOOK_COLORS = {
-      none: {
-        id: 'none',
-        name: 'Standard (Neutre)',
-        shortLabel: 'Standard',
-        bg: '#ffffff',
-        border: '#cbd5e1',
-        text: '#1e293b',
-        badgeBg: '#e0e7ff',
-        badgeText: '#4338ca',
-        dot: '⚪'
-      },
       green: {
         id: 'green',
-        name: 'Court (Vert)',
-        shortLabel: 'Court',
+        name: 'Récits courts',
+        shortLabel: 'Récit court',
         bg: '#ecfdf5',
         border: '#059669',
         text: '#064e3b',
@@ -1647,32 +1581,10 @@
         badgeText: '#065f46',
         dot: '🟢'
       },
-      yellow: {
-        id: 'yellow',
-        name: 'Très court (Jaune)',
-        shortLabel: 'Très court',
-        bg: '#fefce8',
-        border: '#d97706',
-        text: '#78350f',
-        badgeBg: '#fef08a',
-        badgeText: '#92400e',
-        dot: '🟡'
-      },
-      blue: {
-        id: 'blue',
-        name: 'Moyen (Bleu)',
-        shortLabel: 'Moyen',
-        bg: '#eff6ff',
-        border: '#2563eb',
-        text: '#1e3a8a',
-        badgeBg: '#bfdbfe',
-        badgeText: '#1e40af',
-        dot: '🔵'
-      },
       orange: {
         id: 'orange',
-        name: 'Plus long (Orange)',
-        shortLabel: 'Long',
+        name: 'Récits longs',
+        shortLabel: 'Récit long',
         bg: '#fff7ed',
         border: '#ea580c',
         text: '#7c2d12',
@@ -1680,29 +1592,24 @@
         badgeText: '#9a3412',
         dot: '🟠'
       },
-      purple: {
-        id: 'purple',
-        name: 'Défi / Long (Violet)',
-        shortLabel: 'Défi',
-        bg: '#faf5ff',
-        border: '#9333ea',
-        text: '#581c87',
-        badgeBg: '#e9d5ff',
-        badgeText: '#6b21a8',
-        dot: '🟣'
-      },
-      pink: {
-        id: 'pink',
-        name: 'Spécial (Rose)',
-        shortLabel: 'Spécial',
-        bg: '#fdf2f8',
-        border: '#db2777',
-        text: '#831843',
-        badgeBg: '#fbcfe8',
-        badgeText: '#9d174d',
-        dot: '🌸'
+      none: {
+        id: 'none',
+        name: 'Standard / Neutre',
+        shortLabel: 'Standard (Neutre)',
+        bg: '#ffffff',
+        border: '#cbd5e1',
+        text: '#1e293b',
+        badgeBg: '#e0e7ff',
+        badgeText: '#4338ca',
+        dot: '⚪'
       }
     };
+
+    function getBookColorConfig(colorKey) {
+      if (colorKey === 'yellow') return BOOK_COLORS.green;
+      if (colorKey === 'blue' || colorKey === 'purple' || colorKey === 'pink') return BOOK_COLORS.orange;
+      return BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+    }
 
     // État du mode surligneur / coloration rapide
     let isColoringModeActive = false;
@@ -1721,6 +1628,7 @@
       students: [],
       books: [],
       readings: {},
+      archivedStudents: {},   // { ancienId: nom } : élèves retirés dont on garde les lectures
       selectedStudentId: null,
       currentView: 'matrix',
       filterSearch: '',
@@ -1760,25 +1668,10 @@
         }
       }
       
-      if (!state.students || state.students.length === 0) {
-        state.students = [
-          { id: "st-1", name: "Lucas", active: true },
-          { id: "st-2", name: "Emma", active: true },
-          { id: "st-3", name: "Mathis", active: true },
-          { id: "st-4", name: "Léa", active: true },
-          { id: "st-5", name: "Nathan", active: true },
-          { id: "st-6", name: "Chloé", active: true },
-          { id: "st-7", name: "Thomas", active: true },
-          { id: "st-8", name: "Sarah", active: true },
-          { id: "st-9", name: "Arthur", active: true },
-          { id: "st-10", name: "Camille", active: true },
-          { id: "st-11", name: "Jules", active: true },
-          { id: "st-12", name: "Zoé", active: true },
-          { id: "st-13", name: "Noah", active: true },
-          { id: "st-14", name: "Manon", active: true },
-          { id: "st-15", name: "Hugo", active: true }
-        ];
-        saveStudentsList();
+      // Pas d'élèves fictifs : la liste est partagée avec la Roue et le Cahier de cotes.
+      // Si elle est vide, on reste vide (ajout via le bouton « Élèves »).
+      if (!Array.isArray(state.students)) {
+        state.students = [];
       }
 
       // 3. Charger les lectures
@@ -1787,16 +1680,25 @@
         try {
           const parsed = JSON.parse(storedData);
           state.readings = parsed.readings || {};
+          state.archivedStudents = parsed.archivedStudents || {};
         } catch(e) {
           state.readings = {};
+          state.archivedStudents = {};
         }
       } else {
         state.readings = {};
+        state.archivedStudents = {};
       }
 
       if (state.students.length > 0 && !state.selectedStudentId) {
         state.selectedStudentId = state.students[0].id;
       }
+    }
+
+    // Date du jour au format AAAA-MM-JJ, en heure LOCALE (évite le décalage UTC entre minuit et 2 h)
+    function todayISO() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
     function sortBooks() {
@@ -1818,7 +1720,8 @@
       const payload = {
         version: 2,
         lastUpdated: new Date().toISOString(),
-        readings: state.readings
+        readings: state.readings,
+        archivedStudents: state.archivedStudents || {}
       };
       localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(payload));
     }
@@ -1909,9 +1812,9 @@
     }
 
     function selectEditBookColor(colorKey) {
-      const val = colorKey || 'none';
+      const cfg = getBookColorConfig(colorKey);
+      const val = cfg.id;
       document.getElementById('edit-book-color').value = val;
-      const cfg = BOOK_COLORS[val] || BOOK_COLORS.none;
       const lbl = document.getElementById('edit-book-color-label');
       if (lbl) lbl.textContent = `${cfg.dot} ${cfg.name}`;
 
@@ -1923,20 +1826,20 @@
         const isSelected = (k === val);
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `px-2 py-1 rounded-lg border-2 text-xs font-bold flex items-center gap-1 transition cursor-pointer ${isSelected ? 'border-neutral-900 shadow-neo-sm ring-2 ring-indigo-500 scale-105' : 'border-neutral-300 hover:border-neutral-400 opacity-80'}`;
+        btn.className = `px-3 py-1.5 rounded-xl border-2 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${isSelected ? 'border-neutral-900 shadow-neo-sm ring-2 ring-indigo-500 scale-105' : 'border-neutral-300 hover:border-neutral-400 opacity-80'}`;
         btn.style.backgroundColor = c.bg;
         btn.style.color = c.text;
-        btn.innerHTML = `<span>${c.dot}</span><span>${c.shortLabel}</span>`;
+        btn.innerHTML = `<span>${c.dot}</span><span>${c.name}</span>`;
         btn.onclick = () => selectEditBookColor(k);
         container.appendChild(btn);
       }
     }
 
     function selectAddBookColor(colorKey) {
-      const val = colorKey || 'none';
+      const cfg = getBookColorConfig(colorKey);
+      const val = cfg.id;
       const input = document.getElementById('add-book-color');
       if (input) input.value = val;
-      const cfg = BOOK_COLORS[val] || BOOK_COLORS.none;
       const lbl = document.getElementById('add-book-color-label');
       if (lbl) lbl.textContent = `${cfg.dot} ${cfg.name}`;
 
@@ -1948,10 +1851,10 @@
         const isSelected = (k === val);
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `px-2 py-1 rounded-lg border-2 text-xs font-bold flex items-center gap-1 transition cursor-pointer ${isSelected ? 'border-neutral-900 shadow-neo-sm ring-2 ring-indigo-500 scale-105' : 'border-neutral-300 hover:border-neutral-400 opacity-80'}`;
+        btn.className = `px-3 py-1.5 rounded-xl border-2 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${isSelected ? 'border-neutral-900 shadow-neo-sm ring-2 ring-indigo-500 scale-105' : 'border-neutral-300 hover:border-neutral-400 opacity-80'}`;
         btn.style.backgroundColor = c.bg;
         btn.style.color = c.text;
-        btn.innerHTML = `<span>${c.dot}</span><span>${c.shortLabel}</span>`;
+        btn.innerHTML = `<span>${c.dot}</span><span>${c.name}</span>`;
         btn.onclick = () => selectAddBookColor(k);
         container.appendChild(btn);
       }
@@ -1990,12 +1893,25 @@
       if (!title) return alert("Le titre ne peut pas être vide.");
 
       const num = document.getElementById('edit-book-num').value.trim();
+      if (!num) return alert("Le numéro ne peut pas être vide.");
+      const newNumPadded = String(num).padStart(2, '0');
+      const oldNum = book.num;
+      const conflict = state.books.find(b => b.id != book.id && (
+        b.num === newNumPadded ||
+        (!isNaN(parseInt(b.num, 10)) && parseInt(b.num, 10) === parseInt(num, 10))
+      ));
+      if (conflict) {
+        if (!confirm(`Le N° ${conflict.num} est déjà pris par "${conflict.title}".\n\nVoulez-vous échanger les numéros ?\n• "${title}" → N° ${newNumPadded}\n• "${conflict.title}" → N° ${oldNum}`)) {
+          return;
+        }
+        conflict.num = oldNum;
+      }
       const questions = parseInt(document.getElementById('edit-book-questions').value, 10) || 16;
       const filename = document.getElementById('edit-book-filename').value.trim();
       const colorVal = document.getElementById('edit-book-color').value || 'none';
 
       book.title = title;
-      book.num = String(num).padStart(2, '0');
+      book.num = newNumPadded;
       book.questions = questions;
       book.filename = filename;
       book.path = `../LCML/Questionnaire récits express/${filename}`;
@@ -2156,7 +2072,7 @@
       if (!state.readings[studentId]) state.readings[studentId] = {};
       state.readings[studentId][bookId] = {
         status: 'reading',
-        borrowDate: new Date().toISOString().split('T')[0],
+        borrowDate: todayISO(),
         finishDate: null,
         score: null,
         note: ''
@@ -2188,7 +2104,7 @@
       document.getElementById('complete-modal-book-label').textContent = `N° ${current.book.num}`;
       document.getElementById('complete-modal-book-title').textContent = current.book.title;
       document.getElementById('complete-modal-student-name').textContent = `Élève : ${student.name}`;
-      document.getElementById('complete-modal-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('complete-modal-date').value = todayISO();
 
       const finished = getStudentFinishedBooks(studentId);
       const nextOrder = finished.length + 1;
@@ -2207,7 +2123,7 @@
       const current = getStudentCurrentReading(studentId);
       if (!current) return;
 
-      const finishDate = document.getElementById('complete-modal-date').value || new Date().toISOString().split('T')[0];
+      const finishDate = document.getElementById('complete-modal-date').value || todayISO();
       const orderInput = document.getElementById('complete-modal-order');
       const finished = getStudentFinishedBooks(studentId);
       const readOrder = (orderInput && orderInput.value !== '' && !isNaN(parseInt(orderInput.value, 10))) ? 
@@ -2314,16 +2230,16 @@
       const container = document.getElementById('matrix-colors-summary');
       if (!container) return;
 
-      const counts = {};
+      let countShort = 0;
+      let countLong = 0;
+
       state.books.forEach(b => {
-        const c = b.color || 'none';
-        if (c !== 'none') {
-          counts[c] = (counts[c] || 0) + 1;
-        }
+        const cfg = getBookColorConfig(b.color);
+        if (cfg.id === 'green') countShort++;
+        else if (cfg.id === 'orange') countLong++;
       });
 
-      const keys = Object.keys(counts);
-      if (keys.length === 0) {
+      if (countShort === 0 && countLong === 0) {
         container.classList.add('hidden');
         container.classList.remove('inline-flex');
         container.innerHTML = '';
@@ -2333,15 +2249,24 @@
       container.classList.remove('hidden');
       container.classList.add('inline-flex');
       let html = `<span class="font-bold text-neutral-500 text-[10px]">Cadres :</span>`;
-      keys.forEach(k => {
-        const cfg = BOOK_COLORS[k] || BOOK_COLORS.none;
+      if (countShort > 0) {
+        const c = BOOK_COLORS.green;
         html += `
-          <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold" style="background-color:${cfg.badgeBg}; color:${cfg.badgeText}; border:1px solid ${cfg.border};">
-            <span>${cfg.dot}</span>
-            <span>${cfg.shortLabel} (${counts[k]})</span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold" style="background-color:${c.badgeBg}; color:${c.badgeText}; border:1px solid ${c.border};">
+            <span>${c.dot}</span>
+            <span>Récits courts (${countShort})</span>
           </span>
         `;
-      });
+      }
+      if (countLong > 0) {
+        const c = BOOK_COLORS.orange;
+        html += `
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold" style="background-color:${c.badgeBg}; color:${c.badgeText}; border:1px solid ${c.border};">
+            <span>${c.dot}</span>
+            <span>Récits longs (${countLong})</span>
+          </span>
+        `;
+      }
       container.innerHTML = html;
     }
 
@@ -2353,8 +2278,8 @@
       existingBookHeaders.forEach(th => th.remove());
 
       state.books.forEach(book => {
-        const colorKey = book.color || 'none';
-        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const colorCfg = getBookColorConfig(book.color);
+        const colorKey = colorCfg.id;
         const hasColor = colorKey !== 'none';
 
         const th = document.createElement('th');
@@ -2372,7 +2297,7 @@
 
         const tagInfo = hasColor ? ` [Cadre: ${colorCfg.name}]` : '';
         th.title = isColoringModeActive ? 
-          `Mode Coloration : Cliquer pour appliquer la couleur "${BOOK_COLORS[activeColoringTool].name}" à "${book.title}"` : 
+          `Mode Coloration : Cliquer pour appliquer la catégorie "${(BOOK_COLORS[activeColoringTool] || BOOK_COLORS.none).name}" à "${book.title}"` : 
           `N° ${book.num} : ${book.title}${tagInfo} (Cliquez pour afficher/modifier la fiche du livre)`;
 
         th.onclick = () => {
@@ -2407,8 +2332,8 @@
       let printThHtml = `<tr>
         <th style="width:95px; text-align:left; padding-left:3px; vertical-align:bottom; padding-bottom:3px;">Élève</th>`;
       state.books.forEach(b => {
-        const colorKey = b.color || 'none';
-        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const colorCfg = getBookColorConfig(b.color);
+        const colorKey = colorCfg.id;
         const hasColor = colorKey !== 'none';
 
         const printContainerBorder = hasColor ? 
@@ -2433,10 +2358,11 @@
 
     function initPrintLegend() {
       const legendContainer = document.getElementById('print-legend-grid');
+      if (!legendContainer) return;
       let html = '';
       state.books.forEach(b => {
-        const colorKey = b.color || 'none';
-        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const colorCfg = getBookColorConfig(b.color);
+        const colorKey = colorCfg.id;
         const dot = colorKey !== 'none' ? `<span style="color:${colorCfg.border}; margin-right:2px; font-size:7pt;">■</span>` : '';
         html += `<div>${dot}<strong>${b.num}</strong> : ${b.title}</div>`;
       });
@@ -2445,10 +2371,10 @@
 
     function renderAll() {
       const totalBooks = state.books.length;
-      document.getElementById('header-books-count').textContent = totalBooks;
+      const headerBooksCountEl = document.getElementById('header-books-count');
+      if (headerBooksCountEl) headerBooksCountEl.textContent = totalBooks;
       document.getElementById('tab-books-count').textContent = totalBooks;
       document.getElementById('books-count-badge').textContent = totalBooks;
-      document.getElementById('passport-print-total').textContent = totalBooks;
 
       initMatrixHeaders();
       renderStudentSelectDropdown();
@@ -2463,10 +2389,14 @@
       let totalRead = 0;
       let totalReading = 0;
 
-      for (const sId in state.readings) {
-        for (const bId in state.readings[sId]) {
-          if (state.readings[sId][bId].status === 'completed') totalRead++;
-          if (state.readings[sId][bId].status === 'reading') totalReading++;
+      // On ne compte que les élèves ET les livres encore présents
+      const bookIds = new Set(state.books.map(b => String(b.id)));
+      for (const s of state.students) {
+        const stReadings = state.readings[s.id] || {};
+        for (const bId in stReadings) {
+          if (!bookIds.has(String(bId))) continue;
+          if (stReadings[bId].status === 'completed') totalRead++;
+          if (stReadings[bId].status === 'reading') totalReading++;
         }
       }
 
@@ -2542,8 +2472,9 @@
         
         let borrowInfo = 'Emprunté récemment';
         if (current.data.borrowDate) {
-          const bDate = new Date(current.data.borrowDate);
-          const diffDays = Math.floor((new Date() - bDate) / (1000 * 60 * 60 * 24));
+          const bDate = new Date(current.data.borrowDate + 'T00:00:00');
+          const todayMidnight = new Date(todayISO() + 'T00:00:00');
+          const diffDays = Math.max(0, Math.round((todayMidnight - bDate) / (1000 * 60 * 60 * 24)));
           const diffText = diffDays === 0 ? "aujourd'hui" : `il y a ${diffDays} j.`;
           borrowInfo = `Prêté le ${current.data.borrowDate} (${diffText})`;
         }
@@ -2835,8 +2766,8 @@
           statusHtml = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">📖 Chez ${borrower.student.name}</span>`;
         }
 
-        const colorKey = b.color || 'none';
-        const colorCfg = BOOK_COLORS[colorKey] || BOOK_COLORS.none;
+        const colorCfg = getBookColorConfig(b.color);
+        const colorKey = colorCfg.id;
         const colorBadgeHtml = colorKey !== 'none' ? 
           `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full mr-1.5" style="background-color:${colorCfg.badgeBg}; color:${colorCfg.badgeText}; border:1px solid ${colorCfg.border};">${colorCfg.dot} ${colorCfg.shortLabel}</span>` : '';
 
@@ -2898,13 +2829,13 @@
         }
       } else if (record && record.status === 'reading') {
         currentModalStatus = record.status;
-        document.getElementById('modal-cell-date').value = record.borrowDate || new Date().toISOString().split('T')[0];
+        document.getElementById('modal-cell-date').value = record.borrowDate || todayISO();
         const nextOrder = getStudentFinishedBooks(studentId).length + 1;
         if (orderInput) orderInput.value = nextOrder;
         if (suffixEl) suffixEl.textContent = (nextOrder === 1 ? 'er livre lu' : 'è livre lu');
       } else {
         currentModalStatus = 'none';
-        document.getElementById('modal-cell-date').value = new Date().toISOString().split('T')[0];
+        document.getElementById('modal-cell-date').value = todayISO();
         const nextOrder = getStudentFinishedBooks(studentId).length + 1;
         if (orderInput) orderInput.value = nextOrder;
         if (suffixEl) suffixEl.textContent = (nextOrder === 1 ? 'er livre lu' : 'è livre lu');
@@ -2938,7 +2869,7 @@
       if (currentModalStatus === 'none') {
         delete state.readings[studentId][bookId];
       } else {
-        const dateVal = document.getElementById('modal-cell-date').value || new Date().toISOString().split('T')[0];
+        const dateVal = document.getElementById('modal-cell-date').value || todayISO();
         const orderInput = document.getElementById('modal-cell-order');
         let readOrder = null;
         if (currentModalStatus === 'completed') {
@@ -2963,6 +2894,52 @@
       saveData();
       closeModal('modal-cell-action');
       renderAll();
+    }
+
+
+    // --- ARCHIVE DES ÉLÈVES RETIRÉS (pour retrouver leurs lectures s'ils sont recréés) ---
+    function normalizeName(n) {
+      return String(n || '').trim().toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function countStudentReadings(studentId) {
+      const r = state.readings[studentId];
+      return r ? Object.keys(r).length : 0;
+    }
+
+    // Mémorise les élèves actuels absents de la nouvelle liste (s'ils ont des lectures)
+    function archiveMissingStudents(newList) {
+      const newIds = new Set((newList || []).map(s => String(s.id)));
+      let changed = false;
+      (state.students || []).forEach(s => {
+        if (!newIds.has(String(s.id)) && countStudentReadings(s.id) > 0) {
+          state.archivedStudents[s.id] = s.name;
+          changed = true;
+        }
+      });
+      if (changed) saveData();
+    }
+
+    // Pour chaque élève de la liste sans lecture, cherche un ancien élève archivé du même nom
+    // et propose de lui rendre ses lectures.
+    function restoreArchivedReadings(students, askConfirm = true) {
+      let restored = 0;
+      (students || []).forEach(st => {
+        if (countStudentReadings(st.id) > 0) return;
+        const oldId = Object.keys(state.archivedStudents || {}).find(id =>
+          String(id) !== String(st.id) && normalizeName(state.archivedStudents[id]) === normalizeName(st.name)
+        );
+        if (!oldId) return;
+        const n = countStudentReadings(oldId);
+        if (n === 0) { delete state.archivedStudents[oldId]; return; }
+        if (askConfirm && !confirm(`Un ancien élève nommé "${state.archivedStudents[oldId]}" avait ${n} lecture(s) enregistrée(s).\n\nVoulez-vous les rattacher à "${st.name}" ?`)) return;
+        state.readings[st.id] = state.readings[oldId];
+        delete state.readings[oldId];
+        delete state.archivedStudents[oldId];
+        restored++;
+      });
+      if (restored > 0) saveData();
+      return restored;
     }
 
     function openStudentsModal() {
@@ -3085,6 +3062,7 @@
       }
 
       saveStudentsList();
+      restoreArchivedReadings([newStudent]);
       input.value = '';
       input.focus();
       renderModalStudentsList();
@@ -3105,6 +3083,10 @@
     function removeStudent(id) {
       const s = state.students.find(x => x.id === id);
       if (confirm(`Supprimer l'élève "${s.name}" ? (Ses lectures seront conservées en mémoire)`)) {
+        if (countStudentReadings(id) > 0) {
+          state.archivedStudents[id] = s.name;
+          saveData();
+        }
         state.students = state.students.filter(x => x.id !== id);
         if (state.selectedStudentId === id) {
           state.selectedStudentId = state.students[0] ? state.students[0].id : null;
@@ -3121,8 +3103,10 @@
         try {
           const list = JSON.parse(stored);
           if (Array.isArray(list) && list.length > 0) {
+            archiveMissingStudents(list);
             state.students = list;
             saveStudentsList();
+            restoreArchivedReadings(state.students);
             renderModalStudentsList();
             renderAll();
             alert(`✅ ${list.length} élève(s) synchronisé(s) avec succès depuis le TBI !`);
@@ -3149,8 +3133,10 @@
           }
 
           if (newStudents) {
+            archiveMissingStudents(newStudents);
             state.students = newStudents;
             saveStudentsList();
+            restoreArchivedReadings(state.students);
             renderModalStudentsList();
             renderAll();
             alert(`✅ ${newStudents.length} élèves importés avec succès depuis votre fichier du Cahier de cotes !`);
@@ -3175,7 +3161,9 @@
             const currentNames = (state.students || []).map(s => s.name).join('|||');
             const newNames = list.map(s => s.name).join('|||');
             if (currentNames !== newNames || state.students.length !== list.length) {
+              archiveMissingStudents(list);
               state.students = list;
+              restoreArchivedReadings(state.students);
               if (state.students.length > 0 && (!state.selectedStudentId || !state.students.find(s => s.id === state.selectedStudentId))) {
                 state.selectedStudentId = state.students[0].id;
               }
@@ -3224,51 +3212,8 @@
       setPrintOrientation('landscape');
       document.body.className = "bg-white text-neutral-900 min-h-screen flex flex-col font-sans print:bg-white print:p-0";
       document.getElementById('print-area-grid').style.display = 'block';
-      document.getElementById('print-area-passport').style.display = 'none';
 
       renderMatrixView();
-
-      window.print();
-    }
-
-    function triggerPrintPassportPrompt() {
-      const studentId = state.selectedStudentId;
-      const student = state.students.find(s => s.id === studentId);
-      if (!student) return alert("Veuillez sélectionner un élève d'abord.");
-
-      setPrintOrientation('portrait');
-      document.body.className = "bg-white text-neutral-900 min-h-screen flex flex-col font-sans print:bg-white print:p-0";
-      document.getElementById('print-area-grid').style.display = 'none';
-      document.getElementById('print-area-passport').style.display = 'block';
-
-      document.getElementById('passport-print-student-name').textContent = `Élève : ${student.name}`;
-      const finished = getStudentFinishedBooks(studentId);
-      document.getElementById('passport-print-count').textContent = finished.length;
-      document.getElementById('passport-print-total').textContent = state.books.length;
-
-      const container = document.getElementById('passport-print-books-list');
-      let html = '';
-
-      state.books.forEach(b => {
-        const isRead = isBookReadByStudent(studentId, b.id);
-        const record = (state.readings[studentId] || {})[b.id];
-        const checkMark = isRead ? '☒' : '☐';
-        const orderNum = isRead ? getStudentBookReadOrder(studentId, b.id) : null;
-        const orderText = orderNum ? ` (${orderNum}${orderNum === 1 ? 'er' : 'è'} livre lu${record.finishDate ? ' le ' + record.finishDate : ''})` : '';
-        const readInfo = isRead && record ? 
-          `<span style="font-size:7pt; color:#15803d; font-weight:bold; margin-left:4px;">${orderText}</span>` : '';
-
-        html += `
-          <div style="font-size:7pt; display:flex; align-items:center; border-bottom:1px dotted #ccc; padding:1.5px 0;">
-            <span style="font-size:9.5pt; font-family:monospace; margin-right:4px;">${checkMark}</span>
-            <strong style="margin-right:4px;">${b.num}.</strong>
-            <span style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${b.title}</span>
-            ${readInfo}
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
 
       window.print();
     }
@@ -3284,14 +3229,15 @@
         exportDate: new Date().toISOString(),
         books: state.books,
         students: state.students,
-        readings: state.readings
+        readings: state.readings,
+        archivedStudents: state.archivedStudents || {}
       };
 
       const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `recits_express_sauvegarde_${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `recits_express_sauvegarde_${todayISO()}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -3314,6 +3260,10 @@
               }
               state.students = imported.students;
               state.readings = imported.readings;
+              state.archivedStudents = imported.archivedStudents || {};
+              if (!state.students.find(s => s.id === state.selectedStudentId)) {
+                state.selectedStudentId = state.students[0] ? state.students[0].id : null;
+              }
               saveStudentsList();
               saveData();
               closeModal('modal-backup');
@@ -3334,6 +3284,7 @@
     function resetAllDataConfirm() {
       if (confirm(`⚠️ Êtes-vous certain de vouloir EFFACER TOUTES les lectures enregistrées ?\n\n(La liste des livres et des élèves sera conservée)`)) {
         state.readings = {};
+        state.archivedStudents = {};
         saveData();
         closeModal('modal-backup');
         renderAll();
