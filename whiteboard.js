@@ -1188,6 +1188,7 @@ function renderCurrentPage() {
             elements: [],
             textboxes: [],
             backgroundType: 'blank',
+            rotation: 0,
             undoStack: [],
             redoStack: []
         };
@@ -3331,6 +3332,7 @@ function loadImageAsBackground(file) {
                     elements: [], 
                     textboxes: [], 
                     backgroundType: 'blank',
+                    rotation: 0,
                     undoStack: [],
                     redoStack: []
                 };
@@ -3449,9 +3451,9 @@ function renderPdfPage() {
             tab.pages[pageNum] = pageData;
         }
         
-        const rotation = (pageData.rotation || 0) % 360;
+        const totalRotation = ((page.rotate || 0) + (pageData.rotation || 0)) % 360;
         const dpr = window.devicePixelRatio || 1;
-        const tempViewport = page.getViewport({ scale: 1.0, rotation: rotation });
+        const tempViewport = page.getViewport({ scale: 1.0, rotation: totalRotation });
         
         // Lock scale and offsets based on first render to prevent misalignment on window resize (like HDMI plug/unplug)
         if (pageData.pdfScale === undefined || pageData.pdfScale === null) {
@@ -3465,7 +3467,7 @@ function renderPdfPage() {
         const scale = pageData.pdfScale;
         
         // Render at Retina scale adjusted by zoomScale with rotation
-        const viewport = page.getViewport({ scale: scale * zoomScale * dpr, rotation: rotation });
+        const viewport = page.getViewport({ scale: scale * zoomScale * dpr, rotation: totalRotation });
         
         bgCanvas.width = container.clientWidth * zoomScale * dpr;
         bgCanvas.height = container.clientHeight * zoomScale * dpr;
@@ -3582,8 +3584,6 @@ function rotateCurrentPage(delta = 90) {
         tab.pages[pageNum] = pageData;
     }
     
-    savePageStateForUndo(pageData);
-    
     pageData.rotation = (((pageData.rotation || 0) + delta) % 360 + 360) % 360;
     
     // Reset cached scales and offsets to adapt to new landscape/portrait dimensions
@@ -3666,8 +3666,9 @@ async function renderPdfThumbnail(pdf, pageNum, canvas) {
         const rotation = (pageData && pageData.rotation) ? pageData.rotation : 0;
         
         const page = await pdf.getPage(pageNum);
+        const totalRotation = ((page.rotate || 0) + rotation) % 360;
         const ctx = canvas.getContext('2d');
-        const viewport = page.getViewport({ scale: 0.18, rotation: rotation });
+        const viewport = page.getViewport({ scale: 0.18, rotation: totalRotation });
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         canvas.style.width = '100%';
