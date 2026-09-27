@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Récits Express — Journal de classe P5-P6</title>
+  <title>Récits express — Journal de classe</title>
   
   <!-- Polices Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -337,7 +337,7 @@
         <i data-lucide="book-open-check" class="w-6 h-6"></i>
       </div>
       <div>
-        <h1 class="font-display font-black text-lg md:text-xl text-neutral-900 tracking-tight leading-none">Récits Express</h1>
+        <h1 class="font-display font-black text-lg md:text-xl text-neutral-900 tracking-tight leading-none">Récits express</h1>
       </div>
     </div>
 
@@ -367,7 +367,7 @@
 
       <button onclick="triggerPrintGridA4()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-neutral-900 text-xs">
         <i data-lucide="printer" class="w-4 h-4"></i>
-        <span>Imprimer Grille A4</span>
+        <span>Imprimer grille A4</span>
       </button>
 
       <button onclick="openStudentsModal()" class="neo-btn flex items-center gap-1.5 px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs" title="Gérer ou importer les élèves">
@@ -442,7 +442,7 @@
           <div class="flex items-center justify-between">
             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-200 text-amber-900 border border-amber-400 animate-pulse">
               <span class="w-2 h-2 rounded-full bg-amber-600"></span>
-              LIVRE EN COURS
+              Livre en cours
             </span>
             <span id="current-reading-date" class="text-[10px] font-mono text-amber-800 font-semibold">Emprunté le --/--</span>
           </div>
@@ -454,16 +454,12 @@
             </div>
           </div>
 
-          <!-- Boutons d'action sur le livre en cours -->
-          <div class="grid grid-cols-2 gap-2 pt-1">
-            <button onclick="openCompleteModalCurrent()" class="neo-btn flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-500 hover:bg-emerald-400 text-white text-xs">
-              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-              <span>Marquer Lu ✅</span>
+          <!-- Bouton d'action sur le livre en cours -->
+          <div class="pt-1">
+            <button onclick="openCompleteModalCurrent()" class="w-full neo-btn flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-bold shadow-neo-sm">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span>Marquer lu ✅</span>
             </button>
-            <a id="btn-open-questionnaire-current" href="#" target="_blank" class="neo-btn flex items-center justify-center gap-1.5 py-1.5 px-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs text-center">
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-              <span>Questionnaire 🎯</span>
-            </a>
           </div>
 
           <div class="text-center pt-1 border-t border-amber-200">
@@ -520,10 +516,10 @@
       <div class="neo-card px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 bg-white">
         <div class="flex items-center gap-1.5">
           <button id="tab-btn-matrix" onclick="switchMainTab('matrix')" class="px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-indigo-600 text-white shadow-none translate-x-0.5 translate-y-0.5 cursor-pointer">
-            📊 Matrice des Livres
+            📊 Tableau récapitulatif
           </button>
           <button id="tab-btn-students" onclick="switchMainTab('students')" class="px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-white text-neutral-800 shadow-neo-sm hover:bg-neutral-100 cursor-pointer">
-            👥 Suivi par Élève
+            👥 Suivi des élèves
           </button>
           <button id="tab-btn-books" onclick="switchMainTab('books')" class="px-3.5 py-1.5 rounded-xl border-2 border-neutral-900 font-display font-bold text-xs bg-white text-neutral-800 shadow-neo-sm hover:bg-neutral-100 cursor-pointer">
             📚 Catalogue (<span id="tab-books-count">56</span>)
@@ -636,7 +632,7 @@
       <div id="view-books" class="hidden neo-card flex-1 flex flex-col min-h-0 bg-white overflow-hidden">
         <div class="p-3 border-b border-neutral-200 bg-neutral-50 flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <h3 class="font-display font-bold text-sm text-neutral-800">Catalogue des Récits Express (<span id="books-count-badge">56</span> livres)</h3>
+            <h3 class="font-display font-bold text-sm text-neutral-800">Catalogue des récits express (<span id="books-count-badge">56</span> livres)</h3>
           </div>
           <button onclick="openAddBookModal()" class="neo-btn flex items-center gap-1 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white text-xs">
             <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
@@ -648,11 +644,10 @@
             <thead class="bg-neutral-100 sticky top-0 border-b-2 border-neutral-900 text-neutral-800 font-bold">
               <tr>
                 <th class="p-2.5 w-14 text-center">N°</th>
-                <th class="p-2.5">Titre du Récit Express</th>
+                <th class="p-2.5">Titre du récit express</th>
                 <th class="p-2.5 w-28 text-center">Questions</th>
                 <th class="p-2.5 w-40 text-center">Statut actuel</th>
                 <th class="p-2.5 w-28 text-center">Fois lu</th>
-                <th class="p-2.5 w-32 text-center">Questionnaire</th>
                 <th class="p-2.5 w-24 text-center">Actions</th>
               </tr>
             </thead>
@@ -676,7 +671,7 @@
           <span class="p-1 rounded-lg bg-emerald-100 text-emerald-700">
             <i data-lucide="book-plus" class="w-4 h-4"></i>
           </span>
-          <h3 class="font-display font-bold text-base text-neutral-900">Ajouter un Récit Express</h3>
+          <h3 class="font-display font-bold text-base text-neutral-900">Ajouter un récit express</h3>
         </div>
         <button onclick="closeModal('modal-add-book')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -711,7 +706,7 @@
 
         <!-- Titre du livre -->
         <div>
-          <label class="block text-xs font-bold text-neutral-700 mb-1">Titre du Récit Express * :</label>
+          <label class="block text-xs font-bold text-neutral-700 mb-1">Titre du récit express * :</label>
           <input type="text" id="add-book-title" placeholder="Ex: L'énigme du phare abandonné" class="w-full px-3 py-2 text-xs font-semibold rounded-xl border-2 border-neutral-900 bg-neutral-50 focus:bg-white focus:outline-none focus:border-indigo-600">
         </div>
 
@@ -762,7 +757,7 @@
           <span class="p-1 rounded-lg bg-indigo-100 text-indigo-700">
             <i data-lucide="book" class="w-4 h-4"></i>
           </span>
-          <h3 class="font-display font-bold text-base text-neutral-900">Fiche du Récit Express</h3>
+          <h3 class="font-display font-bold text-base text-neutral-900">Fiche du récit express</h3>
         </div>
         <button onclick="closeModal('modal-edit-book')" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -789,7 +784,7 @@
             <input type="number" id="edit-book-questions" min="1" max="50" class="w-full px-3 py-1.5 text-xs font-mono rounded-xl border-2 border-neutral-900 bg-neutral-50">
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Fichier questionnaire :</label>
+            <label class="block text-[11px] font-bold text-neutral-700 mb-1">Nom de fichier HTML (facultatif) :</label>
             <input type="text" id="edit-book-filename" class="w-full px-3 py-1.5 text-xs rounded-xl border-2 border-neutral-900 bg-neutral-50">
           </div>
         </div>
@@ -815,12 +810,6 @@
           <div class="flex justify-between">
             <span class="text-neutral-500">Total lectures terminées :</span>
             <span id="edit-book-readers" class="font-bold text-neutral-800">--</span>
-          </div>
-          <div class="pt-1 mt-1 border-t border-neutral-200 flex justify-end">
-            <a id="edit-book-link-q" href="#" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1 text-[11px]">
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-              <span>Tester le questionnaire interactif</span>
-            </a>
           </div>
         </div>
       </div>
@@ -892,21 +881,14 @@
         </div>
       </div>
 
-      <!-- Lien vers le questionnaire -->
-      <div class="pt-2 flex items-center justify-between border-t border-neutral-200">
-        <a id="modal-cell-link-questionnaire" href="#" target="_blank" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
-          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-          <span>Ouvrir le questionnaire interactif</span>
-        </a>
-
-        <div class="flex items-center gap-2">
-          <button onclick="closeModal('modal-cell-action')" class="px-3 py-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-900">
-            Annuler
-          </button>
-          <button onclick="saveModalCellAction()" class="neo-btn px-4 py-1.5 bg-indigo-600 text-white text-xs">
-            Enregistrer
-          </button>
-        </div>
+      <!-- Actions -->
+      <div class="pt-2 flex items-center justify-end gap-2 border-t border-neutral-200">
+        <button onclick="closeModal('modal-cell-action')" class="px-3 py-1.5 text-xs font-bold text-neutral-600 hover:text-neutral-900">
+          Annuler
+        </button>
+        <button onclick="saveModalCellAction()" class="neo-btn px-4 py-1.5 bg-indigo-600 text-white text-xs">
+          Enregistrer
+        </button>
       </div>
     </div>
   </div>
@@ -1092,7 +1074,7 @@
   <div id="print-area-grid" class="print-only print-grid-container">
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #000; padding-bottom:2px; margin-bottom:3px;">
       <h1 style="font-size:11pt; font-weight:900; margin:0; text-transform:uppercase; letter-spacing:0.5px;">
-        Suivi de lecture — Récits Express
+        Suivi de lecture — Récits express
       </h1>
       <div style="text-align:right; font-size:7pt; color:#444;">
         <span>Édité le : <strong id="print-date-today">--/--/----</strong></span>
@@ -1879,7 +1861,6 @@
         `<span class="text-emerald-700">🟢 Disponible</span>`;
       
       document.getElementById('edit-book-readers').textContent = `${readCount} élève${readCount > 1 ? 's' : ''}`;
-      document.getElementById('edit-book-link-q').href = book.path;
 
       openModal('modal-edit-book');
     }
@@ -2479,9 +2460,6 @@
           borrowInfo = `Prêté le ${current.data.borrowDate} (${diffText})`;
         }
         document.getElementById('current-reading-date').textContent = borrowInfo;
-
-        const qBtn = document.getElementById('btn-open-questionnaire-current');
-        qBtn.href = current.book.path;
       } else {
         boxCurrent.classList.add('hidden');
       }
@@ -2510,9 +2488,6 @@
               <div class="flex items-center gap-1.5 shrink-0">
                 ${dateStr}
                 ${orderBadge}
-                <a href="${item.book.path}" target="_blank" class="p-1 text-indigo-600 hover:text-indigo-800" title="Revoir le questionnaire">
-                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                </a>
                 <button onclick="deleteReadingRecord('${studentId}', '${item.bookId}')" class="p-1 text-neutral-400 hover:text-rose-600 transition" title="Supprimer cette lecture">
                   <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                 </button>
@@ -2778,12 +2753,6 @@
           <td class="p-2.5 text-center">${statusHtml}</td>
           <td class="p-2.5 text-center font-mono font-bold text-neutral-800">${readCount} élève${readCount > 1 ? 's' : ''}</td>
           <td class="p-2.5 text-center">
-            <a href="${b.path}" target="_blank" class="neo-btn inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-[11px]">
-              <i data-lucide="external-link" class="w-3 h-3"></i>
-              <span>Ouvrir</span>
-            </a>
-          </td>
-          <td class="p-2.5 text-center">
             <button onclick="openBookDetailsModal('${b.id}')" class="neo-btn p-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs" title="Modifier ce livre">
               <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             </button>
@@ -2812,7 +2781,6 @@
       document.getElementById('modal-cell-book-num').textContent = `N° ${book.num}`;
       document.getElementById('modal-cell-book-title').textContent = book.title;
       document.getElementById('modal-cell-student-name').textContent = `Élève : ${student.name}`;
-      document.getElementById('modal-cell-link-questionnaire').href = book.path;
 
       const orderInput = document.getElementById('modal-cell-order');
       const suffixEl = document.getElementById('modal-cell-order-suffix');
