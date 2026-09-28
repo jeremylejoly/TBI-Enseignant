@@ -1647,6 +1647,21 @@
         }
       }
       
+      // Si vide et ouvert dans LCML, récupérer automatiquement la classe de LCML
+      if ((!state.students || state.students.length === 0) && window.parent && window.parent !== window && typeof window.parent.getClassStudents === 'function') {
+        try {
+          const cls = window.parent.teacherCls || 'lejoly';
+          const pStudents = window.parent.getClassStudents(cls);
+          if (Array.isArray(pStudents) && pStudents.length > 0) {
+            state.students = pStudents.map(s => ({
+              id: 'st_' + (s.name || '').toLowerCase().replace(/[^a-z0-9]/g, '_') + '_' + Math.random().toString(36).substr(2, 4),
+              name: s.name
+            })).sort((a,b)=>a.name.localeCompare(b.name,'fr'));
+            saveStudentsList();
+          }
+        } catch(e) {}
+      }
+
       // Pas d'élèves fictifs : la liste est partagée avec la Roue et le Cahier de cotes.
       // Si elle est vide, on reste vide (ajout via le bouton « Élèves »).
       if (!Array.isArray(state.students)) {
@@ -3020,6 +3035,32 @@
     }
 
     function importStudentsFromTBI() {
+      // 1. Si on est dans LCML, synchroniser directement depuis la classe LCML active
+      if (window.parent && window.parent !== window && typeof window.parent.getClassStudents === 'function') {
+        try {
+          const cls = window.parent.teacherCls || 'lejoly';
+          const pStudents = window.parent.getClassStudents(cls);
+          if (Array.isArray(pStudents) && pStudents.length > 0) {
+            const list = pStudents.map(s => {
+              const existing = (state.students || []).find(e => e.name.toLowerCase().trim() === s.name.toLowerCase().trim());
+              return {
+                id: existing ? existing.id : ('st_' + (s.name || '').toLowerCase().replace(/[^a-z0-9]/g, '_') + '_' + Math.random().toString(36).substr(2, 4)),
+                name: s.name
+              };
+            }).sort((a,b)=>a.name.localeCompare(b.name,'fr'));
+            archiveMissingStudents(list);
+            state.students = list;
+            saveStudentsList();
+            restoreArchivedReadings(state.students);
+            renderModalStudentsList();
+            renderAll();
+            alert(`✅ ${list.length} élève(s) synchronisé(s) depuis la classe LCML (${cls}) !`);
+            return;
+          }
+        } catch(e) {}
+      }
+
+      // 2. Sinon, synchroniser depuis le stockage TBI
       const stored = localStorage.getItem(STORAGE_KEY_STUDENTS);
       if (stored) {
         try {
@@ -3036,7 +3077,7 @@
           }
         } catch(e) {}
       }
-      alert("Aucune liste d'élèves trouvée dans la mémoire du TBI.");
+      alert("Aucune liste d'élèves trouvée.");
     }
 
     function importStudentsFromCotesJSON(e) {
