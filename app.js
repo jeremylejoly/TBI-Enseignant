@@ -111,17 +111,6 @@ function switchTab(tabId) {
                 iframe.contentWindow.renderSchedule();
             }
         }
-    } else if (tabId === 'recits') {
-        // Synchroniser et rafraîchir le tableau Récits Express
-        const iframe = document.getElementById('recits-fullscreen-iframe');
-        if (iframe && iframe.contentWindow) {
-            if (typeof iframe.contentWindow.syncStudentsFromStorage === 'function') {
-                iframe.contentWindow.syncStudentsFromStorage();
-            }
-            if (typeof iframe.contentWindow.renderAll === 'function') {
-                iframe.contentWindow.renderAll();
-            }
-        }
     } else if (tabId === 'globe') {
         // Forcer le redimensionnement du Globe 3D lors de l'activation
         const iframe = document.getElementById('globe-fullscreen-iframe');
