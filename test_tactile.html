@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test tactile TBI</title>
+<style>
+  html,body{margin:0;height:100%;background:#fff;font-family:system-ui,sans-serif;overflow:hidden}
+  canvas{position:fixed;inset:0;touch-action:none}
+  #panel{position:fixed;top:10px;left:10px;background:rgba(15,23,42,.88);color:#fff;padding:12px 16px;border-radius:12px;font-size:15px;line-height:1.5;z-index:2;max-width:440px}
+  #panel b{color:#fbbf24}
+  #log{font-family:ui-monospace,monospace;font-size:13px;max-height:220px;overflow:auto;margin-top:6px}
+  .bad{color:#f87171}.ok{color:#4ade80}
+  button{margin-top:8px;font-size:14px;padding:6px 12px;border-radius:8px;border:0;cursor:pointer}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="panel">
+  <div><b>Test tactile</b> — écrivez normalement au doigt.</div>
+  <div>Type d'entrée : <span id="type">—</span></div>
+  <div>Événements/seconde : <span id="rate">—</span></div>
+  <div>Plus grand « trou » pendant un tracé : <span id="gap">—</span></div>
+  <div>Délai doigt → page (estimé) : <span id="lat">—</span></div>
+  <div>Blocages de la page : <span id="lt">0</span></div>
+  <div id="log"></div>
+  <button id="clear">Effacer</button>
+</div>
+<script>
+const c=document.getElementById('c'),ctx=c.getContext('2d');
+function size(){const d=devicePixelRatio||1;c.width=innerWidth*d;c.height=innerHeight*d;ctx.setTransform(d,0,0,d,0,0);ctx.lineCap='round';ctx.lineJoin='round';}
+size();addEventListener('resize',size);
+const $=id=>document.getElementById(id),log=m=>{const d=document.createElement('div');d.innerHTML=m;$('log').prepend(d);};
+let down=false,last=null,lastT=0,maxGap=0,count=0,winStart=performance.now(),longTasks=0,strokeN=0;
+try{new PerformanceObserver(l=>{for(const e of l.getEntries()){longTasks++;$('lt').textContent=longTasks;if(e.duration>150)log(`<span class="bad">Page bloquée ${Math.round(e.duration)} ms</span>`);}}).observe({entryTypes:['longtask']});}catch(e){$('lt').textContent='non mesurable sur ce navigateur';}
+function lat(e){const l=performance.now()-e.timeStamp;$('lat').textContent=Math.round(l)+' ms';return l;}
+c.addEventListener('pointerdown',e=>{
+  down=true;strokeN++;last={x:e.clientX,y:e.clientY};lastT=e.timeStamp;maxGap=0;c.setPointerCapture(e.pointerId);
+  $('type').textContent=e.pointerType+(e.pointerType==='mouse'?' (le TBI se fait passer pour une souris)':'');
+  const l=lat(e);if(l>100)log(`<span class="bad">Tracé ${strokeN} : posé du doigt reçu avec ${Math.round(l)} ms de retard</span>`);
+});
+c.addEventListener('pointermove',e=>{
+  if(!down)return;
+  const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
+  ctx.strokeStyle='#1e3a8a';ctx.lineWidth=4;
+  for(const ev of evs){
+    const gap=ev.timeStamp-lastT;const dist=Math.hypot(ev.clientX-last.x,ev.clientY-last.y);
+    if(gap>maxGap)maxGap=gap;
+    if(gap>250&&dist>40){ctx.strokeStyle='#dc2626';ctx.lineWidth=6;log(`<span class="bad">Tracé ${strokeN} : rien reçu pendant ${Math.round(gap)} ms puis saut de ${Math.round(dist)} px (ligne rouge)</span>`);}
+    ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(ev.clientX,ev.clientY);ctx.stroke();
+    ctx.strokeStyle='#1e3a8a';ctx.lineWidth=4;
+    last={x:ev.clientX,y:ev.clientY};lastT=ev.timeStamp;count++;
+  }
+  lat(e);
+  const now=performance.now();if(now-winStart>1000){$('rate').textContent=Math.round(count*1000/(now-winStart));count=0;winStart=now;}
+});
+function up(){if(!down)return;down=false;$('gap').innerHTML=maxGap>250?`<span class="bad">${Math.round(maxGap)} ms</span>`:`<span class="ok">${Math.round(maxGap)} ms</span>`;}
+c.addEventListener('pointerup',up);c.addEventListener('pointercancel',e=>{log(`<span class="bad">Tracé ${strokeN} annulé par le système (pointercancel)</span>`);up();});
+$('clear').onclick=()=>{ctx.clearRect(0,0,c.width,c.height);$('log').innerHTML='';};
+</script>
+</body>
+</html>
