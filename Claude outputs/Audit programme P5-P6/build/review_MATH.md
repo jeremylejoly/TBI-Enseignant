@@ -1,0 +1,785 @@
+# Relecture MATH — libellés abrégés vs attendus officiels
+
+
+## Champ 1 — Des objets de l'espace à la géométrie › 1.1 (Se) repérer et communiquer des positionnements ou des déplacements
+
+- **MATH-P5-001** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser le vocabulaire des positions absolues (à côté de, contre, à l'intérieur, entre, sous, sur, dans, hors, autour de…)
+  - OFFICIEL : Utiliser le vocabulaire exprimant des positions absolues : à côté de, contre, à l'intérieur, à l'extérieur, entre, sous, sur, dans, hors, autour de, face à face, dos à dos.
+- **MATH-P5-002** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser le vocabulaire des positions relatives liées au regard (devant, derrière, à droite, à gauche, en haut, de profil…)
+  - OFFICIEL : Utiliser le vocabulaire exprimant des positions relatives (liées au regard) : devant, derrière, à droite, à gauche, en haut, en bas, au-dessus, en dessous, en face de, de face, de dos, de profil.
+- **MATH-P5-003** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser le vocabulaire des positions ordinales (premier, deuxième… dernier ; au début, à la fin, avant, après)
+  - OFFICIEL : Utiliser le vocabulaire exprimant des positions ordinales : premier, deuxième, troisième… dernier ; au début, à la fin, avant, après.
+  - JUMEAU P6 (MATH-P6-003) : Utiliser le vocabulaire exprimant des positions ordinales : premier, deuxième, troisième... dernier ; au début, à la fin, avant, après.
+- **MATH-P5-004** [P5·P6] [SF]
+  - ABRÉGÉ : Situer un objet ou soi-même en 2D (photo, plan) avec le vocabulaire adéquat, selon son point de vue ou celui d'autrui
+  - OFFICIEL : Situer (exprimer la position absolue, relative ou ordinale) un objet ou soi-même avec le vocabulaire adéquat : dans l'espace 2D (photo, plan) ; selon le point de vue de l'élève ou d'un(e) autre personnage/personne.
+- **MATH-P5-005** [P5·P6] [SF]
+  - ABRÉGÉ : Placer des objets ou soi-même selon des consignes ou un modèle observé dans l'espace 2D (photo, plan)
+  - OFFICIEL : Placer un ensemble d'objets/soi-même selon des consignes données ou un modèle observé dans l'espace 2D (photo, plan).
+- **MATH-P5-006** [P5·P6] [SF]
+  - ABRÉGÉ : Expliquer, oralement ou par écrit, un déplacement avec le vocabulaire adéquat en identifiant des points de repère
+  - OFFICIEL : Expliquer, oralement ou par écrit, un déplacement à l'aide du vocabulaire adéquat, en identifiant des points de repère.
+  - JUMEAU P6 (MATH-P6-006) : Expliquer, oralement ou par écrit, un déplacement à l'aide du vocabulaire adéquat en identifiant des points de repère.
+- **MATH-P5-007** [P5·P6] [SF]
+  - ABRÉGÉ : Tracer un déplacement sur un plan en suivant un enchainement de consignes orales ou écrites
+  - OFFICIEL : Tracer un déplacement sur un plan en suivant un enchainement de consignes orales ou écrites.
+- **MATH-P5-008** [P5·P6] [SF]
+  - ABRÉGÉ : Situer (exprimer la position d') un objet dans un quadrillage codé
+  - OFFICIEL : Situer (exprimer la position) un objet dans un quadrillage codé.
+- **MATH-P5-009** [P5·P6] [SF]
+  - ABRÉGÉ : Placer des objets dans un quadrillage en utilisant le codage
+  - OFFICIEL : Placer des objets dans un quadrillage en utilisant le codage.
+- **MATH-P5-010** [P5] [C]
+  - ABRÉGÉ : Tracer sur un plan à quadrillage codé un itinéraire entre départ et arrivée définis, avec au moins 4 points de repère
+  - OFFICIEL : Tracer, sur un plan élaboré selon un quadrillage codé, un itinéraire à partir des points de départ et d'arrivée définis, en respectant au moins quatre points de repère pertinents identifiés.
+- **MATH-P6-010** [P6] [C]
+  - ABRÉGÉ : Verbaliser avec précision un itinéraire entre départ et arrivée définis, avec au moins 4 points de repère pertinents
+  - OFFICIEL : Verbaliser, avec précision, un itinéraire à partir des points de départ et d'arrivée définis, en respectant au moins quatre points de repère pertinents identifiés.
+- **MATH-P5-011** [P5·P6] [C]
+  - ABRÉGÉ : Se déplacer dans l'espace 3D en suivant un trajet donné sur un plan
+  - OFFICIEL : Se déplacer dans l'espace 3D en suivant un trajet donné sur un plan.
+
+## Champ 1 — Des objets de l'espace à la géométrie › 1.2 Objets de l'espace — Figures, éléments du plan et symbolisme
+
+- **MATH-P5-012** [P5] [S]
+  - ABRÉGÉ : Identifier les 7 quadrilatères, les triangles (acutangle, rectangle, obtusangle, scalène, isocèle, équilatéral) et le cercle
+  - OFFICIEL : Identifier : des quadrilatères : carré, rectangle, losange, parallélogramme, trapèze, trapèze isocèle, trapèze rectangle ; des triangles : acutangles, rectangles, obtusangles, scalènes, isocèles, équilatéraux ; un cercle.
+- **MATH-P6-012** [P6] [S]
+  - ABRÉGÉ : Identifier les quadrilatères, les triangles, des polygones réguliers (pentagone, hexagone, octogone, décagone) et un cercle
+  - OFFICIEL : Identifier : les quadrilatères ; les triangles ; des polygones réguliers : pentagone, hexagone, octogone, décagone ; un cercle.
+- **MATH-P5-013** [P5·P6] [S]
+  - ABRÉGÉ : Identifier les éléments du plan : droite, segment de droite
+  - OFFICIEL : Identifier les éléments du plan : droite, segment de droite.
+- **MATH-P5-014** [P5·P6] [S]
+  - ABRÉGÉ : Identifier un angle aigu et un angle obtus par comparaison à l'angle droit
+  - OFFICIEL : Identifier un angle aigu et un angle obtus par comparaison à l'angle droit.
+- **MATH-P5-015** [P5·P6] [S]
+  - ABRÉGÉ : Identifier les composantes des figures : côtés (longueur, largeur, base), sommets, angles, centre, rayon, diamètre
+  - OFFICIEL : Identifier les composantes des figures travaillées : côtés (longueur, largeur, base), sommets, angles (aigus, droits et obtus), centre, rayon, diamètre.
+- **MATH-P5-016** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer les caractéristiques des figures : nombre de côtés, côtés isométriques, parallèles ou perpendiculaires, angles
+  - OFFICIEL : Énoncer des caractéristiques des figures travaillées : le nombre de côtés, les côtés isométriques, les côtés parallèles ou perpendiculaires, le nombre d'angles (aigus, droits, obtus), les angles isométriques.
+- **MATH-P5-017** [P5·P6] [S]
+  - ABRÉGÉ : Identifier hauteur, diagonale, médiane, axe de symétrie
+  - OFFICIEL : Identifier hauteur, diagonale, médiane, axe de symétrie.
+- **MATH-P5-018** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer les propriétés des diagonales et des médianes du carré, du rectangle, du parallélogramme et du losange
+  - OFFICIEL : Énoncer les propriétés des diagonales et des médianes d'un carré, d'un rectangle, d'un parallélogramme et d'un losange.
+- **MATH-P5-022** [P5·P6] [S]
+  - ABRÉGÉ : Associer les symboles A, a, [AB], // et ⊥ à leur signification (point, droite, segment, parallèles, perpendiculaires)
+  - OFFICIEL : Associer le symbole à sa signification : A désigne le point A ; a désigne la droite a ; [AB] désigne le segment dont les extrémités sont les points A et B ; // signifie parallèles ; ⊥ signifie perpendiculaires.
+- **MATH-P5-023** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser les symboles spécifiques : A, a, [AB], // et ⊥
+  - OFFICIEL : Utiliser les symboles spécifiques : A, a, [AB], // et ⊥.
+
+## Champ 1 — Des objets de l'espace à la géométrie › 1.2 Objets de l'espace — Solides, développements et assemblages de cubes
+
+- **MATH-P5-019** [P5·P6] [S]
+  - ABRÉGÉ : Identifier polyèdre et non-polyèdre, cube, parallélépipède rectangle, cylindre, sphère, cône, pyramide, prisme
+  - OFFICIEL : Identifier polyèdre et non-polyèdre, cube, parallélépipède rectangle, cylindre, sphère, cône, pyramide, prisme.
+- **MATH-P5-020** [P5·P6] [S]
+  - ABRÉGÉ : Identifier les composantes des solides travaillés : faces, arêtes, sommets
+  - OFFICIEL : Identifier les composantes des solides travaillés : faces, arêtes, sommets.
+- **MATH-P5-021** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer des caractéristiques des solides : nombre et forme des faces, faces isométriques, parallèles, perpendiculaires
+  - OFFICIEL : Énoncer des caractéristiques des solides travaillés : nombre de faces, forme des faces, des faces isométriques, faces parallèles, faces perpendiculaires.
+- **MATH-P5-024** [P5·P6] [SF]
+  - ABRÉGÉ : Construire des prismes droits et des pyramides avec du matériel géométrique varié (faces à attacher, tiges et boules…)
+  - OFFICIEL : Construire des prismes droits et des pyramides avec du matériel géométrique varié (faces à attacher, tiges et boules à assembler…).
+- **MATH-P5-025** [P5·P6] [SF]
+  - ABRÉGÉ : Construire un cube ou un parallélépipède rectangle à partir d'un développement tracé
+  - OFFICIEL : Construire un cube ou un parallélépipède rectangle à partir d'un développement tracé.
+- **MATH-P5-036** [P5] [SF]
+  - ABRÉGÉ : Reconnaitre les figures possibles correspondant aux faces d'un assemblage de maximum 3 cubes
+  - OFFICIEL : Reconnaitre les figures possibles correspondant aux faces d'un assemblage de maximum trois cubes.
+- **MATH-P6-035** [P6] [SF]
+  - ABRÉGÉ : Reconnaitre les figures possibles correspondant aux faces d'un assemblage de maximum 5 cubes
+  - OFFICIEL : Reconnaitre les figures possibles correspondant aux faces d'un assemblage de maximum cinq cubes.
+- **MATH-P5-037** [P5] [SF]
+  - ABRÉGÉ : Tracer à la latte un développement d'un cube ou d'un parallélépipède rectangle sur papier tramé
+  - OFFICIEL : Tracer, à la latte, un développement d'un cube ou d'un parallélépipède rectangle sur papier tramé.
+- **MATH-P6-036** [P6] [SF]
+  - ABRÉGÉ : Tracer à la latte et à l'équerre un développement d'un cube ou d'un parallélépipède rectangle sur papier vierge
+  - OFFICIEL : Tracer, à la latte et à l'équerre, un développement d'un cube ou d'un parallélépipède rectangle sur papier vierge.
+- **MATH-P5-038** [P5·P6] [SF]
+  - ABRÉGÉ : Associer à un prisme droit un développement correct parmi des développements donnés
+  - OFFICIEL : Associer à un prisme droit, un développement correct parmi des développements donnés.
+
+## Champ 1 — Des objets de l'espace à la géométrie › 1.2 Objets de l'espace — Tracer et construire des figures
+
+- **MATH-P5-026** [P5·P6] [SF]
+  - ABRÉGÉ : Construire les polygones travaillés par découpage, par pliage et avec du matériel varié
+  - OFFICIEL : Construire les polygones travaillés par découpage, par pliage et avec du matériel varié.
+- **MATH-P5-027** [P5·P6] [SF]
+  - ABRÉGÉ : Tracer à l'équerre et à la latte des droites perpendiculaires et parallèles sur papier vierge, avec et sans contraintes
+  - OFFICIEL : Utiliser l'équerre et la latte pour tracer des droites perpendiculaires et parallèles sur papier vierge, avec et sans contraintes.
+- **MATH-P5-028** [P5] [SF]
+  - ABRÉGÉ : Tracer un triangle, un quadrilatère à la latte et l'équerre, avec et sans contraintes, sur papier tramé et sur papier vierge
+  - OFFICIEL : Tracer un triangle, un quadrilatère, à la latte et l'équerre, avec et sans contraintes, sur papier tramé et sur papier vierge.
+- **MATH-P6-028** [P6] [SF]
+  - ABRÉGÉ : Tracer un triangle, un quadrilatère à la latte et l'équerre, avec et sans contraintes, sur papier vierge
+  - OFFICIEL : Tracer un triangle, un quadrilatère à la latte et l'équerre, avec et sans contraintes, sur papier vierge.
+- **MATH-P5-029** [P5·P6] [SF]
+  - ABRÉGÉ : Tracer au compas un cercle, un triangle isocèle et un triangle équilatéral, avec et sans contraintes
+  - OFFICIEL : Tracer au compas un cercle, un triangle isocèle et un triangle équilatéral sur papier, avec et sans contraintes.
+- **MATH-P5-030** [P5] [SF]
+  - ABRÉGÉ : Tracer un losange inscrit dans un rectangle
+  - OFFICIEL : Tracer un losange inscrit dans un rectangle.
+- **MATH-P5-031** [P5] [SF]
+  - ABRÉGÉ : Tracer un rectangle à partir d'un losange
+  - OFFICIEL : Tracer un rectangle à partir d'un losange.
+- **MATH-P6-030** [P6] [SF]
+  - ABRÉGÉ : Tracer un triangle équilatéral ou un hexagone régulier inscrit dans un cercle
+  - OFFICIEL : Tracer un triangle équilatéral ou un hexagone régulier inscrit dans un cercle.
+- **MATH-P5-032** [P5·P6] [SF]
+  - ABRÉGÉ : Tracer une hauteur d'un triangle, d'un parallélogramme, d'un trapèze
+  - OFFICIEL : Tracer une hauteur d'un triangle, d'un parallélogramme, d'un trapèze.
+- **MATH-P5-033** [P5·P6] [SF]
+  - ABRÉGÉ : Tracer dans un quadrilatère les axes de symétrie, les médianes et les diagonales
+  - OFFICIEL : Tracer dans un quadrilatère : les axes de symétrie ; les médianes et diagonales.
+- **MATH-P5-034** [P5·P6] [SF]
+  - ABRÉGÉ : Reconnaitre les quadrilatères dont les diagonales et/ou les médianes sont des axes de symétrie
+  - OFFICIEL : Reconnaitre les quadrilatères pour lesquels les diagonales et/ou les médianes sont des axes de symétrie.
+- **MATH-P5-035** [P5·P6] [SF]
+  - ABRÉGÉ : Comparer les caractéristiques (côtés et angles) de deux quadrilatères ; de deux triangles
+  - OFFICIEL : Comparer les caractéristiques (selon les côtés et les angles) : de deux quadrilatères ; de deux triangles.
+- **MATH-P5-039** [P5·P6] [C]
+  - ABRÉGÉ : Tracer une figure composée de figures travaillées suivant des consignes de construction
+  - OFFICIEL : Tracer une figure composée de figures travaillées suivant des consignes de construction.
+
+## Champ 1 — Des objets de l'espace à la géométrie › 1.3 Régularités et propriétés géométriques — Mouvements, agrandissements et réductions
+
+- **MATH-P5-040** [P5·P6] [S]
+  - ABRÉGÉ : Identifier les mouvements appliqués à une figure (glisser, pivoter, retourner)
+  - OFFICIEL : Identifier les mouvements appliqués à une figure (glisser, pivoter, retourner).
+  - JUMEAU P6 (MATH-P6-039) : Identifier les mouvements appliqués à une figure (glisser, retourner, pivoter).
+- **MATH-P5-041** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser les termes « agrandir », « réduire » pour décrire un mouvement appliqué à une figure
+  - OFFICIEL : Utiliser les termes « agrandir », « réduire » pour décrire un mouvement appliqué à une figure.
+- **MATH-P5-042** [P5·P6] [SF]
+  - ABRÉGÉ : Exécuter un mouvement donné d'un motif figuratif avec un support (gabarit, papier calque…) pour obtenir son image
+  - OFFICIEL : Exécuter un mouvement précis donné d'un motif figuratif, avec un support (un gabarit, du papier calque...) pour obtenir son image. Ex. : le glissement sur une droite donnée ou le pivotement d'un demi-tour autour d'un point donné, ou le retournement autour d'un axe donné.
+  - JUMEAU P6 (MATH-P6-041) : Exécuter un mouvement précis donné, d'un motif figuratif avec un support (un gabarit, du papier calque...) pour obtenir son image. Ex. : le glissement sur une droite donnée ou le pivotement d'un demi-tour autour d'un point donné ou le retournement autour d'un axe donné.
+- **MATH-P5-043** [P5·P6] [SF]
+  - ABRÉGÉ : Désigner, parmi des images d'un motif figuratif donné, celle qui résulte d'un mouvement donné
+  - OFFICIEL : Désigner parmi des images d'un motif figuratif donné celle qui résulte d'un mouvement donné.
+- **MATH-P5-044** [P5·P6] [SF]
+  - ABRÉGÉ : Tracer dans un quadrillage, selon l'axe de symétrie donné, l'image d'un assemblage de figures
+  - OFFICIEL : Tracer dans un quadrillage, selon l'axe de symétrie donné, l'image d'un assemblage de figures.
+- **MATH-P5-045** [P5] [SF]
+  - ABRÉGÉ : Tracer dans un quadrillage agrandi ou réduit l'image d'une figure donnée
+  - OFFICIEL : Tracer dans un quadrillage agrandi ou réduit, l'image d'une figure donnée.
+- **MATH-P5-046** [P5·P6] [SF]
+  - ABRÉGÉ : Tracer l'agrandissement (double) ou la réduction (moitié) d'une figure simple dans un même quadrillage
+  - OFFICIEL : Tracer l'agrandissement (double) ou la réduction (moitié) d'une figure simple dans un même quadrillage.
+- **MATH-P5-047** [P5] [C]
+  - ABRÉGÉ : Réaliser dans un quadrillage une production artistique par répétition d'un motif : glissements, retournements, pivotements
+  - OFFICIEL : Réaliser, dans un quadrillage, une production artistique par la répétition d'un motif figuratif ou d'une figure travaillée en appliquant des glissements, des retournements et des pivotements. Ex. : frises, pavages, rosaces.
+- **MATH-P6-045** [P6] [C]
+  - ABRÉGÉ : Réaliser une production artistique (frise, pavage, rosace) par répétition d'un motif : glissements, pivotements, retournements
+  - OFFICIEL : Réaliser une production artistique par la répétition d'un motif figuratif ou d'une figure travaillée, en appliquant des glissements, des pivotements et des retournements. Ex. : frises, pavages, rosaces.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.1 Concevoir des grandeurs — Vocabulaire, comparaison, durées
+
+- **MATH-P5-048** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser adéquatement les termes relatifs aux grandeurs : longueur, masse, capacité, cout, aire, volume
+  - OFFICIEL : Utiliser de manière adéquate les termes relatifs aux grandeurs : la longueur, la masse, la capacité, le cout, l'aire, le volume.
+- **MATH-P5-049** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer la comparaison de deux objets selon une grandeur, dont le volume : plus, moins, aussi volumineux…
+  - OFFICIEL : Énoncer la comparaison de deux objets selon une de leurs grandeurs, dont le volume : plus, moins, aussi volumineux ; plus ou moins de place dans l'espace.
+  - JUMEAU P6 (MATH-P6-047) : Énoncer la comparaison de deux objets selon une de leurs grandeurs, dont le volume : plus, moins, aussi volumineux ; occupe plus ou moins de place dans l'espace.
+- **MATH-P5-050** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser adéquatement les termes : longueur, largeur, épaisseur, profondeur, hauteur, périmètre, aire et volume
+  - OFFICIEL : Utiliser de manière adéquate les termes : longueur, largeur, épaisseur, profondeur, hauteur, périmètre, aire et volume.
+- **MATH-P5-051** [P5] [S]
+  - ABRÉGÉ : Reconnaitre la grandeur « durée » dans des expressions courantes (garantie, délai de livraison, période de soldes…)
+  - OFFICIEL : Reconnaitre la grandeur « durée » dans des expressions courantes. Ex. : garantie, délai de livraison, période de soldes, date de péremption…
+- **MATH-P5-052** [P5] [S]
+  - ABRÉGÉ : Énoncer la comparaison de la durée de deux actions en lien avec la vitesse : rapide, lent
+  - OFFICIEL : Énoncer la comparaison de la durée de deux actions en lien avec la vitesse : rapide, lent.
+- **MATH-P5-053** [P5] [SF]
+  - ABRÉGÉ : Classer des solides donnés selon leur volume
+  - OFFICIEL : Classer des solides donnés selon leur volume.
+- **MATH-P6-049** [P6] [SF]
+  - ABRÉGÉ : Classer des objets donnés selon une de leurs grandeurs
+  - OFFICIEL : Classer des objets donnés selon une de leurs grandeurs.
+- **MATH-P5-054** [P5·P6] [SF]
+  - ABRÉGÉ : Trier des énoncés désignant le temps instantané (ordinal) ou des durées (cardinal)
+  - OFFICIEL : Trier des énoncés donnés désignant le temps instantané (ordinal) ou des durées (cardinal).
+- **MATH-P5-055** [P5] [C]
+  - ABRÉGÉ : Choisir une action concrète pour comparer des volumes (juxtaposer, transvaser, emboiter…), la verbaliser et expliquer son choix
+  - OFFICIEL : Choisir une action concrète pertinente pour comparer des volumes (regarder, juxtaposer, transvaser, emboiter…), verbaliser son action et expliquer son choix.
+- **MATH-P6-051** [P6] [C]
+  - ABRÉGÉ : Choisir une action concrète pour comparer des grandeurs, verbaliser son action et expliquer son choix
+  - OFFICIEL : Choisir une action concrète pertinente pour comparer des grandeurs, verbaliser son action et expliquer son choix.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.2 Agir sur des grandeurs — Unités conventionnelles et système d'unités
+
+- **MATH-P5-056** [P5] [S]
+  - ABRÉGÉ : Utiliser et symboliser les unités de longueur, capacité, masse, d'aire (m², dm², cm², mm²) et une unité de volume (cm³)
+  - OFFICIEL : Utiliser et symboliser : les unités de longueur ; les unités de capacité ; les unités de masse ; les unités d'aire : le mètre carré (m²), le décimètre carré (dm²), le centimètre carré (cm²), le millimètre carré (mm²) ; une unité de volume : le centimètre cube (cm³).
+- **MATH-P6-052** [P6] [S]
+  - ABRÉGÉ : Utiliser et symboliser les unités de longueur, capacité, masse, d'aire y compris agraires (a, ha, ca) et de volume (m³ à mm³)
+  - OFFICIEL : Utiliser et symboliser : les unités de longueur ; les unités de capacité ; les unités de masse ; les unités d'aire y compris les mesures agraires : l'are (a), l'hectare (ha), le centiare (ca) ; les unités de volume : le mètre cube (m³), le décimètre cube (dm³), le centimètre cube (cm³), le millimètre cube (mm³).
+- **MATH-P5-057** [P5·P6] [S]
+  - ABRÉGÉ : Distinguer dans l'expression d'une grandeur mesurée : la grandeur, la mesure et l'unité de mesure
+  - OFFICIEL : Distinguer dans l'expression d'une grandeur mesurée : la grandeur, la mesure et l'unité de mesure.
+- **MATH-P5-067** [P5] [SF]
+  - ABRÉGÉ : Donner du sens aux unités conventionnelles en les associant à des objets de l'environnement (un m² c'est l'aire de…)
+  - OFFICIEL : Donner du sens aux unités conventionnelles travaillées en les associant à des objets de l'environnement (un m² c'est l'aire de…).
+- **MATH-P6-062** [P6] [SF]
+  - ABRÉGÉ : Donner du sens aux unités conventionnelles en les associant à des objets de l'environnement (un m³ c'est le volume de…)
+  - OFFICIEL : Donner du sens aux unités conventionnelles travaillées en les associant à des objets de l'environnement (un m³ c'est le volume de…).
+- **MATH-P5-068** [P5·P6] [SF]
+  - ABRÉGÉ : Lister des objets de la vie courante dont une grandeur se mesure avec l'unité travaillée
+  - OFFICIEL : Lister des objets de la vie courante dont une grandeur se mesure avec l'unité travaillée.
+- **MATH-P5-069** [P5·P6] [SF]
+  - ABRÉGÉ : Donner du sens aux préfixes déci, centi, milli, kilo, hecto, déca dans les unités conventionnelles travaillées
+  - OFFICIEL : Donner du sens aux préfixes : déci, centi, milli, kilo, hecto, déca dans les unités conventionnelles travaillées.
+- **MATH-P5-070** [P5] [SF]
+  - ABRÉGÉ : Réaliser des conversions significatives (longueur, masse, capacité, aire), avec ou sans abaques construits préalablement
+  - OFFICIEL : Réaliser des conversions significatives (longueur, masse, capacité, aire) en lien avec les unités conventionnelles travaillées, avec ou sans abaques (construits préalablement).
+- **MATH-P6-065** [P6] [SF]
+  - ABRÉGÉ : Réaliser des conversions significatives (longueur, masse, capacité, aire, volume), avec ou sans abaques construits préalablement
+  - OFFICIEL : Réaliser des conversions significatives (longueur, masse, capacité, aire, volume) en lien avec les unités conventionnelles travaillées, avec ou sans abaques (construits préalablement).
+- **MATH-P5-071** [P5] [SF]
+  - ABRÉGÉ : Associer, pour l'eau, les unités de volume, de capacité et de masse (dm³, l, kg) via représentations et expériences
+  - OFFICIEL : Associer, pour l'eau, des unités conventionnelles de volumes, de capacités et de masses, dans des situations significatives, en lien avec des représentations de ces unités et des expériences de comparaison (le dm³, le l, le kg).
+- **MATH-P5-072** [P5] [SF]
+  - ABRÉGÉ : Associer à une grandeur du quotidien (longueur, capacité, masse, aire) d'autres écritures donnant du sens aux décimaux
+  - OFFICIEL : Associer à l'écriture d'une grandeur prélevée dans le quotidien (longueur, capacité, masse, aire), d'autres écritures donnant du sens aux nombres décimaux. Ex. : 10 gouttes de colorant alimentaire pour 1 kg, c'est 1 goutte pour 0,1 kg ou 100 g.
+- **MATH-P6-066** [P6] [SF]
+  - ABRÉGÉ : Associer à une grandeur du quotidien (longueur, capacité, masse, aire, volume) d'autres écritures donnant du sens aux décimaux
+  - OFFICIEL : Associer à l'écriture d'une grandeur prélevée dans le quotidien (longueur, capacité, masse, aire, volume), d'autres écritures donnant du sens aux nombres décimaux. Ex. : 20 kg d'engrais pour 400 m², c'est 0,05 kg ou 50 g d'engrais par m².
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.2 Agir sur des grandeurs — Mesurer et estimer des grandeurs
+
+- **MATH-P5-060** [P5] [SF]
+  - ABRÉGÉ : Mesurer un volume avec un étalon non conventionnel choisi (familier, commun à la classe) et exprimer le résultat approximatif
+  - OFFICIEL : Effectuer le mesurage d'un volume à l'aide d'un étalon non conventionnel choisi (familier et commun à la classe) et en exprimer le résultat approximatif.
+- **MATH-P6-056** [P6] [SF]
+  - ABRÉGÉ : Mesurer une grandeur avec un étalon non conventionnel choisi (familier, commun à la classe) et exprimer le résultat approximatif
+  - OFFICIEL : Effectuer le mesurage d'une grandeur à l'aide d'un étalon non conventionnel choisi (familier et commun à la classe) et en exprimer le résultat approximatif.
+- **MATH-P5-061** [P5] [SF]
+  - ABRÉGÉ : Mesurer le volume de boites en cm³ par remplissage et comptage, et exprimer le résultat approximatif
+  - OFFICIEL : Effectuer le mesurage du volume de boites en centimètres cubes, par remplissage et comptage, et en exprimer le résultat approximatif.
+- **MATH-P5-062** [P5] [SF]
+  - ABRÉGÉ : Mesurer une grandeur d'un objet avec une unité conventionnelle : longueur, capacité, masse, aire (m²…mm²), volume (cm³)
+  - OFFICIEL : Effectuer le mesurage d'une grandeur d'un objet de l'environnement et en exprimer le résultat, en utilisant une unité conventionnelle : de longueur ; de capacité ; de masse ; d'aire : m², dm², cm², mm² ; de volume : cm³.
+- **MATH-P6-057** [P6] [SF]
+  - ABRÉGÉ : Mesurer une grandeur d'un objet avec une unité conventionnelle : longueur, capacité, masse, aire, volume (m³, dm³, cm³, mm³)
+  - OFFICIEL : Effectuer le mesurage d'une grandeur d'un objet de l'environnement et en exprimer le résultat, en utilisant une unité conventionnelle : de longueur ; de capacité ; de masse ; d'aire ; de volume : m³, dm³, cm³, mm³.
+- **MATH-P5-063** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser l'instrument de mesure adéquat en fonction de la situation
+  - OFFICIEL : Utiliser l'instrument de mesure adéquat en fonction de la situation.
+- **MATH-P5-065** [P5] [SF]
+  - ABRÉGÉ : Choisir parmi plusieurs estimations d'aire d'une surface (en m², en cm²) la plus plausible et justifier son choix
+  - OFFICIEL : Choisir, parmi plusieurs estimations d'aire d'une surface (en m², en cm²), celle qui est la plus plausible et justifier son choix.
+- **MATH-P6-060** [P6] [SF]
+  - ABRÉGÉ : Choisir parmi plusieurs estimations de volume (boite en m³, cm³ ; sac en litres…) la plus plausible et justifier son choix
+  - OFFICIEL : Choisir, parmi plusieurs estimations d'un volume d'une boite (en m³, cm³), d'un volume exprimé en litres (ex. : sac à dos, sac de terreau…), celle qui est la plus plausible et justifier son choix.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.2 Agir sur des grandeurs — Durées
+
+- **MATH-P5-058** [P5] [S]
+  - ABRÉGÉ : Utiliser adéquatement les termes : seconde, minute, heure, année, décennie, siècle, millénaire
+  - OFFICIEL : Utiliser de manière adéquate les termes : seconde, minute, heure, année, décennie, siècle, millénaire.
+- **MATH-P6-054** [P6] [S]
+  - ABRÉGÉ : Utiliser et symboliser des unités conventionnelles de durées
+  - OFFICIEL : Utiliser et symboliser des unités conventionnelles de durées.
+- **MATH-P5-059** [P5] [S]
+  - ABRÉGÉ : Énoncer les relations entre unités de durées, dont 1 seconde = 10 dixièmes = 100 centièmes de seconde
+  - OFFICIEL : Énoncer les relations entre certaines unités conventionnelles de durées dont : 1 seconde = 10 dixièmes de seconde = 100 centièmes de seconde.
+- **MATH-P6-055** [P6] [S]
+  - ABRÉGÉ : Utiliser les relations entre les unités conventionnelles de durées
+  - OFFICIEL : Utiliser les relations entre les unités conventionnelles de durées.
+- **MATH-P5-064** [P5] [SF]
+  - ABRÉGÉ : Utiliser un chronomètre, un minuteur, une horloge pour déterminer la durée d'une action
+  - OFFICIEL : Utiliser un chronomètre, un minuteur, une horloge pour déterminer la durée d'une action.
+- **MATH-P6-059** [P6] [SF]
+  - ABRÉGÉ : Utiliser des instruments adéquats pour déterminer la durée d'une action
+  - OFFICIEL : Utiliser des instruments adéquats pour déterminer la durée d'une action.
+- **MATH-P5-066** [P5] [SF]
+  - ABRÉGÉ : Choisir parmi plusieurs estimations de durées données en jours et fractions de jour la plus plausible et justifier son choix
+  - OFFICIEL : Choisir, parmi plusieurs estimations de durées d'évènements données en jours et en fractions de jour, celle qui est la plus plausible et justifier son choix.
+- **MATH-P6-061** [P6] [SF]
+  - ABRÉGÉ : Choisir parmi plusieurs estimations de durées d'actions ou d'évènements la plus plausible et justifier son choix
+  - OFFICIEL : Choisir, parmi plusieurs estimations données de durées d'actions, d'évènements, celle qui est la plus plausible et justifier son choix.
+- **MATH-P5-073** [P5] [SF]
+  - ABRÉGÉ : Associer un nombre d'années à la durée de situations variées
+  - OFFICIEL : Associer un nombre d'années à la durée de situations variées.
+- **MATH-P6-067** [P6] [SF]
+  - ABRÉGÉ : Associer des unités de temps à des durées de situations variées
+  - OFFICIEL : Associer des unités de temps à des durées de situations variées.
+- **MATH-P5-074** [P5] [SF]
+  - ABRÉGÉ : Déterminer et représenter (horloge, chronomètre, ligne du temps…) une durée ne dépassant pas une heure
+  - OFFICIEL : Déterminer et représenter (horloge, chronomètre, ligne du temps…) une durée ne dépassant pas une heure.
+- **MATH-P6-068** [P6] [SF]
+  - ABRÉGÉ : Déterminer et représenter (horloge, chronomètre, ligne du temps…) une durée pouvant dépasser une heure
+  - OFFICIEL : Déterminer et représenter (horloge, chronomètre, ligne du temps…) une durée pouvant dépasser une heure.
+- **MATH-P5-075** [P5] [SF]
+  - ABRÉGÉ : Déterminer un instant d'arrivée ou de départ à partir d'une durée donnée ne dépassant pas une heure
+  - OFFICIEL : Déterminer un instant d'arrivée ou de départ, à partir d'une durée donnée ne dépassant pas une heure.
+- **MATH-P6-069** [P6] [SF]
+  - ABRÉGÉ : Déterminer un instant d'arrivée ou de départ à partir d'une durée donnée
+  - OFFICIEL : Déterminer un instant d'arrivée ou de départ, à partir d'une durée donnée.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.2 Agir sur des grandeurs — Compétences : estimer, mesurer, gérer le temps, résoudre des problèmes
+
+- **MATH-P5-076** [P5·P6] [C]
+  - ABRÉGÉ : Rassembler les instruments de mesure nécessaires et organiser les prélèvements de mesures pour comparer des résultats
+  - OFFICIEL : Rassembler les instruments de mesure nécessaires et organiser judicieusement les prélèvements de mesures pour comparer des résultats.
+  - JUMEAU P6 (MATH-P6-070) : Rassembler les instruments de mesure nécessaires et organiser judicieusement les prélèvements de mesures pour comparer les résultats.
+- **MATH-P5-077** [P5·P6] [C]
+  - ABRÉGÉ : Estimer une surface à recouvrir et confronter l'estimation aux grandeurs mesurées, en vue d'un achat raisonné
+  - OFFICIEL : Estimer une surface à recouvrir et confronter cette estimation avec les grandeurs mesurées de la surface choisie, en vue de réaliser un achat raisonné.
+- **MATH-P5-078** [P5] [C]
+  - ABRÉGÉ : Estimer le volume d'une boite, d'un objet en référence à une unité conventionnelle choisie (cm³) avant de mesurer
+  - OFFICIEL : Estimer le volume d'une boite, d'un objet en référence à une unité conventionnelle choisie (le cm³) avant d'effectuer le mesurage.
+- **MATH-P6-072** [P6] [C]
+  - ABRÉGÉ : Estimer la grandeur d'un objet en référence à une unité conventionnelle choisie avant d'effectuer le mesurage
+  - OFFICIEL : Estimer la grandeur d'un objet en référence à une unité conventionnelle choisie avant d'effectuer le mesurage.
+- **MATH-P5-079** [P5] [C]
+  - ABRÉGÉ : Estimer, en jours et en fractions de jour, la durée d'un projet à vivre
+  - OFFICIEL : Estimer, en jours et en fractions de jour, la durée d'un projet à vivre.
+- **MATH-P6-073** [P6] [C]
+  - ABRÉGÉ : Estimer une durée
+  - OFFICIEL : Estimer une durée.
+- **MATH-P5-080** [P5] [C]
+  - ABRÉGÉ : Quantifier la durée nécessaire à une activité inédite, inconnue, pour vérifier sa faisabilité dans le temps imparti
+  - OFFICIEL : Quantifier la durée nécessaire à la réalisation d'une activité inédite, inconnue pour en vérifier la faisabilité dans le laps de temps défini ou imparti.
+- **MATH-P6-074** [P6] [C]
+  - ABRÉGÉ : Établir l'horaire d'une journée : activités choisies parmi celles proposées, selon leurs durées et les durées intermédiaires
+  - OFFICIEL : Établir l'horaire d'une journée, en organisant les activités choisies parmi celles proposées, selon leurs durées respectives et les durées intermédiaires (repas, pauses, déplacements éventuels…).
+- **MATH-P5-081** [P5·P6] [C]
+  - ABRÉGÉ : Résoudre des problèmes d'achats : prix en € et centimes, « 1 + 1 gratuit », « jusqu'à 70 % de remise »…, bénéfice et perte
+  - OFFICIEL : Résoudre des problèmes d'achats mobilisant : des prix exprimés en € et centimes ; les expressions comme « 1 + 1 gratuit », « le deuxième à moitié prix », « prix à partir de… » ou « jusqu'à 70 % de remise » ; la notion de bénéfice et de perte.
+  - JUMEAU P6 (MATH-P6-075) : Résoudre des problèmes d'achats mobilisant : des prix exprimés en euros et centimes ; les expressions comme « 1 + 1 gratuit », « le deuxième à moitié prix », « prix à partir de… » et « jusqu'à 70 % de remise » ; la notion de bénéfice et de perte.
+- **MATH-P5-082** [P5] [C]
+  - ABRÉGÉ : Résoudre des problèmes où deux grandeurs sont en proportionnalité directe (ex. : la distance et la durée)
+  - OFFICIEL : Résoudre des problèmes dans lesquels deux grandeurs sont en relation de proportionnalité directe. Ex. : la distance et la durée.
+- **MATH-P6-076** [P6] [C]
+  - ABRÉGÉ : Résoudre des problèmes où deux grandeurs sont en proportionnalité directe (ex. : le volume et la capacité)
+  - OFFICIEL : Résoudre des problèmes dans lesquels deux grandeurs sont en relation de proportionnalité directe. Ex. : le volume et la capacité.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.3 Périmètres, aires et volumes — Savoirs et calculs
+
+- **MATH-P5-083** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser le calcul du périmètre d'un polygone
+  - OFFICIEL : Utiliser le calcul du périmètre d'un polygone.
+- **MATH-P5-084** [P5] [S]
+  - ABRÉGÉ : Énoncer la formule du calcul de l'aire du rectangle, du carré et du parallélogramme
+  - OFFICIEL : Énoncer la formule du calcul de l'aire du rectangle, du carré et du parallélogramme.
+- **MATH-P6-078** [P6] [S]
+  - ABRÉGÉ : Énoncer les formules du calcul de l'aire des quadrilatères et des triangles
+  - OFFICIEL : Énoncer les formules du calcul de l'aire des quadrilatères et des triangles.
+- **MATH-P5-085** [P5] [S]
+  - ABRÉGÉ : Énoncer que le volume d'un solide est la place occupée par ce solide
+  - OFFICIEL : Énoncer que le volume d'un solide est la place occupée par ce solide.
+- **MATH-P5-086** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer la formule du calcul du volume du parallélépipède rectangle et du cube
+  - OFFICIEL : Énoncer la formule du calcul du volume du parallélépipède rectangle et du cube.
+- **MATH-P5-087** [P5·P6] [SF]
+  - ABRÉGÉ : Calculer le périmètre de polygones à partir des longueurs de côtés données ou mesurées
+  - OFFICIEL : Calculer le périmètre de polygones donnés à partir des longueurs de côtés données ou mesurées.
+- **MATH-P5-088** [P5·P6] [SF]
+  - ABRÉGÉ : Associer une expression du calcul d'un périmètre à un polygone donné
+  - OFFICIEL : Associer une expression du calcul d'un périmètre à un polygone donné.
+- **MATH-P5-089** [P5] [SF]
+  - ABRÉGÉ : Déterminer l'aire d'un parallélogramme en lien avec l'aire d'un rectangle
+  - OFFICIEL : Déterminer l'aire d'un parallélogramme en lien avec l'aire d'un rectangle.
+- **MATH-P6-082** [P6] [SF]
+  - ABRÉGÉ : Déterminer l'aire d'un triangle, d'un losange et d'un trapèze en lien avec l'aire d'un rectangle
+  - OFFICIEL : Déterminer l'aire d'un triangle, d'un losange et d'un trapèze en lien avec l'aire d'un rectangle.
+- **MATH-P5-090** [P5] [SF]
+  - ABRÉGÉ : Calculer par la formule l'aire d'un rectangle, d'un carré, d'un parallélogramme (dimensions données ou mesurées)
+  - OFFICIEL : Calculer l'aire d'un polygone donné (rectangle, carré, parallélogramme) à partir de dimensions données ou mesurées, en appliquant la formule.
+- **MATH-P6-083** [P6] [SF]
+  - ABRÉGÉ : Calculer par la formule l'aire d'un rectangle, carré, parallélogramme, losange, trapèze, triangle (dimensions données/mesurées)
+  - OFFICIEL : Calculer l'aire d'un polygone donné (rectangle, carré, parallélogramme, losange, trapèze et triangle), à partir de dimensions données ou mesurées, en appliquant la formule.
+- **MATH-P5-091** [P5] [SF]
+  - ABRÉGÉ : Déterminer le volume d'une boite parallélépipédique ou cubique en nombre d'étalons non conventionnels et en cm³
+  - OFFICIEL : Déterminer le volume d'une boite parallélépipédique ou cubique donnée en : nombre d'étalons non conventionnels ; nombre d'unités conventionnelles (cm³).
+- **MATH-P6-084** [P6] [SF]
+  - ABRÉGÉ : Calculer par la formule le volume d'un parallélépipède rectangle ou d'un cube (dimensions données ou mesurées)
+  - OFFICIEL : Calculer le volume d'un parallélépipède rectangle ou d'un cube donné, à partir des dimensions données ou mesurées, en appliquant la formule.
+- **MATH-P5-092** [P5·P6] [SF]
+  - ABRÉGÉ : Choisir les unités de mesure de périmètre, d'aire et de volume adaptées à la situation
+  - OFFICIEL : Choisir les unités de mesure de périmètre, d'aire et de volume adaptées à la situation.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.3 Périmètres, aires et volumes — Résoudre des problèmes
+
+- **MATH-P5-093** [P5] [C]
+  - ABRÉGÉ : Résoudre des problèmes de périmètre et d'aire de figures simples en situations contextualisées et expliquer sa démarche
+  - OFFICIEL : Résoudre des problèmes faisant intervenir des calculs de périmètre et d'aire de figures simples, en situations contextualisées, et expliquer sa démarche.
+- **MATH-P6-086** [P6] [C]
+  - ABRÉGÉ : Résoudre des problèmes de périmètre, d'aire et de volume en situations contextualisées et expliquer sa démarche
+  - OFFICIEL : Résoudre des problèmes faisant intervenir des calculs de périmètre, d'aire et de volume en situations contextualisées et expliquer sa démarche.
+- **MATH-P5-094** [P5] [C]
+  - ABRÉGÉ : Résoudre des problèmes de variations de dimensions d'un rectangle à aire constante et comparer les périmètres
+  - OFFICIEL : Résoudre des problèmes faisant intervenir des variations de dimensions d'un rectangle, en respectant la même aire et comparer leur périmètre.
+- **MATH-P6-087** [P6] [C]
+  - ABRÉGÉ : Résoudre des problèmes de variations de dimensions d'un rectangle à périmètre constant et comparer les aires
+  - OFFICIEL : Résoudre des problèmes faisant intervenir des variations de dimensions d'un rectangle, en respectant le même périmètre et comparer leur aire.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.4 Fractions et pourcentages — Savoirs
+
+- **MATH-P5-095** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser adéquatement des expressions de grandeurs fractionnées (ex. : 3/8 de tarte…)
+  - OFFICIEL : Utiliser de manière adéquate des expressions de grandeurs fractionnées. Ex. : 3/8 de tarte…
+  - JUMEAU P6 (MATH-P6-088) : Utiliser de manière adéquate des expressions de grandeurs fractionnées. Ex. : 3/5 de pizza…
+- **MATH-P5-096** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer les rôles du numérateur et du dénominateur d'une fraction au départ de l'unité
+  - OFFICIEL : Énoncer les rôles du numérateur et du dénominateur d'une fraction au départ de l'unité.
+- **MATH-P5-097** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer qu'une fraction de dénominateur 100 exprime un pourcentage et inversement
+  - OFFICIEL : Énoncer qu'une fraction de dénominateur 100 exprime un pourcentage et inversement.
+- **MATH-P5-098** [P5·P6] [S]
+  - ABRÉGÉ : Écrire la mesure d'une grandeur fractionnée sous forme d'un pourcentage et d'un nombre décimal
+  - OFFICIEL : Écrire la mesure d'une grandeur fractionnée sous forme d'un pourcentage et d'un nombre décimal.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.4 Fractions et pourcentages — Savoir-faire et problèmes
+
+- **MATH-P5-099** [P5] [SF]
+  - ABRÉGÉ : Reconnaitre, parmi plusieurs représentations de fractions (<, = ou > à l'unité), celle qui est nommée
+  - OFFICIEL : Reconnaitre, parmi plusieurs représentations données de fractions inférieures, égales ou supérieures à l'unité, celle qui est nommée.
+- **MATH-P6-092** [P6] [SF]
+  - ABRÉGÉ : Identifier des représentations de fractions inférieures, égales ou supérieures à l'unité
+  - OFFICIEL : Identifier des représentations de fractions inférieures, égales ou supérieures à l'unité.
+- **MATH-P5-100** [P5·P6] [SF]
+  - ABRÉGÉ : Additionner des grandeurs fractionnées et simplifier le résultat obtenu
+  - OFFICIEL : Additionner des grandeurs fractionnées et simplifier le résultat obtenu.
+- **MATH-P5-101** [P5·P6] [SF]
+  - ABRÉGÉ : Multiplier une grandeur fractionnée par un nombre entier et simplifier le résultat obtenu
+  - OFFICIEL : Multiplier une grandeur fractionnée par un nombre entier et simplifier le résultat obtenu.
+- **MATH-P5-102** [P5] [SF]
+  - ABRÉGÉ : Associer un fractionnement du carré de 100 au pourcentage correspondant, parmi plusieurs donnés, et inversement
+  - OFFICIEL : Associer un fractionnement du carré de 100 au pourcentage correspondant, parmi plusieurs donnés et inversement.
+- **MATH-P6-095** [P6] [SF]
+  - ABRÉGÉ : Identifier les pourcentages donnés parmi plusieurs représentations de fractions inférieures, égales ou supérieures à l'unité
+  - OFFICIEL : Identifier les pourcentages donnés parmi plusieurs représentations de fractions inférieures, égales ou supérieures à l'unité.
+- **MATH-P5-103** [P5] [SF]
+  - ABRÉGÉ : Calculer 10 %, 20 %, 25 % et 50 % d'une quantité
+  - OFFICIEL : Calculer 10 %, 20 %, 25 % et 50 % d'une quantité.
+- **MATH-P6-096** [P6] [SF]
+  - ABRÉGÉ : Calculer le pourcentage d'une quantité
+  - OFFICIEL : Calculer le pourcentage d'une quantité.
+- **MATH-P5-104** [P5] [SF]
+  - ABRÉGÉ : Établir l'équivalence de fractionnements de mesures de grandeurs et la traduire par une égalité
+  - OFFICIEL : Établir l'équivalence de fractionnements de mesures de grandeurs et la traduire par une égalité.
+- **MATH-P6-097** [P6] [SF]
+  - ABRÉGÉ : Transformer, en référence à des représentations, une grandeur fractionnée en une grandeur fractionnée équivalente
+  - OFFICIEL : Transformer en référence à des représentations une grandeur fractionnée en une grandeur fractionnée équivalente.
+- **MATH-P5-105** [P5] [SF]
+  - ABRÉGÉ : Établir l'ordre entre grandeurs fractionnées de même dénominateur ou de même numérateur
+  - OFFICIEL : Établir l'ordre entre grandeurs fractionnées de même dénominateur ou de même numérateur.
+- **MATH-P6-098** [P6] [SF]
+  - ABRÉGÉ : Justifier l'ordre entre grandeurs fractionnées de même numérateur par le rôle des dénominateurs
+  - OFFICIEL : Justifier l'ordre entre grandeurs fractionnées de même numérateur par le rôle des dénominateurs.
+- **MATH-P5-106** [P5·P6] [C]
+  - ABRÉGÉ : Résoudre des problèmes faisant intervenir des grandeurs fractionnées ou des pourcentages en situations contextualisées
+  - OFFICIEL : Résoudre des problèmes faisant intervenir des représentations de grandeurs fractionnées ou des pourcentages dans des situations contextualisées.
+  - JUMEAU P6 (MATH-P6-099) : Résoudre des problèmes faisant intervenir des représentations de grandeurs fractionnées ou des pourcentages, dans des situations contextualisées.
+
+## Champ 2 — Des grandeurs à la relation entre variables › 2.5 Proportionnalité directe et échelles
+
+- **MATH-P5-107** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer les rôles du numérateur et du dénominateur d'une fraction rapport
+  - OFFICIEL : Énoncer les rôles du numérateur et du dénominateur d'une fraction rapport.
+- **MATH-P5-108** [P5] [S]
+  - ABRÉGÉ : Reconnaitre des grandeurs directement proportionnelles parmi des graphes fléchés et des tableaux de nombres
+  - OFFICIEL : Reconnaitre des grandeurs directement proportionnelles parmi un ensemble : de représentations en graphe fléché ; de tableaux de nombres.
+- **MATH-P6-101** [P6] [S]
+  - ABRÉGÉ : Reconnaitre des grandeurs directement proportionnelles parmi graphes fléchés, tableaux de nombres et situations en français
+  - OFFICIEL : Reconnaitre des grandeurs directement proportionnelles parmi un ensemble : de représentations en graphe fléché ; de tableaux de nombres ; de situations libellées en français.
+- **MATH-P5-109** [P5·P6] [S]
+  - ABRÉGÉ : Énoncer un lien entre deux grandeurs proportionnelles
+  - OFFICIEL : Énoncer un lien entre deux grandeurs proportionnelles.
+- **MATH-P5-110** [P5] [SF]
+  - ABRÉGÉ : Associer une représentation en 2D à un objet réel selon une échelle donnée (1/100, 1/50, 1/20, 1/1)
+  - OFFICIEL : Associer une représentation en 2D à un objet réel selon une échelle donnée (1/100, 1/50, 1/20, 1/1).
+- **MATH-P6-103** [P6] [SF]
+  - ABRÉGÉ : Représenter, dessiner à l'échelle 1/50 et 1/100 des objets issus du quotidien
+  - OFFICIEL : Représenter, dessiner à l'échelle 1/50 et 1/100 des objets issus du quotidien.
+- **MATH-P6-104** [P6] [SF]
+  - ABRÉGÉ : Déterminer les dimensions à l'échelle d'une grandeur réelle sur des plans (1/50, 1/100) ou des cartes (1/100 000…) et inversement
+  - OFFICIEL : Déterminer les dimensions à l'échelle d'une grandeur réelle, en tenant compte des rapports sur différents plans (1/50, 1/100) ou sur différentes cartes (ex. : 1/100 000, 1/250 000…) et inversement.
+- **MATH-P5-111** [P5] [SF]
+  - ABRÉGÉ : Calculer une distance réelle à partir d'une carte et de son échelle linéaire (distance sur la carte et échelle données)
+  - OFFICIEL : Calculer une distance réelle sur base d'une carte et son échelle linéaire (la distance sur la carte et l'échelle linéaire étant données).
+- **MATH-P6-105** [P6] [SF]
+  - ABRÉGÉ : Calculer une distance réelle à partir d'une carte et de son échelle (distance sur la carte et échelle données)
+  - OFFICIEL : Calculer une distance réelle sur la base d'une carte et de son échelle (la distance sur la carte et l'échelle étant données).
+- **MATH-P5-112** [P5·P6] [SF]
+  - ABRÉGÉ : Déterminer une quantité dans une situation contextualisée de proportionnalité directe (nombre de… pour…)
+  - OFFICIEL : Déterminer une quantité dans une situation contextualisée de proportionnalité directe (nombre de… pour…).
+- **MATH-P5-113** [P5·P6] [SF]
+  - ABRÉGÉ : Représenter une situation de proportionnalité directe par un graphe fléché ou un tableau de proportionnalité
+  - OFFICIEL : Représenter une situation contextualisée de proportionnalité directe par un graphe fléché ou un tableau de proportionnalité.
+- **MATH-P5-114** [P5·P6] [SF]
+  - ABRÉGÉ : Identifier un lien (multiplicatif ou additif) entre deux grandeurs dans un tableau de proportionnalité
+  - OFFICIEL : Identifier un lien (multiplicatif ou additif) entre deux grandeurs dans un tableau de proportionnalité.
+- **MATH-P5-115** [P5·P6] [SF]
+  - ABRÉGÉ : Compléter un graphe fléché ou un tableau de proportionnalité en lien avec une situation de proportionnalité directe
+  - OFFICIEL : Compléter un graphe fléché ou un tableau de proportionnalité en lien avec une situation de proportionnalité directe.
+  - JUMEAU P6 (MATH-P6-109) : Compléter un graphe fléché, un tableau de proportionnalité en lien avec une situation de proportionnalité directe.
+- **MATH-P5-116** [P5·P6] [C]
+  - ABRÉGÉ : Écrire le résultat et sa démarche de résolution d'une situation de proportionnalité directe
+  - OFFICIEL : Écrire le résultat et sa démarche de résolution d'une situation de proportionnalité directe.
+  - JUMEAU P6 (MATH-P6-110) : Écrire le résultat et sa démarche de résolution d'une situation de proportionnalité.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.1 Nombres — Savoirs : numération, cardinalité, ordinalité
+
+- **MATH-P5-117** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser des nombres pour communiquer une quantité, une position, un numéro…
+  - OFFICIEL : Utiliser des nombres pour communiquer : une quantité ; une position ; un numéro ; …
+- **MATH-P5-118** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser les noms des rangs (unité, dizaine, centaine) et des classes (millions, mille, unités simples, millièmes)
+  - OFFICIEL : Utiliser de manière adéquate les noms des rangs (unité, dizaine, centaine) et les noms des classes (des millions, des mille, des unités simples, des millièmes).
+- **MATH-P5-119** [P5] [S]
+  - ABRÉGÉ : Associer le nom d'un nombre naturel jusqu'aux millions
+  - OFFICIEL : Associer le nom d'un nombre naturel jusqu'aux millions.
+- **MATH-P6-113** [P6] [S]
+  - ABRÉGÉ : Associer le nom d'un nombre naturel jusqu'aux milliards
+  - OFFICIEL : Associer le nom d'un nombre naturel jusqu'aux milliards.
+- **MATH-P5-120** [P5·P6] [S]
+  - ABRÉGÉ : Associer le nom d'un nombre (partie entière ≤ unités de mille, partie non entière ≤ millièmes) à son écriture en chiffres
+  - OFFICIEL : Associer le nom d'un nombre composé d'une partie entière limitée aux unités de mille et d'une partie non entière limitée aux millièmes, à son écriture en chiffres.
+- **MATH-P5-121** [P5] [S]
+  - ABRÉGÉ : Compter par 0,1 ; 0,2 ; 0,5 ; 0,25 ; 0,125 jusqu'à 2
+  - OFFICIEL : Compter par 0,1 ; 0,2 ; 0,5 ; 0,25 ; 0,125 jusqu'à 2.
+- **MATH-P5-122** [P5] [S]
+  - ABRÉGÉ : Utiliser les termes liés à la cardinalité : égal, autant que, moins que, plus que, vaut autant de fois, vaut le dixième…
+  - OFFICIEL : Utiliser de manière adéquate les termes liés à la cardinalité : égal, le même nombre que, autant que ; moins que, plus petit que, autant en moins que ; plus que, plus grand que, autant en plus que ; vaut autant de fois ; vaut le dixième, centième, millième de…
+- **MATH-P6-115** [P6] [S]
+  - ABRÉGÉ : Utiliser de manière adéquate les termes liés à la comparaison de nombres (cardinalité)
+  - OFFICIEL : Utiliser de manière adéquate les termes liés à la comparaison de nombres (cardinalité).
+- **MATH-P5-123** [P5·P6] [S]
+  - ABRÉGÉ : Associer les symboles d'ordre (<, >, =) aux expressions « est plus petit que », « est plus grand que », « est égal à »
+  - OFFICIEL : Associer les symboles d'ordre (<, >, =) aux expressions « est plus petit que », « est plus grand que », « est égal à ».
+- **MATH-P5-124** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser les termes liés à l'ordinalité des naturels : avant, après, entre, juste avant, juste après ; premier… dernier
+  - OFFICIEL : Utiliser de manière adéquate les termes liés à l'ordinalité des nombres naturels : avant, après, entre, juste avant, juste après ; premier, deuxième… dernier.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.1 Nombres — Dire, lire, écrire, décomposer
+
+- **MATH-P5-125** [P5] [SF]
+  - ABRÉGÉ : Dire, lire des nombres jusqu'au million et les écrire en chiffres
+  - OFFICIEL : Dire, lire des nombres jusqu'au million et les écrire en chiffres.
+- **MATH-P6-118** [P6] [SF]
+  - ABRÉGÉ : Dire, lire des nombres jusqu'aux milliards et les écrire en chiffres
+  - OFFICIEL : Dire, lire des nombres jusqu'aux milliards et les écrire en chiffres.
+- **MATH-P5-126** [P5·P6] [SF]
+  - ABRÉGÉ : Dire, lire des nombres (partie entière ≤ unités de mille, partie non entière ≤ millièmes) et les écrire en chiffres
+  - OFFICIEL : Dire, lire des nombres composés d'une partie entière limitée aux unités de mille et d'une partie non entière limitée aux millièmes, et les écrire en chiffres.
+- **MATH-P5-127** [P5] [SF]
+  - ABRÉGÉ : Expliquer la présence du zéro dans l'écriture des nombres jusqu'au million et dans un nombre décimal
+  - OFFICIEL : Expliquer la présence du zéro dans l'écriture des nombres jusqu'au million et dans un nombre décimal.
+- **MATH-P6-120** [P6] [SF]
+  - ABRÉGÉ : Expliquer la présence du zéro dans l'écriture des nombres jusqu'aux milliards et dans un nombre décimal
+  - OFFICIEL : Expliquer la présence du zéro dans l'écriture des nombres jusqu'aux milliards et dans un nombre décimal.
+- **MATH-P5-128** [P5] [SF]
+  - ABRÉGÉ : Écrire dans l'abaque des nombres à partie entière jusqu'à 4 chiffres et partie non entière jusqu'aux millièmes
+  - OFFICIEL : Écrire des nombres comprenant une partie entière jusqu'à quatre chiffres et une partie non entière jusqu'aux millièmes dans l'abaque.
+- **MATH-P5-129** [P5·P6] [SF]
+  - ABRÉGÉ : Décomposer et recomposer des nombres de 3 à 6 chiffres en lien avec la numération décimale
+  - OFFICIEL : Décomposer et recomposer des nombres de trois à six chiffres en lien avec la numération décimale.
+- **MATH-P5-130** [P5] [SF]
+  - ABRÉGÉ : Décomposer et recomposer le nombre 1 additivement et multiplicativement
+  - OFFICIEL : Décomposer et recomposer le nombre 1 : additivement ; multiplicativement.
+- **MATH-P5-131** [P5·P6] [SF]
+  - ABRÉGÉ : Décomposer un nombre en sa partie entière et sa partie non entière
+  - OFFICIEL : Décomposer un nombre en sa partie entière et sa partie non entière.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.1 Nombres — Comparer, ordonner, situer ; régularités et suites
+
+- **MATH-P5-132** [P5] [SF]
+  - ABRÉGÉ : Utiliser le vocabulaire adéquat et les signes <, > et = pour comparer deux nombres (ex. : 12,006 < 12,6)
+  - OFFICIEL : Utiliser le vocabulaire adéquat et les signes « <, > et = » pour exprimer la comparaison de deux nombres. Ex. : 12,6 = 12,600 ; 12,006 < 12,6.
+- **MATH-P6-123** [P6] [SF]
+  - ABRÉGÉ : Comparer deux nombres en utilisant le symbole adéquat (<, >, =)
+  - OFFICIEL : Comparer deux nombres en utilisant le symbole adéquat (<, >, =).
+- **MATH-P5-133** [P5] [SF]
+  - ABRÉGÉ : Encadrer un nombre écrit sous forme décimale au dixième près
+  - OFFICIEL : Encadrer un nombre écrit sous forme décimale au dixième près.
+- **MATH-P6-124** [P6] [SF]
+  - ABRÉGÉ : Encadrer un nombre écrit sous sa forme décimale au centième, au millième près
+  - OFFICIEL : Encadrer un nombre écrit sous sa forme décimale au centième, au millième près.
+- **MATH-P5-134** [P5·P6] [SF]
+  - ABRÉGÉ : Ordonner des nombres de 3 à 6 chiffres, avec ou sans virgule, de façon croissante ou décroissante
+  - OFFICIEL : Ordonner des nombres de trois à six chiffres, avec ou sans virgule, de façon croissante ou décroissante.
+- **MATH-P5-135** [P5·P6] [SF]
+  - ABRÉGÉ : Placer un nombre (≤ millième) sur une portion de droite numérique graduée et sous-graduée, et dans des tableaux numériques
+  - OFFICIEL : Placer un nombre, avec ou sans virgule, limité au millième : sur une portion de droite numérique graduée et sous graduée ; dans des portions de tableaux numériques.
+- **MATH-P5-136** [P5·P6] [SF]
+  - ABRÉGÉ : Exprimer sur une droite numérique la position d'un nombre (≤ millième) par encadrement ou approximation (précision donnée)
+  - OFFICIEL : Exprimer la position d'un nombre, avec ou sans virgule, limité au millième (par encadrement, par approximation selon un degré de précision donné) sur une portion de droite numérique.
+- **MATH-P5-137** [P5·P6] [SF]
+  - ABRÉGÉ : Compléter des portions de tableau numérique où sont donnés quelques nombres décimaux limités au millième
+  - OFFICIEL : Compléter des portions d'un tableau numérique où sont donnés quelques nombres écrits sous leur forme décimale limitée au millième.
+  - JUMEAU P6 (MATH-P6-128) : Compléter des portions d'un tableau numérique où sont donnés des nombres écrits sous leur forme décimale limitée au millième.
+- **MATH-P5-138** [P5·P6] [SF]
+  - ABRÉGÉ : Exprimer les régularités observées dans les tables de multiplication pour les nombres jusqu'à 100
+  - OFFICIEL : Exprimer les régularités observées dans les tables de multiplications pour les nombres jusqu'à 100.
+- **MATH-P5-139** [P5·P6] [SF]
+  - ABRÉGÉ : Déterminer la régularité présente dans une suite de nombres donnée
+  - OFFICIEL : Déterminer la régularité présente dans une suite de nombres donnée.
+- **MATH-P5-140** [P5·P6] [SF]
+  - ABRÉGÉ : Compléter une suite de nombres donnée par des éléments qui en ont été extraits
+  - OFFICIEL : Compléter une suite de nombres donnée par des éléments qui en ont été extraits.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.2 Opérations — Savoirs : composantes, symboles, automatismes
+
+- **MATH-P5-141** [P5·P6] [S]
+  - ABRÉGÉ : Associer une opération à ses composantes et son résultat : termes, somme, différence, facteurs, produit, quotient, reste…
+  - OFFICIEL : Associer une opération à ses composantes et son résultat : addition, termes, somme ; soustraction, premier terme, deuxième terme, différence ; multiplication, facteurs, produit ; division, dividende, diviseur, quotient, reste.
+- **MATH-P5-142** [P5·P6] [S]
+  - ABRÉGÉ : Associer « = » à « est égal à » et « ≠ » à « n'est pas égal à » ou « est différent de »
+  - OFFICIEL : Associer le symbole « = » à l'expression « est égal à » et le symbole « ≠ » à l'expression « n'est pas égal à » ou « est différent de ».
+- **MATH-P5-143** [P5·P6] [S]
+  - ABRÉGÉ : Reconnaitre les parenthèses comme symbole intervenant dans des procédures de calcul
+  - OFFICIEL : Reconnaitre les parenthèses comme symbole intervenant dans des procédures de calcul.
+- **MATH-P5-144** [P5] [S]
+  - ABRÉGÉ : Connaitre de mémoire les décompositions de 100 et de 1 (en dixièmes) en deux termes ou en deux facteurs
+  - OFFICIEL : Connaitre de mémoire les décompositions : de 100 en deux termes ou en deux facteurs ; de 1, en dixièmes, en deux termes ou en deux facteurs.
+- **MATH-P6-135** [P6] [S]
+  - ABRÉGÉ : Connaitre de mémoire les décompositions de 100 et de 1 (en dixièmes, en centièmes) en deux termes ou en deux facteurs
+  - OFFICIEL : Connaitre de mémoire les décompositions : de 100 en deux termes ou en deux facteurs ; de 1 en dixièmes, en centièmes, en deux termes ou en deux facteurs.
+- **MATH-P5-145** [P5·P6] [S]
+  - ABRÉGÉ : Connaitre de mémoire les tables de multiplication jusqu'à T10
+  - OFFICIEL : Connaitre de mémoire les tables de multiplication jusqu'à T10.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.2 Opérations — Sens des opérations et égalité
+
+- **MATH-P5-146** [P5·P6] [SF]
+  - ABRÉGÉ : Identifier une opération ou une suite d'opérations à partir d'une situation
+  - OFFICIEL : Identifier une opération ou une suite d'opérations à partir d'une situation.
+- **MATH-P5-147** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser l'égalité en termes de résultat : addition, soustraction, multiplication et division
+  - OFFICIEL : Utiliser l'égalité en termes de résultat : addition, soustraction, multiplication et division.
+  - JUMEAU P6 (MATH-P6-138) : Utiliser l'égalité en termes de résultat (addition, soustraction, multiplication et division).
+- **MATH-P5-148** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser l'égalité en termes d'équivalence (ex. : 152 + 17 = 190 - 21 ; 12 x 3 = 72 : 2)
+  - OFFICIEL : Utiliser l'égalité en termes d'équivalence. Ex. : 190 = 62 + 128 ; 152 + 17 = 190 - 21 ; 12 x 3 = 72 : 2.
+- **MATH-P5-149** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser l'égalité adéquatement dans les enchainements opératoires (ex. : (12 + 4) - (3 + 2) + 2 = 16 - 5 + 2 = …)
+  - OFFICIEL : Utiliser l'égalité adéquatement dans les enchainements opératoires. Ex. : (12 + 4) - (3 + 2) + 2 = 16 - 5 + 2 = (16 - 5) + 2 = 11 + 2 = 13.
+- **MATH-P5-150** [P5·P6] [SF]
+  - ABRÉGÉ : Ajuster les fausses égalités pour qu'elles deviennent vraies (ex. : 64 + 56 = 120 x 3 = 360 devient …)
+  - OFFICIEL : Ajuster les fausses égalités pour qu'elles deviennent vraies. Ex. : 64 + 56 = 120 x 3 = 360 devient 64 + 56 = 120 ; 120 x 3 = 360 ou (64 + 56) x 3 = 360.
+  - JUMEAU P6 (MATH-P6-141) : Ajuster les fausses égalités pour qu'elles deviennent vraies. Ex. : 12 x 40 = 480 + 35 = 515 devient 12 x 40 = 480 ; 480 + 35 = 515 ou (12 x 40) + 35 = 515.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.2 Opérations — Calcul mental
+
+- **MATH-P5-151** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser la commutativité de l'addition et de la multiplication
+  - OFFICIEL : Utiliser la commutativité de l'addition et de la multiplication.
+- **MATH-P5-152** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser l'associativité de l'addition et de la multiplication
+  - OFFICIEL : Utiliser l'associativité de l'addition et de la multiplication.
+- **MATH-P5-153** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser, pour effectuer une opération, une technique parmi : la décomposition, la distributivité, la compensation
+  - OFFICIEL : Utiliser, pour effectuer une opération, une technique parmi : la décomposition ; la distributivité ; la compensation.
+- **MATH-P5-154** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser la comparaison des nombres pour effectuer une opération (ex. : si 5 x 12 = 60 alors 0,5 x 12 = … et 5 x 1,2 = …)
+  - OFFICIEL : Utiliser la comparaison des nombres pour effectuer une opération. Ex. : Si 5 x 12 = 60 alors 0,5 x 12 = … et 5 x 1,2 = …
+  - JUMEAU P6 (MATH-P6-145) : Utiliser la comparaison des nombres pour effectuer une opération. Ex. : Si 8 x 0,125 = 1 alors 8 x 12,5 = … et 0,8 x 0,125 = …
+- **MATH-P5-155** [P5] [SF]
+  - ABRÉGÉ : Effectuer des multiplications spécifiques par 0,1 ; 0,5 ; 0,25 ; 9 ; 99 ; 11 ; 101 ; 110 ; 25
+  - OFFICIEL : Effectuer des multiplications spécifiques par 0,1 ; par 0,5 ; par 0,25 ; par 9 ; par 99 ; par 11 ; par 101 ; par 110 ; par 25.
+- **MATH-P6-146** [P6] [SF]
+  - ABRÉGÉ : Effectuer des multiplications spécifiques par 0,1 ; 0,5 ; 0,25 ; 250
+  - OFFICIEL : Effectuer des multiplications spécifiques par 0,1 ; par 0,5 ; par 0,25 ; par 250.
+- **MATH-P5-156** [P5] [SF]
+  - ABRÉGÉ : Effectuer des divisions spécifiques par 50 et par 25
+  - OFFICIEL : Effectuer des divisions spécifiques par 50 et par 25.
+- **MATH-P6-147** [P6] [SF]
+  - ABRÉGÉ : Effectuer des divisions spécifiques par 0,1 ; 0,5 et 0,25
+  - OFFICIEL : Effectuer des divisions spécifiques par 0,1 ; par 0,5 et par 0,25.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.2 Opérations — Calcul écrit, calculatrice, estimer et vérifier
+
+- **MATH-P5-157** [P5·P6] [SF]
+  - ABRÉGÉ : Effectuer des additions de maximum trois termes (limités au millième)
+  - OFFICIEL : Effectuer des additions de maximum trois termes (limités au millième).
+- **MATH-P5-158** [P5·P6] [SF]
+  - ABRÉGÉ : Effectuer des soustractions limitées au millième (technique de compensation et/ou emprunt)
+  - OFFICIEL : Effectuer des soustractions limitées au millième (technique de compensation et/ou emprunt).
+- **MATH-P5-159** [P5] [SF]
+  - ABRÉGÉ : Effectuer des multiplications de nombres naturels dont le multiplicateur est limité à deux chiffres
+  - OFFICIEL : Effectuer des multiplications de nombres naturels dont le multiplicateur est limité à deux chiffres.
+- **MATH-P6-150** [P6] [SF]
+  - ABRÉGÉ : Effectuer des multiplications dont le produit est un nombre limité à deux chiffres après la virgule
+  - OFFICIEL : Effectuer des multiplications dont le produit est un nombre limité à deux chiffres après la virgule.
+- **MATH-P5-160** [P5] [SF]
+  - ABRÉGÉ : Effectuer des divisions de nombres naturels dont le diviseur est limité à un chiffre
+  - OFFICIEL : Effectuer des divisions de nombres naturels dont le diviseur est limité à un chiffre.
+- **MATH-P6-151** [P6] [SF]
+  - ABRÉGÉ : Effectuer des divisions dont le diviseur est un naturel limité à 20 et le quotient limité à un chiffre après la virgule
+  - OFFICIEL : Effectuer des divisions dont le diviseur est un nombre naturel limité à 20 et le quotient est un nombre limité à un chiffre après la virgule.
+- **MATH-P5-161** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser la calculatrice pour effectuer des opérations, en fonction de l'opération et des nombres
+  - OFFICIEL : Utiliser, en fonction de l'opération et des nombres, la calculatrice pour effectuer des opérations.
+- **MATH-P5-162** [P5·P6] [SF]
+  - ABRÉGÉ : Estimer l'ordre de grandeur du résultat d'une opération (+, -, x, :) avant de calculer précisément
+  - OFFICIEL : Estimer l'ordre de grandeur du résultat d'une opération (addition, soustraction et multiplication, division), avant de calculer précisément.
+- **MATH-P5-163** [P5·P6] [SF]
+  - ABRÉGÉ : Vérifier la plausibilité d'un résultat
+  - OFFICIEL : Vérifier la plausibilité d'un résultat.
+- **MATH-P5-164** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser la calculatrice pour vérifier le résultat d'une opération
+  - OFFICIEL : Utiliser la calculatrice pour vérifier le résultat d'une opération.
+- **MATH-P5-165** [P5·P6] [SF]
+  - ABRÉGÉ : Utiliser les opérations réciproques (+, -) et (x, :) pour vérifier le résultat d'une opération
+  - OFFICIEL : Utiliser les opérations réciproques (+, -) et (x, :) pour vérifier le résultat d'une opération.
+
+## Champ 3 — De l'arithmétique à l'algèbre › 3.2 Opérations — Résoudre des problèmes
+
+- **MATH-P5-166** [P5·P6] [C]
+  - ABRÉGÉ : Résoudre un problème : traduire la situation en opérations, estimer, calculer, communiquer, vérifier la plausibilité, verbaliser
+  - OFFICIEL : Résoudre un problème faisant intervenir des opérations sur les nombres : en traduisant une situation contextualisée par un dessin, une verbalisation puis l'écriture d'opérations mathématiques (+, -, x, :) ; en estimant le résultat ; en effectuant les calculs ; en communiquant le résultat avec précision ; en vérifiant la plausibilité de la réponse, et verbaliser sa démarche.
+- **MATH-P5-167** [P5] [C]
+  - ABRÉGÉ : Rédiger un énoncé à partir de la communication du résultat ou de maximum deux calculs consécutifs et leurs résultats
+  - OFFICIEL : Rédiger un énoncé en partant : de la communication du résultat (Ex. : mon école compte 124 élèves.) ; de maximum deux calculs consécutifs et des résultats (Ex. : 6 x 1,5 l = 9 l ; 9 x 2 € = 18 €).
+- **MATH-P6-158** [P6] [C]
+  - ABRÉGÉ : Rédiger un énoncé à partir de la communication du résultat ou de maximum trois calculs consécutifs et leurs résultats
+  - OFFICIEL : Rédiger un énoncé en partant : de la communication du résultat (Ex. : mes parents ont commandé pour 480 € de fournitures.) ; de maximum trois calculs consécutifs et des résultats (Ex. : 15 l : 1,5 l = 10 ; 10 x 0,25 € = 2,5 € ; 10 € - 2,5 € = 7,5 €).
+
+## Champ 4 — De l'organisation des données à la statistique › 4.1 Collecter, organiser, représenter et interpréter des données
+
+- **MATH-P5-168** [P5·P6] [S]
+  - ABRÉGÉ : Utiliser les mots « trier » (a ou n'a pas, selon un critère) et « classer » (selon des caractéristiques au sein d'un critère)
+  - OFFICIEL : Utiliser les mots : trier : « a ou n'a pas… » (selon le critère défini) Ex. : la couleur ; classer (selon des caractéristiques définies au sein d'un critère) Ex. : rouge, jaune, bleu…
+- **MATH-P5-169** [P5] [S]
+  - ABRÉGÉ : Reconnaitre une représentation de données en tableau, ensembles, arbre (dichotomique), diagramme à bandes
+  - OFFICIEL : Reconnaitre une représentation de données en : tableau ; ensembles ; arbre (dichotomique) ; diagramme à bandes.
+- **MATH-P6-160** [P6] [S]
+  - ABRÉGÉ : Reconnaitre une représentation de données en tableau, ensembles, arbre (multichotomique), diagramme à bandes
+  - OFFICIEL : Reconnaitre une représentation de données en : tableau ; ensembles ; arbre (multichotomique) ; diagramme à bandes.
+- **MATH-P5-170** [P5·P6] [SF]
+  - ABRÉGÉ : Formuler une question exigeant une réponse par oui ou par non, ou permettant un classement des données récoltées
+  - OFFICIEL : Formuler une question : exigeant une réponse par oui ou par non ; permettant un classement des données récoltées.
+- **MATH-P5-171** [P5·P6] [SF]
+  - ABRÉGÉ : Organiser des données par tri (critères considérés successivement) ou par classement (caractéristiques au sein d'un critère)
+  - OFFICIEL : Organiser des données : par tri selon des critères considérés successivement ; par classement selon des caractéristiques déterminées au sein d'un critère.
+- **MATH-P5-172** [P5·P6] [SF]
+  - ABRÉGÉ : Déterminer les critères appliqués dans l'organisation de données
+  - OFFICIEL : Déterminer les critères appliqués dans l'organisation de données.
+- **MATH-P5-173** [P5·P6] [SF]
+  - ABRÉGÉ : Choisir, pour organiser des données, un critère et ses caractéristiques
+  - OFFICIEL : Choisir, pour organiser des données, un critère et ses caractéristiques.
+- **MATH-P5-174** [P5] [SF]
+  - ABRÉGÉ : Représenter un tri/classement : 3 ensembles avec intersection, arbre dichotomique, tableau à double entrée, diagramme à bandes
+  - OFFICIEL : Représenter à l'aide du support déterminé, en fonction de la situation, un tri ou un classement par : trois ensembles incluant une intersection ; un arbre dichotomique ; un tableau à double entrée ; un diagramme à bandes horizontales ou verticales.
+- **MATH-P6-165** [P6] [SF]
+  - ABRÉGÉ : Représenter un tri/classement : 3 ensembles avec intersection, arbre multichotomique, tableau à double entrée, diagramme à bandes
+  - OFFICIEL : Représenter à l'aide du support déterminé, en fonction de la situation, un tri ou un classement par : trois ensembles incluant une intersection ; un arbre multichotomique ; un tableau à double entrée ; un diagramme à bandes horizontales ou verticales.
+- **MATH-P5-175** [P5·P6] [C]
+  - ABRÉGÉ : Prélever des informations dans des ensembles avec intersections, un arbre, un tableau, un diagramme (bandes, bâtonnets, circulaire)
+  - OFFICIEL : Prélever des informations issues d'une représentation : d'ensembles incluant des intersections ; d'un arbre ; d'un tableau ; d'un diagramme (à bandes, en bâtonnets et circulaire).
+- **MATH-P5-176** [P5·P6] [C]
+  - ABRÉGÉ : Résoudre des problèmes de logique déductive en complétant un tableau à double entrée limité à 25 cases
+  - OFFICIEL : Résoudre des problèmes de logique déductive en complétant un tableau à double entrée limité à vingt-cinq cases.

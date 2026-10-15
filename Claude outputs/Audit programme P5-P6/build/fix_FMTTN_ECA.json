@@ -1,0 +1,24 @@
+{
+ "shorts": {
+  "FMTTN-P5-014": "Expliquer, d'après des informations techniques, le mode de mise en œuvre et les conditions de culture (semis, plant, calendrier)",
+  "FMTTN-P6-004": "Nommer et classer (féculents, sucres rapides, matières grasses) les aliments d'un plat du terroir choisi par l'enseignant",
+  "FMTTN-P6-025": "Identifier le type d'énergie (électrique/mécanique), les machines simples (roue, levier, poulie, engrenage) et leurs effets",
+  "ECA-P5-032": "Proposer, dans un genre de jeu choisi, plusieurs manières d'occuper l'espace et un enchainement de mouvements d'énergies variées",
+  "ECA-P6-023": "Participer à une mise en scène collective : proposer une phrase dansée, synchroniser le mouvement et l'univers sonore",
+  "ECA-P6-046": "Réaliser en petits groupes, guidé par l'adulte, des productions vocales/corporelles/instrumentales, support numérique au choix"
+ },
+ "untwin": [],
+ "move": [],
+ "notes": [
+  "FMTTN : 99 items relus, référentiel vérifié (P5 p. 46-50, P6 p. 52-57). Les 8 items à double badge P5·P6 (001, 002, 003, 017, 018, 019, 020, 022) sont strictement identiques dans les deux années ; aucun untwin.",
+  "FMTTN : niveaux d'autonomie corrects partout — P5-021 'sous la supervision' / P6-034 'en autonomie' ; P5-039 et P5-040 'parmi ceux proposés par l'enseignant' absent à juste titre en P6-038 et P6-039 ; P5-012 et P5-015 'sous supervision' ; P6-004 'choisi par l'enseignant' ; P6-055 'parmi celles mises à disposition' ; P5-032 'déterminé par l'enseignant' ; P5-046 'blocs de codes proposés' ; P6-024 'proposés'.",
+  "FMTTN-P5-014 : abrégé télégraphique (articles supprimés : 'Expliquer mode de mise en œuvre et conditions de culture') ; remis en français lisible sans changer le sens.",
+  "FMTTN-P6-004 : 146 caractères ; ramené à 120 en gardant la liste fermée des 3 familles et 'choisi par l'enseignant' (perte de 'ou du patrimoine', consultable dans l'officiel).",
+  "FMTTN-P6-025 : 153 caractères et sans articles ; ramené à 121 en gardant énergie, machines simples et effets (exemples 'démultiplication, transmission' retirés).",
+  "FMTTN : abrégés > 130 car. laissés tels quels car justifiés par une liste fermée ou un niveau d'autonomie (P5-010 134, P5-011 146, P5-012 136, P5-022 133, P6-014 136, P6-018 133, P6-055 139). Ellipses de P5-018 ('…' pour ustensiles, machines, techniques) et P6-052 ('…' pour mot de passe, authentification) jugées acceptables (listes 'dont').",
+  "ECA : 93 items relus, référentiel vérifié (P5 p. 47-50, P6 p. 53-56). Aucun double badge, aucun untwin ; rangement en sous-sections conforme aux codes S/SF/C et aux modes d'expression.",
+  "ECA-P5-032 : parenthèse '(genre de jeu choisi)' collée au verbe, peu lisible ; rétabli 'dans un genre de jeu choisi'.",
+  "ECA-P6-023 : abrégé sans infinitif en tête ('Mise en scène collective : …') ; rétabli 'Participer à une mise en scène collective'. Détail '(parties initiatrices, contacts)' retiré pour tenir en 130 car.",
+  "ECA-P6-046 : 'avec l'adulte' déforme 'sous la guidance de l'adulte' (niveau d'autonomie) ; corrigé en 'guidé par l'adulte'. 'Support numérique au choix' conservé car il distingue P6 du P5-045 ('support numérique donné')."
+ ]
+}

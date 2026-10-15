@@ -1,0 +1,19 @@
+{
+  "shorts": {
+    "MATH-P5-010": "Tracer sur un plan à quadrillage codé un itinéraire entre départ et arrivée définis, avec au moins 4 points de repère pertinents",
+    "MATH-P5-166": "Résoudre un problème : traduire en opérations, estimer, calculer, communiquer, vérifier la plausibilité, verbaliser sa démarche"
+  },
+  "untwin": [],
+  "move": [],
+  "notes": [
+    "232 items relus intégralement ; 2 corrections. La quasi-totalité des abrégés est fidèle : limites chiffrées, supports (papier vierge/tramé, quadrillage, abaque), niveaux d'autonomie (« parmi ceux proposés ») et verbes officiels sont conservés.",
+    "MATH-P5-010 : l'abrégé omettait « pertinents » (critère de qualité des points de repère), alors que le jumeau P6-010 le conservait ; harmonisé (128 car.).",
+    "MATH-P5-166 : « verbaliser » en fin de libellé était sans complément (illisible) ; rétabli « verbaliser sa démarche » conformément à l'officiel (127 car.).",
+    "MATH-P5-116 vérifié dans ref_MATH.txt (l. 4764-4767) : l'attendu P6 « ... situation de proportionnalité » est placé sous la compétence « Résoudre des situations de proportionnalité directe » ; même sens que P5, double badge conservé.",
+    "Jumeaux P6 vérifiés (003, 006, 040, 042, 049, 076, 081, 095, 106, 115, 137, 147, 150, 154) : seules différences de ponctuation, d'ordre ou d'exemples ; aucun untwin.",
+    "Listes de vocabulaire tronquées par « … » (MATH-P5-001, 002, 122, 141) : non corrigées, la liste complète dépasserait 130 caractères ; le texte officiel reste à un clic. Signalé seulement.",
+    "MATH-P5-012 : « les 7 quadrilatères » remplace la liste nominative (carré, rectangle, losange, parallélogramme, trapèze, trapèze isocèle, trapèze rectangle) ; les deux listes (quadrilatères + triangles) ne tiennent pas en 130 car. Choix laissé en l'état, à arbitrer si on préfère nommer les quadrilatères plutôt que les triangles.",
+    "MATH-P5-016 : « angles » résume « nombre d'angles (aigus, droits, obtus), angles isométriques » ; compression jugée acceptable (toute version complète dépasse 130 car.).",
+    "Sous-sections : MATH-P5-034 et 035 (Reconnaitre / Comparer) sont rangés sous « Tracer et construire des figures » ; cohérent avec le découpage SF du référentiel, pas de déplacement proposé."
+  ]
+}

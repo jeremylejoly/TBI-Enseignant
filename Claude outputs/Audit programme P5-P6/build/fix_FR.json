@@ -1,0 +1,21 @@
+{
+  "shorts": {
+    "FR-P5-077": "Exprimer, par un moyen verbal ou non verbal (écrit, schéma…), la représentation mentale d'un document fourni par l'enseignant",
+    "FR-P5-182": "Formuler des avis à propos d'une présentation",
+    "FR-P5-210": "Corriger une production de son choix avec une grille de vérification et les référentiels de la classe, en vue de la partager"
+  },
+  "untwin": [],
+  "move": [],
+  "notes": [
+    "263 items relus intégralement (review_FR.md). L'ensemble est très fidèle : la grande majorité des abrégés reprend l'officiel mot pour mot ou n'abrège que des exemples/énumérations illustratives.",
+    "FR-P5-077 : l'abrégé disait « document fourni » ; la condition officielle est « fourni par l'enseignant » (comme conservé dans FR-P5-082). Rétablie, en réordonnant pour rester ≤ 130 caractères.",
+    "FR-P5-182 : la parenthèse « (P6 : un avis) » n'apporte rien (des avis / un avis = même sens, jumelage conservé) et alourdit la lecture ; supprimée.",
+    "FR-P5-210 : 150 caractères sans raison (les exemples de référentiels sont abrégeables) ; raccourci sans perte de condition (grille de vérification, référentiels de la classe, en vue de partager).",
+    "Pattern n°1 (non corrigé, choix de conception à valider) : 7 abrégés P6 renvoient au P5 au lieu d'être autonomes : « les temps P5 + … » (FR-P6-145), « mêmes éléments qu'en P5 + … » (FR-P6-215), « éléments P5 + … » (FR-P6-209, FR-P6-210, FR-P6-211, FR-P6-212). Lisible dans une checklist P5-P6 combinée, mais un enseignant qui n'affiche que P6 doit cliquer l'officiel. Une version autonome dépasserait 130 caractères ; laissé en l'état.",
+    "Pattern n°2 (non corrigé) : 30 abrégés dépassent 130 caractères, presque tous justifiés par une liste fermée (classes de mots FR-P5-136, verbes FR-P5-029, temps FR-P5-148, préfixes FR-P6-012) ou par les attendus des compétences (FR-P5-217/218/219/220, FR-P5-211 à 214, FR-P5-224/228). Les compétences « donne du plaisir » (FR-P5-220, FR-P5-212) ne retiennent qu'une partie des éléments officiels (ils sont introduits par « certains des éléments suivants », donc quasi illustratifs) : acceptable mais sélection un peu arbitraire.",
+    "Pattern n°3 (non corrigé, vérifié dans le référentiel) : parenthèses de contexte ajoutées pour désambiguïser des doublons entre visées — « (écouter) », « (lire) », « (parler) », « (prise de parole préparée) », « (paratexte) », « (écrit réflexif) », « (prendre des notes) », « (droits du texte) », « (planifier son message) », « (compétence PARLER) », « (message entendu) ». Elles proviennent des intitulés de colonne du référentiel (ex. « Planifier son message oral ou écrit », « Supports de communication (papier ou numérique) » pour FR-P5-005, « Écrire pour : informer… » pour FR-P5-224). Pas une déformation ; à garder.",
+    "Jumeaux vérifiés, tous de même sens : FR-P5-134/FR-P6-134 (« groupe verbal » P5 devient « groupe prédicat » P6 : simple changement de terminologie pour le même constituant, l'abrégé le signale par « (P6 : groupe prédicat) ») ; FR-P5-228/FR-P6-226 et FR-P5-218, 219, 230 (« plusieurs » vs « certains des éléments » : même exigence) ; FR-P5-050/FR-P6-047 (P6 omet « fables » dans une liste illustrative). Aucun untwin nécessaire.",
+    "Point mineur non corrigé : FR-P5-001 et FR-P5-052 abrègent « intention dominante » en « intention » et « contexte (temps et lieu) » en « contexte » ; terminologie légèrement appauvrie mais sens préservé.",
+    "Sous-sections : aucune entrée manifestement mal rangée."
+  ]
+}

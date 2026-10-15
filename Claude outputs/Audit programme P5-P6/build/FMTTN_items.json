@@ -1,0 +1,800 @@
+{
+ "domains": [
+  {
+   "key": "commun",
+   "icon": "🛠️",
+   "title": "Contenus communs : sécurité, poste de travail, déchets",
+   "subsections": [
+    {
+     "title": "Contenus communs aux deux volets — contextualisation, consommables, posture (P5 p. 46 · P6 p. 52)",
+     "items": [
+      "FMTTN-P5-001",
+      "FMTTN-P5-002",
+      "FMTTN-P5-003"
+     ]
+    },
+    {
+     "title": "Contenus communs aux différents champs — dangers, protection, poste de travail, déchets, sécurité (P5 p. 48 · P6 p. 55)",
+     "items": [
+      "FMTTN-P5-017",
+      "FMTTN-P5-018",
+      "FMTTN-P5-019",
+      "FMTTN-P5-020",
+      "FMTTN-P5-021",
+      "FMTTN-P6-034",
+      "FMTTN-P5-022"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "manuel",
+   "icon": "🌿",
+   "title": "Volet 1 — Formation manuelle, technique et technologique",
+   "subsections": [
+    {
+     "title": "Habitat — P5 (p. 46)",
+     "items": [
+      "FMTTN-P5-004",
+      "FMTTN-P5-005",
+      "FMTTN-P5-006",
+      "FMTTN-P5-007",
+      "FMTTN-P5-008"
+     ]
+    },
+    {
+     "title": "Techniques de culture — P5 (p. 47)",
+     "items": [
+      "FMTTN-P5-009",
+      "FMTTN-P5-010",
+      "FMTTN-P5-011",
+      "FMTTN-P5-012",
+      "FMTTN-P5-013",
+      "FMTTN-P5-014",
+      "FMTTN-P5-015",
+      "FMTTN-P5-016"
+     ]
+    },
+    {
+     "title": "Alimentation — P6 : Savoirs (aliments, ustensiles, sécurité sanitaire, durabilité) (p. 52-53)",
+     "items": [
+      "FMTTN-P6-004",
+      "FMTTN-P6-005",
+      "FMTTN-P6-006",
+      "FMTTN-P6-007",
+      "FMTTN-P6-008"
+     ]
+    },
+    {
+     "title": "Alimentation — P6 : Savoir-faire et compétences (gestes, étiquettes, recette, plat) (p. 53)",
+     "items": [
+      "FMTTN-P6-009",
+      "FMTTN-P6-010",
+      "FMTTN-P6-011",
+      "FMTTN-P6-012",
+      "FMTTN-P6-013",
+      "FMTTN-P6-014",
+      "FMTTN-P6-015"
+     ]
+    },
+    {
+     "title": "Matières et matériaux — P6 (p. 53-54)",
+     "items": [
+      "FMTTN-P6-016",
+      "FMTTN-P6-017",
+      "FMTTN-P6-018",
+      "FMTTN-P6-019",
+      "FMTTN-P6-020",
+      "FMTTN-P6-021",
+      "FMTTN-P6-022",
+      "FMTTN-P6-023",
+      "FMTTN-P6-024"
+     ]
+    },
+    {
+     "title": "Objets technologiques — P6 (p. 54)",
+     "items": [
+      "FMTTN-P6-025",
+      "FMTTN-P6-026",
+      "FMTTN-P6-027",
+      "FMTTN-P6-028",
+      "FMTTN-P6-029"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "num",
+   "icon": "💻",
+   "title": "Volet 2 — Numérique",
+   "subsections": [
+    {
+     "title": "Communication et collaboration — P5 (p. 49)",
+     "items": [
+      "FMTTN-P5-023",
+      "FMTTN-P5-024",
+      "FMTTN-P5-025",
+      "FMTTN-P5-026",
+      "FMTTN-P5-027",
+      "FMTTN-P5-028",
+      "FMTTN-P5-029",
+      "FMTTN-P5-030",
+      "FMTTN-P5-031",
+      "FMTTN-P5-032",
+      "FMTTN-P5-033"
+     ]
+    },
+    {
+     "title": "Création de contenus — culture numérique et choix des outils (P5 p. 50 · P6 p. 56)",
+     "items": [
+      "FMTTN-P5-036",
+      "FMTTN-P5-037",
+      "FMTTN-P5-038",
+      "FMTTN-P5-039",
+      "FMTTN-P6-038",
+      "FMTTN-P5-040",
+      "FMTTN-P6-039",
+      "FMTTN-P6-040"
+     ]
+    },
+    {
+     "title": "Création de contenus — son/vidéo, tableur, présentation (P5 p. 50 · P6 p. 56)",
+     "items": [
+      "FMTTN-P5-041",
+      "FMTTN-P5-042",
+      "FMTTN-P5-047",
+      "FMTTN-P6-041",
+      "FMTTN-P6-042",
+      "FMTTN-P6-048"
+     ]
+    },
+    {
+     "title": "Création de contenus — programmation et logigrammes : savoirs, lire et écrire un algorithme (P5 p. 50 · P6 p. 56)",
+     "items": [
+      "FMTTN-P5-034",
+      "FMTTN-P5-035",
+      "FMTTN-P6-036",
+      "FMTTN-P6-037",
+      "FMTTN-P5-043",
+      "FMTTN-P6-043",
+      "FMTTN-P5-044",
+      "FMTTN-P6-044"
+     ]
+    },
+    {
+     "title": "Création de contenus — programmation et logigrammes : programmes et compétences de conception (P5 p. 50 · P6 p. 56)",
+     "items": [
+      "FMTTN-P5-045",
+      "FMTTN-P6-045",
+      "FMTTN-P5-046",
+      "FMTTN-P6-046",
+      "FMTTN-P6-047",
+      "FMTTN-P5-048",
+      "FMTTN-P6-049",
+      "FMTTN-P5-049",
+      "FMTTN-P6-050"
+     ]
+    },
+    {
+     "title": "Sécurité — P6 (p. 57)",
+     "items": [
+      "FMTTN-P6-051",
+      "FMTTN-P6-052",
+      "FMTTN-P6-053",
+      "FMTTN-P6-054",
+      "FMTTN-P6-055",
+      "FMTTN-P6-056",
+      "FMTTN-P6-057",
+      "FMTTN-P6-058"
+     ]
+    }
+   ]
+  }
+ ],
+ "items": {
+  "FMTTN-P5-001": {
+   "short": "Associer des apprentissages à des activités quotidiennes ou professionnelles",
+   "twin": "FMTTN-P6-001",
+   "type": "S"
+  },
+  "FMTTN-P5-002": {
+   "short": "Utiliser rationnellement les consommables et les énergies",
+   "twin": "FMTTN-P6-002",
+   "type": "SF"
+  },
+  "FMTTN-P5-003": {
+   "short": "Appliquer la posture ergonomique recommandée par l'enseignant",
+   "twin": "FMTTN-P6-003",
+   "type": "SF"
+  },
+  "FMTTN-P5-004": {
+   "short": "Identifier in situ les éléments apparents, fixes et mobiles, d'un espace de vie scolaire (dont installations techniques)",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-005": {
+   "short": "Expliquer des informations reprises sur un plan d'architecte simplifié",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-006": {
+   "short": "Représenter, à l'échelle sur un plan, des aménagements d'un espace au sein de l'école",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-007": {
+   "short": "Proposer des aménagements d'un espace au sein de l'école, pour améliorer le confort et/ou l'esthétique",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-008": {
+   "short": "Expliquer en quoi les aménagements proposés répondent aux besoins et tiennent compte des contraintes identifiées",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-009": {
+   "short": "Utiliser, selon la tâche à réaliser, le vocabulaire spécifique lié aux composants organiques",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-010": {
+   "short": "Utiliser le vocabulaire d'horticulture : outils (tuteur, bêche, râteau, sécateur…), techniques (ligaturer, tailler, couper, bouturer…)",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-011": {
+   "short": "Proposer au moins une possibilité de valoriser (réduire, réutiliser, réparer, recycler, composter) la partie non utilisée d'un consommable/végétal",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-012": {
+   "short": "Appliquer, sous supervision de l'enseignant, des gestes horticoles dont préparer le substrat, éclaircir, multiplier (graines, bouturage)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-013": {
+   "short": "Appliquer des soins aux plants dont tuteurer, ligaturer, tailler",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-014": {
+   "short": "Expliquer, d'après des informations techniques, le mode de mise en œuvre et les conditions de culture (semis, plant, calendrier)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-015": {
+   "short": "Cultiver, sous supervision de l'enseignant, un végétal selon un mode de culture défini (lieu, substrat, calendrier, température…)",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-016": {
+   "short": "Aménager un lieu de production, en vue de rencontrer les conditions de réussite de semis ou de plantation",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-017": {
+   "short": "Associer les risques et dangers liés à l'environnement de travail, consommables, outils, ustensiles, machines, techniques",
+   "twin": "FMTTN-P6-030",
+   "type": "S"
+  },
+  "FMTTN-P5-018": {
+   "short": "Énoncer les équipements de protection requis, en lien avec l'environnement de travail, les consommables, les outils…",
+   "twin": "FMTTN-P6-031",
+   "type": "S"
+  },
+  "FMTTN-P5-019": {
+   "short": "Choisir le matériel et les consommables parmi ce qui est mis à disposition, et les agencer sur son poste de travail",
+   "twin": "FMTTN-P6-032",
+   "type": "SF"
+  },
+  "FMTTN-P5-020": {
+   "short": "Maintenir l'espace de travail propre et rangé, sous la supervision de l'enseignant",
+   "twin": "FMTTN-P6-033",
+   "type": "SF"
+  },
+  "FMTTN-P5-021": {
+   "short": "Trier, sous la supervision de l'enseignant, les déchets recyclables, compostables, récupérables de sa production",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-022": {
+   "short": "Adopter, avec l'aide de l'enseignant, une attitude proactive face aux risques, pour soi et les autres, avec les protections adéquates",
+   "twin": "FMTTN-P6-035",
+   "type": "C"
+  },
+  "FMTTN-P5-023": {
+   "short": "Utiliser, adéquatement en contexte, les termes dont lien hypertexte, onglet, URL",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-024": {
+   "short": "Utiliser, adéquatement en contexte, le terme nétiquette",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-025": {
+   "short": "Ouvrir l'outil de communication et consulter des messages",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-026": {
+   "short": "Utiliser les fonctionnalités de l'outil de communication : destinataire, objet, corps de texte et pièce jointe",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-027": {
+   "short": "Téléverser un contenu sur l'Espace Numérique de Travail (ENT) de la classe",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-028": {
+   "short": "Participer au sein d'un espace collaboratif numérique, en entretenant une relation sociale de qualité",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-029": {
+   "short": "S'intégrer dans un espace collaboratif numérique, en respectant la cohérence (fond et forme) de l'environnement choisi",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-030": {
+   "short": "Respecter, dans l'environnement numérique rencontré, une nétiquette convenue en classe",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-031": {
+   "short": "Interagir/communiquer, à l'aide d'outils numériques",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-032": {
+   "short": "Partager un contenu, à l'aide d'un outil déterminé par l'enseignant",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-033": {
+   "short": "Collaborer sur un contenu propre à l'école (ex. : écriture collaborative, carte mentale…)",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-034": {
+   "short": "Représenter les symboles conventionnels d'un logigramme (début/fin, processus, décision) et les liens indiquant le cheminement",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-035": {
+   "short": "Associer une activité du quotidien à un algorithme et vice-versa",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-036": {
+   "short": "Chercher le taux de présence (e-réputation) d'un auteur, d'une célébrité, d'un personnage public",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-037": {
+   "short": "Expliquer l'importance du choix d'un avatar et d'un pseudonyme",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-038": {
+   "short": "Distinguer la réalité de la réalité virtuelle et de la réalité augmentée/mixte",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P5-039": {
+   "short": "Sélectionner un outil, une application, un logiciel, parmi ceux proposés par l'enseignant, en fonction de l'intention",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-040": {
+   "short": "Utiliser les fonctions principales d'un outil de création de contenus, parmi ceux proposés par l'enseignant",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-041": {
+   "short": "Utiliser les fonctions de montage d'un son et/ou d'une vidéo dont couper, copier, coller, effacer",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-042": {
+   "short": "Encoder des données dans un tableur et réaliser un graphique",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-043": {
+   "short": "Verbaliser un extrait ou l'entièreté d'un logigramme séquentiel de déplacement",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-044": {
+   "short": "Écrire un logigramme séquentiel de déplacement",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-045": {
+   "short": "Lire un programme séquentiel de déplacement",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-046": {
+   "short": "Traduire un programme séquentiel de déplacement, à l'aide de blocs de codes proposés",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P5-047": {
+   "short": "Produire un document sonore et/ou vidéo",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P5-048": {
+   "short": "Concevoir un logigramme séquentiel de déplacement (algorithme pour résoudre un problème simple)",
+   "twin": null,
+   "type": "C",
+   "pistes_remove": [
+    "P5:N68"
+   ]
+  },
+  "FMTTN-P5-049": {
+   "short": "Traduire un logigramme séquentiel de déplacement en langage de programmation, le tester et le déboguer",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P6-004": {
+   "short": "Nommer et classer (féculents, sucres rapides, matières grasses) les aliments d'un plat du terroir choisi par l'enseignant",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-005": {
+   "short": "Utiliser, dans son cadre d'application, le vocabulaire du matériel, des ustensiles, des techniques de cuisson et de pâtisserie",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-006": {
+   "short": "Énoncer, dans leur cadre d'application, les précautions de sécurité sanitaire des aliments au regard des risques encourus",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-007": {
+   "short": "Citer des conditions de stockage et de conservation des préparations culinaires réalisées",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-008": {
+   "short": "Citer les dimensions sociale, économique, écologique à prendre en compte pour évaluer le caractère durable d'un aliment",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-009": {
+   "short": "Appliquer des gestes techniques pour cuire un aliment, dont vérifier l'état de cuisson",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-010": {
+   "short": "Décoder les labels officiels (AB, AOC, AOP, IGP) d'une étiquette pour choisir circuits courts et produits du terroir local",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-011": {
+   "short": "Retrouver sur l'étiquette d'un emballage les informations sur les allergènes, pour prévenir intolérance et allergie",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-012": {
+   "short": "Expliquer les informations nutritionnelles d'un aliment pour poser un choix assurant un équilibre alimentaire",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-013": {
+   "short": "Adapter des quantités proposées dans une recette au nombre de consommateurs",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-014": {
+   "short": "Préparer en équipe, d'après une recette, un plat du terroir ou du patrimoine local combinant plusieurs aliments (techniques, ustensiles)",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P6-015": {
+   "short": "Valoriser un plat en créant un dressage en équipe",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P6-016": {
+   "short": "Énoncer un ou plusieurs usage(s) courant(s) de matériaux et de matières",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-017": {
+   "short": "Identifier, selon l'ouvrage à réaliser, le nom d'outils de traçage dont compas, pointe à tracer, équerre",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-018": {
+   "short": "Utiliser le nom d'outils, consommables et machines d'assemblage, maintien, fixation dont serre-joint, visseuse, boulon, clés, foreuse",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-019": {
+   "short": "Utiliser, selon l'ouvrage à réaliser, le nom de techniques dont graver, couper, boulonner, contrôler",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-020": {
+   "short": "Identifier une représentation graphique : dessin de vues, dessin de perspective",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-021": {
+   "short": "Appliquer des gestes techniques dont nouer (nœuds de base), contrôler, graver, couper, boulonner",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-022": {
+   "short": "Expliquer des informations d'un document technique visuel et/ou textuel liées aux consommables, techniques et outils",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-023": {
+   "short": "Suivre un mode opératoire présenté majoritairement sous forme textuelle",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-024": {
+   "short": "Réaliser un (des) ouvrage(s), en sélectionnant et en utilisant les outils, les consommables et les techniques proposés",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P6-025": {
+   "short": "Identifier le type d'énergie (électrique/mécanique), les machines simples (roue, levier, poulie, engrenage) et leurs effets",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-026": {
+   "short": "Expliquer des informations d'un document technique visuel et/ou textuel en lien avec un objet technologique",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-027": {
+   "short": "Démonter et remonter un objet technologique simple (en tout ou en partie), en utilisant des outils adaptés",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-028": {
+   "short": "Représenter en 2D (dessin) ou 3D (maquette) un objet technologique, en schématisant les mouvements (flèches) et son fonctionnement",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-029": {
+   "short": "Concevoir, construire et mettre en service un objet technologique intégrant une ou plusieurs machine(s) simple(s)",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P6-034": {
+   "short": "Trier, en autonomie, les déchets recyclables, compostables, récupérables de sa production",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-036": {
+   "short": "Expliquer les termes dont algorithme, logigramme, condition, boucle, langage de programmation",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-037": {
+   "short": "Différencier algorithme et programme",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-038": {
+   "short": "Sélectionner un outil, une application, un logiciel, en fonction de l'intention",
+   "twin": null,
+   "type": "SF",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "N71",
+     "title": "Prendre la parole pour divertir, informer, donner son avis (FRALA — point d'attention FMTTN p. 278)",
+     "page": 262
+    }
+   ]
+  },
+  "FMTTN-P6-039": {
+   "short": "Utiliser les fonctions principales d'un outil de création de contenus",
+   "twin": null,
+   "type": "SF",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "N72",
+     "title": "Prendre la parole pour divertir, informer, donner son avis (FRALA — point d'attention FMTTN p. 278)",
+     "page": 262
+    }
+   ]
+  },
+  "FMTTN-P6-040": {
+   "short": "Utiliser conjointement plusieurs applications/plusieurs logiciels disponibles dans un espace numérique",
+   "twin": null,
+   "type": "SF",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "N73",
+     "title": "Prendre la parole pour divertir, informer, donner son avis (FRALA — point d'attention FMTTN p. 278)",
+     "page": 262
+    }
+   ]
+  },
+  "FMTTN-P6-041": {
+   "short": "Utiliser des fonctionnalités courantes d'un outil de présentation (ex. : intégrer un son, une image, une vidéo)",
+   "twin": null,
+   "type": "SF",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "N74",
+     "title": "Prendre la parole pour divertir, informer, donner son avis (FRALA — point d'attention FMTTN p. 278)",
+     "page": 262
+    }
+   ]
+  },
+  "FMTTN-P6-042": {
+   "short": "Appliquer des principes d'élaboration d'un message multimédia pour appuyer un discours",
+   "twin": null,
+   "type": "SF",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "N75",
+     "title": "Prendre la parole pour divertir, informer, donner son avis (FRALA — point d'attention FMTTN p. 278)",
+     "page": 262
+    }
+   ]
+  },
+  "FMTTN-P6-043": {
+   "short": "Verbaliser un logigramme intégrant une boucle et une condition",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-044": {
+   "short": "Écrire un logigramme intégrant une boucle et une condition",
+   "twin": null,
+   "type": "SF",
+   "pistes_remove": [
+    "P6:FMTTN79"
+   ]
+  },
+  "FMTTN-P6-045": {
+   "short": "Lire un programme intégrant une boucle et une condition",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-046": {
+   "short": "Traduire un logigramme intégrant une boucle et une condition en langage de programmation",
+   "twin": null,
+   "type": "SF",
+   "pistes_remove": [
+    "P6:FMTTN83"
+   ]
+  },
+  "FMTTN-P6-047": {
+   "short": "Identifier une suite d'opérations qui peut être remplacée par une boucle",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-048": {
+   "short": "Produire un support numérique de présentation pour appuyer un discours",
+   "twin": null,
+   "type": "C",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "N81",
+     "title": "Prendre la parole pour divertir, informer, donner son avis (FRALA — point d'attention FMTTN p. 278)",
+     "page": 262
+    }
+   ]
+  },
+  "FMTTN-P6-049": {
+   "short": "Concevoir un logigramme intégrant une boucle et une condition (algorithme pour résoudre un problème simple)",
+   "twin": null,
+   "type": "C",
+   "pistes_remove": [
+    "P6:FMTTN83"
+   ]
+  },
+  "FMTTN-P6-050": {
+   "short": "Traduire un logigramme intégrant une boucle et une condition en langage de programmation, le tester et le déboguer",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P6-051": {
+   "short": "Utiliser, adéquatement en contexte, les termes dont identité numérique, cyberharcèlement, cyberdépendance",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-052": {
+   "short": "Utiliser en contexte les termes dont sauvegarde, mise à jour, cookie, hameçonnage, spam, piratage, cyberattaque, antivirus…",
+   "twin": null,
+   "type": "S"
+  },
+  "FMTTN-P6-053": {
+   "short": "Créer un mot de passe respectant un niveau de sécurité élevé",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-054": {
+   "short": "Effacer ses fichiers personnels sur un équipement partagé",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-055": {
+   "short": "Proposer des pistes d'actions, parmi celles mises à disposition, face à des situations de cyberattaque, cyberharcèlement, cybermanipulation",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-056": {
+   "short": "Reconnaitre des situations de cyberattaque, de cyberharcèlement, de cybermanipulation",
+   "twin": null,
+   "type": "SF"
+  },
+  "FMTTN-P6-057": {
+   "short": "Adopter un comportement responsable relatif à la protection des données",
+   "twin": null,
+   "type": "C"
+  },
+  "FMTTN-P6-058": {
+   "short": "Adopter un comportement responsable face à une situation de cyberattaque, cyberharcèlement, cyberdépendance",
+   "twin": null,
+   "type": "C"
+  }
+ },
+ "reperes": [
+  {
+   "title": "Profil de l'élève en P5 (autonomie, cognition, créativité)",
+   "text": "En 5e primaire, l'élève cultive, entretient et multiplie un végétal sous la supervision de l'enseignant. Il identifie les éléments et installations techniques apparents d'un espace de vie, explicite un plan d'architecte simplifié et représente à l'échelle des aménagements d'un espace de l'école. Il encode des données dans un tableur et découvre la pensée informatique par la lecture et l'écriture d'un logigramme ou d'un programme séquentiel simple. En création de contenus, l'accent est mis sur le son et la vidéo ; il est désormais amené à communiquer et à collaborer par le biais du numérique.",
+   "page": 45
+  },
+  {
+   "title": "Vocabulaire spécifique : en contexte, jamais en listes (P5 et P6)",
+   "text": "« L'utilisation du vocabulaire spécifique s'effectue lors d'applications ou de réalisations concrètes, et non pas sous la forme de listes de mots à mémoriser ou encore, d'images non contextualisées. » Les attendus de type « Utiliser … les termes dont … » s'évaluent donc en situation.",
+   "page": 45
+  },
+  {
+   "title": "Profil de l'élève en P6 (autonomie, cognition, créativité)",
+   "text": "En 6e primaire, l'élève pose, toujours sous la supervision de l'enseignant, des gestes techniques adéquats sur des matériaux d'usage courant (nouer, graver, couper, boulonner, assembler) ; les consommables, outils et techniques sont proposés. Il décode les informations nutritionnelles, les labels et les allergènes ; il suit un mode opératoire et des documents techniques présentés dorénavant majoritairement sous forme textuelle. Les dispositifs mécaniques élémentaires (machines simples) font appel à la notion de force vue en sciences ; il réalise un objet technologique impliquant une transmission de mouvement. La pensée algorithmique se poursuit avec des boucles et des conditions ; la création de contenus se poursuit par la présentation assistée par ordinateur. Sur le plan numérique, c'est la première occasion de fixer des attendus en matière de sécurité (protection des personnes et des données).",
+   "page": 51
+  },
+  {
+   "title": "Collaboration et développement durable en P6",
+   "text": "L'élève organise en équipe la préparation d'un plat. Les préparations impliquent une technique de cuisson et se centrent sur les plats issus du terroir ou du patrimoine local, au départ d'ingrédients provenant d'un circuit court de production. L'élève utilise rationnellement les consommables et les énergies et limite l'impact écologique de ses activités, notamment en triant et en valorisant les déchets produits.",
+   "page": 52
+  },
+  {
+   "title": "« En autonomie » (glossaire)",
+   "text": "Autonomie (autonome) : « agir avec une marge d'initiative et une responsabilité croissantes sous la supervision de l'enseignant ». Le tri des déchets « en autonomie » attendu en P6 (p. 55) ne signifie donc pas sans encadrement.",
+   "page": 99
+  },
+  {
+   "title": "Informations et données : aucun attendu en P5-P6",
+   "text": "Le tableau par année (p. 45 et 51) ne coche le champ « Informations et données » qu'en P1-P4 puis S1-S2. La compétence « Rechercher une information au moyen d'un outil de recherche imposé… (mots-clés, opérateurs, options avancées) » relève de P3-P4 puis S2 (tableau p. 86). Elle ne doit pas figurer dans la checklist P5-P6.",
+   "page": 86
+  },
+  {
+   "title": "CECP P6 — outil de présentation (N71 à N75, N81) : séquence de français",
+   "text": "Le CECP P6 ne propose pas de séquence FMTTN propre pour les attendus « outil de présentation / message multimédia » ; ils sont visés par la séquence de français « Prendre la parole pour divertir, informer, donner son avis » (p. 262), dont le point d'attention p. 278 indique : « Cette activité est l'occasion de rencontrer les attendus N71, N72, N73, N74, N75 du référentiel de FMTTN en lien avec la compétence N81 ».",
+   "page": 278
+  }
+ ],
+ "notes": [
+  "Jumeaux P5/P6 validés (8 paires, libellés strictement identiques, même champ, même type) : P5-001/P6-001, P5-002/P6-002, P5-003/P6-003 (contenus communs aux deux volets, p. 46 / p. 52) ; P5-017/P6-030, P5-018/P6-031, P5-019/P6-032, P5-020/P6-033, P5-022/P6-035 (contenus communs aux différents champs, p. 48 / p. 55). Les 8 items P6 jumeaux n'apparaissent dans aucune sous-section.",
+  "Non-jumeau tranché : P5-021 « Trier, sous la supervision de l'enseignant, dans leur cadre de production, les déchets recyclables, compostables, récupérables » vs P6-034 « Trier, en autonomie, dans leur cadre de production, les déchets recyclables, compostables, récupérables » : seul le niveau d'autonomie change, mais c'est précisément l'objet de la progression → deux items, placés côte à côte dans la sous-section « Contenus communs aux différents champs ».",
+  "Autres paires proches mais distinctes (twin null, item P6 créé) : P5-039/P6-038 et P5-040/P6-039 (P6 supprime « parmi ceux proposés par l'enseignant ») ; P5-043..046/P6-043..046 (séquentiel de déplacement → boucle et condition) ; P5-048/P6-049 ; P5-049/P6-050 (le contenu P6 dit « résoudre un problème » sans « simple ») ; P5-047/P6-048 (document sonore/vidéo → support de présentation). Placés en ordre thématique P5 puis P6 dans les sous-sections « Création de contenus ».",
+  "Total : 49 items P5 (dont 8 avec twin) + 50 items P6 nouveaux = 99 items placés, chacun exactement une fois. 3 domaines, 14 sous-sections de 3 à 11 items.",
+  "Pistes CECP — les 8 items P6 jumeaux (P6-001, 002, 003, 030, 031, 032, 033, 035) portent des pistes P6 (codes FMTTN8, FMTTN9, FMTTN10, FMTT133-136, FMTT138 → séquences p. 768, 806, 822, 854) : l'orchestrateur doit fusionner les pistes du jumeau P6 sous l'item P5 à double badge, sinon ces pistes P6 seront perdues.",
+  "Pistes retirées (4) — codes rattachés à plusieurs attendus et contrôlés dans codes[] : P5:N68 retiré de P5-048 (N68 = « Concevoir un programme… / Traduire un logigramme… le tester et le déboguer » = P5-049 ; P5-048 garde N67) ; P6:FMTTN79 retiré de P6-044 (FMTTN79 = « Écrire un programme simple / Traduire un logigramme… en langage de programmation » = P6-046 ; P6-044 garde FMTTN77) ; P6:FMTTN83 retiré de P6-046 et de P6-049 (FMTTN83 = « Concevoir un programme… / Traduire… tester, déboguer » = P6-050 ; P6-046 garde FMTTN79, P6-049 garde FMTTN82). Le seul score < 0.9 n'existe pas ; le 0.95 de P5:N53 → P5-034 est correct (symboles de logigramme). Les codes multi-attendus restants (FMTTN5-10, FMTT133-138, N42, N46, N50, N51) sont des doublons d'un même attendu dans plusieurs séquences, pas des erreurs.",
+  "Pistes ajoutées (6) — N71, N72, N73, N74, N75, N81 (P6-038, 039, 040, 041, 042, 048) : ces codes ne figurent dans aucune séquence FMTTN de cecp_index.json (ils sont absents de codes[]), mais le CECP P6 p. 278 (séquence FRALA « Prendre la parole pour divertir, informer, donner son avis », début p. 262, présente dans cecp_index sous disc FRANÇAIS) les cite explicitement. Comme codes[] ne contient pas « P6:N71 » etc., chaque pistes_add fournit directement title et page (page 262 = début de la séquence ; le renvoi FMTTN est p. 278, indiqué dans le titre). Confirmation croisée dans HISTGEO_FMTTN_complement_CECP_P5.md § 5.",
+  "Attendus sans aucune piste CECP (normal, codes « déduits » jamais cités dans une séquence) : P5-019, P5-020 (FMTT103-104), P5-036, 037, 038, 039 (N55-N58), P5-042 (N61), P6-054 (N87).",
+  "Libellés abrégés > 120 caractères (liste fermée ou condition conservée) : P5-010 (134), P5-011 (146), P5-012 (136), P5-014 (128), P5-015 (129), P5-017 (121), P5-022 (133), P5-034 (126), P6-004 (146), P6-005 (126), P6-006 (121), P6-010 (122), P6-014 (136), P6-018 (133), P6-025 (153), P6-028 (130), P6-052 (123), P6-055 (139). Sous 40 caractères : P5-047 (39), P6-037 (36) = libellé officiel intégral. P5-048 et P6-049 ajoutent entre parenthèses le contenu officiel « algorithme pour résoudre un problème simple » pour distinguer la compétence « Concevoir » du savoir-faire « Écrire » (cf. audit § 1.3 point 6). P5-018 et P6-052 abrègent par « … » une énumération ouverte (« dont », « en lien avec ») ; le texte intégral reste consultable.",
+  "Types : l'inventaire utilise déjà S / SF / C ; aucune normalisation nécessaire. Codes CECP : préfixe FMTT### (volet manuel), FMTTN# (contenus communs aux deux volets ; le CECP écrit « FMTTN88 » pour FMTT88 et « FMTTN69 » pour N69, cf. inventaire) et N## (volet numérique)."
+ ]
+}

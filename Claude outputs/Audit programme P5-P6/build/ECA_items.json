@@ -1,0 +1,763 @@
+{
+ "domains": [
+  {
+   "key": "culture",
+   "icon": "🗺️",
+   "title": "Culture, patrimoine, sens — attendus transversaux (S1, S3, SF1, SF3, C1, C3)",
+   "subsections": [
+    {
+     "title": "P5 — Traces du passé, patrimoine immatériel, mythes et légendes (S1, S3, SF1, SF3, C1, C3)",
+     "items": [
+      "ECA-P5-001",
+      "ECA-P5-016",
+      "ECA-P5-017",
+      "ECA-P5-018",
+      "ECA-P5-019",
+      "ECA-P5-030",
+      "ECA-P5-031",
+      "ECA-P5-039",
+      "ECA-P5-043"
+     ]
+    },
+    {
+     "title": "P6 — Lieux de culture, répertoire personnel, appréciation (S1, S3, SF1, SF3, C1, C3)",
+     "items": [
+      "ECA-P6-001",
+      "ECA-P6-019",
+      "ECA-P6-020",
+      "ECA-P6-021",
+      "ECA-P6-022",
+      "ECA-P6-029",
+      "ECA-P6-030",
+      "ECA-P6-039",
+      "ECA-P6-043"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "corp",
+   "icon": "🎭",
+   "title": "Expression française et corporelle (théâtre, danse)",
+   "subsections": [
+    {
+     "title": "P5 — Savoirs : temps, voix et énergie, espace scénique, genres de jeux et danses (S2)",
+     "items": [
+      "ECA-P5-002",
+      "ECA-P5-005",
+      "ECA-P5-008",
+      "ECA-P5-011"
+     ]
+    },
+    {
+     "title": "P5 — Savoir-faire et compétences : diction, rôles, énergie, espace, mise en jeu (SF2, SF4, C2, C4)",
+     "items": [
+      "ECA-P5-020",
+      "ECA-P5-021",
+      "ECA-P5-022",
+      "ECA-P5-023",
+      "ECA-P5-024",
+      "ECA-P5-032",
+      "ECA-P5-036",
+      "ECA-P5-040",
+      "ECA-P5-044"
+     ]
+    },
+    {
+     "title": "P6 — Savoirs : temps de la représentation, phrase dansée, jeu masqué, mise en scène, ambiance sonore (S2)",
+     "items": [
+      "ECA-P6-002",
+      "ECA-P6-005",
+      "ECA-P6-010",
+      "ECA-P6-014"
+     ]
+    },
+    {
+     "title": "P6 — Savoir-faire et compétences : mise en scène collective, composition scénique, représentation (SF2, SF4, C2, C4)",
+     "items": [
+      "ECA-P6-023",
+      "ECA-P6-031",
+      "ECA-P6-032",
+      "ECA-P6-036",
+      "ECA-P6-040",
+      "ECA-P6-044",
+      "ECA-P6-045"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "mus",
+   "icon": "🎵",
+   "title": "Expression musicale",
+   "subsections": [
+    {
+     "title": "P5 — Savoirs : pulsation/rythme, langage musical, formes musicales, membranophones et idiophones (S2)",
+     "items": [
+      "ECA-P5-003",
+      "ECA-P5-006",
+      "ECA-P5-009",
+      "ECA-P5-012"
+     ]
+    },
+    {
+     "title": "P5 — Savoir-faire et compétences : chanter, canon, accompagner, chœurs parlés, support numérique (SF2, SF4, C2, C4)",
+     "items": [
+      "ECA-P5-025",
+      "ECA-P5-026",
+      "ECA-P5-027",
+      "ECA-P5-033",
+      "ECA-P5-037",
+      "ECA-P5-041",
+      "ECA-P5-045"
+     ]
+    },
+    {
+     "title": "P6 — Savoirs : pulsation/rythme, symboles musicaux, voix, polyphonie, formes, ensembles et 5 familles (S2)",
+     "items": [
+      "ECA-P6-003",
+      "ECA-P6-006",
+      "ECA-P6-007",
+      "ECA-P6-008",
+      "ECA-P6-011",
+      "ECA-P6-015",
+      "ECA-P6-016"
+     ]
+    },
+    {
+     "title": "P6 — Savoir-faire et compétences : chanter à deux voix, formes musicales, accompagner, support numérique (SF2, SF4, C2, C4)",
+     "items": [
+      "ECA-P6-024",
+      "ECA-P6-025",
+      "ECA-P6-026",
+      "ECA-P6-033",
+      "ECA-P6-037",
+      "ECA-P6-041",
+      "ECA-P6-046"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "pla",
+   "icon": "🖌️",
+   "title": "Expression plastique",
+   "subsections": [
+    {
+     "title": "P5 — Savoirs : image fixe/en mouvement, outils graphiques, composition, couleurs, ombre et lumière (S2)",
+     "items": [
+      "ECA-P5-004",
+      "ECA-P5-007",
+      "ECA-P5-010",
+      "ECA-P5-013",
+      "ECA-P5-014",
+      "ECA-P5-015"
+     ]
+    },
+    {
+     "title": "P5 — Savoir-faire et compétences : lumière, compositions, croquis/dessin/peinture, cadrage, mise en valeur (SF2, SF4, C2, C4)",
+     "items": [
+      "ECA-P5-028",
+      "ECA-P5-029",
+      "ECA-P5-034",
+      "ECA-P5-035",
+      "ECA-P5-038",
+      "ECA-P5-042",
+      "ECA-P5-046"
+     ]
+    },
+    {
+     "title": "P6 — Savoirs : mise en page, vidéo, numérique, points de vue et plans, couleurs, ombre et volumes (S2)",
+     "items": [
+      "ECA-P6-004",
+      "ECA-P6-009",
+      "ECA-P6-012",
+      "ECA-P6-013",
+      "ECA-P6-017",
+      "ECA-P6-018"
+     ]
+    },
+    {
+     "title": "P6 — Savoir-faire et compétences : lumière et couleurs, prises de vues, images fixes/animées, volumes, présentation (SF2, SF4, C2, C4)",
+     "items": [
+      "ECA-P6-027",
+      "ECA-P6-028",
+      "ECA-P6-034",
+      "ECA-P6-035",
+      "ECA-P6-038",
+      "ECA-P6-042",
+      "ECA-P6-047"
+     ]
+    }
+   ]
+  }
+ ],
+ "items": {
+  "ECA-P5-001": {
+   "short": "Après visites (de préférence in situ), présenter un site archéologique, du patrimoine immatériel, un mythe/une légende",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-002": {
+   "short": "Expliquer le déroulement du temps dans la représentation (chronologie, flash-back, ellipse temporelle…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-003": {
+   "short": "Différencier la pulsation et le rythme",
+   "twin": null,
+   "type": "S",
+   "pistes_add": [
+    {
+     "year": "P5",
+     "code": "ECA183"
+    }
+   ]
+  },
+  "ECA-P5-004": {
+   "short": "Caractériser une image fixe et une image en mouvement",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-005": {
+   "short": "Identifier des techniques vocales/de diction (articulation, intonation…) et l'énergie des mouvements (tonus musculaire)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-006": {
+   "short": "Décrire des éléments constitutifs du langage musical (partition, portée, gamme, clé de sol…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-007": {
+   "short": "Distinguer : croquis, dessin ; photographie numérique ; outils graphiques spécialisés (pinceaux, couteaux, spatule…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-008": {
+   "short": "Comparer différentes occupations de l'espace et du plateau (regroupement, équilibre/déséquilibre, division des espaces…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-009": {
+   "short": "Décrire des formes musicales au travers de chansons contemporaines, traditionnelles ou extraits classiques",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-010": {
+   "short": "Distinguer : le fond, la forme, la mise en page, le plan, le format, les échelles et proportions ; les volumes simples",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-011": {
+   "short": "Comparer des genres de jeux (comédie, tragédie, comédie musicale…) et de danses (indiennes, africaines, tango…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-012": {
+   "short": "Reconnaitre visuellement et auditivement des membranophones et des idiophones d'ici ou d'ailleurs",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-013": {
+   "short": "Identifier des valeurs (gradation de nuances) de couleurs dans une œuvre d'art",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-014": {
+   "short": "Identifier des contrastes de couleurs dans une œuvre d'art",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-015": {
+   "short": "Identifier les ombres et la lumière dans une œuvre d'art ou dans son environnement immédiat",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-016": {
+   "short": "Exemplifier le contexte, identifier la signification (œuvre, lieu, objet) ; formuler sa propre appréciation esthétique",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P5-017": {
+   "short": "Observer de façon objective des éléments du patrimoine, un site archéologique…",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-018": {
+   "short": "Explorer un mythe ou une légende",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-019": {
+   "short": "Enrichir sa collection de traces",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-020": {
+   "short": "Pratiquer des exercices d'articulation, vire-langues…",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-021": {
+   "short": "Lire des extraits de texte avec expressivité",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-022": {
+   "short": "Occuper différents rôles lors d'une production : principal, secondaire, « spect-acteur »…",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-023": {
+   "short": "Exécuter plusieurs mouvements avec une énergie différente",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-024": {
+   "short": "Pratiquer différentes occupations de l'espace",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-025": {
+   "short": "Interpréter en chœur/seul des chansons (techniques vocales : respiration…), accompagnement acoustique ou numérique",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-026": {
+   "short": "Chanter des chansons contemporaines d'ici et d'ailleurs, et en aborder les thématiques",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-027": {
+   "short": "Effectuer un canon à deux voix en parlé/rythmé",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-028": {
+   "short": "Explorer les relations entre les objets et la lumière",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-029": {
+   "short": "Varier les types de compositions (rapports fond/forme, juxtapositions, oppositions entre couleurs, matières, supports…)",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-030": {
+   "short": "Lors de découvertes culturelles/artistiques, interroger le sens des recherches et de la conservation des traces du passé",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-031": {
+   "short": "Lors de la découverte d'éléments culturels ou artistiques, établir des liens interdisciplinaires",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-032": {
+   "short": "Proposer, dans un genre de jeu choisi, plusieurs manières d'occuper l'espace et un enchainement de mouvements d'énergies variées",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-033": {
+   "short": "Accompagner vocalement, corporellement ou instrumentalement un extrait sonore (extrait instrumental ou chanson)",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-034": {
+   "short": "Réaliser des croquis, des dessins, de la peinture à l'aide d'outils graphiques spécialisés (y compris numériques)",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-035": {
+   "short": "Exercer le cadrage, y compris photographique",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-036": {
+   "short": "Exercer les rôles et fonctions d'une représentation : coulisse, plateau, rôles principaux/secondaires, spect-acteurs…",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-037": {
+   "short": "Interpréter collectivement des accompagnements vocaux, corporels ou instrumentaux, à partir d'une chanson abordée",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P5-038": {
+   "short": "Réaliser la mise en valeur d'une production individuelle ou collective",
+   "twin": null,
+   "type": "SF",
+   "pistes_add": [
+    {
+     "year": "P5",
+     "code": "ECA216",
+     "title": "Revisiter une peinture",
+     "page": 286
+    }
+   ]
+  },
+  "ECA-P5-039": {
+   "short": "Explorer un patrimoine matériel et immatériel d'ici ou d'ailleurs",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P5-040": {
+   "short": "Expérimenter les fondamentaux rencontrés durant l'année dans une mise en jeu et en espace",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P5-041": {
+   "short": "Interpréter des chœurs parlés en résistant aux attirances sonores",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P5-042": {
+   "short": "Exemplifier la composition et la lumière dans une production plastique",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P5-043": {
+   "short": "Interroger collectivement le sens et l'origine d'une œuvre, d'un lieu, d'un objet culturel",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P5-044": {
+   "short": "Inventer et mettre en espace une production scénique, à partir de combinaisons de moyens corporels et verbaux abordés",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P5-045": {
+   "short": "Réaliser collectivement une production vocale, corporelle ou instrumentale, à partir d'un support numérique donné",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P5-046": {
+   "short": "Traduire des effets de lumière, d'angles de vue variés dans une production plastique, quel que soit le support",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-001": {
+   "short": "Compléter, via visites/recherches/traces, ses répertoires de lieux culturels et d'objets (cultures, époques, pays)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-002": {
+   "short": "Comparer le temps de la représentation et le temps réel (temps de l'intrigue/de la réalité)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-003": {
+   "short": "Expliquer la pulsation et le rythme",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-004": {
+   "short": "Expliquer l'équilibre dans une mise en page",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-005": {
+   "short": "Décrire : phrase dansée ; jeu masqué ; partenaires, contacts, interactions ; parties du corps initiatrices du mouvement",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-006": {
+   "short": "Connaitre des symboles du langage musical traditionnel (portée, gamme, clé de sol, notes et silences…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-007": {
+   "short": "Prendre conscience d'organes mobilisés pour chanter",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-008": {
+   "short": "Expliquer la polyphonie avec ses propres mots",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-009": {
+   "short": "Aborder des techniques de captures vidéo simples",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-010": {
+   "short": "Décrire la mise en scène (musique, bruitages, lumière, costumes, décors, leur rôle illustratif ou symbolique…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-011": {
+   "short": "Décrire des formes musicales (structures) via chansons contemporaines ou extraits classiques, d'ici et d'ailleurs",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-012": {
+   "short": "Relever les caractéristiques numériques dans une œuvre d'art",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-013": {
+   "short": "Identifier des points de vue (haut, profil, face…) et des plans (gros plan, plan moyen…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-014": {
+   "short": "Exemplifier l'ambiance sonore au regard de la mise en scène (illustrative/en contrepoint)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-015": {
+   "short": "Décrire la composition d'ensembles vocaux et instrumentaux (orchestre symphonique, Big Band, groupe rock, rap, chorale…)",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-016": {
+   "short": "Reconnaitre, à l'audition d'extraits, des instruments des 5 familles et différents ensembles vocaux/instrumentaux",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-017": {
+   "short": "Identifier dans une œuvre d'art : nuance, valeur, monochromie, polychromie, harmonie…",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-018": {
+   "short": "Identifier des effets de l'ombre et de la lumière sur des formes volumiques",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-019": {
+   "short": "Expliquer l'origine (œuvre, lieu, objet culturel) ; confronter sa propre appréciation esthétique à celles des autres",
+   "twin": null,
+   "type": "S"
+  },
+  "ECA-P6-020": {
+   "short": "Différencier les observations subjectives et objectives",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-021": {
+   "short": "Élargir son champ d'observation",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-022": {
+   "short": "Créer son propre répertoire",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-023": {
+   "short": "Participer à une mise en scène collective : proposer une phrase dansée, synchroniser le mouvement et l'univers sonore",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-024": {
+   "short": "Interpréter en chœur/seul des chansons en expérimentant les techniques vocales, accompagnement acoustique ou numérique",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-025": {
+   "short": "Interpréter des chants polyphoniques simples à deux voix (chansons traditionnelles africaines…)",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-026": {
+   "short": "Relier à l'audition et visuellement des formes musicales simples à des extraits (musicogramme, canon, ritournelle, ABA…)",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-027": {
+   "short": "Expérimenter des effets de lumière à partir de couleurs",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-028": {
+   "short": "Réaliser des prises de vues diversifiées (fixes ou animées) et les traiter",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-029": {
+   "short": "Lors de la découverte d'un élément culturel ou artistique, interroger son appréciation",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-030": {
+   "short": "Lors de la découverte d'éléments culturels et artistiques, expliquer des liens interdisciplinaires",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-031": {
+   "short": "Inventer une courte composition scénique ou chorégraphique",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-032": {
+   "short": "Imaginer sa mise en espace, les costumes, les accessoires, le décor",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-033": {
+   "short": "Proposer un accompagnement vocal, corporel et instrumental à partir d'un extrait sonore",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-034": {
+   "short": "Produire une image fixe ou animée, à l'aide d'un support choisi",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-035": {
+   "short": "Mettre des volumes en œuvre",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-036": {
+   "short": "Organiser la préparation d'une représentation (répétitions, filages, répétition générale…)",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-037": {
+   "short": "En petits groupes, interpréter des accompagnements vocaux/corporels/instrumentaux d'une chanson/extrait d'ici/d'ailleurs",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-038": {
+   "short": "Mettre en valeur une production individuelle en proposant un dispositif de présentation",
+   "twin": null,
+   "type": "SF"
+  },
+  "ECA-P6-039": {
+   "short": "Explorer d'autres lieux, œuvres et objets culturels d'ici et d'ailleurs",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-040": {
+   "short": "Mettre en œuvre, dans une courte création, les fondamentaux abordés durant l'année",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-041": {
+   "short": "Résister aux attirances sonores (autres voix) dans des chansons polyphoniques simples à deux voix et des chœurs parlés",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-042": {
+   "short": "Exemplifier les fondamentaux d'une image fixe ou animée (formes, rythmes, mouvements, lumière…) et les volumes",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-043": {
+   "short": "Interroger le sens et l'origine d'une œuvre, d'un lieu, d'un objet culturel",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-044": {
+   "short": "S'exprimer corporellement en tenant compte des fondamentaux abordés durant l'année",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-045": {
+   "short": "S'exprimer au travers d'un jeu masqué",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-046": {
+   "short": "Réaliser en petits groupes, guidé par l'adulte, des productions vocales/corporelles/instrumentales, support numérique au choix",
+   "twin": null,
+   "type": "C"
+  },
+  "ECA-P6-047": {
+   "short": "Élaborer des images fixes et/ou animées à l'aide d'outils, de supports, de gestes et de techniques variées",
+   "twin": null,
+   "type": "C"
+  }
+ },
+ "reperes": [
+  {
+   "title": "Repères culturels et artistiques P5 — consignes de sélection",
+   "text": "Les repères proposés participent à la construction des savoirs, savoir-faire et compétences de l'année (p. 45). Exploiter au moins un exemple pour chacune des trois rubriques (traces du passé / patrimoine immatériel / mythe ou légende). Sélectionner au moins un exemple par mode d'expression. En expression musicale, choisir au moins une référence pour l'écoute et une pour l'expression.",
+   "page": 46
+  },
+  {
+   "title": "Repères P5 — Découvrir : des traces du passé",
+   "text": "Des traces du passé (par ex : vestiges archéologiques, ruines, site de fouilles…).",
+   "page": 46
+  },
+  {
+   "title": "Repères P5 — Découvrir : un patrimoine immatériel d'ici et d'ailleurs",
+   "text": "Un des patrimoines immatériels d'ici et d'ailleurs, par ex : fêtes et évènements (fête de quartier, commémoration…) ; traditions et coutumes (carnavals, procession, ducasse…) ; croyances et rituels (communion, Ramadan, les moulins à prières, les fêtes laïques…) ; savoir-faire, artisanat (céramique, pêche aux crevettes, chocolaterie…).",
+   "page": 46
+  },
+  {
+   "title": "Repères P5 — Découvrir : un mythe ou une légende d'ici ou d'ailleurs",
+   "text": "Un mythe ou une légende d'ici ou d'ailleurs, par ex : la Gadale, le cheval Bayard, la Louve, Dédale et Icare, Œdipe, Tristan et Yseult, Dracula.",
+   "page": 46
+  },
+  {
+   "title": "Repères P5 — Expression française et corporelle",
+   "text": "Œuvres issues du théâtre « Jeune Public ». Œuvres issues de la danse « Jeune Public ».",
+   "page": 46
+  },
+  {
+   "title": "Repères P5 — Expression musicale : écoute",
+   "text": "Notamment en lien avec S2 (membranophones/idiophones), par ex : « Stomp » ; « Batucada brésilienne », percussions africaines, beatbox ; « Casse-noisette, danse de la fée dragée », P. Tchaikovski…",
+   "page": 46
+  },
+  {
+   "title": "Repères P5 — Expression musicale : expression",
+   "text": "Notamment en lien avec S2, par ex : chants à thèmes (« African Tour », F. Cabrel ; « Je suis un homme », Zazie ; « Lily », P. Perret ; « Pour les enfants du monde entier », Y. Duteil ; « Il en faut peu pour être heureux » et « Akuna matata », Disney…) ; répertoire musical lié au quotidien des élèves…",
+   "page": 46
+  },
+  {
+   "title": "Repères P5 — Expression plastique",
+   "text": "De la lumière dans l'art (par ex : l'art gothique, l'impressionnisme, Le Caravage, Rembrandt, J. Vermeer, A.V. Janssens, G. de La Tour…). La photographie (par ex : M. Parr, R. Doisneau, H. Cartier-Bresson, E. Muybridge, Y. Arthus-Bertrand…). Le cinéma (par ex : G. Méliès, F.W. Murnau, extraits du cinéma muet et hollywoodien…).",
+   "page": 46
+  },
+  {
+   "title": "Repères culturels et artistiques P6 — consignes de sélection",
+   "text": "Les repères proposés participent à la construction des savoirs, savoir-faire et compétences de l'année (p. 51). Exploiter au moins un exemple pour chacune des deux rubriques (lieu de culture / patrimoine matériel). Sélectionner au moins un exemple par mode d'expression. En expression musicale, choisir au moins une référence pour l'écoute et une pour l'expression.",
+   "page": 52
+  },
+  {
+   "title": "Repères P6 — Découvrir : un lieu de culture",
+   "text": "Un lieu de culture complétant le panel des lieux de culture déjà observés et/ou approfondissant un type de lieu.",
+   "page": 52
+  },
+  {
+   "title": "Repères P6 — Découvrir : un patrimoine matériel d'ici et d'ailleurs",
+   "text": "Pour « l'ici » : voir liste en P3 (p. 36 : Atomium, Grand-Place de Bruxelles, Bruges, Gare de Liège, Cathédrale de Tournai, Ascenseur à bateaux, site minier…). Pour « l'ailleurs », par ex : Pyramides (Le Caire), Taj Mahal, Muraille de Chine, Christ à Rio, Tour de Londres, Place Rouge, Machu Picchu, Colisée, Vénus de Milo, David de Michel-Ange, Sphinx, Fontaine de Trevi…",
+   "page": 52
+  },
+  {
+   "title": "Repères P6 — Expression française et corporelle",
+   "text": "Œuvres issues du théâtre « Jeune Public ». Le théâtre d'ombres, le jeu masqué (grec, chinois…). Danses du monde (par ex : orientale, africaine, tribale, Haka…).",
+   "page": 52
+  },
+  {
+   "title": "Repères P6 — Expression musicale : écoute",
+   "text": "Notamment en lien avec S2 (couleurs/timbres), par ex : « Young Person's Guide to the Orchestra », B. Britten ; « Air de la reine de la nuit », W.A. Mozart ; « 5e Symphonie », L. Beethoven ; « Symphonie des jouets », L. Mozart ; « Demonstrates the Power of the Pentatonic Scale », B. McFerrin ; « Duo des chats » (air pour deux sopranos), G. Rossini ; « Barocco Andino » ; « Stripsody », C. Berberian…",
+   "page": 52
+  },
+  {
+   "title": "Repères P6 — Expression musicale : expression (dont La Brabançonne)",
+   "text": "La Brabançonne (seule référence citée sans « par ex »). Notamment en lien avec SF2 et C2, par ex : « Échauffement, vocalises » (film « Sister Act ») ; « Vois sur ton chemin » (film « Les Choristes ») ; « Le lion est mort ce soir », H. Salvador ; « À la foire de l'Est », A. Branduardi (ritournelle) ; « Ensemble », J.-J. Goldman (canon) ; chansons traditionnelles africaines à deux voix ; répertoire musical lié au quotidien des élèves…",
+   "page": 52
+  },
+  {
+   "title": "Repères P6 — Expression plastique",
+   "text": "L'agrandissement/la réduction (par ex : Murakami, C. Oldenburg, I. Cordal…). Le volume en architecture (par ex : pyramides égyptiennes, pyramides précolombiennes, buildings, opéra de Sydney…). L'animation (par ex : M. Satrapi, Picha, M. Ocelot, S. Halleux…).",
+   "page": 52
+  }
+ ],
+ "notes": [
+  "Jumeaux : aucun. Les 46 attendus P5 et les 47 attendus P6 sont tous distincts (contrôle manuel des quasi-doublons : ECA-P5-025/ECA-P6-024 — la P6 supprime la liste « (échauffement, respiration, posture, pose de la voix, prononciation, justesse mélodique) » et passe de « des » à « les techniques vocales » ; ECA-P5-043/ECA-P6-043 — « Interroger collectivement » (P5) vs « Interroger » (P6) ; ECA-P5-003/ECA-P6-003 — « Différencier » vs « Expliquer » ; ECA-P5-033/ECA-P6-033 — « Accompagner … ou » vs « Proposer un accompagnement … et » ; ECA-P5-031/ECA-P6-030 — « établir » vs « expliquer des liens interdisciplinaires »). Tous les P6 sont donc des items propres (twin = null partout).",
+  "Domaines : la répartition suit la colonne `mode` de l'inventaire (Transversal → culture, EFC → corp, MUS → mus, PLA → pla). ECA-P5-011 (genres de jeux et de danses, contenu « Couleurs/Timbres ») est en Expression française et corporelle, ECA-P5-041 (chœurs parlés, C2) en Expression musicale, conformément au référentiel.",
+  "Short > 120 caractères toléré pour ECA-P6-023 (128) afin de garder « proposer une phrase dansée », « parties initiatrices », « contacts » et « synchroniser mouvement et univers sonore » ; la précision « dans une courte chorégraphie ou une courte scène jouée » reste dans le texte intégral.",
+  "Shorts < 40 caractères conservés tels quels parce que l'attendu lui-même est court et qu'aucun ajout n'est permis : ECA-P5-003 (38), ECA-P5-018 (32), ECA-P5-019 (32), ECA-P6-003 (35), ECA-P6-021 (31), ECA-P6-022 (27), ECA-P6-035 (27), ECA-P6-045 (37).",
+  "Pistes CECP (6 séquences, 81 rattachements automatiques, tous à score 1.0) : aucun rattachement erroné trouvé. Codes rattachés à plusieurs attendus (ECA188, 193, 195, 196, 226, 245) : le second candidat est toujours < 0.9 et n'a pas été retenu par le matching — correct. Un seul code non rattaché, P5:ECA183 « Distinguer la pulsation et le rythme » (score 0.67 à cause de « Différencier » dans le référentiel) → pistes_add sur ECA-P5-003 (séquence « Revisiter une chanson contemporaine », p. 246).",
+  "Coquille du CECP P5 : la séquence plastique « Revisiter une peinture » (p. 286) cite « ECA216 » avec le texte « Réaliser la mise en valeur d'une production individuelle ou collective » (= ECA-P5-038, code déduit ECA218), alors que « Revisiter un film » (p. 270) cite ECA216 avec le texte correct d'ECA-P5-036 (vérifié dans sources/CECP_P5.txt lignes 26642 et 28355). Conséquence : (a) pistes_add sur ECA-P5-038 avec le code ECA216 restreint à la séquence « Revisiter une peinture » (champs title/page fournis) ; (b) pour ECA-P5-036, seule la piste « Revisiter un film » est pertinente — la piste « Revisiter une peinture » portée par le même code P5:ECA216 est à ignorer si l'orchestrateur peut filtrer par séquence (pistes_remove ne permettant pas de retirer une seule des deux séquences d'un même code, il n'a pas été utilisé).",
+  "Codes CECP « déduits » (aucune séquence CECP ne les cite, donc aucune piste) : ECA181, 182, 186, 187, 191, 198, 200, 201, 207, 218 (P5) ; ECA230, 235, 238, 242, 265, 266, 271 (P6).",
+  "Repères : les 15 entrées reprennent rubrique par rubrique les pages 46 (P5) et 52 (P6) ; ce sont des cadrages enseignant, non cochables. La liste « l'ici » du patrimoine matériel P6 renvoie à la P3 (p. 36) : elle a été recopiée pour éviter le renvoi. La Brabançonne est la seule référence P6 citée sans « par ex »."
+ ]
+}

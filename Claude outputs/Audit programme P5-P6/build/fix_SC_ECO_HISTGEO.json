@@ -1,0 +1,22 @@
+{
+  "shorts": {
+    "HIST-P5-002": "Nommer et situer par rapport aux moments clés les 5 ruptures : Néolithique, Romanisation, croissance économique médiévale, industrialisation, Après-Guerre",
+    "HIST-P5-009": "Énoncer un changement et une continuité (produire/consommer) entre seigneuries et villes (XIe-XIVe s.) et patronat, monde ouvrier et monde rural (XIXe-début XXe s.)",
+    "HIST-P5-013": "Dater les 5 faits marquants P5 (premiers agriculteurs, conquête romaine, Chartes de franchises, 1re ligne de chemin de fer, Deuxième Guerre mondiale)",
+    "HIST-P5-020": "Lire un graphique évolutif (linéaire/bâtonnets) pour identifier une tendance (hausse, baisse, stagnation) d'un phénomène lié au thème de l'année",
+    "HIST-P6-013": "Lier un savoir culturel (patrimoine, Charlemagne, Colomb, Bois-du-Cazier, acteur de l'immigration) à un moment clé et à une période conventionnelle"
+  },
+  "untwin": [],
+  "move": [],
+  "notes": [
+    "SC (119 items) : aucun écart de sens. Les listes ajoutées entre parenthèses dans SC-P5-026 (fécondation, naissance, croissance, mort) et SC-P5-034 (pollinisation, fécondation, fructification, germination, croissance, mort) proviennent bien de la colonne Savoirs du référentiel (p. 58-59) : ce n'est pas un ajout. SC-P6-028 et SC-P6-029 dépassent 130 caractères mais condensent des attendus à 3-4 sous-points ; conservés tels quels. Le jumeau P6 de SC-P5-025 est strictement identique.",
+    "ECO (21 items) : aucun écart de sens. ECO-P5-009, ECO-P6-006 et ECO-P6-010 sont longs (>130) parce que l'officiel l'est ; rien d'illustratif n'y est gardé inutilement, conservés. Les sous-sections correspondent aux intitulés du référentiel (pp. 126-128).",
+    "HIST-P5-002 : « croissance médiévale » ne reprend pas le nom officiel de la rupture « Croissance économique médiévale » (p. 52) ; corrigé. Les 5 périodes (HIST-P5-001), les bornes P6 (vers 3500 av. J.-C., 476, 1492, 1789), les 4 ruptures P6, les moments clés et leurs dates (env. 50 av. J.-C., Ve-Xe s., XIe-XIVe s., XIXe-début XXe s., 1945-1975 / 1945 à nos jours), les faits marquants et les savoirs culturels ont été vérifiés un à un contre le référentiel pp. 52-57 : exacts.",
+    "HIST-P5-009 : le moment clé 4 couvre « du XIXe siècle au début du XXe siècle » (p. 53) ; l'abrégé le réduisait à « XIXe s. » alors que HIST-P5-010 donne la fourchette complète ; harmonisé.",
+    "HIST-P5-013 : « 1939-1945 » figurait seul, sans nom de fait ; remplacé par le nom officiel (Deuxième Guerre mondiale), et « chemin de fer 1835 » aligné sur « 1re ligne de chemin de fer » pour ne plus mélanger noms et dates dans un attendu qui demande justement de dater.",
+    "HIST-P5-020 : « un phénomène de l'année » déformait « un phénomène en lien avec la thématique de l'année » ; corrigé.",
+    "HIST-P6-013 : « période » seul perdait le terme technique « période conventionnelle » (gardé dans HIST-P5-015) ; rétabli.",
+    "GEO (40 items) : aucun écart. Les compléments chiffrés et les listes (8 directions, 10 provinces, 4 pays limitrophes, Alpes/Pyrénées/Caucase, 3 réseaux, Bruxelles-Gand-Anvers-Louvain + Sillon Sambre-et-Meuse, 7 éléments hydrographiques, 6 continents, 5 océans, parallèles/repères, 3 zones thermiques, zones d'Europe, conséquences du réchauffement, « 2021, à mettre à jour ») correspondent exactement aux colonnes Savoirs pp. 88-91.",
+    "Aucun item à déjumeler ni à déplacer dans les trois disciplines."
+  ]
+}

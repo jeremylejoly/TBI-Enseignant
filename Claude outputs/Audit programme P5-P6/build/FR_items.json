@@ -1,0 +1,1914 @@
+{
+ "domains": [
+  {
+   "key": "orienter",
+   "icon": "🧭",
+   "title": "Orienter sa prise de parole, son écoute, sa lecture, son écrit",
+   "subsections": [
+    {
+     "title": "Savoirs — Composantes de la situation de communication, paratexte, intentions, supports, niveaux de langue",
+     "items": [
+      "FR-P5-001",
+      "FR-P5-002",
+      "FR-P5-003",
+      "FR-P6-003",
+      "FR-P5-004",
+      "FR-P5-005",
+      "FR-P5-006"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Tenir compte des paramètres, assigner un but à sa lecture/écoute, planifier, modalités de lecture",
+     "items": [
+      "FR-P5-052",
+      "FR-P5-053",
+      "FR-P6-050",
+      "FR-P5-054",
+      "FR-P5-055",
+      "FR-P5-056",
+      "FR-P5-057",
+      "FR-P5-058",
+      "FR-P5-059",
+      "FR-P5-060",
+      "FR-P6-057"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "lexique",
+   "icon": "📚",
+   "title": "Lexique et orthographe lexicale (Construire un message significatif · Traiter/utiliser les unités lexicales)",
+   "subsections": [
+    {
+     "title": "Savoirs — Lexique spécifique et construction des mots (morphologie, orthographe lexicale)",
+     "items": [
+      "FR-P5-009",
+      "FR-P5-010",
+      "FR-P6-010",
+      "FR-P5-011",
+      "FR-P6-012",
+      "FR-P5-012",
+      "FR-P5-013"
+     ]
+    },
+    {
+     "title": "Savoirs — Relations sémantiques entre les mots",
+     "items": [
+      "FR-P5-014",
+      "FR-P5-015",
+      "FR-P5-016"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Observer la langue, orthographe lexicale, homonymes",
+     "items": [
+      "FR-P5-119",
+      "FR-P5-120",
+      "FR-P5-121",
+      "FR-P6-121",
+      "FR-P5-122",
+      "FR-P5-123",
+      "FR-P5-124",
+      "FR-P6-124",
+      "FR-P5-125",
+      "FR-P5-126"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Utiliser le lexique",
+     "items": [
+      "FR-P5-127",
+      "FR-P5-128",
+      "FR-P5-129",
+      "FR-P5-130",
+      "FR-P5-131",
+      "FR-P5-132",
+      "FR-P5-133"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "grammaire",
+   "icon": "✏️",
+   "title": "Grammaire, conjugaison et orthographe grammaticale (Construire un message significatif · Traiter/utiliser les unités grammaticales)",
+   "subsections": [
+    {
+     "title": "Savoirs — Facteurs de cohérence, terminologie grammaticale, classes de mots, phrase simple et fonctions",
+     "items": [
+      "FR-P5-017",
+      "FR-P5-018",
+      "FR-P5-019",
+      "FR-P5-030",
+      "FR-P5-031"
+     ]
+    },
+    {
+     "title": "Savoirs — Orthographe grammaticale : pluriel, féminin, adverbes",
+     "items": [
+      "FR-P5-020",
+      "FR-P5-021",
+      "FR-P5-022",
+      "FR-P5-023",
+      "FR-P6-020",
+      "FR-P5-024"
+     ]
+    },
+    {
+     "title": "Savoirs — Conjugaison : accord du participe passé, modes et temps, verbes",
+     "items": [
+      "FR-P5-025",
+      "FR-P5-026",
+      "FR-P6-023",
+      "FR-P5-027",
+      "FR-P5-028",
+      "FR-P5-029",
+      "FR-P6-026"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Phrase, ponctuation, classes de mots, régularités, fonctions",
+     "items": [
+      "FR-P5-134",
+      "FR-P5-135",
+      "FR-P5-061",
+      "FR-P6-058",
+      "FR-P5-136",
+      "FR-P5-137",
+      "FR-P5-138",
+      "FR-P5-139",
+      "FR-P5-156"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Prendre appui sur les indices grammaticaux pour construire le sens (lire, écouter)",
+     "items": [
+      "FR-P5-140",
+      "FR-P5-141",
+      "FR-P5-142",
+      "FR-P6-139",
+      "FR-P5-143",
+      "FR-P5-144",
+      "FR-P5-145",
+      "FR-P5-146",
+      "FR-P5-147"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Conjuguer",
+     "items": [
+      "FR-P5-148",
+      "FR-P6-145",
+      "FR-P5-149"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Utiliser les règles d'orthographe grammaticale, raisonnement grammatical, cohérence temporelle",
+     "items": [
+      "FR-P5-150",
+      "FR-P5-151",
+      "FR-P5-152",
+      "FR-P5-153",
+      "FR-P5-154",
+      "FR-P5-155",
+      "FR-P5-157",
+      "FR-P5-158"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "lire",
+   "icon": "📖",
+   "title": "Lire et écouter — construire du sens à l'aide de stratégies, interpréter, culture littéraire et pratique de lecteur",
+   "subsections": [
+    {
+     "title": "Savoirs — Supports (appel de note, hyperlien), lecture à haute voix, stratégies de compréhension et d'interprétation, modalités de lecture",
+     "items": [
+      "FR-P5-007",
+      "FR-P5-008",
+      "FR-P5-032",
+      "FR-P5-041",
+      "FR-P5-042",
+      "FR-P5-043",
+      "FR-P5-044"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Fluence et contrôle de la compréhension",
+     "items": [
+      "FR-P5-062",
+      "FR-P6-059",
+      "FR-P5-075",
+      "FR-P5-076"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Représentation mentale, hypothèses, informations explicites, inférences",
+     "items": [
+      "FR-P5-077",
+      "FR-P5-078",
+      "FR-P5-079",
+      "FR-P5-080",
+      "FR-P5-081",
+      "FR-P5-082",
+      "FR-P5-083",
+      "FR-P5-084",
+      "FR-P5-085"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Sens global, réel/imaginaire, texte et illustrations, droits du texte",
+     "items": [
+      "FR-P5-086",
+      "FR-P5-087",
+      "FR-P5-088",
+      "FR-P5-089",
+      "FR-P5-090",
+      "FR-P5-091",
+      "FR-P5-092",
+      "FR-P5-093",
+      "FR-P5-094"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Lecture participative et lecture distanciée",
+     "items": [
+      "FR-P5-095",
+      "FR-P5-096",
+      "FR-P5-097",
+      "FR-P5-098",
+      "FR-P5-099",
+      "FR-P5-100",
+      "FR-P5-101",
+      "FR-P5-102",
+      "FR-P5-103",
+      "FR-P5-104",
+      "FR-P5-105"
+     ]
+    },
+    {
+     "title": "Compétences LIRE — Manifester et expliciter sa compréhension d'un document",
+     "items": [
+      "FR-P5-217",
+      "FR-P6-215",
+      "FR-P5-218",
+      "FR-P5-219",
+      "FR-P5-220",
+      "FR-P5-221",
+      "FR-P5-222",
+      "FR-P5-223"
+     ]
+    },
+    {
+     "title": "Savoirs — Culture littéraire et procédés des autrices et auteurs",
+     "items": [
+      "FR-P5-049",
+      "FR-P5-050",
+      "FR-P5-051"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Élargir sa connaissance du monde (apprendre à apprendre), se construire une identité de lecteur",
+     "items": [
+      "FR-P5-186",
+      "FR-P5-187",
+      "FR-P5-188",
+      "FR-P5-189",
+      "FR-P5-190",
+      "FR-P5-191",
+      "FR-P5-192"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Réfléchir à sa pratique de lecteur, porter un jugement critique sur un document",
+     "items": [
+      "FR-P5-193",
+      "FR-P5-194",
+      "FR-P5-195",
+      "FR-P5-196",
+      "FR-P5-197",
+      "FR-P5-198",
+      "FR-P5-199",
+      "FR-P5-200",
+      "FR-P5-201",
+      "FR-P5-202"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "coherence",
+   "icon": "🧩",
+   "title": "Dégager et assurer la cohérence du message/texte — genres, structures, reprises d'information",
+   "subsections": [
+    {
+     "title": "Savoir et savoir-faire — Structures textuelles, identifier le genre d'un message entendu ou d'un texte, organisateurs textuels, paratexte",
+     "items": [
+      "FR-P5-048",
+      "FR-P5-106",
+      "FR-P5-107",
+      "FR-P5-108",
+      "FR-P6-108",
+      "FR-P5-109",
+      "FR-P5-110",
+      "FR-P5-111"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Organiser un message selon une structure dominante, connecteurs, cohérence temporelle, reprises d'information",
+     "items": [
+      "FR-P5-112",
+      "FR-P5-113",
+      "FR-P5-114",
+      "FR-P5-115",
+      "FR-P5-116",
+      "FR-P5-117",
+      "FR-P6-117",
+      "FR-P5-118",
+      "FR-P6-118"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "ecrire",
+   "icon": "✍️",
+   "title": "Écrire — production d'écrits, écrits réflexifs, révision et correction",
+   "subsections": [
+    {
+     "title": "Savoir et savoir-faire — Composantes de la production d'écrits, écrits réflexifs, prise de notes (P6)",
+     "items": [
+      "FR-P5-045",
+      "FR-P5-065",
+      "FR-P5-066",
+      "FR-P5-067",
+      "FR-P5-068",
+      "FR-P5-069",
+      "FR-P6-104",
+      "FR-P6-105"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Réviser, corriger et présenter sa production écrite",
+     "items": [
+      "FR-P5-207",
+      "FR-P6-205",
+      "FR-P5-208",
+      "FR-P5-209",
+      "FR-P5-210",
+      "FR-P5-178",
+      "FR-P5-179"
+     ]
+    },
+    {
+     "title": "Compétences ÉCRIRE — Produire un écrit, expliciter les composantes de sa production",
+     "items": [
+      "FR-P5-224",
+      "FR-P6-222",
+      "FR-P5-225"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "oral",
+   "icon": "🗣️",
+   "title": "Parler et écouter — prise de parole, interaction, écoute",
+   "subsections": [
+    {
+     "title": "Savoirs — S'adapter à la situation d'écoute et de parole, paramètres de la voix et du corps, étapes de la prise de parole, freins et facilitateurs",
+     "items": [
+      "FR-P5-033",
+      "FR-P5-034",
+      "FR-P5-035",
+      "FR-P5-036",
+      "FR-P5-037",
+      "FR-P6-034",
+      "FR-P5-038",
+      "FR-P5-039",
+      "FR-P5-040",
+      "FR-P5-046",
+      "FR-P5-047"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Structurer sa pensée à l'oral, construire sa prise de parole spontanée ou préparée",
+     "items": [
+      "FR-P5-063",
+      "FR-P5-064",
+      "FR-P5-070",
+      "FR-P5-071",
+      "FR-P6-069",
+      "FR-P5-072",
+      "FR-P5-073",
+      "FR-P5-074"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Structurer sa prise de parole préparée, rendre son message audible et intelligible",
+     "items": [
+      "FR-P5-159",
+      "FR-P5-160",
+      "FR-P5-161",
+      "FR-P5-162",
+      "FR-P5-163",
+      "FR-P5-164",
+      "FR-P5-165",
+      "FR-P5-166",
+      "FR-P5-167",
+      "FR-P5-168"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Respecter les règles de prise de parole, interagir avec autrui",
+     "items": [
+      "FR-P5-169",
+      "FR-P5-170",
+      "FR-P5-171",
+      "FR-P5-172",
+      "FR-P5-173",
+      "FR-P5-174",
+      "FR-P6-171",
+      "FR-P5-180",
+      "FR-P5-181",
+      "FR-P5-182",
+      "FR-P5-183",
+      "FR-P5-184",
+      "FR-P5-185",
+      "FR-P6-183"
+     ]
+    },
+    {
+     "title": "Savoir-faire — Appliquer des règles d'écoute, évaluer sa prise de parole et son écoute",
+     "items": [
+      "FR-P5-175",
+      "FR-P5-176",
+      "FR-P5-177",
+      "FR-P5-203",
+      "FR-P5-204",
+      "FR-P5-205",
+      "FR-P6-203",
+      "FR-P5-206"
+     ]
+    },
+    {
+     "title": "Compétences ÉCOUTER — Manifester sa compréhension d'un message entendu, écouter dans une situation d'échanges",
+     "items": [
+      "FR-P5-211",
+      "FR-P6-209",
+      "FR-P5-212",
+      "FR-P6-210",
+      "FR-P5-213",
+      "FR-P6-211",
+      "FR-P5-214",
+      "FR-P6-212",
+      "FR-P5-215",
+      "FR-P5-216"
+     ]
+    },
+    {
+     "title": "Compétences PARLER — Restituer, produire/élaborer un message, interagir avec autrui",
+     "items": [
+      "FR-P5-226",
+      "FR-P5-227",
+      "FR-P6-225",
+      "FR-P5-228",
+      "FR-P5-229",
+      "FR-P6-227",
+      "FR-P5-230"
+     ]
+    }
+   ]
+  }
+ ],
+ "items": {
+  "FR-P5-001": {
+   "short": "Citer les paramètres de la communication : énonciateur, destinataire, intention, message, contexte, niveaux de langue",
+   "twin": "FR-P6-001",
+   "type": "S"
+  },
+  "FR-P5-002": {
+   "short": "Repérer la diversité des interlocuteurs : connu/inconnu, familier/non, un/plusieurs, âge, d'ici/d'ailleurs",
+   "twin": "FR-P6-002",
+   "type": "S"
+  },
+  "FR-P5-003": {
+   "short": "Désigner la maison d'édition, la collection, le sommaire ou la table des matières (paratexte)",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P6-003": {
+   "short": "Désigner la bibliographie de l'auteur, la langue d'origine (traduction), la date de l'édition (paratexte)",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-004": {
+   "short": "Connaitre les intentions : informer ; donner du plaisir/susciter des émotions ; enjoindre ; persuader/convaincre",
+   "twin": "FR-P6-004",
+   "type": "S"
+  },
+  "FR-P5-005": {
+   "short": "Identifier le type de support utilisé (papier ou numérique) et les sources d'un document",
+   "twin": "FR-P6-005",
+   "type": "S"
+  },
+  "FR-P5-006": {
+   "short": "Connaitre les caractéristiques des niveaux de langue familier, courant et soutenu",
+   "twin": "FR-P6-006",
+   "type": "S"
+  },
+  "FR-P5-052": {
+   "short": "Identifier énonciateur, destinataire, intention, message, contexte pour planifier sa prise de parole, écoute, lecture, écrit",
+   "twin": "FR-P6-049",
+   "type": "SF"
+  },
+  "FR-P5-053": {
+   "short": "Tenir compte du niveau de langue (familier, courant, soutenu)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-050": {
+   "short": "Adapter / tenir compte du niveau de langue (familier, courant, soutenu)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-054": {
+   "short": "S'adapter à la diversité des interlocuteurs : connu/inconnu, familier/non, un/plusieurs, âge, d'ici/d'ailleurs",
+   "twin": "FR-P6-051",
+   "type": "SF"
+  },
+  "FR-P5-055": {
+   "short": "Déterminer un but d'écoute selon l'intention précisée",
+   "twin": "FR-P6-052",
+   "type": "SF"
+  },
+  "FR-P5-056": {
+   "short": "Utiliser les termes du support de lecture comme indices pour anticiper le contenu d'un document",
+   "twin": "FR-P6-053",
+   "type": "SF"
+  },
+  "FR-P5-057": {
+   "short": "Mobiliser ses connaissances préalables sur l'auteur, le sujet et le genre du texte",
+   "twin": "FR-P6-054",
+   "type": "SF"
+  },
+  "FR-P5-058": {
+   "short": "Rassembler ses idées et les grouper par blocs de sens selon la structure textuelle à produire",
+   "twin": "FR-P6-055",
+   "type": "SF"
+  },
+  "FR-P5-059": {
+   "short": "Tenir compte des freins et des facilitateurs de la communication (planifier son message)",
+   "twin": "FR-P6-056",
+   "type": "SF"
+  },
+  "FR-P5-060": {
+   "short": "Maitriser les techniques de la lecture : détaillée ; de survol (globale) ; sélective ; intégrale",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-057": {
+   "short": "Alterner les techniques de la lecture : détaillée ; de survol (globale) ; sélective ; intégrale",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-009": {
+   "short": "Connaitre et comprendre les mots du lexique spécifique à une thématique ou à un champ disciplinaire",
+   "twin": "FR-P6-009",
+   "type": "S"
+  },
+  "FR-P5-010": {
+   "short": "Connaitre les notions de famille de mots, racine et préfixe",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P6-010": {
+   "short": "Connaitre les notions de famille de mots, racine, préfixe et suffixe",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-011": {
+   "short": "Connaitre les procédés de construction des mots : dérivation ; composition (juxtaposé, soudé, trait d'union, connecteur)",
+   "twin": "FR-P6-011",
+   "type": "S"
+  },
+  "FR-P6-012": {
+   "short": "Connaitre les préfixes et leur impact sur le sens : in-/im-/il-/ir- (négation, « dans »), en- (« dans »), re- (« à nouveau »), dé-/dés- (séparation)",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-012": {
+   "short": "Connaitre les constantes orthographiques liées à l'emploi ou non de certains accents (a/à, ou/où…)",
+   "twin": "FR-P6-013",
+   "type": "S"
+  },
+  "FR-P5-013": {
+   "short": "Connaitre les règles de positions : c/ç ; g/ge ; g/gu ; s entre deux voyelles ; m devant p, b et m",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-014": {
+   "short": "Connaitre les notions de synonyme, antonyme, homonyme (homophone, homogramme), champ lexical, substitut lexical",
+   "twin": "FR-P6-014",
+   "type": "S"
+  },
+  "FR-P5-015": {
+   "short": "Connaitre des homogrammes et des homophones",
+   "twin": "FR-P6-015",
+   "type": "S"
+  },
+  "FR-P5-016": {
+   "short": "Connaitre les liens qui unissent un terme générique avec des termes spécifiques",
+   "twin": "FR-P6-016",
+   "type": "S"
+  },
+  "FR-P5-119": {
+   "short": "Repérer différences/similitudes morphologiques et sémantiques entre mots écrits (synonymes, antonymes, parties d'un tout, intensité, générique/spécifique)",
+   "twin": "FR-P6-119",
+   "type": "SF"
+  },
+  "FR-P5-120": {
+   "short": "Observer la construction des mots formés par composition et par dérivation",
+   "twin": "FR-P6-120",
+   "type": "SF"
+  },
+  "FR-P5-121": {
+   "short": "Justifier une particularité orthographique en s'appuyant sur le préfixe",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-121": {
+   "short": "Justifier une particularité orthographique en s'appuyant sur le préfixe ou le suffixe",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-122": {
+   "short": "Émettre des hypothèses sur le sens d'un mot inconnu à partir de sa forme et les vérifier",
+   "twin": "FR-P6-122",
+   "type": "SF"
+  },
+  "FR-P5-123": {
+   "short": "Émettre des hypothèses sur l'orthographe d'un mot inconnu et laisser une trace du doute pour la vérifier",
+   "twin": "FR-P6-123",
+   "type": "SF"
+  },
+  "FR-P5-124": {
+   "short": "Utiliser les éléments qui composent le mot (préfixe, racine) pour identifier ses différents sens",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-124": {
+   "short": "Utiliser les éléments qui composent le mot (préfixe, racine, suffixe) pour identifier ses différents sens",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-125": {
+   "short": "Prendre appui sur le contexte pour distinguer des homophones",
+   "twin": "FR-P6-125",
+   "type": "SF"
+  },
+  "FR-P5-126": {
+   "short": "Prendre appui sur le contexte pour distinguer des homogrammes",
+   "twin": "FR-P6-126",
+   "type": "SF"
+  },
+  "FR-P5-127": {
+   "short": "Utiliser, selon la situation de communication, les mots du lexique spécifique à une thématique ou un champ disciplinaire",
+   "twin": "FR-P6-127",
+   "type": "SF"
+  },
+  "FR-P5-128": {
+   "short": "Réinvestir de nouveaux mots et expressions émergés en classe (littérature de jeunesse, autres disciplines)",
+   "twin": "FR-P6-128",
+   "type": "SF"
+  },
+  "FR-P5-129": {
+   "short": "Utiliser des mots ou expressions qui modulent l'intensité des noms et des verbes",
+   "twin": "FR-P6-129",
+   "type": "SF"
+  },
+  "FR-P5-130": {
+   "short": "Utiliser des mots et expressions qui marquent la négation, la certitude, la probabilité",
+   "twin": "FR-P6-130",
+   "type": "SF"
+  },
+  "FR-P5-131": {
+   "short": "Remplacer un mot par un mot du même champ lexical",
+   "twin": "FR-P6-131",
+   "type": "SF"
+  },
+  "FR-P5-132": {
+   "short": "Remplacer un mot par un autre de même sens ou de sens contraire",
+   "twin": "FR-P6-132",
+   "type": "SF"
+  },
+  "FR-P5-133": {
+   "short": "Remplacer un mot générique par un spécifique ou l'inverse",
+   "twin": "FR-P6-133",
+   "type": "SF"
+  },
+  "FR-P5-017": {
+   "short": "Connaitre des connecteurs (opposition, conséquence, conclusion, synthèse) et les techniques de reprise de l'information (anaphorique)",
+   "twin": "FR-P6-017",
+   "type": "S"
+  },
+  "FR-P5-018": {
+   "short": "Connaitre les notions de classe, fonction, accord, genre, nombre, personne, substitut grammatical, anaphore, référent, mode, radical, terminaison, auxiliaire",
+   "twin": "FR-P6-018",
+   "type": "S"
+  },
+  "FR-P5-019": {
+   "short": "Connaitre les critères définissant la classe du déterminant (cardinal, indéfini), du pronom (démonstratif, possessif, numéral, indéfini), des connecteurs",
+   "twin": "FR-P6-019",
+   "type": "S"
+  },
+  "FR-P5-030": {
+   "short": "Connaitre les 3 constituants principaux de la phrase simple : groupe sujet ; groupe prédicat ; groupe CC de phrase",
+   "twin": "FR-P6-027",
+   "type": "S"
+  },
+  "FR-P5-031": {
+   "short": "Connaitre les critères pour identifier la fonction : sujet, prédicat, CC, CDV, CIV, complément du nom, attribut, épithète",
+   "twin": "FR-P6-028",
+   "type": "S"
+  },
+  "FR-P5-020": {
+   "short": "Connaitre la règle particulière de la formation du pluriel des noms et des adjectifs",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-021": {
+   "short": "Connaitre les exceptions aux règles de formation du pluriel des noms",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-022": {
+   "short": "Connaitre la règle particulière de la formation du féminin des noms et des adjectifs",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-023": {
+   "short": "Connaitre les règles générales de formation de l'adverbe",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P6-020": {
+   "short": "Connaitre la règle générale de formation de l'adverbe : adjectif au féminin + « -ment »",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-024": {
+   "short": "Connaitre les règles particulières de formation des adverbes",
+   "twin": "FR-P6-021",
+   "type": "S"
+  },
+  "FR-P5-025": {
+   "short": "Connaitre les règles générales d'accord du participe passé (sans auxiliaire, avec « avoir », avec « être » ; hors verbes pronominaux)",
+   "twin": "FR-P6-022",
+   "type": "S"
+  },
+  "FR-P5-026": {
+   "short": "Connaitre la conjugaison aux modes indicatif (passé simple) et impératif (présent)",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P6-023": {
+   "short": "Connaitre la conjugaison au mode indicatif : plus-que-parfait, futur antérieur, conditionnel passé",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-027": {
+   "short": "Connaitre l'infinitif",
+   "twin": "FR-P6-024",
+   "type": "S"
+  },
+  "FR-P5-028": {
+   "short": "Connaitre le participe présent et le participe passé",
+   "twin": "FR-P6-025",
+   "type": "S"
+  },
+  "FR-P5-029": {
+   "short": "Connaitre la conjugaison des verbes en -ER à variation du radical, en -IR (tous), en -(D)RE (participe présent en -dant), irréguliers (prendre, mettre, tenir, venir et dérivés, faire, dire, devoir, partir, pouvoir, savoir, voir, vouloir) et comme « ouvrir »",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P6-026": {
+   "short": "Connaitre la conjugaison des verbes en -ER avec variation du radical",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-134": {
+   "short": "Reconnaitre les 3 constituants d'une phrase simple : groupe sujet, groupe verbal (P6 : groupe prédicat), groupe CC de phrase",
+   "twin": "FR-P6-134",
+   "type": "SF"
+  },
+  "FR-P5-135": {
+   "short": "Respecter la structure des phrases simples dans une production écrite en utilisant la ponctuation adaptée",
+   "twin": "FR-P6-135",
+   "type": "SF"
+  },
+  "FR-P5-061": {
+   "short": "Utiliser toutes les marques de ponctuation dans une production personnelle",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-058": {
+   "short": "Utiliser toutes les marques de ponctuation apprises dans une production personnelle",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-136": {
+   "short": "Identifier la classe des mots dans une phrase : noms, verbes, déterminants (possessifs, démonstratifs, interrogatifs, exclamatifs, cardinaux, indéfinis), adjectifs, pronoms (personnels, démonstratifs, possessifs, numéraux, indéfinis), connecteurs, adverbes",
+   "twin": "FR-P6-136",
+   "type": "SF"
+  },
+  "FR-P5-137": {
+   "short": "Repérer des différences et des similitudes de formes dans des phrases écrites (à distance du contenu)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-138": {
+   "short": "Récolter des éléments en fonction de leurs similitudes pour constituer des groupes",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-139": {
+   "short": "Étiqueter les groupes (ex. : classe ou fonction) et les sous-groupes (ex. : pronom, attribut, épithète…)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-156": {
+   "short": "Identifier les fonctions des constituants de la phrase (voir savoirs)",
+   "twin": "FR-P6-153",
+   "type": "SF"
+  },
+  "FR-P5-140": {
+   "short": "Repérer et verbaliser les nuances des marques nominales : nombre (singulier/pluriel), genre (masculin/féminin)",
+   "twin": "FR-P6-137",
+   "type": "SF"
+  },
+  "FR-P5-141": {
+   "short": "Repérer et verbaliser les nuances des marques verbales (personne et nombre ; temps) dans le message entendu ou lu",
+   "twin": "FR-P6-138",
+   "type": "SF"
+  },
+  "FR-P5-142": {
+   "short": "Repérer les modes : infinitif, indicatif, impératif, participe",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-139": {
+   "short": "Repérer les modes : infinitif, indicatif, impératif, subjonctif, participe",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-143": {
+   "short": "Repérer les substituts grammaticaux et les substituts lexicaux",
+   "twin": "FR-P6-140",
+   "type": "SF"
+  },
+  "FR-P5-144": {
+   "short": "Repérer et verbaliser les nuances apportées par les marques de la négation",
+   "twin": "FR-P6-141",
+   "type": "SF"
+  },
+  "FR-P5-145": {
+   "short": "Repérer et verbaliser les nuances apportées par les marques de l'assertion, de l'interrogation, de l'injonction",
+   "twin": "FR-P6-142",
+   "type": "SF"
+  },
+  "FR-P5-146": {
+   "short": "Repérer les structures passives",
+   "twin": "FR-P6-143",
+   "type": "SF"
+  },
+  "FR-P5-147": {
+   "short": "Repérer les structures de mise en évidence",
+   "twin": "FR-P6-144",
+   "type": "SF"
+  },
+  "FR-P5-148": {
+   "short": "Conjuguer à toutes les personnes (verbes des savoirs) : indicatif présent, futur simple, futur proche, passé composé, conditionnel présent, imparfait, passé simple ; impératif présent",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-145": {
+   "short": "Conjuguer à toutes les personnes (verbes des savoirs) : les temps P5 + plus-que-parfait, futur antérieur, conditionnel passé, passé antérieur ; impératif présent",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-149": {
+   "short": "Distinguer le radical de la terminaison",
+   "twin": "FR-P6-146",
+   "type": "SF"
+  },
+  "FR-P5-150": {
+   "short": "Accorder le verbe avec le sujet",
+   "twin": "FR-P6-147",
+   "type": "SF"
+  },
+  "FR-P5-151": {
+   "short": "Appliquer les règles générales d'accord du participe",
+   "twin": "FR-P6-148",
+   "type": "SF"
+  },
+  "FR-P5-152": {
+   "short": "Accorder les déterminants et les adjectifs en genre et en nombre",
+   "twin": "FR-P6-149",
+   "type": "SF"
+  },
+  "FR-P5-153": {
+   "short": "Appliquer les règles particulières du pluriel des noms et des adjectifs (voir savoirs), y compris les exceptions",
+   "twin": "FR-P6-150",
+   "type": "SF"
+  },
+  "FR-P5-154": {
+   "short": "Appliquer les règles particulières de formation du féminin des noms et des adjectifs (voir savoirs)",
+   "twin": "FR-P6-151",
+   "type": "SF"
+  },
+  "FR-P5-155": {
+   "short": "Appliquer la règle générale et les règles particulières de formation des adverbes (voir savoirs)",
+   "twin": "FR-P6-152",
+   "type": "SF"
+  },
+  "FR-P5-157": {
+   "short": "Appliquer une procédure pour choisir une graphie (-é/-er, a/à…)",
+   "twin": "FR-P6-154",
+   "type": "SF"
+  },
+  "FR-P5-158": {
+   "short": "Utiliser les formes verbales assurant la construction grammaticale correcte des phrases et la cohérence temporelle",
+   "twin": "FR-P6-155",
+   "type": "SF"
+  },
+  "FR-P5-007": {
+   "short": "Connaitre le rôle de l'astérisque ou du chiffre dans un appel de note",
+   "twin": "FR-P6-007",
+   "type": "S"
+  },
+  "FR-P5-008": {
+   "short": "Connaitre la fonction d'un hyperlien",
+   "twin": "FR-P6-008",
+   "type": "S"
+  },
+  "FR-P5-032": {
+   "short": "Connaitre les principes de la lecture à haute voix : liaisons, intonation, temps de pause",
+   "twin": "FR-P6-029",
+   "type": "S"
+  },
+  "FR-P5-041": {
+   "short": "Nommer et décrire les 6 stratégies de compréhension : se créer des images, faire des hypothèses et les vérifier, résumer, retrouver des informations, lire entre les lignes, relier texte et illustrations",
+   "twin": "FR-P6-038",
+   "type": "S"
+  },
+  "FR-P5-042": {
+   "short": "Connaitre le rôle du contrôle de la compréhension",
+   "twin": "FR-P6-039",
+   "type": "S"
+  },
+  "FR-P5-043": {
+   "short": "Décrire les stratégies d'interprétation : lecture participative (émotionnelle), lecture distanciée (analytique), jugement critique",
+   "twin": "FR-P6-040",
+   "type": "S"
+  },
+  "FR-P5-044": {
+   "short": "Connaitre les caractéristiques de la lecture détaillée vs de survol (globale) ; sélective vs intégrale",
+   "twin": "FR-P6-041",
+   "type": "S"
+  },
+  "FR-P5-062": {
+   "short": "Lire avec exactitude, rapidité et expression un texte en s'approchant des 120 mots lus correctement par minute",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-059": {
+   "short": "Lire avec exactitude, rapidité et expression un texte en s'approchant des 130 mots lus correctement par minute",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-075": {
+   "short": "Détecter les pertes de compréhension et recourir à des stratégies pour y remédier",
+   "twin": "FR-P6-073",
+   "type": "SF"
+  },
+  "FR-P5-076": {
+   "short": "Passer d'un mode de lecture automatisé à un mode de lecture stratégique, contrôlé",
+   "twin": "FR-P6-074",
+   "type": "SF"
+  },
+  "FR-P5-077": {
+   "short": "Exprimer, par un moyen verbal ou non verbal (écrit, schéma…), la représentation mentale d'un document fourni par l'enseignant",
+   "twin": "FR-P6-075",
+   "type": "SF"
+  },
+  "FR-P5-078": {
+   "short": "Schématiser l'organisation des informations d'une page documentaire (papier ou numérique)",
+   "twin": "FR-P6-076",
+   "type": "SF"
+  },
+  "FR-P5-079": {
+   "short": "Formuler des hypothèses d'anticipation et d'interprétation et les vérifier",
+   "twin": "FR-P6-077",
+   "type": "SF"
+  },
+  "FR-P5-080": {
+   "short": "Mettre en relation le sens du texte avec son vécu",
+   "twin": "FR-P6-078",
+   "type": "SF"
+  },
+  "FR-P5-081": {
+   "short": "Confronter les significations construites personnellement au texte et à celles élaborées par les pairs",
+   "twin": "FR-P6-079",
+   "type": "SF"
+  },
+  "FR-P5-082": {
+   "short": "Repérer et reformuler des informations essentielles d'un écrit (papier ou numérique fourni par l'enseignant)",
+   "twin": "FR-P6-080",
+   "type": "SF"
+  },
+  "FR-P5-083": {
+   "short": "Déduire des informations implicites en reliant des informations explicites proches ou éloignées",
+   "twin": "FR-P6-081",
+   "type": "SF"
+  },
+  "FR-P5-084": {
+   "short": "Déduire des informations implicites en reliant des informations du texte et son vécu ou ses connaissances du monde",
+   "twin": "FR-P6-082",
+   "type": "SF"
+  },
+  "FR-P5-085": {
+   "short": "Inférer la pertinence du contenu d'un hyperlien par rapport à un but de lecture",
+   "twin": "FR-P6-083",
+   "type": "SF"
+  },
+  "FR-P5-086": {
+   "short": "Exprimer le sens global du document",
+   "twin": "FR-P6-084",
+   "type": "SF"
+  },
+  "FR-P5-087": {
+   "short": "Formuler les idées principales et les idées secondaires",
+   "twin": "FR-P6-085",
+   "type": "SF"
+  },
+  "FR-P5-088": {
+   "short": "Expliquer les liens existant entre les idées du texte (chronologiques, logiques)",
+   "twin": "FR-P6-086",
+   "type": "SF"
+  },
+  "FR-P5-089": {
+   "short": "Expliquer les liens entre les actions et les motivations des personnages",
+   "twin": "FR-P6-087",
+   "type": "SF"
+  },
+  "FR-P5-090": {
+   "short": "Intégrer des informations disséminées dans un ou plusieurs documents (papier ou numérique)",
+   "twin": "FR-P6-088",
+   "type": "SF"
+  },
+  "FR-P5-091": {
+   "short": "Reformuler ou exécuter un enchainement de trois consignes écrites",
+   "twin": "FR-P6-089",
+   "type": "SF"
+  },
+  "FR-P5-092": {
+   "short": "Dégager et reformuler les éléments réels, imaginaires, vraisemblables, invraisemblables",
+   "twin": "FR-P6-090",
+   "type": "SF"
+  },
+  "FR-P5-093": {
+   "short": "Décrire le lien entre le texte et les illustrations d'un écrit papier ou numérique",
+   "twin": "FR-P6-091",
+   "type": "SF"
+  },
+  "FR-P5-094": {
+   "short": "Construire le sens du message en restant fidèle au contenu lu (droits du texte)",
+   "twin": "FR-P6-092",
+   "type": "SF"
+  },
+  "FR-P5-095": {
+   "short": "Se mettre à la place d'un personnage (traits de caractère, valeurs, comportements)",
+   "twin": "FR-P6-093",
+   "type": "SF"
+  },
+  "FR-P5-096": {
+   "short": "Partager ses impressions, sentiments, appréciation, point de vue et les justifier par des procédés des autrices et auteurs",
+   "twin": "FR-P6-094",
+   "type": "SF"
+  },
+  "FR-P5-097": {
+   "short": "Relier des œuvres entre elles (mise en réseau) : comparer les variantes d'une même œuvre (conte → BD, roman → film…)",
+   "twin": "FR-P6-095",
+   "type": "SF"
+  },
+  "FR-P5-098": {
+   "short": "Dégager les valeurs défendues, le message véhiculé dans un document",
+   "twin": "FR-P6-096",
+   "type": "SF"
+  },
+  "FR-P5-099": {
+   "short": "Identifier le narrateur",
+   "twin": "FR-P6-097",
+   "type": "SF"
+  },
+  "FR-P5-100": {
+   "short": "Associer des valeurs et des intentions à un personnage",
+   "twin": "FR-P6-098",
+   "type": "SF"
+  },
+  "FR-P5-101": {
+   "short": "S'interroger sur l'intention de l'auteur",
+   "twin": "FR-P6-099",
+   "type": "SF"
+  },
+  "FR-P5-102": {
+   "short": "Déterminer si le point de vue de l'auteur est objectif ou subjectif",
+   "twin": "FR-P6-100",
+   "type": "SF"
+  },
+  "FR-P5-103": {
+   "short": "Distinguer les faits et les opinions",
+   "twin": "FR-P6-101",
+   "type": "SF"
+  },
+  "FR-P5-104": {
+   "short": "Déterminer comment la forme du texte (champs lexicaux, adjectifs, adverbes…) et les procédés des auteurs contribuent au sens",
+   "twin": "FR-P6-102",
+   "type": "SF"
+  },
+  "FR-P5-105": {
+   "short": "Comparer la vision du monde proposée dans un texte à sa vision personnelle",
+   "twin": "FR-P6-103",
+   "type": "SF"
+  },
+  "FR-P5-217": {
+   "short": "Manifester sa compréhension d'un document qui informe (questions, dessin, phrases, action) : implicite/explicite, connaissances mobilisées, intention, genre, liens, champ lexical, indices grammaticaux, fait/opinion, qualité de l'information et de la présentation",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-215": {
+   "short": "Manifester sa compréhension d'un document qui informe : mêmes éléments qu'en P5 + la comparaison critique de deux sources d'information différentes",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P5-218": {
+   "short": "Manifester sa compréhension d'un document qui persuade/convainc : implicite/explicite, émotion, intention, genre, liens logiques, indices grammaticaux, adhésion aux valeurs, fait/opinion",
+   "twin": "FR-P6-216",
+   "type": "C"
+  },
+  "FR-P5-219": {
+   "short": "Manifester sa compréhension d'un document qui enjoint : implicite/explicite, émotion, intention, genre, chronologie/logique, champ lexical, indices grammaticaux, valeurs, présentation visuelle ; exécuter 3 consignes écrites",
+   "twin": "FR-P6-217",
+   "type": "C"
+  },
+  "FR-P5-220": {
+   "short": "Manifester sa compréhension d'un document qui donne du plaisir/suscite des émotions : actions et motivations, empathie, genre, réel/imaginaire, procédés, jugement de gout motivé, mise en réseau, adhésion/refus des valeurs ; imaginer une suite cohérente",
+   "twin": "FR-P6-218",
+   "type": "C"
+  },
+  "FR-P5-221": {
+   "short": "Expliciter oralement les stratégies de compréhension mobilisées : prélever, inférer, hypothèses, texte/illustrations, sens global, représentation mentale",
+   "twin": "FR-P6-219",
+   "type": "C"
+  },
+  "FR-P5-222": {
+   "short": "Justifier oralement la pertinence du contenu d'un hyperlien par rapport à un but de lecture",
+   "twin": "FR-P6-220",
+   "type": "C"
+  },
+  "FR-P5-223": {
+   "short": "Détecter une perte de compréhension et réajuster celle-ci après une confrontation avec les pairs (lire)",
+   "twin": "FR-P6-221",
+   "type": "C"
+  },
+  "FR-P5-049": {
+   "short": "Connaitre des procédés langagiers et artistiques des autrices et auteurs découverts dans des supports de la classe",
+   "twin": "FR-P6-046",
+   "type": "S"
+  },
+  "FR-P5-050": {
+   "short": "Connaitre des œuvres du patrimoine littéraire (contes, légendes, fables…) rencontrées à l'école",
+   "twin": "FR-P6-047",
+   "type": "S"
+  },
+  "FR-P5-051": {
+   "short": "Connaitre des œuvres contemporaines marquantes pour la jeunesse rencontrées à l'école",
+   "twin": "FR-P6-048",
+   "type": "S"
+  },
+  "FR-P5-186": {
+   "short": "Intégrer de nouvelles informations à son réseau de connaissances et les verbaliser",
+   "twin": "FR-P6-184",
+   "type": "SF"
+  },
+  "FR-P5-187": {
+   "short": "Recourir à des sources documentaires pertinentes",
+   "twin": "FR-P6-185",
+   "type": "SF"
+  },
+  "FR-P5-188": {
+   "short": "Choisir un moyen de consigner des traces de ses apprentissages (schéma, notes, tableau, carnet de terrain)",
+   "twin": "FR-P6-186",
+   "type": "SF"
+  },
+  "FR-P5-189": {
+   "short": "Recourir à une diversité de sources",
+   "twin": "FR-P6-187",
+   "type": "SF"
+  },
+  "FR-P5-190": {
+   "short": "Recourir à des techniques et des outils de consultation (mots clés, moteur de recherche, index…)",
+   "twin": "FR-P6-188",
+   "type": "SF"
+  },
+  "FR-P5-191": {
+   "short": "Prendre appui sur ses connaissances culturelles (littéraire, scientifique, artistique…) pour justifier ses préférences (auteur, genres…)",
+   "twin": "FR-P6-189",
+   "type": "SF"
+  },
+  "FR-P5-192": {
+   "short": "Se donner des défis de lecture (variété des textes, longueur, stratégies à expérimenter…)",
+   "twin": "FR-P6-190",
+   "type": "SF"
+  },
+  "FR-P5-193": {
+   "short": "Vérifier le maintien du but de lecture assigné",
+   "twin": "FR-P6-191",
+   "type": "SF"
+  },
+  "FR-P5-194": {
+   "short": "Expliquer les stratégies de compréhension et d'interprétation mises en œuvre",
+   "twin": "FR-P6-192",
+   "type": "SF"
+  },
+  "FR-P5-195": {
+   "short": "Autoévaluer sa maitrise des stratégies",
+   "twin": "FR-P6-193",
+   "type": "SF"
+  },
+  "FR-P5-196": {
+   "short": "Évaluer le rôle joué par les stratégies dans la compréhension ou l'interprétation d'un texte (utilité perçue)",
+   "twin": "FR-P6-194",
+   "type": "SF"
+  },
+  "FR-P5-197": {
+   "short": "Verbaliser les connaissances acquises sur la langue, sur les genres et structures de textes et sur la culture",
+   "twin": "FR-P6-195",
+   "type": "SF"
+  },
+  "FR-P5-198": {
+   "short": "Évaluer / donner un avis sur les procédés utilisés par les autrices et auteurs",
+   "twin": "FR-P6-196",
+   "type": "SF"
+  },
+  "FR-P5-199": {
+   "short": "Évaluer / donner un avis sur la qualité de l'information (crédibilité des sources, pertinence du contenu)",
+   "twin": "FR-P6-197",
+   "type": "SF"
+  },
+  "FR-P5-200": {
+   "short": "Comparer (corroborer) les informations issues de deux sources différentes",
+   "twin": "FR-P6-198",
+   "type": "SF"
+  },
+  "FR-P5-201": {
+   "short": "Évaluer / donner un avis sur la présentation visuelle (mise en page, illustrations)",
+   "twin": "FR-P6-199",
+   "type": "SF"
+  },
+  "FR-P5-202": {
+   "short": "Évaluer / donner un avis sur le message transmis (valeurs défendues, thème(s) abordé(s))",
+   "twin": "FR-P6-200",
+   "type": "SF"
+  },
+  "FR-P5-048": {
+   "short": "Connaitre les caractéristiques des 5 structures textuelles : narrative, argumentative, descriptive, dialoguée, explicative",
+   "twin": "FR-P6-045",
+   "type": "S"
+  },
+  "FR-P5-106": {
+   "short": "Dégager des caractéristiques du message entendu afin d'en identifier le genre (tableau des genres, p. 32)",
+   "twin": "FR-P6-106",
+   "type": "SF"
+  },
+  "FR-P5-107": {
+   "short": "Repérer les organisateurs textuels pour construire du sens (écouter)",
+   "twin": "FR-P6-107",
+   "type": "SF"
+  },
+  "FR-P5-108": {
+   "short": "Identifier le contenu et l'organisation du message entendu : choix des idées (pertinence, suffisance), enchainement, ajout d'idées nouvelles",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-108": {
+   "short": "Identifier le contenu et l'organisation du message entendu : choix des idées, enchainement, ajout d'idées nouvelles, reprise d'idées émises",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-109": {
+   "short": "Dégager les caractéristiques de la structure textuelle dominante d'un texte afin d'en définir le genre",
+   "twin": "FR-P6-109",
+   "type": "SF"
+  },
+  "FR-P5-110": {
+   "short": "Utiliser les termes du support de lecture (paratexte) : titres, sous-titres, paragraphes",
+   "twin": "FR-P6-110",
+   "type": "SF"
+  },
+  "FR-P5-111": {
+   "short": "Utiliser les organisateurs textuels pour construire la cohérence (lire)",
+   "twin": "FR-P6-111",
+   "type": "SF"
+  },
+  "FR-P5-112": {
+   "short": "Organiser (graphiquement) les éléments donnés d'un texte selon les caractéristiques de la structure dominante donnée",
+   "twin": "FR-P6-112",
+   "type": "SF"
+  },
+  "FR-P5-113": {
+   "short": "Utiliser les mots ou expressions qui assurent l'enchainement des phrases",
+   "twin": "FR-P6-113",
+   "type": "SF"
+  },
+  "FR-P5-114": {
+   "short": "Utiliser des connecteurs d'opposition/concession/restriction, de conséquence, de conclusion, de synthèse",
+   "twin": "FR-P6-114",
+   "type": "SF"
+  },
+  "FR-P5-115": {
+   "short": "Utiliser les modes et les temps appropriés pour assurer la cohérence temporelle",
+   "twin": "FR-P6-115",
+   "type": "SF"
+  },
+  "FR-P5-116": {
+   "short": "Repérer la (les) voix du (des) locuteur(s)",
+   "twin": "FR-P6-116",
+   "type": "SF"
+  },
+  "FR-P5-117": {
+   "short": "Relier référents et reprises anaphoriques : substituts lexicaux (synonymes, génériques…), substituts grammaticaux (pronoms)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-117": {
+   "short": "Relier référents et reprises anaphoriques : substituts lexicaux, substituts grammaticaux (déterminants, pronoms)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-118": {
+   "short": "Assurer la reprise d'une information d'une phrase à l'autre avec des substituts lexicaux et grammaticaux",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-118": {
+   "short": "Assurer la reprise d'une information d'une phrase à l'autre : substituts lexicaux, substituts grammaticaux (déterminants, pronoms)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-045": {
+   "short": "Maitriser les composantes de la production d'écrits : planification ; mise en texte ; révision ; correction",
+   "twin": "FR-P6-042",
+   "type": "S"
+  },
+  "FR-P5-065": {
+   "short": "Consigner dans un journal personnel : apprentissages de la semaine, suite d'actions, mots à l'orthographe problématique",
+   "twin": "FR-P6-062",
+   "type": "SF"
+  },
+  "FR-P5-066": {
+   "short": "Schématiser un raisonnement (grammatical, mathématique, scientifique…)",
+   "twin": "FR-P6-063",
+   "type": "SF"
+  },
+  "FR-P5-067": {
+   "short": "Schématiser des relations entre des éléments",
+   "twin": "FR-P6-064",
+   "type": "SF"
+  },
+  "FR-P5-068": {
+   "short": "Exprimer une émotion, un sentiment (écrit réflexif)",
+   "twin": "FR-P6-065",
+   "type": "SF",
+   "pistes_remove": [
+    "P5:F665",
+    "P6:F872"
+   ]
+  },
+  "FR-P5-069": {
+   "short": "Annoter un texte (mots clés, traces d'un doute orthographique)",
+   "twin": "FR-P6-066",
+   "type": "SF"
+  },
+  "FR-P6-104": {
+   "short": "Noter des mots clés du message lu ou entendu (prendre des notes)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-105": {
+   "short": "Organiser ses notes (schéma, ligne du temps, carte mentale…)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-207": {
+   "short": "Relire et vérifier : contenu des idées, organisation selon la structure dominante (grille de révision), respect de l'intention",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-205": {
+   "short": "Relire et vérifier : contenu, organisation selon la structure dominante (grille), respect de l'intention, précision du vocabulaire",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-208": {
+   "short": "Définir des pistes de révision",
+   "twin": "FR-P6-206",
+   "type": "SF"
+  },
+  "FR-P5-209": {
+   "short": "Ajuster sa production en fonction des pistes de révision",
+   "twin": "FR-P6-207",
+   "type": "SF"
+  },
+  "FR-P5-210": {
+   "short": "Corriger une production de son choix avec une grille de vérification et les référentiels de la classe, en vue de la partager",
+   "twin": "FR-P6-208",
+   "type": "SF"
+  },
+  "FR-P5-178": {
+   "short": "Assurer la lisibilité de son écrit et adapter la présentation à son destinataire",
+   "twin": "FR-P6-175",
+   "type": "SF"
+  },
+  "FR-P5-179": {
+   "short": "Utiliser l'outil numérique pour présenter sa production personnelle",
+   "twin": "FR-P6-176",
+   "type": "SF"
+  },
+  "FR-P5-224": {
+   "short": "Rédiger un écrit (informer, plaisir, persuader, enjoindre) combinant plusieurs éléments, avec référentiels : sujet, intention/destinataire, structure donnée, ponctuation, orthographe, connecteurs, temps, substituts, lexique",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-222": {
+   "short": "Rédiger un écrit combinant certains des éléments (sujet, intention/destinataire, structure, ponctuation, orthographe, connecteurs, temps, substituts, lexique) + utiliser l'outil numérique pour le présenter",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P5-225": {
+   "short": "Expliciter oralement les composantes de la production d'écrits mises en œuvre : planification, mise en texte, révision, correction",
+   "twin": "FR-P6-223",
+   "type": "C"
+  },
+  "FR-P5-033": {
+   "short": "Connaitre des démarches pour s'adapter au contexte d'écoute : conduites sociales, écoute attentive, non-verbal selon la modalité",
+   "twin": "FR-P6-030",
+   "type": "S"
+  },
+  "FR-P5-034": {
+   "short": "Respecter le tour et le temps de parole",
+   "twin": "FR-P6-031",
+   "type": "S"
+  },
+  "FR-P5-035": {
+   "short": "Connaitre la façon d'intervenir à la suite d'une perte de compréhension (questions, demandes de clarification)",
+   "twin": "FR-P6-032",
+   "type": "S"
+  },
+  "FR-P5-036": {
+   "short": "Connaitre les freins et les facilitateurs de la communication (distractions, intérêt…) (écouter)",
+   "twin": "FR-P6-033",
+   "type": "S"
+  },
+  "FR-P5-037": {
+   "short": "Connaitre des démarches pour tenir compte des interlocuteurs : vigilance à l'effet produit, ajout de précisions, ajustement au destinataire",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P6-034": {
+   "short": "Connaitre des démarches pour tenir compte des interlocuteurs : vigilance, ajout de précisions, ajustement, reformulation selon les réactions",
+   "twin": null,
+   "type": "S"
+  },
+  "FR-P5-038": {
+   "short": "Connaitre des expressions pour demander la parole, introduire une prise de parole spontanée et la structurer",
+   "twin": "FR-P6-035",
+   "type": "S"
+  },
+  "FR-P5-039": {
+   "short": "Repérer les paramètres de la voix : débit ; intonation ; volume ; pauses",
+   "twin": "FR-P6-036",
+   "type": "S"
+  },
+  "FR-P5-040": {
+   "short": "Repérer les paramètres du corps : posture, gestuelle, maintien du regard, expressions faciales, déplacements",
+   "twin": "FR-P6-037",
+   "type": "S"
+  },
+  "FR-P5-046": {
+   "short": "Maitriser les étapes d'une prise de parole préparée : se présenter et introduire le sujet ; annoncer le plan ; présenter le sujet ; conclure",
+   "twin": "FR-P6-043",
+   "type": "S"
+  },
+  "FR-P5-047": {
+   "short": "Connaitre les freins et facilitateurs de la communication (niveau de langue, vocabulaire, formulations, prosodie) (parler)",
+   "twin": "FR-P6-044",
+   "type": "S"
+  },
+  "FR-P5-063": {
+   "short": "Mettre en mots sa pensée : formuler des questions, verbaliser un raisonnement, une stratégie, une suite d'actions, une émotion",
+   "twin": "FR-P6-060",
+   "type": "SF",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "F872"
+    }
+   ]
+  },
+  "FR-P5-064": {
+   "short": "Partager ses écrits réflexifs : préciser sa pensée, expliciter ses idées (exemples, faits), confronter des idées",
+   "twin": "FR-P6-061",
+   "type": "SF"
+  },
+  "FR-P5-070": {
+   "short": "Évoquer ce que l'on connait du sujet",
+   "twin": "FR-P6-067",
+   "type": "SF"
+  },
+  "FR-P5-071": {
+   "short": "Oser proposer des idées nouvelles",
+   "twin": "FR-P6-068",
+   "type": "SF"
+  },
+  "FR-P6-069": {
+   "short": "Développer les idées émises",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-072": {
+   "short": "Oser s'exprimer en dépit des maladresses syntaxiques, des répétitions et des hésitations",
+   "twin": "FR-P6-070",
+   "type": "SF"
+  },
+  "FR-P5-073": {
+   "short": "Proposer diverses formulations",
+   "twin": "FR-P6-071",
+   "type": "SF"
+  },
+  "FR-P5-074": {
+   "short": "Accepter d'utiliser provisoirement un vocabulaire approximatif ou le même mot pour exprimer diverses choses",
+   "twin": "FR-P6-072",
+   "type": "SF"
+  },
+  "FR-P5-159": {
+   "short": "Se présenter et introduire le sujet (prise de parole préparée)",
+   "twin": "FR-P6-156",
+   "type": "SF",
+   "pistes_remove": [
+    "P5:F648",
+    "P5:P19",
+    "P6:F855"
+   ]
+  },
+  "FR-P5-160": {
+   "short": "Annoncer le plan (prise de parole préparée)",
+   "twin": "FR-P6-157",
+   "type": "SF",
+   "pistes_remove": [
+    "P5:F648",
+    "P6:F855"
+   ]
+  },
+  "FR-P5-161": {
+   "short": "Présenter le sujet (prise de parole préparée)",
+   "twin": "FR-P6-158",
+   "type": "SF",
+   "pistes_remove": [
+    "P5:F648",
+    "P5:F761",
+    "P5:P19",
+    "P6:F855",
+    "P6:F968",
+    "P6:ECR11"
+   ]
+  },
+  "FR-P5-162": {
+   "short": "Conclure (prise de parole préparée)",
+   "twin": "FR-P6-159",
+   "type": "SF",
+   "pistes_remove": [
+    "P5:F648",
+    "P5:P19",
+    "P6:F855"
+   ]
+  },
+  "FR-P5-163": {
+   "short": "Adapter le volume, le débit de sa voix à son public",
+   "twin": "FR-P6-160",
+   "type": "SF"
+  },
+  "FR-P5-164": {
+   "short": "S'exprimer de manière fluide et avec intonation",
+   "twin": "FR-P6-161",
+   "type": "SF"
+  },
+  "FR-P5-165": {
+   "short": "Articuler, respecter les liaisons, les pauses et la syntaxe",
+   "twin": "FR-P6-162",
+   "type": "SF"
+  },
+  "FR-P5-166": {
+   "short": "Éviter des gestes parasites",
+   "twin": "FR-P6-163",
+   "type": "SF"
+  },
+  "FR-P5-167": {
+   "short": "Utiliser les gestes adaptés à l'intention",
+   "twin": "FR-P6-164",
+   "type": "SF"
+  },
+  "FR-P5-168": {
+   "short": "Utiliser un support de présentation (papier ou numérique)",
+   "twin": "FR-P6-165",
+   "type": "SF"
+  },
+  "FR-P5-169": {
+   "short": "Demander la parole",
+   "twin": "FR-P6-166",
+   "type": "SF",
+   "pistes_remove": [
+    "P5:F640",
+    "P6:F847"
+   ]
+  },
+  "FR-P5-170": {
+   "short": "Intervenir au moment approprié (à tour de rôle, en alternance, sur demande)",
+   "twin": "FR-P6-167",
+   "type": "SF"
+  },
+  "FR-P5-171": {
+   "short": "Se tenir droit (prise de parole)",
+   "twin": "FR-P6-168",
+   "type": "SF"
+  },
+  "FR-P5-172": {
+   "short": "Regarder son destinataire, l'auditoire",
+   "twin": "FR-P6-169",
+   "type": "SF"
+  },
+  "FR-P5-173": {
+   "short": "Utiliser à bon escient des expressions types pour respecter des règles de courtoisie",
+   "twin": "FR-P6-170",
+   "type": "SF"
+  },
+  "FR-P5-174": {
+   "short": "Tenir compte des réactions de son auditoire et adapter son message : vigilance à l'effet produit, précisions, ajustement",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-171": {
+   "short": "Tenir compte des réactions de son auditoire et adapter son message : vigilance, précisions, ajustement, reformulation selon les réactions",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-180": {
+   "short": "Questionner ses interlocuteurs : suite à une difficulté de compréhension ; pour en savoir plus sur le sujet",
+   "twin": "FR-P6-177",
+   "type": "SF"
+  },
+  "FR-P5-181": {
+   "short": "Répondre à des questions posées à la suite d'une prise de parole préparée",
+   "twin": "FR-P6-178",
+   "type": "SF"
+  },
+  "FR-P5-182": {
+   "short": "Formuler des avis à propos d'une présentation",
+   "twin": "FR-P6-179",
+   "type": "SF"
+  },
+  "FR-P5-183": {
+   "short": "Clarifier ses propos ou ses réactions en faisant des liens entre ses idées",
+   "twin": "FR-P6-180",
+   "type": "SF"
+  },
+  "FR-P5-184": {
+   "short": "Revenir au sujet lorsqu'on s'en éloigne",
+   "twin": "FR-P6-181",
+   "type": "SF"
+  },
+  "FR-P5-185": {
+   "short": "Enchainer une prise de parole à la suite de celle d'un autre",
+   "twin": "FR-P6-182",
+   "type": "SF"
+  },
+  "FR-P6-183": {
+   "short": "Dégager des liens entre les propos échangés en regroupant ce qui a été dit",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-175": {
+   "short": "Témoigner de son écoute : regard, posture, gestes, commentaire sur la voix, reformulation de ce qui a été dit",
+   "twin": "FR-P6-172",
+   "type": "SF"
+  },
+  "FR-P5-176": {
+   "short": "Établir un lien entre le contenu du message et un support illustré (schéma, plan, carte, tableau, diaporama…)",
+   "twin": "FR-P6-173",
+   "type": "SF"
+  },
+  "FR-P5-177": {
+   "short": "S'adapter au contexte d'écoute : conduites sociales adéquates, écoute attentive, non-verbal selon la modalité",
+   "twin": "FR-P6-174",
+   "type": "SF",
+   "pistes_remove": [
+    "P5:F635",
+    "P6:F842"
+   ]
+  },
+  "FR-P5-203": {
+   "short": "Vérifier, selon la réaction du ou des récepteurs, si l'intention de communication a été atteinte",
+   "twin": "FR-P6-201",
+   "type": "SF"
+  },
+  "FR-P5-204": {
+   "short": "Ajuster son propos face à une perte d'attention de son interlocuteur",
+   "twin": "FR-P6-202",
+   "type": "SF"
+  },
+  "FR-P5-205": {
+   "short": "Relever des éléments moins réussis de sa communication : cerner ce qui n'a pas été saisi, reformuler (précisions, ajouts…)",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P6-203": {
+   "short": "Relever des éléments moins réussis : cerner, reformuler, commenter les blocages survenus, réfléchir à des facilitateurs",
+   "twin": null,
+   "type": "SF"
+  },
+  "FR-P5-206": {
+   "short": "Évaluer la qualité de son écoute et de ses interventions",
+   "twin": "FR-P6-204",
+   "type": "SF"
+  },
+  "FR-P5-211": {
+   "short": "Manifester sa compréhension d'un message entendu qui informe (questions, dessin, phrases, action) : implicite/explicite, connaissances, intention, genre, liens, informations essentielles, sens global, indices grammaticaux",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-209": {
+   "short": "Manifester sa compréhension d'un message entendu qui informe : éléments P5 + la façon dont il est organisé + la distinction entre un fait et une opinion",
+   "twin": null,
+   "type": "C",
+   "pistes_remove": [
+    "P6:ECO29"
+   ]
+  },
+  "FR-P5-212": {
+   "short": "Manifester sa compréhension d'un message entendu qui donne du plaisir : émotion, genre, liens, réel/imaginaire, actions et motivations, empathie, sens global, procédés ; imaginer une suite cohérente",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-210": {
+   "short": "Manifester sa compréhension d'un message entendu qui donne du plaisir : éléments P5 + la façon dont il est organisé ; imaginer une suite cohérente",
+   "twin": null,
+   "type": "C",
+   "pistes_add": [
+    {
+     "year": "P6",
+     "code": "ECO29"
+    }
+   ]
+  },
+  "FR-P5-213": {
+   "short": "Manifester sa compréhension d'un message entendu qui persuade/convainc : implicite/explicite, émotion, intention, genre, liens logiques, informations essentielles, sens global, indices grammaticaux",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-211": {
+   "short": "Manifester sa compréhension d'un message entendu qui persuade/convainc : éléments P5 + la façon dont il est organisé + la distinction entre un fait et une opinion",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P5-214": {
+   "short": "Manifester sa compréhension d'un message entendu qui enjoint : implicite/explicite, émotion, intention, genre, chronologie/liens logiques, informations essentielles, sens global, indices grammaticaux",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-212": {
+   "short": "Manifester sa compréhension d'un message entendu qui enjoint : éléments P5 + la façon dont il est organisé",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P5-215": {
+   "short": "Détecter une perte de compréhension (message entendu)",
+   "twin": "FR-P6-213",
+   "type": "C",
+   "pistes_remove": [
+    "P6:L38"
+   ]
+  },
+  "FR-P5-216": {
+   "short": "En groupe : témoigner de son écoute, adopter une posture d'écoute attentive, respecter les tours et temps de parole",
+   "twin": "FR-P6-214",
+   "type": "C"
+  },
+  "FR-P5-226": {
+   "short": "Restituer un contenu/message donné avec expression : intention et destinataire, volume/débit/posture/expressions/regard, étapes de la prise de parole préparée",
+   "twin": "FR-P6-224",
+   "type": "C"
+  },
+  "FR-P5-227": {
+   "short": "Restituer un contenu/message donné avec expression : intention et destinataire, volume/débit/posture/expressions/regard, règles de courtoisie",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-225": {
+   "short": "Restituer un contenu/message donné avec expression : intention et destinataire (diversité des interlocuteurs), volume/débit/posture/expressions/regard, courtoisie",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P5-228": {
+   "short": "Produire/élaborer un message oral combinant plusieurs éléments (avec ou sans support) : sujet, intention/destinataire/freins, structure, connecteurs, lexique, formes verbales, phrases correctes, reprises",
+   "twin": "FR-P6-226",
+   "type": "C"
+  },
+  "FR-P5-229": {
+   "short": "Prendre la parole dans un groupe : oser s'exprimer, intervenir au moment approprié, questionner, répondre, respecter la courtoisie",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P6-227": {
+   "short": "Prendre la parole dans un groupe : oser, intervenir à propos, questionner, répondre, dégager des liens entre les propos échangés et regrouper ce qui a été dit, courtoisie",
+   "twin": null,
+   "type": "C"
+  },
+  "FR-P5-230": {
+   "short": "Partager ses écrits réflexifs : préciser sa pensée, expliciter ses idées (exemples, faits), confronter des idées (compétence PARLER)",
+   "twin": "FR-P6-228",
+   "type": "C"
+  }
+ },
+ "reperes": [
+  {
+   "title": "Lecture du référentiel P5 / P6 : ce qui n'est pas répété reste à entretenir",
+   "text": "« En principe, seuls les savoirs et les savoir-faire à ancrer en 6e année primaire sont mentionnés. Par conséquent, c'est la consultation des contenus de 5e année primaire voire de(s) années antérieure(s) qui donne une vue complète des apprentissages à entretenir et à développer. » (même formule en P5 vis-à-vis de la P4). Un attendu P5 non repris en P6 (ex. règles de positions c/ç, g/gu… ; liste des verbes -IR, -(D)RE, irréguliers ; pluriel/féminin ; observer et dégager des régularités) n'est donc pas abandonné en P6 : il est à entretenir.",
+   "page": 132
+  },
+  {
+   "title": "L'essentiel en P5 (savoirs langagiers)",
+   "text": "Nouveaux savoirs à coordonner avec ceux de P4 : attribut, épithète, complément du nom. Prédicat, complément circonstanciel, CDV, CIV (vus en P4) sont à entretenir, sans formalisation de la distinction entre CC du verbe et CC de la phrase. Sont à maitriser : l'indicatif à tous les temps simples, l'impératif présent, l'infinitif et la formation du participe présent ; les exceptions aux règles de formation du pluriel des noms et adjectifs ; les règles générales d'accord du participe passé. Les savoir-faire de production (planification, mise en texte, révision) ne doivent pas être éclipsés par ces savoirs.",
+   "page": 110
+  },
+  {
+   "title": "L'essentiel en P6 (automatisation et autonomie)",
+   "text": "Les savoirs et savoir-faire acquis doivent gagner en automatisation et être mobilisés de manière de plus en plus autonome dans les compétences. Notions grammaticales, fonctions, conjugaison (temps simples et composés de l'indicatif, impératif présent, infinitif, participe présent), exceptions du pluriel et accord du participe passé « apparaissent dans les attendus de 6e année primaire mais se consolident et s'automatisent durant les trois dernières années du tronc commun ». Lecture fonctionnelle : mise en lien de plusieurs documents (portefeuille de documents) ; les élèves s'initient à de premières recherches documentaires. Les écrits réflexifs sont mobilisés de manière autonome dans d'autres disciplines.",
+   "page": 133
+  },
+  {
+   "title": "Genres de textes : au moins 3 structures par an, les 5 sur les deux années (à titre indicatif)",
+   "text": "« À titre indicatif, il est recommandé d'aborder des genres d'au moins trois structures dominantes différentes par année scolaire, et les cinq structures dominantes sur l'ensemble des deux années, en tenant compte du travail réalisé antérieurement. » Les genres en gras du tableau p. 32 sont des incontournables « à découvrir obligatoirement dans une des deux années » ; une concertation entre enseignants de P5 et de P6 est préconisée. Recommandation, pas un attendu élève.",
+   "page": 111
+  },
+  {
+   "title": "Tableau des genres proposés en P5-P6 (incontournables en gras dans le référentiel)",
+   "text": "Narrative — réception : conte (merveilleux, traditionnel, étiologique, détourné…), mythe ou légende ; roman, album narratif ; poème, chanson ou slam (autres : fait divers, nouvelle, film d'animation, BD, fable) ; production : conte (oral ou écrit), récit, poème/chanson/slam, résumé apéritif. Argumentative — réception : lettre/courriel de demande ou d'invitation, justification d'une réponse, critique (livre, œuvre d'art, film…) ; production : idem + conseil de vie de classe/coopération/travail de groupe. Descriptive — réception : description (paysage, œuvre…), poème ou chanson, protocole d'expérience scientifique, consigne, mode d'emploi ; production : description, poème ou chanson, mode d'emploi, consigne. Dialoguée — réception : saynète, sketch, enquête ; production : mise en voix et en espace d'une saynète ou d'un sketch, enquête. Explicative — réception : double page documentaire, article de presse, reportage radio ou vidéo, note de synthèse / carte mentale, mode d'emploi ; production : résumé oral d'un texte informatif, note de synthèse / carte mentale, exposé oral, mode d'emploi.",
+   "page": 32
+  },
+  {
+   "title": "Progression en lecture : fluence 120 (P5) → 130 (P6) → ≈170 (S3)",
+   "text": "De la P5 à la S3, les élèves cheminent dans le niveau de « lecteur confirmé » (lecture fluide et aisée ; fluence proche de 170 mots lus correctement par minute en S3, après ±110 en fin de lecteur en transition). Les attendus fixent ≈120 mots/min en P5 (FR-P5-062) et ≈130 en P6 (FR-P6-059). Le lecteur confirmé détecte la perte de compréhension et y remédie de façon automatisée, développe des stratégies propres à la lecture digitale (fiabilité des sources, corroboration) et justifie son interprétation par une lecture distanciée et participative. « Il est important de vérifier la maitrise [du niveau précédent] en début de 5e année primaire. »",
+   "page": 111
+  },
+  {
+   "title": "Progression en écriture : 80 % de formes correctes en fin de P6 (repère, pas un attendu)",
+   "text": "De la P5 à la S3, les élèves cheminent dans le niveau de « scripteur confirmé » : « Ses textes personnels écrits avec recours aux référentiels passent de 80 % de formes correctes en fin de 6e année primaire à 90 % en fin de 3e année secondaire » (après 60 % pour le scripteur en transition). Il maitrise l'ensemble des composantes de la production d'écrits, de plus en plus automatisées, et est capable de produire des contenus numériques (diaporamas, book trailer, écriture collaborative…). À vérifier en début de P5.",
+   "page": 112
+  },
+  {
+   "title": "Attitude réflexive sur la langue (P5 → P6)",
+   "text": "P5 : les écrits réflexifs (schématiser un raisonnement, annoter un texte) sont à maitriser et à utiliser de manière autonome, de même que planifier un écrit ou une lecture et se relire pour réviser (contenu, organisation, intention) puis corriger (orthographe). P6 : l'attitude réflexive est bien ancrée ; l'élève verbalise et évalue dans quelle mesure il a planifié, contrôlé et régulé sa compréhension, révisé le contenu et la forme de son texte.",
+   "page": 111
+  },
+  {
+   "title": "Lecture littéraire : droits du texte et droits du lecteur",
+   "text": "La lecture littéraire prend appui sur des textes de plus grande envergure (patrimoine d'ici et d'ailleurs, œuvres contemporaines pour la jeunesse). L'enjeu est l'équilibre entre compréhension (droits du texte) et interprétation (droits du lecteur) : lecture participative (subjective) et lecture distanciée (analytique : associer des valeurs à un personnage, évaluer le message et les procédés des autrices et auteurs). Les enseignants sont invités à consulter des répertoires de littérature patrimoniale et de jeunesse (albums narratifs et documentaires, romans).",
+   "page": 110
+  }
+ ],
+ "notes": [
+  "Comptage : 230 attendus P5 + 228 P6. 195 P6 sont jumeaux d'un P5 (180 détectés automatiquement + 15 validés à la main), 33 P6 sont des items distincts → 263 items placés (230 P5 + 33 P6), chacun exactement une fois.",
+  "Jumeaux ajoutés après contrôle du texte source (différences de ponctuation, de forme grammaticale ou coquille de l'original, sens identique) : FR-P6-017 (« (reprise anaphorique) » vs « (anaphorique) »), FR-P6-019 (« du pronom démonstratif, possessif… ; du connecteur » vs « du pronom (démonstratif…) ; de connecteurs »), FR-P6-029 (« intonation et temps de pause » vs « intonation, temps de pause »), FR-P6-044 (« (de langue, vocabulaire…) » : coquille du référentiel P6 p. 139 pour « niveau de langue »), FR-P6-075 (« du contenu » ; le P5 p. 118 omet « du »), FR-P6-135 (« ponctuation de manière adéquate » vs « ponctuation adaptée »), FR-P6-179 (« un avis » vs « des avis »), FR-P6-202 (« quand on perd l'attention » vs « face à une perte d'attention »), FR-P6-208 (ordre des mots « référentiels de la classe (dictionnaire…) »), FR-P6-216 et FR-P6-217 (« (liens logiques) » vs « (logiques) »), FR-P6-228 (« apportant/évoquant » vs « apporter/évoquer »). Les 4 paires que l'inventaire marquait « ≠ » mais que l'automate avait déjà appariées ne diffèrent que par des parenthèses/virgules (FR-P6-014, 089, 136, 142) : jumeaux confirmés.",
+  "Deux jumeaux tranchés en faveur de l'identité malgré une nuance de mot : FR-P5-050/FR-P6-047 (le P6 omet « fables » dans la liste d'exemples « contes, légendes, fables… » — liste ouverte, objet de l'attendu inchangé) et FR-P5-134/FR-P6-134 (« groupe verbal » en P5 p. 122 vs « groupe prédicat » en P6 p. 144 ; le savoir P5 FR-P5-030 dit déjà « groupe prédicat » : incohérence terminologique du référentiel, signalée dans le libellé abrégé). FR-P5-228/FR-P6-226 (« plusieurs » vs « certains des éléments ») : jumeaux, le seul changement est quantitatif-flou et sans élément nouveau ; en revanche FR-P6-222 (ÉCRIRE) reste distinct car il ajoute « en utilisant l'outil numérique pour présenter sa production ».",
+  "Contre l'audit FR_audit.md (qui comptait 196 jumeaux), FR-P6-210 et FR-P6-212 (compétences ÉCOUTER plaisir / enjoindre) sont traités comme items P6 distincts : les quatre compétences ÉCOUTER P6 ajoutent « la façon dont il est organisé » (vérifié p. 149-150 du référentiel), 209 et 211 ajoutant en plus « la distinction entre un fait et une opinion ». Autres P6 distincts par ajout d'un élément : 003, 010, 012 (nouveau), 020, 023, 026, 034, 050, 057, 058, 059, 069 (nouveau), 104-105 (nouveaux), 108, 117, 118, 121, 124, 139, 145, 171, 183 (nouveau), 203, 205, 215, 222, 225, 227.",
+  "Convention pistes pour les jumeaux : les pistes du P6 jumeau sont supposées fusionnées sous l'item P5 ; les pistes_remove des items P5 contiennent donc aussi des codes « P6:… » (ex. FR-P5-177 retire P5:F635 et P6:F842). pistes_add sur FR-P5-063 ajoute le code P6 F872 (son jumeau FR-P6-060 n'avait pas reçu ce code, score 0,96 < 1,0 de FR-P6-065).",
+  "Pistes retirées (22 rattachements, P5 et P6 confondus) : F635/F842 (savoir « démarches pour s'adapter au contexte d'écoute ») retirés du savoir-faire FR-P5-177 (qui garde F779/F986) ; F640/F847 (savoir « expressions pour demander la parole ») retirés de FR-P5-169 « Demander la parole » (garde F771) ; F648/F855 (savoir « étapes d'une prise de parole préparée ») retirés des quatre savoir-faire FR-P5-159 à 162 ; F761/F968 (« Se présenter et introduire le sujet ») retirés de FR-P5-161 « Présenter le sujet » ; P19 (compétence PARLER restituer) retiré de 159, 161, 162 ; ECR11 (compétence ÉCRIRE) retiré de FR-P5-161 ; F665/F872 (PARLER « Mettre en mots sa pensée ») retirés de FR-P5-068 (ÉCRIRE « Exprimer une émotion ») ; L38 (compétence LIRE) retiré de FR-P5-215 (compétence ÉCOUTER). Pistes ajoutées (2) : P6 F872 → FR-P5-063 ; P6 ECO29 → FR-P6-210 (le corps du code ECO29 est la compétence « donner du plaisir », pas « informer » ; retiré de FR-P6-209). F920 (P6) reste sur FR-P6-106 et FR-P6-108 : son texte contient les deux attendus.",
+  "Scores < 0,9 : seulement F690/F898 (0,86, « liens existants » vs « existant ») sur FR-P5-088 : rattachement correct, conservé. 116 attendus (dont les fluences 062/059, les préfixes FR-P6-012, FR-P6-183) n'ont aucune piste CECP : aucune séquence des programmes ne les cible, rien à ajouter.",
+  "Libellés abrégés : une cinquantaine d'items dépassent 120 caractères (jusqu'à ~260 pour les compétences et pour FR-P5-029, FR-P5-136) parce que la liste fermée (temps, classes, verbes, éléments à donner à voir) est l'objet même de l'attendu ; les items P6 de compétence sont formulés « éléments P5 + … » pour rendre visible la seule différence. FR-P5-027 « Connaitre l'infinitif » (21 car.), FR-P5-169 « Demander la parole » et une vingtaine de savoir-faire d'une ligne sont sous 40 caractères : texte officiel intégral, rien à ajouter sans inventer.",
+  "Choix de structure : 7 domaines alignés sur les champs du référentiel (Orienter ; Construire un message significatif + unités lexicales = lexique ; unités grammaticales + savoirs de grammaire/conjugaison = grammaire ; Construire du sens à l'aide de stratégies + Apprécier (culture, identité de lecteur) + compétences LIRE = lire ; Dégager et assurer la cohérence = coherence ; production d'écrits + écrits réflexifs + Vérifier et ajuster (écrit) + compétences ÉCRIRE = ecrire ; Assurer la présentation + Apprécier/interagir + Vérifier et ajuster (oral) + compétences ÉCOUTER et PARLER = oral). Les savoirs « appel de note / hyperlien » (FR-P5-007/008) et « lecture à haute voix » (032) sont rangés avec Lire ; « ponctuation » (061/P6-058) avec la phrase en grammaire ; « prise de notes » P6 (104/105) avec les écrits réflexifs.",
+  "Terminologie à connaitre (audit §1.3 point 10) : « futur proche » et « conditionnel présent » sont listés sous « indicatif » dans le référentiel (FR-P5-148, FR-P6-145) ; le passé antérieur n'apparait que dans le savoir-faire Conjuguer P6 (FR-P6-145), pas dans le savoir FR-P6-023 ; le subjonctif n'est qu'à repérer en P6 (FR-P6-139), pas à conjuguer."
+ ]
+}

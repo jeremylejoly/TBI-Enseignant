@@ -1,0 +1,705 @@
+{
+ "domains": [
+  {
+   "key": "hist-reperes",
+   "icon": "📜",
+   "title": "Histoire — Repères temporels : périodes, ruptures, moments clés, faits marquants",
+   "subsections": [
+    {
+     "title": "P5 — Produire et consommer dans nos régions : périodes, 5 ruptures, moments clés, faits marquants, notion de rupture (Savoirs)",
+     "items": [
+      "HIST-P5-001",
+      "HIST-P5-002",
+      "HIST-P5-003",
+      "HIST-P5-014",
+      "HIST-P5-012",
+      "HIST-P5-013"
+     ]
+    },
+    {
+     "title": "P6 — Multiculturalité dans nos régions : périodes datées, 4 ruptures, moments clés, faits marquants (Savoirs)",
+     "items": [
+      "HIST-P6-001",
+      "HIST-P6-002",
+      "HIST-P6-003",
+      "HIST-P6-012",
+      "HIST-P6-011"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "hist-moments",
+   "icon": "🏛️",
+   "title": "Histoire — Moments clés et savoirs culturels",
+   "subsections": [
+    {
+     "title": "P5 — Moments clés 1 à 5 : changements et continuités des modes de production et de consommation + savoirs culturels (Savoirs)",
+     "items": [
+      "HIST-P5-004",
+      "HIST-P5-005",
+      "HIST-P5-006",
+      "HIST-P5-007",
+      "HIST-P5-008",
+      "HIST-P5-009",
+      "HIST-P5-010",
+      "HIST-P5-011",
+      "HIST-P5-015"
+     ]
+    },
+    {
+     "title": "P6 — Moments clés 1 à 4 : Romanisation, Haut Moyen Âge, explorations et colonisations, après 1945 + savoirs culturels (Savoirs)",
+     "items": [
+      "HIST-P6-004",
+      "HIST-P6-005",
+      "HIST-P6-006",
+      "HIST-P6-007",
+      "HIST-P6-008",
+      "HIST-P6-009",
+      "HIST-P6-010",
+      "HIST-P6-013"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "hist-sf",
+   "icon": "🔎",
+   "title": "Histoire — Savoir-faire et compétences",
+   "subsections": [
+    {
+     "title": "P5 — Savoir-faire : frise chronologique, outil d'information, lire et exploiter des documents",
+     "items": [
+      "HIST-P5-016",
+      "HIST-P5-017",
+      "HIST-P5-018",
+      "HIST-P5-019",
+      "HIST-P5-020",
+      "HIST-P5-021",
+      "HIST-P5-022"
+     ]
+    },
+    {
+     "title": "P5 — Compétences : mobiliser des repères de temps, regard critique, perspective historique",
+     "items": [
+      "HIST-P5-023",
+      "HIST-P5-024",
+      "HIST-P5-025"
+     ]
+    },
+    {
+     "title": "P6 — Savoir-faire : frise chronologique, outil d'information, lire et exploiter des documents",
+     "items": [
+      "HIST-P6-014",
+      "HIST-P6-015",
+      "HIST-P6-016",
+      "HIST-P6-017",
+      "HIST-P6-018",
+      "HIST-P6-019",
+      "HIST-P6-020"
+     ]
+    },
+    {
+     "title": "P6 — Compétences : mobiliser des repères de temps, regard critique, perspective historique",
+     "items": [
+      "HIST-P6-021",
+      "HIST-P6-022",
+      "HIST-P6-023"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "geo-reperes",
+   "icon": "🗺️",
+   "title": "Géographie — Repères spatiaux, population et milieu naturel (Savoirs)",
+   "subsections": [
+    {
+     "title": "P5 — Belgique et Europe : repères spatiaux (directions, Régions, pays, reliefs, réseaux)",
+     "items": [
+      "GEO-P5-001",
+      "GEO-P5-002",
+      "GEO-P5-003",
+      "GEO-P5-004",
+      "GEO-P5-005"
+     ]
+    },
+    {
+     "title": "P5 — Belgique : répartition de la population, hydrographie, relief",
+     "items": [
+      "GEO-P5-006",
+      "GEO-P5-007",
+      "GEO-P5-008",
+      "GEO-P5-009"
+     ]
+    },
+    {
+     "title": "P6 — Le monde : continents, océans, parallèles ; densité et répartition de la population",
+     "items": [
+      "GEO-P6-001",
+      "GEO-P6-002",
+      "GEO-P6-003",
+      "GEO-P6-004",
+      "GEO-P6-005"
+     ]
+    },
+    {
+     "title": "P6 — Milieu naturel : zones thermiques, climats, réchauffement climatique",
+     "items": [
+      "GEO-P6-006",
+      "GEO-P6-007",
+      "GEO-P6-008",
+      "GEO-P6-009",
+      "GEO-P6-010",
+      "GEO-P6-011"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "geo-sf",
+   "icon": "🧭",
+   "title": "Géographie — Savoir-faire : lire un paysage, lire et annoter une carte",
+   "subsections": [
+    {
+     "title": "P5 — Lire un paysage, lire une carte (échelle Belgique/Europe), annoter une représentation de l'espace",
+     "items": [
+      "GEO-P5-010",
+      "GEO-P5-011",
+      "GEO-P5-012",
+      "GEO-P5-013",
+      "GEO-P5-014",
+      "GEO-P5-015",
+      "GEO-P5-016"
+     ]
+    },
+    {
+     "title": "P6 — Lire un paysage (vues verticales), lire une carte (échelle monde), annoter une photographie verticale",
+     "items": [
+      "GEO-P6-012",
+      "GEO-P6-013",
+      "GEO-P6-014",
+      "GEO-P6-015"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "geo-comp",
+   "icon": "🌍",
+   "title": "Géographie — Compétences : situer, caractériser, établir des liens",
+   "subsections": [
+    {
+     "title": "P5 — Belgique et Europe : situer une occupation du sol, la caractériser, établir des liens entre cartes",
+     "items": [
+      "GEO-P5-017",
+      "GEO-P5-018",
+      "GEO-P5-019",
+      "GEO-P5-020"
+     ]
+    },
+    {
+     "title": "P6 — Continent et monde : situer, caractériser le climat et les activités humaines, expliquer la répartition de la population",
+     "items": [
+      "GEO-P6-016",
+      "GEO-P6-017",
+      "GEO-P6-018",
+      "GEO-P6-019",
+      "GEO-P6-020"
+     ]
+    }
+   ]
+  }
+ ],
+ "items": {
+  "HIST-P5-001": {
+   "short": "Nommer et ordonner les 5 périodes conventionnelles (Préhistoire, Antiquité, Moyen Âge, Temps modernes, Époque contemporaine)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-002": {
+   "short": "Nommer et situer par rapport aux moments clés les 5 ruptures : Néolithique, Romanisation, croissance économique médiévale, industrialisation, Après-Guerre",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-003": {
+   "short": "Associer les 5 moments clés P5 (de la Préhistoire à l'Après-Guerre 1945-1975) aux périodes conventionnelles",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-004": {
+   "short": "Énoncer un changement (activités pour produire/consommer et cadre de vie) entre le Paléolithique et le Néolithique",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-005": {
+   "short": "Énoncer un changement et une continuité (produire/consommer) entre le Néolithique et la période gallo-romaine dans nos régions",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-006": {
+   "short": "Énoncer un changement et une continuité (produire/consommer) entre la période gallo-romaine et le temps des seigneuries et des villes (XIe-XIVe s.)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-007": {
+   "short": "Exemplifier des obligations réciproques entre le seigneur et la communauté villageoise",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-008": {
+   "short": "Exemplifier des droits acquis par la bourgeoisie (la ville, XIe-XIVe s.)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-009": {
+   "short": "Énoncer un changement et une continuité (produire/consommer) entre seigneuries et villes (XIe-XIVe s.) et patronat, monde ouvrier et monde rural (XIXe-début XXe s.)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-010": {
+   "short": "Expliquer une revendication ouvrière (patronat, monde ouvrier et monde rural, XIXe-début XXe s.)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-011": {
+   "short": "Énoncer un changement et une continuité (produire/consommer) entre patronat, monde ouvrier et monde rural et l'Après-Guerre (1945-1975)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-012": {
+   "short": "Associer un fait marquant au moment clé correspondant et à la période conventionnelle correspondante",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-013": {
+   "short": "Dater les 5 faits marquants P5 (premiers agriculteurs, conquête romaine, Chartes de franchises, 1re ligne de chemin de fer, Deuxième Guerre mondiale)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-014": {
+   "short": "Expliquer en quoi un changement dans nos régions au niveau des modes de production et de consommation constitue une rupture",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-015": {
+   "short": "Lier des savoirs culturels (patrimoine, acteurs industriels, ouvriers, écologistes, 1er mai) à un moment clé et à une période conventionnelle",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P5-016": {
+   "short": "Compléter une frise chronologique graduée en siècles (Ier s. av. J.-C. à nos jours) avec des repères temporels donnés",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P5-017": {
+   "short": "Sélectionner l'outil d'information adéquat (dictionnaire, atlas, corpus, manuel, moteur de recherche…) en fonction de la recherche menée",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P5-018": {
+   "short": "Saisir l'intention dominante de l'auteur d'un document : informer, distraire, persuader (texte court/document simple)",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P5-019": {
+   "short": "Lire une carte historique en utilisant les éléments de la légende",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P5-020": {
+   "short": "Lire un graphique évolutif (linéaire/bâtonnets) pour identifier une tendance (hausse, baisse, stagnation) d'un phénomène lié au thème de l'année",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P5-021": {
+   "short": "Relever des informations explicites dans une trace du passé ou un document reconstitué en lien avec un repère temporel",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P5-022": {
+   "short": "Identifier l'auteur, la date et le lieu de réalisation d'un document grâce à la référence",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P5-023": {
+   "short": "Compléter une frise (Ve millénaire av. J.-C. → aujourd'hui) par des traces/informations sur production et consommation et l'annoter de repères significatifs",
+   "twin": null,
+   "type": "C"
+  },
+  "HIST-P5-024": {
+   "short": "Justifier la pertinence d'un document donné en lien avec une problématique relative à un moment clé (production/consommation)",
+   "twin": null,
+   "type": "C"
+  },
+  "HIST-P5-025": {
+   "short": "Sur la base de documents (production/consommation), compléter un tableau à double entrée : réalité d'aujourd'hui vs passé, ce qui change / ne change pas",
+   "twin": null,
+   "type": "C"
+  },
+  "HIST-P6-001": {
+   "short": "Nommer et dater les 5 périodes conventionnelles (bornes : vers 3500 av. J.-C., 476, 1492, 1789)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-002": {
+   "short": "Nommer et dater les 4 ruptures de la multiculturalité : Romanisation, grandes migrations, explorations/colonisations (XVe-XVIIIe s.), Après-Guerre",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-003": {
+   "short": "Associer les 4 moments clés P6 (gallo-romain, Haut Moyen Âge, explorations et colonisations, après 1945) aux périodes conventionnelles",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-004": {
+   "short": "Exemplifier des éléments de la culture romaine qui ont été adoptés par les Celtes, et réciproquement",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-005": {
+   "short": "Énoncer un changement entre la période gallo-romaine et le Haut Moyen Âge (Ve-Xe s.) dans nos régions",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-006": {
+   "short": "Expliquer un impact des colonisations européennes du XVe au XVIIIe siècle sur les peuples colonisés",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-007": {
+   "short": "Énoncer des produits de consommation originaires des régions colonisées entre le XVe et le XVIIIe siècle",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-008": {
+   "short": "Identifier des apports culturels des migrations en Belgique de 1945 à nos jours",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-009": {
+   "short": "Expliquer pourquoi la Belgique a officiellement demandé à d'autres pays de la main-d'œuvre ouvrière de 1945 à 1970",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-010": {
+   "short": "Expliquer une facilité et un obstacle à l'intégration des migrants de 1945 à 1970",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-011": {
+   "short": "Dater les 5 faits marquants P6 (écriture, an 1, chute de l'Empire romain d'Occident 476, Colomb 1492, Révolution française 1789)",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-012": {
+   "short": "Associer un fait marquant au passage d'une période conventionnelle à une autre et au passage de la préhistoire à l'histoire",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-013": {
+   "short": "Lier un savoir culturel (patrimoine, Charlemagne, Colomb, Bois-du-Cazier, acteur de l'immigration) à un moment clé et à une période conventionnelle",
+   "twin": null,
+   "type": "S"
+  },
+  "HIST-P6-014": {
+   "short": "Compléter une frise graduée en millénaires (IVe millénaire av. J.-C. à nos jours) avec des repères temporels liés à la thématique de l'année",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P6-015": {
+   "short": "Sélectionner une information en recourant à une table des matières, à un index alphabétique, à un moteur de recherche",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P6-016": {
+   "short": "Saisir l'intention de l'auteur d'un document",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P6-017": {
+   "short": "Identifier l'auteur, la date et le lieu de réalisation d'un document",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P6-018": {
+   "short": "Comparer deux documents iconographiques ou deux objets traitant d'un même sujet pour identifier des ressemblances/différences",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P6-019": {
+   "short": "Distinguer ce qu'on lit de ce que l'on peut en inférer",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P6-020": {
+   "short": "Sélectionner dans un document une information utile pour répondre à une question de recherche",
+   "twin": null,
+   "type": "SF"
+  },
+  "HIST-P6-021": {
+   "short": "Compléter une frise (IVe millénaire av. J.-C. → aujourd'hui) par des traces/informations sur la thématique de l'année et l'annoter de repères significatifs",
+   "twin": null,
+   "type": "C"
+  },
+  "HIST-P6-022": {
+   "short": "Justifier la pertinence ou la non-pertinence d'un document par rapport à une problématique liée à un moment clé de la multiculturalité",
+   "twin": null,
+   "type": "C"
+  },
+  "HIST-P6-023": {
+   "short": "Sur la base de documents (multiculturalité), construire un tableau à double entrée : aujourd'hui vs passé, ce qui change / ne change pas, avec des repères significatifs",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P5-001": {
+   "short": "Indiquer les huit directions cardinales sur une rose des vents",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-002": {
+   "short": "Nommer des espaces et des limites figurés sur une carte : les Régions belges, les Communautés, la frontière linguistique et les (10) provinces",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-003": {
+   "short": "Nommer les (4) pays limitrophes de la Belgique et le Royaume-Uni figurés sur une carte",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-004": {
+   "short": "Nommer les principaux reliefs européens (Alpes, Pyrénées, Caucase), la mer du Nord et la mer Méditerranée figurés sur une carte",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-005": {
+   "short": "Distinguer en quelques mots les réseaux de communication (ferroviaire, (auto)routier, voies navigables)",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-006": {
+   "short": "Nommer les espaces les plus peuplés en Belgique figurés sur une carte (Bruxelles-Gand-Anvers-Louvain, Sillon Sambre-et-Meuse)",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-007": {
+   "short": "Énoncer des ordres de grandeur de la population en Belgique, en Flandre, en Wallonie et à Bruxelles-Capitale, au dixième de million près",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-008": {
+   "short": "Nommer les éléments hydrographiques (fleuve, rivière, source, embouchure, méandre, affluent, confluent) sur une représentation de l'espace",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-009": {
+   "short": "Décrire en quelques mots ce qu'est une plaine, un plateau, une montagne et l'altitude",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P5-010": {
+   "short": "Annoter des éléments identiques du paysage sur des représentations différentes : vue au sol, vue aérienne",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P5-011": {
+   "short": "Annoter une carte à une seule variable en valeurs absolues (éléments, limites administratives : commune, province, région, pays…) d'après la légende",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P5-012": {
+   "short": "Annoter une carte pour mettre en évidence des pays à l'échelle de l'Europe et identifier leur appartenance ou non à l'UE",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P5-013": {
+   "short": "Associer une mesure sur la carte à une distance sur le terrain et inversement, sur la base de l'échelle graphique",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P5-014": {
+   "short": "Relever l'altitude d'un point sur une carte, un globe virtuel ou un géoportail",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P5-015": {
+   "short": "Repérer les variations d'altitude sur un profil du relief",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P5-016": {
+   "short": "Annoter une carte avec des points, des lignes ou des surfaces pour mettre en évidence un fait à l'échelle de la Belgique ou de l'Europe",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P5-017": {
+   "short": "Situer une occupation/utilisation du sol en Belgique ou en Europe, en référence aux directions cardinales et à des repères belges ou européens",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P5-018": {
+   "short": "Caractériser une occupation du sol en faisant référence au relief et à l'hydrographie",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P5-019": {
+   "short": "Sur la base de représentations actuelles et antérieures, identifier des transformations/permanences de l'occupation du sol en Belgique",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P5-020": {
+   "short": "En comparant deux cartes, sélectionner les affirmations correctes liant occupation/utilisation du sol et population, relief, hydrographie",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P6-001": {
+   "short": "Nommer les 6 continents (Europe, Asie, Amérique, Afrique, Océanie, Antarctique) figurés sur un planisphère ou un globe terrestre",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-002": {
+   "short": "Nommer les 5 océans (Atlantique, Pacifique, Indien, Arctique, Antarctique) figurés sur un planisphère ou un globe terrestre",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-003": {
+   "short": "Nommer les principaux parallèles et repères (tropiques, équateur, cercles polaires, hémisphères, pôles) sur un planisphère ou un globe",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-004": {
+   "short": "Distinguer la densité de la population (nombre d'habitants par unité de surface) de la population totale",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-005": {
+   "short": "Donner un ordre de grandeur : population mondiale (2021, à mettre à jour), part de l'Asie et de l'Europe, population à moins de 30 km des côtes, en ville",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-006": {
+   "short": "Distinguer, sur la base des températures, les zones thermiques de l'Europe (froid au nord, tempéré dans nos régions, méditerranéen au sud)",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-007": {
+   "short": "Nommer les trois zones thermiques (chaude, tempérée, polaire) figurées sur une carte",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-008": {
+   "short": "Sur la base de caractéristiques données, préciser le climat d'un lieu (chaud/froid, sec/humide, saisons contrastées ou non)",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-009": {
+   "short": "Décrire des exemples d'activités humaines qui participent au réchauffement climatique",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-010": {
+   "short": "Décrire des exemples de conséquences environnementales du réchauffement climatique (glaciers, banquise, océans, niveau des mers, espèces)",
+   "twin": null,
+   "type": "S",
+   "pistes_remove": [
+    "P6:G87"
+   ]
+  },
+  "GEO-P6-011": {
+   "short": "Citer des solutions pour atténuer les changements climatiques induits par le réchauffement",
+   "twin": null,
+   "type": "S"
+  },
+  "GEO-P6-012": {
+   "short": "Sur la base de vues verticales, comparer deux paysages d'un même endroit à des moments différents (changement de l'occupation du sol)",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P6-013": {
+   "short": "Annoter une carte à une variable d'après la légende (couleurs ou figurés) : espaces plus ou moins peuplés ; plus ou moins chauds et secs",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P6-014": {
+   "short": "Annoter une carte : nom des pays, principaux parallèles et autres repères utiles pour situer un fait ou un phénomène",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P6-015": {
+   "short": "Annoter une photographie verticale pour mettre en évidence un changement de l'occupation du sol",
+   "twin": null,
+   "type": "SF"
+  },
+  "GEO-P6-016": {
+   "short": "Situer en quelques mots des espaces plus ou moins peuplés, à l'aide des repères connus ou identifiés sur une carte",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P6-017": {
+   "short": "Situer un fait ou un phénomène à l'échelle d'un continent ou du monde (repères, répartition de la population, zones thermiques)",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P6-018": {
+   "short": "Caractériser le climat d'un espace en faisant référence aux températures et aux précipitations",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P6-019": {
+   "short": "Caractériser dans un espace des activités humaines qui relèvent de la production, des transports ou de la consommation",
+   "twin": null,
+   "type": "C"
+  },
+  "GEO-P6-020": {
+   "short": "Sur la base de différentes cartes, expliquer la présence plus ou moins importante de la population (relief, hydrographie, climat ou littoral)",
+   "twin": null,
+   "type": "C"
+  }
+ },
+ "reperes": [
+  {
+   "title": "Histoire P5 — Enjeux et démarche (référentiel)",
+   "text": "Depuis la Préhistoire, l'élève découvre l'évolution des modes de production et de consommation dans nos régions et ses impacts sur le cadre de vie et l'organisation des sociétés ; jusqu'en 1975, cinq grandes ruptures : Néolithique, Romanisation, Croissance économique médiévale, Industrialisation, société de consommation de l'Après-Guerre. Enjeux : élargir le cadre temporel sur 7 000 ans et structurer le temps long avec le découpage conventionnel ; prendre conscience des enjeux environnementaux (empreinte écologique, développement durable). Démarche : au départ de questionnements/observations de réalités d'aujourd'hui et du passé, mettre en évidence des changements et des continuités, puis rechercher et communiquer des éléments de contexte (acteurs, facteurs) qui situent et expliquent ces changements.",
+   "page": 51
+  },
+  {
+   "title": "Histoire P6 — Enjeux et démarche (référentiel)",
+   "text": "L'élève comprend les dimensions multiculturelles des sociétés dans nos régions (langues, croyances, habitudes de vie) à travers quatre ruptures : Romanisation, émergence des royaumes barbares (grandes migrations), explorations et premières colonisations européennes (XVe-XVIIIe s.), Après-Guerre. Enjeux : structurer les découpages conventionnels de l'histoire ; faire émerger des questionnements sur l'évolution des rapports sociaux et des rapports entre identités et cultures différentes. Démarche : mettre en évidence des changements et des continuités au niveau des langues, des religions et des habitudes de vie, puis rechercher et communiquer les contextes et facteurs qui les expliquent. Note 24 : « barbare » désigne, dans l'Antiquité, les peuples non issus du monde gréco-romain ; l'historiographie récente reprend le terme pour les grandes migrations venues de l'Est et les royaumes qui en sont issus.",
+   "page": 55
+  },
+  {
+   "title": "Géographie P5 — Enjeux et démarche (référentiel)",
+   "text": "Élargir la connaissance des éléments qui structurent le territoire belge (répartition de la population, divisions administratives) ; caractériser des occupations du sol en Belgique et en Europe en référence aux reliefs ; faire des liens entre répartition de la population, relief et hydrographie. La carte devient la porte d'entrée pour lire et comprendre les espaces ; paysages et occupation du sol servent de supports pour illustrer ce qui est lu sur la carte. À partir de la 5e, l'élève recourt de plus en plus à la carte, au globe virtuel et aux géoportails. Démarche explicative : au départ de questionnements/observations, mettre en évidence des différences entre occupations du sol et rechercher des éléments (population, hydrographie, relief) qui les justifient.",
+   "page": 87
+  },
+  {
+   "title": "Géographie P6 — Enjeux et démarche (référentiel)",
+   "text": "Élargir la connaissance des éléments qui structurent l'espace à l'échelle du monde : grands repères (continents, océans, principaux parallèles), répartition de la population, grands climats. L'observation passe notamment par les manifestations du réchauffement climatique, pour distinguer les activités humaines qui y contribuent plus ou moins (sensibilisation aux enjeux environnementaux du développement durable ; lien avec la citoyenneté : participation des citoyens aux choix d'occupation/utilisation du sol). À partir de la 6e, les observations prennent en compte l'évolution des territoires. Les repères sont lus sur différentes représentations, dont le planisphère et le globe, y compris en version numérique. Démarche explicative : mettre en évidence les grands contrastes de la répartition de la population mondiale et rechercher des éléments d'hydrographie, de relief et de climat qui les justifient.",
+   "page": 90
+  },
+  {
+   "title": "Géographie P6 — Chiffres de population « à mettre à jour »",
+   "text": "Le référentiel fixe les ordres de grandeur de la population mondiale à leur valeur de 2021 (environ 7,9 milliards ; 60 % en Asie, 10 % en Europe ; un peu plus de 20 % à moins de 30 km des côtes ; 70 % en ville) et précise explicitement « (à mettre à jour) » : actualiser les chiffres avant de les enseigner.",
+   "page": 91
+  },
+  {
+   "title": "CECP P5 — Attendus sans séquence clé en main",
+   "text": "Six attendus P5 de FHGES ne sont visés par aucune séquence didactique du CECP P5 ; l'enseignant doit les prévoir lui-même : H108 « Expliquer une revendication ouvrière », H123 « tableau à double entrée » (compétence), G68 « annoter un paysage vue au sol/vue aérienne » (le CECP annonce p. 918 qu'il « pourra donner lieu à une séquence spécifique »), G72 « relever l'altitude d'un point », G73 « profil du relief », G77 « transformations/permanences de l'occupation du sol ».",
+   "page": 918
+  },
+  {
+   "title": "CECP P6 — Attendus sans séquence clé en main",
+   "text": "Quatre attendus d'histoire P6 ne sont visés par aucune des deux séquences d'histoire du CECP P6 (immigration p. 906 ; romanisation p. 930) : H125 « Nommer et dater quatre moments de rupture », H128 « changement entre la période gallo-romaine et le Haut Moyen Âge », H129 « impact des colonisations européennes », H130 « produits originaires des régions colonisées ». Les moments clés 2 (Haut Moyen Âge) et 3 (explorations et colonisations) sont donc à construire par l'enseignant. Tous les attendus de géographie P6 sont couverts par les trois séquences (pp. 946, 962, 982).",
+   "page": 906
+  }
+ ],
+ "notes": [
+  "Aucun jumeau retenu : cecp_match.same proposait HIST-P5-003 → HIST-P6-003 (« Associer les moments clés aux périodes conventionnelles. », p. 52 / p. 56, libellés strictement identiques) et HIST-P5-013 → HIST-P6-011 (« Dater les faits marquants. », p. 53 / p. 57, idem). Je les ai tranchés comme NON jumeaux : le libellé est générique mais son objet (colonne Contenu) change entièrement d'une année à l'autre — 5 moments clés production/consommation (Préhistoire→Romanisation, gallo-romain, seigneuries et villes, patronat/monde ouvrier, Après-Guerre 1945-1975) contre 4 moments clés multiculturalité (gallo-romain, Haut Moyen Âge, explorations/colonisations, après 1945) ; faits P5 (vers 5000 av. J.-C., vers 50 av. J.-C., à partir du XIe s., 1835, 1939-1945) contre faits P6 (vers 3500 av. J.-C., an 1, 476, 1492, 1789). Un item unique P5·P6 masquerait que ce sont deux apprentissages distincts, et l'audit (section MANQUANTS) traite déjà HIST-P6-003 comme un attendu propre à la P6. Les libellés abrégés portent la mention « P5 »/« P6 » et la liste de l'année pour les distinguer. Si Jérémy préfère l'application stricte de la règle « libellé identique = jumeau », il suffit de mettre twin = \"HIST-P6-003\" sur HIST-P5-003 et twin = \"HIST-P6-011\" sur HIST-P5-013, et de retirer ces deux ids P6 des sous-sections.",
+  "Bilan : 88 items placés, tous twin null — 25 HIST P5 + 23 HIST P6 + 20 GEO P5 + 20 GEO P6 ; chaque id apparaît exactement une fois. 6 domaines (hist-reperes, hist-moments, hist-sf, geo-reperes, geo-sf, geo-comp), sous-sections par année (3 à 9 items). HIST-P5-014 (notion de rupture, section « Vocabulaire et notions ») est rangé avec les repères temporels P5 ; les savoirs culturels (HIST-P5-015, HIST-P6-013) ferment la sous-section « moments clés » de leur année pour éviter des sous-sections d'un seul item.",
+  "Pistes CECP : toutes les correspondances de cecp_match.json ont un score de 1.0 ; un seul retrait — P6:G87 sur GEO-P6-010 (G87 = « Décrire des exemples d'activités humaines qui participent au réchauffement climatique » = GEO-P6-009 ; la correspondance 1.0 venait du contenu commun « Réchauffement climatique : causes / conséquences » ; GEO-P6-010 garde G88). Aucun ajout : les séquences de cecp_index.json ne citent aucun code supplémentaire pour cette discipline. Codes multi-séquences assumés et vérifiés dans cecp_index.json : G74 (GEO-P5-016, séquences p. 876 et p. 902), G95 (GEO-P6-017, p. 946 et p. 962), H101/H110/H111/H114/H116/H119/H122 (P5, p. 818 et p. 840), H124/H126/H136/H137/H139/H140/H142/H143/H144/H145 (P6, p. 906 et p. 930).",
+  "Codes CECP : P5 H99-H123 et G59-G78 confirmés par HISTGEO_FMTTN_complement_CECP_P5.md (25/25 et 20/20 exacts ; les mentions « (extrapolé) » de l'inventaire sont obsolètes) ; P6 H124-H146 et G79-G98 confirmés par HISTGEO_audit.md. Attention : les renvois en prose du CECP P5 (histoire) sont parfois décalés de +1 par rapport aux blocs « Contenus et attendus visés » ; seuls les blocs font foi.",
+  "Libellés abrégés : une vingtaine d'items dépassent 120 caractères (max ~165 pour HIST-P6-023) parce que l'attendu officiel est lui-même long et que chaque limite ou liste fermée a été conservée (bornes de dates, « et inversement », « ou à la proximité du littoral », les 7 éléments hydrographiques, les 4 facteurs…). Les listes entre parenthèses reprennent la colonne Contenu du référentiel (périodes, ruptures, moments clés, faits marquants, acteurs), jamais un ajout. Les précisions « (la ville, XIe-XIVe s.) » (HIST-P5-008), « (patronat, monde ouvrier et monde rural, XIXe-début XXe s.) » (HIST-P5-010), « (XIe-XIVe s.) », « (XIXe s.) », « (1945-1975) », « (Ve-Xe s.) » rappellent les titres/dates des moments clés du référentiel pour rendre l'item autonome. Les chiffres « (10) provinces » et « (4) pays limitrophes » viennent du contenu p. 88. Abréviations : « UE » = Union Européenne (GEO-P5-012), « produire/consommer » = « dans les activités pour produire et consommer ».",
+  "Types normalisés : « Savoir » → S, « Savoir-faire » → SF, « Compétence » → C. Les attendus « Exploiter un document pour répondre à une question de recherche », « Utiliser une représentation du temps… », « Utiliser méthodiquement un dictionnaire… », « Lire un paysage », « Lire un croquis cartographique… », « Annoter/construire une représentation de l'espace » et les intitulés génériques de compétences sont des contenus de colonne gauche (confirmé par HISTGEO_verification.md et les blocs CECP) : ils n'ont pas d'item, ils servent de titres de sous-sections.",
+  "Repères : les quatre paragraphes d'introduction du référentiel (pp. 51, 55, 87, 90 : objet de l'année, enjeux, démarche) ne sont pas des attendus et sont restitués en repères ; de même la mention « (à mettre à jour) » des chiffres de population (p. 91) et les attendus P5/P6 sans séquence CECP (utile pour planifier). Le repère CECP P6 est daté de la page 906 (début de la séquence « immigration ») faute d'une page unique."
+ ]
+}

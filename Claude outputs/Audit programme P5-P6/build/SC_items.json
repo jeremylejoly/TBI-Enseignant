@@ -1,0 +1,931 @@
+{
+  "domains": [
+    {
+      "key": "inv",
+      "icon": "🔍",
+      "title": "Démarche d'investigation scientifique — savoir-faire (P5 pp. 56-57 · P6 pp. 64-65)",
+      "subsections": [
+        {
+          "title": "Se questionner — s'approprier un questionnement, proposer des explications, émettre une hypothèse",
+          "items": [
+            "SC-P5-001",
+            "SC-P5-002",
+            "SC-P5-003"
+          ]
+        },
+        {
+          "title": "Investiguer (1) — proposer des moyens d'investigation, expérimenter et traiter les résultats, observer",
+          "items": [
+            "SC-P5-004",
+            "SC-P5-005",
+            "SC-P5-006",
+            "SC-P5-007",
+            "SC-P5-008",
+            "SC-P5-009",
+            "SC-P6-010",
+            "SC-P5-010"
+          ]
+        },
+        {
+          "title": "Investiguer (2) — consulter des sources, utiliser des représentations/modèles, analyser et débattre, faire évoluer les hypothèses",
+          "items": [
+            "SC-P5-011",
+            "SC-P6-013",
+            "SC-P5-012",
+            "SC-P5-013",
+            "SC-P5-014",
+            "SC-P5-015",
+            "SC-P5-016",
+            "SC-P6-017"
+          ]
+        },
+        {
+          "title": "Structurer les résultats et les valider — structurer des informations, vérifier et valider",
+          "items": [
+            "SC-P5-017",
+            "SC-P6-019",
+            "SC-P5-018",
+            "SC-P6-021",
+            "SC-P5-019",
+            "SC-P5-020",
+            "SC-P5-021",
+            "SC-P5-022"
+          ]
+        },
+        {
+          "title": "Synthétiser et communiquer — sur les résultats, les connaissances acquises et la démarche",
+          "items": [
+            "SC-P5-023",
+            "SC-P6-025",
+            "SC-P5-024",
+            "SC-P5-025"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "viv",
+      "icon": "🌱",
+      "title": "Vivants",
+      "subsections": [
+        {
+          "title": "P5 — La reproduction humaine (EVRAS) : savoirs et savoir-faire (p. 58)",
+          "items": [
+            "SC-P5-026",
+            "SC-P5-027",
+            "SC-P5-028",
+            "SC-P5-029",
+            "SC-P5-030",
+            "SC-P5-031",
+            "SC-P5-032",
+            "SC-P5-033"
+          ]
+        },
+        {
+          "title": "P5 — La reproduction des plantes vertes : savoirs (p. 59)",
+          "items": [
+            "SC-P5-034",
+            "SC-P5-035",
+            "SC-P5-036",
+            "SC-P5-037",
+            "SC-P5-038",
+            "SC-P5-039",
+            "SC-P5-040",
+            "SC-P5-041",
+            "SC-P5-042"
+          ]
+        },
+        {
+          "title": "P5 — La reproduction des plantes vertes : savoir-faire et compétences (visées 2 et 4) (p. 59)",
+          "items": [
+            "SC-P5-043",
+            "SC-P5-044",
+            "SC-P5-045",
+            "SC-P5-046",
+            "SC-P5-047"
+          ]
+        },
+        {
+          "title": "P6 — Les liens entre les systèmes respiratoire, circulatoire et digestif : savoirs (p. 66)",
+          "items": [
+            "SC-P6-028",
+            "SC-P6-029",
+            "SC-P6-030",
+            "SC-P6-031",
+            "SC-P6-032",
+            "SC-P6-033"
+          ]
+        },
+        {
+          "title": "P6 — Les liens entre les systèmes : savoir-faire et compétence (visée 2) (p. 66)",
+          "items": [
+            "SC-P6-034",
+            "SC-P6-035",
+            "SC-P6-036",
+            "SC-P6-037"
+          ]
+        },
+        {
+          "title": "P6 — La classification des vivants : savoirs, savoir-faire et compétence (visée 1) (p. 67)",
+          "items": [
+            "SC-P6-038",
+            "SC-P6-039",
+            "SC-P6-040",
+            "SC-P6-041",
+            "SC-P6-042",
+            "SC-P6-043",
+            "SC-P6-044"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "mat",
+      "icon": "⚗️",
+      "title": "Matière",
+      "subsections": [
+        {
+          "title": "P5 — Les mélanges homogènes et hétérogènes : savoirs (p. 60)",
+          "items": [
+            "SC-P5-048",
+            "SC-P5-049",
+            "SC-P5-050",
+            "SC-P5-051",
+            "SC-P5-052",
+            "SC-P5-053",
+            "SC-P5-054"
+          ]
+        },
+        {
+          "title": "P5 — Les mélanges : savoir-faire et compétence (visée 1) (pp. 60-61)",
+          "items": [
+            "SC-P5-055",
+            "SC-P5-056",
+            "SC-P5-057",
+            "SC-P5-058",
+            "SC-P5-059",
+            "SC-P5-060"
+          ]
+        },
+        {
+          "title": "P6 — Les transformations de la matière : savoirs et savoir-faire (p. 68)",
+          "items": [
+            "SC-P6-045",
+            "SC-P6-046",
+            "SC-P6-047",
+            "SC-P6-048",
+            "SC-P6-049",
+            "SC-P6-050",
+            "SC-P6-051",
+            "SC-P6-052"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ene",
+      "icon": "⚡",
+      "title": "Énergie",
+      "subsections": [
+        {
+          "title": "P5 — Les mouvements de la Terre autour du Soleil : savoirs, savoir-faire et compétence (visée 2) (pp. 61-62)",
+          "items": [
+            "SC-P5-061",
+            "SC-P5-062",
+            "SC-P5-063",
+            "SC-P5-064",
+            "SC-P5-065",
+            "SC-P5-066",
+            "SC-P5-067",
+            "SC-P5-068",
+            "SC-P5-069",
+            "SC-P5-070",
+            "SC-P5-071"
+          ]
+        },
+        {
+          "title": "P5 — Le circuit électrique : savoirs, savoir-faire et compétence (visée 1) (p. 62)",
+          "items": [
+            "SC-P5-072",
+            "SC-P5-073",
+            "SC-P5-074",
+            "SC-P5-075",
+            "SC-P5-076",
+            "SC-P5-077",
+            "SC-P5-078",
+            "SC-P5-079"
+          ]
+        },
+        {
+          "title": "P6 — Les ressources énergétiques et l'énergie thermique : savoirs, savoir-faire et compétence (visées 2 et 4) (p. 69)",
+          "items": [
+            "SC-P6-053",
+            "SC-P6-054",
+            "SC-P6-055",
+            "SC-P6-056",
+            "SC-P6-057",
+            "SC-P6-058",
+            "SC-P6-059",
+            "SC-P6-060",
+            "SC-P6-061"
+          ]
+        }
+      ]
+    }
+  ],
+  "items": {
+    "SC-P5-001": {
+      "short": "Formuler une question scientifique correspondant au problème posé",
+      "twin": "SC-P6-001",
+      "type": "SF"
+    },
+    "SC-P5-002": {
+      "short": "Distinguer les faits établis des jugements de valeur",
+      "twin": "SC-P6-002",
+      "type": "SF"
+    },
+    "SC-P5-003": {
+      "short": "Émettre une hypothèse et la confronter à celles des autres",
+      "twin": "SC-P6-003",
+      "type": "SF"
+    },
+    "SC-P5-004": {
+      "short": "Rechercher et identifier des facteurs susceptibles d'influencer la situation envisagée",
+      "twin": "SC-P6-004",
+      "type": "SF"
+    },
+    "SC-P5-005": {
+      "short": "Proposer des moyens d'investigation",
+      "twin": "SC-P6-005",
+      "type": "SF",
+      "pistes_remove": [
+        "P5:DIS82",
+        "P6:DIS107"
+      ]
+    },
+    "SC-P5-006": {
+      "short": "Concevoir un protocole, le mettre en œuvre et le modifier si nécessaire",
+      "twin": "SC-P6-006",
+      "type": "SF",
+      "pistes_remove": [
+        "P5:SC204",
+        "P6:SC260"
+      ]
+    },
+    "SC-P5-007": {
+      "short": "Choisir et utiliser le matériel adapté à la situation expérimentale et respecter les mesures de sécurité",
+      "twin": "SC-P6-007",
+      "type": "SF",
+      "pistes_remove": [
+        "P6:SC261"
+      ]
+    },
+    "SC-P5-008": {
+      "short": "Utiliser l'instrument de mesure proposé et exprimer le résultat de la mesure avec l'unité appropriée",
+      "twin": "SC-P6-008",
+      "type": "SF",
+      "pistes_remove": [
+        "P5:SC206",
+        "P6:SC235"
+      ]
+    },
+    "SC-P5-009": {
+      "short": "Verbaliser et schématiser une situation expérimentale",
+      "twin": "SC-P6-009",
+      "type": "SF",
+      "pistes_remove": [
+        "P5:SC227"
+      ]
+    },
+    "SC-P6-010": {
+      "short": "Répéter l'expérience et faire une moyenne",
+      "twin": null,
+      "type": "SF",
+      "pistes_remove": [
+        "P6:SC236"
+      ]
+    },
+    "SC-P5-010": {
+      "short": "Recueillir et décrire les observations qualitatives et quantitatives, avec le vocabulaire adéquat",
+      "twin": "SC-P6-011",
+      "type": "SF"
+    },
+    "SC-P5-011": {
+      "short": "Recueillir, extraire et noter des informations liées à une question scientifique (divers supports) ; noter titre et auteur",
+      "twin": "SC-P6-012",
+      "type": "SF"
+    },
+    "SC-P6-013": {
+      "short": "Vérifier si l'information répond à la question de départ",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-012": {
+      "short": "Utiliser une représentation simplifiée pour comprendre une réalité complexe",
+      "twin": "SC-P6-014",
+      "type": "SF"
+    },
+    "SC-P5-013": {
+      "short": "Utiliser des symboles pertinents",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-014": {
+      "short": "Analyser et interpréter des données collectées (résultats expérimentaux, observations, informations…)",
+      "twin": "SC-P6-015",
+      "type": "SF"
+    },
+    "SC-P5-015": {
+      "short": "Confronter ensemble les informations et les résultats trouvés",
+      "twin": "SC-P6-016",
+      "type": "SF"
+    },
+    "SC-P5-016": {
+      "short": "Confronter son explication de départ aux données récoltées",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-017": {
+      "short": "Confronter son explication de départ/son hypothèse aux données récoltées",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-017": {
+      "short": "Comparer des éléments en vue de les organiser de manière scientifique : trier, classer",
+      "twin": "SC-P6-018",
+      "type": "SF"
+    },
+    "SC-P6-019": {
+      "short": "Extraire des informations d'un tableau de données et/ou d'un graphique",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-018": {
+      "short": "Comparer des informations provenant de sources différentes et préciser le titre et l'auteur",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-021": {
+      "short": "Comparer des informations de sources différentes et préciser la nature du document, le titre et l'auteur",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-019": {
+      "short": "Rassembler informations et résultats sous des formes formalisées (schéma, dessin, tableau, graphique…), notamment numériques",
+      "twin": "SC-P6-020",
+      "type": "SF"
+    },
+    "SC-P5-020": {
+      "short": "Identifier une cause et son/ses effets",
+      "twin": "SC-P6-022",
+      "type": "SF"
+    },
+    "SC-P5-021": {
+      "short": "Confronter les informations obtenues et le savoir scientifique pour réaliser une synthèse commune",
+      "twin": "SC-P6-023",
+      "type": "SF"
+    },
+    "SC-P5-022": {
+      "short": "Répondre à la question de départ en s'appuyant sur les faits, les résultats et les discussions de la démarche",
+      "twin": "SC-P6-024",
+      "type": "SF"
+    },
+    "SC-P5-023": {
+      "short": "Construire ensemble une synthèse des concepts qui ont été appris",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-025": {
+      "short": "Construire une synthèse des concepts qui ont été appris",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-024": {
+      "short": "S'exprimer de manière structurée en utilisant une terminologie appropriée à la situation",
+      "twin": "SC-P6-026",
+      "type": "SF"
+    },
+    "SC-P5-025": {
+      "short": "Réaliser une trace (questionnement, déroulement, conclusion) sur le support le plus adéquat (dessin, maquette, photo, panneau…)",
+      "twin": "SC-P6-027",
+      "type": "SF"
+    },
+    "SC-P5-026": {
+      "short": "Citer les étapes de la vie des humains (fécondation, naissance, croissance, mort)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-027": {
+      "short": "Décrire des changements physiques propres à la puberté (pilosité, mue de la voix, musculature, seins, menstruations…)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-028": {
+      "short": "Légender un schéma simplifié des appareils reproducteurs masculin et féminin (pénis, testicules, vagin, vulve, clitoris, utérus, ovaires)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-029": {
+      "short": "Identifier la fonction des organes reproducteurs : homme (au moins pénis, testicules), femme (au moins ovaire, utérus, vagin)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-030": {
+      "short": "Préciser le rôle des deux sexes dans la reproduction sexuée (l'homme produit les spermatozoïdes, la femme les ovules)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-031": {
+      "short": "Identifier la fécondation comme le résultat de la rencontre entre un spermatozoïde et un ovule",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-032": {
+      "short": "Utiliser les termes : puberté, pénis, testicule, ovaire, vagin, vulve, clitoris, utérus, fécondation, ovule, spermatozoïde",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-033": {
+      "short": "Réaliser une représentation pour illustrer la fécondation (rencontre d'un spermatozoïde et d'un ovule)",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-034": {
+      "short": "Décrire les étapes de la vie d'une plante à fleurs (pollinisation, fécondation, fructification, germination, croissance, mort)",
+      "twin": null,
+      "type": "S",
+      "pistes_remove": [
+        "P5:SC195"
+      ]
+    },
+    "SC-P5-035": {
+      "short": "Décrire le mode de reproduction sexuée des plantes à fleurs",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-036": {
+      "short": "Identifier l'organe contenant la/les graine(s) comme étant le fruit provenant de la fleur fécondée",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-037": {
+      "short": "Citer cinq plantes/arbres/arbustes locaux produisant des fruits qui se mangent",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-038": {
+      "short": "Préciser que la pollinisation est le transport du pollen des organes reproducteurs mâles aux organes femelles",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-039": {
+      "short": "Identifier la fécondation comme la rencontre entre un grain de pollen et un ovule présent dans la plante",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-040": {
+      "short": "Identifier des acteurs de la pollinisation (ex. : vent, animaux…)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-041": {
+      "short": "Identifier des acteurs qui interviennent dans la dissémination des graines (vent, animaux, eau, plante)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-042": {
+      "short": "Utiliser les termes : graine, pollinisation, germination, fécondation, reproduction sexuée, dissémination",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-043": {
+      "short": "Réaliser et/ou observer une dissection de différentes plantes pour identifier les organes liés à la reproduction",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-044": {
+      "short": "Observer l'activité d'insectes pollinisateurs en lien avec une question",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-045": {
+      "short": "Observer la transformation de fleurs en fruits contenant une/des graines et rassembler les informations pour les communiquer",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-046": {
+      "short": "Ordonner et décrire les étapes de la vie d'une plante à fleurs à partir de n'importe quel élément (ex. : fruit, graine, fleur…)",
+      "twin": null,
+      "type": "C"
+    },
+    "SC-P5-047": {
+      "short": "Mettre en évidence l'impact de la disparition d'insectes pollinisateurs sur la vie d'une plante à fleurs, l'environnement et/ou l'alimentation",
+      "twin": null,
+      "type": "C"
+    },
+    "SC-P6-028": {
+      "short": "Décrire le fonctionnement du système respiratoire : situer ses organes (nez, bouche, trachée, bronches, poumons, alvéoles), rôles du diaphragme et de la cage thoracique, échanges gazeux O₂/CO₂ aux alvéoles",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-029": {
+      "short": "Décrire le fonctionnement du système digestif : situer ses organes et glandes annexes ; aliments transformés en nutriments absorbés dans l'intestin grêle (vers le sang) ; eau absorbée au côlon ; matières non absorbées évacuées à l'anus",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-030": {
+      "short": "Expliquer le rôle du cœur, des différents types de vaisseaux (veines et artères) et du sang",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-031": {
+      "short": "Préciser que les nutriments, le dioxygène et le dioxyde de carbone sont transportés dans l'organisme par le sang",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-032": {
+      "short": "Préciser que certains déchets sont évacués dans les urines, d'autres au niveau des poumons (dioxyde de carbone)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-033": {
+      "short": "Utiliser les termes : nutriment, absorption intestinale, bouche, œsophage, estomac, intestin grêle, côlon, anus, glandes salivaires, pancréas, foie, veine, artère, ventilation, rythme cardiaque, trachée, bronche, poumon, alvéoles, dioxygène, dioxyde de carbone",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-034": {
+      "short": "Évaluer le nombre de mouvements ventilatoires avant/après l'effort et l'interpréter (liens ventilation – activité physique)",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-035": {
+      "short": "Évaluer le rythme cardiaque avant/après l'effort et l'interpréter (liens rythme cardiaque – activité physique)",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-036": {
+      "short": "Représenter les mouvements ventilatoires à l'aide d'un dispositif et comparer son fonctionnement avec la réalité",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-037": {
+      "short": "Représenter, décrire et expliquer les interactions entre les systèmes circulatoire, digestif et respiratoire dans un contexte donné",
+      "twin": null,
+      "type": "C"
+    },
+    "SC-P6-038": {
+      "short": "Définir l'espèce comme un ensemble de vivants pouvant se reproduire entre eux et avoir des descendants féconds",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-039": {
+      "short": "Préciser que la classification phylogénétique scientifique permet de montrer les liens de parenté entre les espèces",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-040": {
+      "short": "Nommer des attributs des espèces rencontrées (squelette interne/externe, membre, pattes articulées, antennes, poils, coquille…)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-041": {
+      "short": "Utiliser les termes : attribut, espèce, classification",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-042": {
+      "short": "Utiliser différents critères pour classer les êtres vivants et identifier ceux retenus pour la classification",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-043": {
+      "short": "Utiliser et/ou réaliser un tableau d'attributs partagés, afin de réaliser des groupes emboités",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-044": {
+      "short": "Réaliser une classification en ensembles emboités selon des attributs partagés, à partir d'une collection donnée d'animaux",
+      "twin": null,
+      "type": "C"
+    },
+    "SC-P5-048": {
+      "short": "Distinguer des mélanges homogènes de mélanges hétérogènes (ex. : sel/poivre, eau/sel, eau/huile, eau/grenadine…)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-049": {
+      "short": "Identifier que l'air est un mélange homogène (ex. : air parfumé dans une cuisine, parfum, air pollué en fin de journée…)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-050": {
+      "short": "Citer les principaux constituants de l'air (diazote, dioxygène et autres gaz dont le dioxyde de carbone)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-051": {
+      "short": "Énoncer que des objets de même volume peuvent avoir une masse différente",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-052": {
+      "short": "Définir le volume d'un objet comme étant l'espace occupé par l'objet",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-053": {
+      "short": "Exprimer les mesures de masse en kg, g et les mesures de volume en dm³, cm³, L, mL",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-054": {
+      "short": "Utiliser les termes : constituants, mélange homogène et mélange hétérogène, dioxygène, diazote, dioxyde de carbone, volume",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-055": {
+      "short": "Préparer des mélanges de deux constituants",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-056": {
+      "short": "Mesurer une masse et préciser l'unité",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-057": {
+      "short": "Mesurer masses et volumes de liquides différents pour comparer les masses à volumes identiques et les volumes à masse identique",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-058": {
+      "short": "Montrer qu'un dm³ d'eau correspond à 1 litre d'eau",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-059": {
+      "short": "Trier des mélanges selon la caractéristique homogène ou hétérogène",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-060": {
+      "short": "Préparer un mélange de son choix (recette alimentaire, cosmétique…) et l'expliquer",
+      "twin": null,
+      "type": "C"
+    },
+    "SC-P6-045": {
+      "short": "Identifier un phénomène physique comme un phénomène où la matière n'est pas transformée (ex. : changement d'état)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-046": {
+      "short": "Identifier un phénomène chimique comme un phénomène où la matière est transformée (ex. : combustion, cuisson…)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-047": {
+      "short": "Préciser que l'énergie chimique stockée dans la matière est transformée en énergie thermique lors de la combustion",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-048": {
+      "short": "Préciser que la combustion nécessite de l'air (dioxygène) et libère de l'énergie thermique, de l'eau et du dioxyde de carbone",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-049": {
+      "short": "Utiliser les termes : phénomène chimique, phénomène physique, changement d'état, combustion, énergie thermique",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-050": {
+      "short": "Décrire les observations réalisées lors d'une combustion pour mettre en évidence que la matière se transforme",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-051": {
+      "short": "Décrire les observations lors de la combustion d'une bougie : nécessité d'air (dioxygène), libération d'énergie thermique et d'eau",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-052": {
+      "short": "Proposer des moyens d'éteindre un feu en toute sécurité",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-061": {
+      "short": "Définir le Soleil comme une étoile, la Terre comme une planète du système solaire et la Lune comme satellite naturel de la Terre",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-062": {
+      "short": "Préciser que le Soleil est une source de lumière, tandis que la Lune renvoie la lumière qu'elle reçoit du Soleil",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-063": {
+      "short": "Décrire les mouvements de la Terre : rotation et révolution",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-064": {
+      "short": "Associer la durée de la rotation complète de la Terre à un jour et celle de sa révolution autour du Soleil à une année",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-065": {
+      "short": "Décrire le mouvement de la Lune autour de la Terre",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-066": {
+      "short": "Associer l'alternance jour/nuit à la rotation de la Terre",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-067": {
+      "short": "Énoncer qu'il y a eu, au cours de l'Histoire, des représentations différentes de la Terre et du système Soleil-Terre",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-068": {
+      "short": "Associer la représentation du système Soleil-Terre à un modèle scientifique (représentation simplifiée pour comprendre et prévoir)",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-069": {
+      "short": "Utiliser les termes : rotation, révolution, satellite, étoile, planète, modèle scientifique",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-070": {
+      "short": "Repérer s'il fait jour ou nuit à un endroit donné, en fonction des positions respectives de l'observateur et du Soleil",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-071": {
+      "short": "Utiliser un modèle du système Soleil-Terre-Lune pour expliquer l'alternance jour/nuit, la longueur d'une journée et d'une année",
+      "twin": null,
+      "type": "C"
+    },
+    "SC-P5-072": {
+      "short": "Identifier les composants d'un circuit électrique simple : fil électrique, générateur, récepteur, interrupteur",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-073": {
+      "short": "Distinguer le circuit électrique fermé du circuit électrique ouvert",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-074": {
+      "short": "Distinguer les matériaux isolants électriques des matériaux conducteurs électriques",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-075": {
+      "short": "Utiliser les termes : fil électrique, générateur, récepteur, interrupteur, isolant électrique, conducteur électrique, circuit électrique",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P5-076": {
+      "short": "Tester différents matériaux dans un circuit électrique simple, pour distinguer un isolant d'un conducteur",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-077": {
+      "short": "Construire un circuit électrique simple intégrant un interrupteur",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-078": {
+      "short": "Schématiser un circuit électrique au moyen de symboles",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P5-079": {
+      "short": "Concevoir, réaliser et présenter un projet nécessitant un circuit électrique simple",
+      "twin": null,
+      "type": "C"
+    },
+    "SC-P6-053": {
+      "short": "Citer différentes ressources d'énergie pour se chauffer et les qualifier de renouvelables ou non",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-054": {
+      "short": "Préciser que l'énergie thermique se transfère d'une matière chaude vers une matière froide",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-055": {
+      "short": "Citer des matériaux plutôt isolants et plutôt conducteurs d'un point de vue thermique",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-056": {
+      "short": "Énoncer plusieurs formes d'énergie se transformant en énergie thermique : mécanique, lumineuse, électrique, chimique",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-057": {
+      "short": "Utiliser les termes : ressource renouvelable/non renouvelable, énergie thermique, isolant thermique, conducteur thermique, transformation d'énergie",
+      "twin": null,
+      "type": "S"
+    },
+    "SC-P6-058": {
+      "short": "Relever des moyens pour limiter l'utilisation d'énergie à la maison, à l'école",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-059": {
+      "short": "Mettre en évidence expérimentalement comment empêcher un objet chaud de se refroidir, et inversement",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-060": {
+      "short": "Tester quelques matériaux pour éprouver leur caractéristique d'isolant ou de conducteur d'énergie thermique",
+      "twin": null,
+      "type": "SF"
+    },
+    "SC-P6-061": {
+      "short": "Justifier des moyens pour limiter les pertes d'énergie thermique, dans des perspectives d'utilisation responsable de l'énergie",
+      "twin": null,
+      "type": "C"
+    }
+  },
+  "reperes": [
+    {
+      "title": "P5 — Portrait de l'année (référentiel)",
+      "text": "Les élèves développent leur capacité d'abstraction (se représenter des choses jamais rencontrées, comme le système solaire), analysent des relations entre objets (mélanges), débattent de points de vue et exercent leur autonomie dans l'organisation du travail. Le concept de modèle scientifique est introduit de façon explicite, notamment dans le champ « énergie » : construction de l'esprit représentant de manière simplifiée la réalité pour la comprendre et faire des prévisions. L'étude des systèmes reproducteurs humain et végétal contribue à l'EVRAS.",
+      "page": 55
+    },
+    {
+      "title": "P5 et P6 — Démarches d'investigation : attendus « gris » et « noir », évaluation sommative",
+      "text": "Les savoir-faire de démarche sont exercés sur des objets au choix, dans le cadre des thèmes de l'année, pour construire certains contenus. Dans le tableau du référentiel, ceux travaillés les années précédentes (toujours à entrainer) sont en gris, ceux initiés dans l'année en noir. Lors des évaluations sommatives, il est recommandé de se centrer sur les attendus en gris, exercés plus longtemps, et non sur ceux en noir dont l'apprentissage a uniquement été initié. La distinction gris/noir n'est pas restituée par l'extraction texte : à vérifier sur le PDF. Les trois attendus absents du tableau P5 (répéter l'expérience et faire une moyenne ; vérifier si l'information répond à la question ; extraire des informations d'un tableau/graphique) sont vraisemblablement des attendus initiés en P6.",
+      "page": 56
+    },
+    {
+      "title": "P5 — Reproduction humaine : cadre EVRAS et limites",
+      "text": "La reproduction humaine (puberté, anatomie du système reproducteur, fécondation) relève de la visée 2 « Apprendre les sciences » et contribue à l'EVRAS. Les moyens contraceptifs et la protection contre les IST sont abordés en 1re secondaire, pas en P5. CECP P5 : les termes « cellule » (p. 646), « trompes de Fallope » (p. 650), « prostate », « vésicules séminales », « sperme » (p. 654) ne font pas partie des attendus ; ils sont abordés pour éviter des conceptions erronées mais ne doivent en aucun cas faire l'objet d'une évaluation. De même pour les éléments de la vidéo sur la puberté hors référentiel (p. 662).",
+      "page": 57
+    },
+    {
+      "title": "P5 — Reproduction des plantes vertes : compétence phare et limites",
+      "text": "Il est attendu que les élèves ordonnent et décrivent les étapes de la vie d'une plante à fleurs à partir de n'importe quel élément de celle-ci, et mettent en évidence l'impact de la disparition d'insectes pollinisateurs (visées 2 et 4). CECP P5 (p. 584) : les termes « pétale » et « sépale » aident à décrire la fleur mais ne font pas partie des attendus de P5 ; ne pas les évaluer. CECP P5 (p. 588) : les termes « modèle » et « modéliser » au sens scientifique ne sont pas attendus à l'école primaire, « représentation / représenter » sont les termes à utiliser avec les élèves (nuance : le référentiel P5 attend néanmoins le terme « modèle scientifique » dans le vocabulaire du thème Soleil-Terre-Lune, SC-P5-069).",
+      "page": 58
+    },
+    {
+      "title": "P5 — Mélanges : visée 1 et limites",
+      "text": "Les élèves approfondissent la notion de mélange en réalisant des mélanges hétérogènes et homogènes et mesurent masses et volumes pour comparer des matières ; la compétence (visée 1) est de préparer un mélange de son choix et l'expliquer. La masse volumique est abordée en 2e secondaire. CECP P5 : la distinction fusion/dissolution (p. 558), la séparation des constituants d'un mélange (p. 560, abordée en S1) et le rapport masse/volume « masse volumique » (p. 564) ne font pas partie des attendus de P5 et ne sont pas à évaluer ; les mélanges solide/solide homogènes (alliages) ne sont pas attendus (p. 559). Pour la correspondance 1 L d'eau ↔ 1 dm³ ↔ 1 kg, privilégier la double flèche plutôt que le signe « = » (p. 564).",
+      "page": 60
+    },
+    {
+      "title": "P5 — Soleil-Terre-Lune : visées 2 et 3",
+      "text": "Les élèves se représentent le système Soleil-Terre-Lune pour découvrir l'alternance jour/nuit ; la compétence (visée 2) est d'utiliser un modèle du système pour expliquer l'alternance jour/nuit, la longueur d'une journée et d'une année. L'utilisation de modèles est l'occasion de travailler la visée 3 « Apprendre à propos des sciences » : caractéristiques des sciences et construction des savoirs scientifiques à travers l'Histoire.",
+      "page": 61
+    },
+    {
+      "title": "P5 — Circuit électrique : visée 1 et limites",
+      "text": "Le montage de circuits simples approfondit la compréhension de systèmes électriques et offre l'occasion de travailler les savoir-faire de démarche ; la compétence (visée 1) est de concevoir, réaliser et présenter un projet nécessitant un circuit électrique simple. Réinvestie en FMTTN en 1re secondaire ; approche quantitative et domestique en 3e secondaire. CECP P5 (p. 608) : la conductivité de l'eau selon ses « impuretés » ne fait pas partie des attendus de P5 (secondaire).",
+      "page": 62
+    },
+    {
+      "title": "P6 — Portrait de l'année (référentiel)",
+      "text": "Les références au monde réel restent essentielles. Les élèves font des liens entre apprentissages, en particulier les interactions entre systèmes digestif, respiratoire et circulatoire. Ils sont initiés aux transformations physiques et chimiques de la matière (distinction progressive physique/chimie). Le champ « énergie » se focalise sur l'énergie thermique et la visée 4 (économie d'énergie thermique, problème sociétal). Les élèves travaillent la distinction entre savoir scientifique et croyances (classification des vivants, énergie thermique). Les permanences constatées mènent à des généralisations : concepts, modèles, lois.",
+      "page": 63
+    },
+    {
+      "title": "P6 — Systèmes respiratoire, circulatoire, digestif : enjeu et limites",
+      "text": "Les trois systèmes et leurs relations sont abordés pour expliquer le lien entre apports discontinus des aliments et besoins continus de l'organisme ; compétence (visée 2) : représenter, décrire et expliquer leurs interactions dans un contexte donné. La respiration cellulaire est vue en 3e secondaire. CECP P6 : seuls « veine » et « artère » sont des savoirs attendus ; « oreillette », « ventricule », « aorte », « artère/veine pulmonaire », « capillaire » (p. 708), la composition du sang (p. 710), le rôle de stockage du foie (p. 728) et certains termes des vidéos (pp. 702, 712) sont utiles pour comprendre mais ne sont pas à évaluer. Ne pas représenter le cœur dans le schéma du système respiratoire (p. 702).",
+      "page": 65
+    },
+    {
+      "title": "P6 — Classification des vivants : enjeu et limites",
+      "text": "Les scientifiques classent les vivants selon des attributs partagés (classification phylogénétique) pour montrer les liens de parenté et l'existence d'un ancêtre commun ; compétence (visée 1) : réaliser une classification en ensembles emboités à partir d'une collection donnée d'animaux. Le mécanisme de l'évolution est abordé en 2e secondaire. CECP P6 : le vocabulaire des groupes (crustacés, myriapodes…) sert à découvrir les attributs mais n'est pas un savoir attendu, ne pas l'évaluer (p. 652) ; ne pas évaluer les éléments liés à l'évolution (p. 654).",
+      "page": 67
+    },
+    {
+      "title": "P6 — Transformations de la matière : première approche de la chimie",
+      "text": "Les élèves distinguent phénomène physique (changements d'état : la nature de la matière se conserve) et phénomène chimique (la matière se transforme) ; la combustion, proche du quotidien, est la première approche de la transformation chimique (visée 2). Équation chimique et pictogrammes de danger en 3e secondaire. CECP P6 (p. 744) : donner des consignes de sécurité pour les expériences nécessitant la manipulation d'une flamme.",
+      "page": 68
+    },
+    {
+      "title": "P6 — Ressources énergétiques et énergie thermique : visées 2 et 4",
+      "text": "Les élèves découvrent et classent les ressources énergétiques utilisées en Belgique, majoritairement pour se chauffer et pour les transports ; les activités se focalisent sur le chauffage domestique et l'isolation des bâtiments. Compétence (visées 2 et 4) : justifier des moyens pour limiter les pertes d'énergie thermique dans une perspective d'utilisation responsable. Les transports sont également intéressants à aborder. Conversions d'énergie électrique en 1re secondaire.",
+      "page": 69
+    }
+  ],
+  "notes": [
+    "Jumeaux P5/P6 : les 21 paires de cecp_match.same sont confirmées. 20 libellés strictement identiques ; SC-P5-025 / SC-P6-027 ne diffèrent que par une virgule (« …à la conclusion, en utilisant… » p. 57 vs « …à la conclusion en utilisant… » p. 65) : jumeaux validés. Le premier lecteur comptait ~22 identiques dans la démarche car il incluait SC-P6-017 ou SC-P6-025 ; vérification dans ref_SCIENCES.txt (l. 3170 et 3198) : SC-P6-017 ajoute « /son hypothèse » (vs SC-P5-016) et SC-P6-025 supprime « ensemble » (vs SC-P5-023) → items P6 distincts. Autres non-jumeaux : SC-P6-021 ajoute « la nature du document » (vs SC-P5-018) ; SC-P5-013 « Utiliser des symboles pertinents » est P5 seulement (absent du tableau P6) ; SC-P6-010, 013, 019 sont nouveaux en P6.",
+    "Bilan : 79 items P5 (dont 21 à double badge P5·P6 via twin) + 40 items P6 distincts (6 démarche + 34 thématiques) = 119 items placés ; 21 attendus P6 jumeaux non placés. Démarche : 31 items (25 P5 + 6 P6) ; Vivants : 39 (22 P5 + 17 P6) ; Matière : 21 (13 P5 + 8 P6) ; Énergie : 28 (19 P5 + 9 P6).",
+    "Domaines : la démarche d'investigation (savoir-faire SF-DIS, communs aux thèmes) forme un domaine transversal « inv » en 5 sous-sections suivant les phases du référentiel (Se questionner / Investiguer ×2 / Structurer-valider / Synthétiser-communiquer) ; les nouveautés et libellés modifiés P6 sont insérés à leur place thématique (ex. SC-P6-010 après SC-P5-009 ; SC-P6-017 après SC-P5-016). Les trois autres domaines suivent les champs du référentiel (Vivants, Matière, Énergie) avec une sous-section par thème (préfixe P5 — / P6 —), scindée Savoirs / Savoir-faire-compétences quand le thème dépasse 10 attendus.",
+    "Pistes retirées (7 items, 11 codes) : codes thématiques rattachés à tort à un attendu de démarche parce que la ligne CECP du savoir-faire thématique reprend le libellé de la démarche dans sa colonne « contenu » : P5:SC204 (= SC-P5-055) et P6:SC260 (= SC-P6-059) retirés de SC-P5-006 ; P5:SC206 (= SC-P5-057) et P6:SC235 (= SC-P6-034) retirés de SC-P5-008 ; P6:SC261 (= SC-P6-060) retiré de SC-P5-007 ; P5:SC227 (= SC-P5-078) retiré de SC-P5-009 ; P6:SC236 (= SC-P6-035) retiré de SC-P6-010 ; P5:SC195 (= SC-P5-046) retiré de SC-P5-034 ; P5:DIS82 (= SC-P5-004) et P6:DIS107 (= SC-P6-004) retirés de SC-P5-005 (le texte du code DIS82/DIS107 contient le contenu « Proposer, adapter des moyens d'investigation » mais son attendu est « Rechercher et identifier des facteurs… »). Dans chaque cas, l'attendu de démarche garde son propre code DIS quand la séquence le cite.",
+    "Convention pour les retraits : les codes P6 (P6:DIS107, P6:SC260, P6:SC261, P6:SC235) sont attachés dans cecp_match.pistes au jumeau P6 (SC-P6-005/006/007/008) ; comme les jumeaux ne sont pas des items, pistes_remove est porté par l'item P5 correspondant, en supposant que l'orchestrateur fusionne les pistes de l'item P5 et de son twin avant d'appliquer pistes_remove. Si ce n'est pas le cas, appliquer ces quatre retraits sur les ids P6 jumeaux.",
+    "Aucune piste ajoutée : les 130 codes SC/DIS cités par les 10 séquences CECP de sciences (5 P5, 5 P6) sont tous rattachés avec un score 1.0 à l'attendu correct ; les rattachements secondaires < 0.9 listés dans codes[].matches ne figurent pas dans pistes (vérifié). Les attendus sans aucune piste sont des attendus que les séquences CECP ne citent pas (ex. SC-P5-002, 009 après retrait, 012, 013, 016, 017, 018, 022, 023 ; SC-P6-010 après retrait, 021 n'a que DIS124). Codes multi-séquences légitimes : un même code DIS est cité par 2 à 5 séquences de l'année (d'où plusieurs pistes par item de démarche).",
+    "Libellés abrégés : 4 items en dessous de 40 caractères car libellé officiel intégral, rien à ajouter sans inventer (SC-P5-005 « Proposer des moyens d'investigation » 35, SC-P5-013 32, SC-P5-020 38, SC-P5-056 37). Items > 120 caractères gardés longs pour conserver listes fermées, seuils ou sous-attendus : SC-P6-028 (205) et SC-P6-029 (235) ont trois/quatre sous-points dans le référentiel ; SC-P6-033 (260) liste 21 termes de vocabulaire (liste fermée = objet de l'attendu) ; SC-P5-047 (142), SC-P5-028 (137), SC-P5-075 (136), SC-P6-057 (147) et une vingtaine d'autres entre 121 et 131 (vocabulaires, énumérations fermées, compétences).",
+    "Explicitations à partir de la colonne « contenu » (signalées, pas d'ajout de sens) : SC-P5-026 « (fécondation, naissance, croissance, mort) » et SC-P5-034 « (pollinisation, fécondation, fructification, germination, croissance, mort) » reprennent la liste des étapes de la colonne contenu du référentiel (pp. 58-59). SC-P5-053 écrit dm³/cm³ (le texte extrait donne dm3/cm3).",
+    "Types normalisés : « SF-DIS » (52 savoir-faire de démarche) et « Savoir-faire » (24) → SF ; « Savoir » (56) → S ; « Compétence (visée …) » (8) → C. La visée est rappelée dans le titre de la sous-section. Colonne gauche/droite incertaine pour SC193, SC205, SC207, SC244, SC252, SC253 (cf. SC_audit §4) : traitées comme attendus, conformément à l'inventaire.",
+    "Repères : paragraphes d'introduction du référentiel (pp. 55-69 : enjeux, visées, ce qui vient avant/après dans le tronc commun) + recommandation gris/noir pour l'évaluation sommative + « Points d'attention » du CECP qui délimitent ce qui ne doit pas être évalué (pages CECP P5 558-662, P6 652-744). Aucun n'est un attendu."
+  ]
+}

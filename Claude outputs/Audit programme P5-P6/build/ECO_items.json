@@ -1,0 +1,192 @@
+{
+  "domains": [
+    {
+      "key": "eco",
+      "icon": "🏭",
+      "title": "Formation économique",
+      "subsections": [
+        {
+          "title": "P5 — La production (Savoirs) : le travail, une activité économique et sociale",
+          "items": ["ECO-P5-001", "ECO-P5-002", "ECO-P5-003", "ECO-P5-004", "ECO-P5-005", "ECO-P5-006"]
+        },
+        {
+          "title": "P6 — La production et la consommation (Savoirs) : produire et consommer autrement ?",
+          "items": ["ECO-P6-001", "ECO-P6-002", "ECO-P6-003", "ECO-P6-004", "ECO-P6-005"]
+        }
+      ]
+    },
+    {
+      "key": "soc",
+      "icon": "🤝",
+      "title": "Formation sociale",
+      "subsections": [
+        {
+          "title": "P5 — Le travail (Savoirs) : égalité/inégalité, reconnaissance sociale",
+          "items": ["ECO-P5-007", "ECO-P5-008"]
+        },
+        {
+          "title": "P6 — Le changement social (Savoirs) : développement durable",
+          "items": ["ECO-P6-006"]
+        }
+      ]
+    },
+    {
+      "key": "fes",
+      "icon": "🔗",
+      "title": "Formation économique et sociale — Savoir-faire et compétences",
+      "subsections": [
+        {
+          "title": "P5 — Observer des faits et structurer des informations économiques et sociales",
+          "items": ["ECO-P5-009", "ECO-P5-010", "ECO-P5-011"]
+        },
+        {
+          "title": "P6 — Collecter, analyser et éclairer des faits économiques et sociaux",
+          "items": ["ECO-P6-007", "ECO-P6-008", "ECO-P6-009", "ECO-P6-010"]
+        }
+      ]
+    }
+  ],
+  "items": {
+    "ECO-P5-001": {
+      "short": "Distinguer entreprise à but lucratif et sans but lucratif",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-002": {
+      "short": "Identifier des finalités économiques et sociales d'une entreprise",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-003": {
+      "short": "Exemplifier les éléments nécessaires à la production d'un bien ou d'un service",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-004": {
+      "short": "Exemplifier le rôle de l'État dans la mise à disposition de services publics",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-005": {
+      "short": "Distinguer employeurs et travailleurs, producteurs et clients/usagers",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-006": {
+      "short": "Identifier des intérêts convergents et divergents entre employeurs et travailleurs, producteurs et clients/usagers",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-007": {
+      "short": "Illustrer différentes formes de travail (rémunéré, domestique, bénévole)",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-008": {
+      "short": "Identifier différentes formes de reconnaissance d'un travail",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P5-009": {
+      "short": "Via documents et/ou visite, identifier les caractéristiques d'une entreprise ou société de service : type (lucratif ou non), biens/services, clients/usagers, employeur et travailleurs (intérêts convergents/divergents, tensions)",
+      "twin": null,
+      "type": "SF"
+    },
+    "ECO-P5-010": {
+      "short": "Construire collectivement un premier schéma d'un circuit économique présentant les relations entre les acteurs découverts",
+      "twin": null,
+      "type": "C"
+    },
+    "ECO-P5-011": {
+      "short": "Sur la base d'une courte enquête, caractériser les différentes formes de travail presté par les personnes interrogées",
+      "twin": null,
+      "type": "C"
+    },
+    "ECO-P6-001": {
+      "short": "Parmi des exemples concrets fournis, identifier celui (ou ceux) qui relève(nt) des principes du commerce équitable",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P6-002": {
+      "short": "Citer des alternatives légales à l'achat d'un bien neuf (ex. : filières de seconde main, réparation d'objets…)",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P6-003": {
+      "short": "Distinguer épargne et crédit",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P6-004": {
+      "short": "Citer des missions d'une banque (ex. : gérer les moyens de paiement, recevoir des dépôts, collecter et sécuriser l'épargne, accorder des prêts…)",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P6-005": {
+      "short": "Identifier des modes de financement participatif",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P6-006": {
+      "short": "Pour une organisation précise d'économie sociale et solidaire ou circulaire, décrire comment biens et services sont produits et l'incidence dans l'environnement local (proximité, savoir-faire local…)",
+      "twin": null,
+      "type": "S"
+    },
+    "ECO-P6-007": {
+      "short": "En comparant des impacts économiques, sociaux, environnementaux de différents modes de production et de consommation, justifier l'appartenance d'acteurs au commerce équitable",
+      "twin": null,
+      "type": "SF"
+    },
+    "ECO-P6-008": {
+      "short": "Identifier des impacts économiques, sociaux et environnementaux de différents modes de production et de consommation",
+      "twin": null,
+      "type": "SF"
+    },
+    "ECO-P6-009": {
+      "short": "Formuler un avis argumenté sur une question économique et sociale, en s'appuyant sur les concepts abordés",
+      "twin": null,
+      "type": "C"
+    },
+    "ECO-P6-010": {
+      "short": "Pour un acte de consommation et/ou de production donné, au départ du développement durable, formuler des questions sur les tensions entre intérêts individuels et intérêts collectifs des générations actuelles et futures",
+      "twin": null,
+      "type": "C"
+    }
+  },
+  "reperes": [
+    {
+      "title": "P5 — Enjeux et démarche (référentiel)",
+      "text": "Susciter la réflexion de l'élève sur les entreprises et leurs finalités, les formes de travail et les rapports dans lesquels le travail s'insère (travailleurs/employeurs, producteurs/consommateurs), faits d'intérêts communs et divergents, source possible d'inégalités. Attention particulière au rôle de l'État comme agent économique producteur. Enjeux : monde du travail abordé via les concepts d'insertion, d'exclusion, d'égalité, d'inégalité ; discrimination dans la population active. Démarche : l'élève observe le monde de l'entreprise et se questionne sur l'accès ou non au travail.",
+      "page": 125
+    },
+    {
+      "title": "P6 — Enjeux et démarche (référentiel)",
+      "text": "Analyser des formes alternatives de production et de consommation au regard du développement durable et de ressources naturelles et énergétiques ni infinies ni également réparties. Nouvel acteur : les banques (missions, modes de financement alternatifs et participatifs) ; le circuit économique de P5 peut être enrichi de cet acteur. Enjeux : rapports sociaux (interdépendance), prise de conscience que ses choix ont une influence sur autrui et sur la planète. Démarche : l'élève recherche des informations sur nos modes de consommation et de production, s'interroge sur les conséquences des choix individuels et collectifs, puis communique ses résultats (texte argumenté ou autre production). Ces paragraphes sont du contexte, pas des attendus évaluables.",
+      "page": 127
+    },
+    {
+      "title": "Budget et circuit économique : focus tout au long du tronc commun",
+      "text": "Un focus régulier est mis sur la notion de budget (éducation financière : connaissances et esprit critique pour parcourir son « chemin financier ») et sur la notion de circuit économique.",
+      "page": 125
+    },
+    {
+      "title": "CECP P5 — limites de la séquence « circuit économique »",
+      "text": "Le premier schéma du circuit économique (ménages, entreprises, État) est volontairement incomplet ; il sera complété avec les flux en S2 et la perception des impôts en S3. Le financement des services publics (impôts, cotisations sociales) relève de S3 : ne pas l'approfondir et surtout ne pas l'évaluer. La structure de l'État belge et la répartition des compétences entre entités fédérées ne font pas partie des attendus de P5.",
+      "page": 946
+    },
+    {
+      "title": "CECP P6 — la banque dans le circuit économique",
+      "text": "La séquence « banque » propose d'enrichir le schéma du circuit économique simplifié de P5 avec ce nouvel acteur, mais la banque en tant qu'acteur du circuit économique ne doit pas faire l'objet d'une évaluation.",
+      "page": 1036
+    }
+  ],
+  "notes": [
+    "Aucun jumeau P5/P6 : les deux années portent sur des thèmes distincts (P5 « Le travail, une activité économique et sociale » ; P6 « Les échanges économiques et sociaux : produire et consommer autrement ? ») ; cecp_match.same est vide pour ECO et c'est correct. 11 items P5 + 10 items P6 = 21 items, tous twin null.",
+    "Domaines = les trois champs du référentiel (eco / soc / fes), sous-sections par année. Les sous-sections sont forcément courtes (1 à 6 items) : la discipline ne compte que 21 attendus. Si l'orchestrateur préfère 2 domaines par année (P5 / P6), il suffit de regrouper les sous-sections par préfixe « P5 — » / « P6 — ».",
+    "Pistes CECP : toutes les correspondances de cecp_match.json ont un score de 1.0 et ont été vérifiées contre cecp_index.json ; aucun retrait, aucun ajout. Codes multi-attendus assumés et corrects : FES30 (P6) couvre les deux compétences ECO-P6-009 et ECO-P6-010 (son texte contient les deux attendus) ; FES28 et FES29 (P6) sont visés par les deux séquences P6 (« durabilité » p. 1008 et « banque » p. 1034), d'où deux pistes pour ECO-P6-007 et ECO-P6-008.",
+    "Libellés abrégés : 4 items composites dépassent 120 caractères (ECO-P5-009 ~215, ECO-P6-006 ~195, ECO-P6-007 ~170, ECO-P6-010 ~200) parce que chaque élément de liste a été conservé (type, biens/services, clients/usagers, employeur-travailleurs, intérêts, tensions ; générations actuelles et futures…). ECO-P6-003 « Distinguer épargne et crédit » (28 caractères) est en dessous du minimum de 40 : libellé officiel intégral, rien à ajouter sans inventer.",
+    "ECO-P5-006 : « entre les catégories ci-dessus » a été explicité en « entre employeurs et travailleurs, producteurs et clients/usagers » (les catégories de l'attendu précédent) pour rendre l'item autonome, conformément à l'audit.",
+    "Ne figurent pas dans les items (ce ne sont pas des attendus, cf. audit) : enrichir le circuit avec les banques, interdépendance, influence des choix sur autrui/la planète, ressources non infinies, texte argumenté, notions de la colonne Contenu (besoins/biens/services/public cible/profit, budget, égalité/inégalité). Ils sont restitués dans les repères P5/P6 (p. 125, 127) et dans le repère CECP P6 p. 1036.",
+    "Codes CECP P5 (FE19-24, FS14-15, FES25-27) confirmés par ECO_complement_CECP_P5.md ; codes P6 (FE25-29, FS16, FES28-30) confirmés par ECO_audit.md."
+  ]
+}
