@@ -1787,10 +1787,12 @@ function saveState(){
 function applyChecked(set){
   getItems().forEach(it=>{const cb=it.querySelector('input');cb.checked=set.has(it.dataset.id);it.classList.toggle('checked',cb.checked);});
 }
+let _stateLoadedOnce=false;
 function loadState(){
-  // 1. hash de cette version (lien partagé) ; 2. localStorage par identifiant
+  // 1. hash de cette version (lien partagé, seulement à l'ouverture) ; 2. localStorage par identifiant
   const h=location.hash||'';
-  if(h.startsWith('#'+VERSION+'-')){
+  const firstLoad=!_stateLoadedOnce; _stateLoadedOnce=true;
+  if(firstLoad&&h.startsWith('#'+VERSION+'-')){
     const enc=h.slice(VERSION.length+2);
     let bits=''; for(const c of enc)bits+=parseInt(c,16).toString(2).padStart(4,'0');
     const items=getItems(); const set=new Set();
@@ -1809,6 +1811,13 @@ function resetAll(){
   applyChecked(new Set());
   updateAll();
 }
+// Le semainier coche les attendus choisis : relire la sauvegarde quand elle change ailleurs (autre cadre du TBI)
+window.addEventListener('storage',e=>{
+  if(e.key!=='p5p6v5')return;
+  history.replaceState(null,'',location.pathname+location.search);
+  loadState();
+  if(typeof updateAll==='function')updateAll();
+});
 // ===== CHECKBOXES =====
 document.querySelectorAll('.item').forEach(item=>{
   item.addEventListener('click',e=>{
