@@ -197,6 +197,15 @@ window.addEventListener('DOMContentLoaded', () => {
     // Écouteur global pour le copier-coller (texte et images)
     window.addEventListener('paste', handleGlobalPaste);
     
+    // Cmd + Shift + R (ou Ctrl + Shift + R) : remise à zéro complète du tableau
+    window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === 'r' || e.key === 'R' || e.code === 'KeyR')) {
+            e.preventDefault();
+            e.stopPropagation();
+            resetWhiteboardCompletely();
+        }
+    }, true);
+    
     // Key listener for deleting selected vector elements or selected images
     window.addEventListener('keydown', (e) => {
         if ((e.key === 'Delete' || e.key === 'Backspace') && activeTool === 'select') {
@@ -302,6 +311,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // Load persisted tabs or create first default tab
     const hasLoaded = loadWhiteboardState();
     if (!hasLoaded || boardTabs.length === 0) {
+        // Aucun onglet sauvegardé : les fichiers restés en mémoire (PDF, images) ne servent plus à rien
+        TbiFileStore.clearAll();
         addNewBlankTab();
     } else {
         renderTabsUI();
@@ -496,6 +507,20 @@ const TbiFileStore = {
             return null;
         }
     },
+    async clearAll() {
+        try {
+            const db = await this.getDB();
+            if (!db) return false;
+            return new Promise((resolve) => {
+                const tx = db.transaction('files', 'readwrite');
+                tx.oncomplete = () => resolve(true);
+                tx.onerror = () => resolve(false);
+                tx.objectStore('files').clear();
+            });
+        } catch (err) {
+            return false;
+        }
+    },
     async deleteFile(id) {
         try {
             const db = await this.getDB();
@@ -603,7 +628,26 @@ async function restoreAllTabFiles() {
 // --- AUTO-SAVE & PERSISTENCE ---
 let saveWhiteboardTimeout = null;
 
+// Remise à zéro : ferme tous les onglets, efface PDF/images en mémoire et recharge sur un tableau vierge
+let isResettingWhiteboard = false;
+async function resetWhiteboardCompletely() {
+    if (isResettingWhiteboard) return;
+    isResettingWhiteboard = true;
+    if (saveWhiteboardTimeout) clearTimeout(saveWhiteboardTimeout);
+    try {
+        localStorage.removeItem('tbi_whiteboard_tabs');
+        localStorage.removeItem('tbi_whiteboard_active_tab');
+    } catch (e) {}
+    await Promise.race([
+        TbiFileStore.clearAll(),
+        new Promise(r => setTimeout(r, 1500))
+    ]);
+    location.reload();
+}
+window.resetWhiteboardCompletely = resetWhiteboardCompletely;
+
 function saveWhiteboardState() {
+    if (isResettingWhiteboard) return;
     saveActiveTabTextboxes();
     const currentTab = getActiveTab();
     if (currentTab && typeof window.saveWidgetStatesForTab === 'function') {
