@@ -31,7 +31,7 @@
     <script src="lucide.min.js"></script>
     
     <!-- Styles personnalisés de la console -->
-    <link rel="stylesheet" href="styles.css?v=96">
+    <link rel="stylesheet" href="styles.css?v=97">
     
     <!-- Métadonnées PWA -->
     <link rel="manifest" href="manifest.json">
@@ -602,6 +602,13 @@
                         <span class="w-px h-4 bg-neutral-700"></span>
                         
                         <button onpointerdown="event.preventDefault(); toggleActiveTextboxUnderline()" id="btn-textbox-underline" class="p-1 hover:bg-neutral-800 rounded font-display font-bold text-xs underline" title="Souligner">U</button>
+                        
+                        <span class="w-px h-4 bg-neutral-700"></span>
+                        
+                        <!-- Rotation du cadre de texte -->
+                        <button onpointerdown="event.preventDefault(); rotateActiveTextbox(-2)" class="p-1 hover:bg-neutral-800 rounded font-bold text-sm leading-none" title="Pivoter vers la gauche">⟲</button>
+                        <span id="textbox-rotation-display" onpointerdown="event.preventDefault(); rotateActiveTextbox(0)" class="text-xs font-mono font-bold px-1 select-none cursor-pointer min-w-[2.5rem] text-center" title="Cliquer pour remettre droit">0°</span>
+                        <button onpointerdown="event.preventDefault(); rotateActiveTextbox(2)" class="p-1 hover:bg-neutral-800 rounded font-bold text-sm leading-none" title="Pivoter vers la droite">⟳</button>
                         
                         <span class="w-px h-4 bg-neutral-700"></span>
                         
@@ -1616,7 +1623,7 @@
     <script src="timer.js"></script>
     <script src="aristo.js"></script>
     <script src="compass.js"></script>
-    <script src="whiteboard.js?v=3"></script>
+    <script src="whiteboard.js?v=4"></script>
     <script src="devoirs.js"></script>
     <script src="roue.js"></script>
     <script src="fractions.js"></script>

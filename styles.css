@@ -207,6 +207,39 @@
     display: flex;
 }
 
+/* Pivot de la rotation : bord gauche, milieu de la 1re ligne (le texte ne bouge pas quand le cadre s'allonge) */
+.text-box {
+    transform-origin: 0 calc(8px * var(--zs, 1) + 0.75em);
+}
+
+/* Poignée de rotation (« roulette ») à droite du cadre */
+.text-box-rotate {
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    margin-top: -12px;
+    width: 24px;
+    height: 24px;
+    background: #4f46e5;
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Arial, sans-serif !important;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.text-box-rotate:active { cursor: grabbing; }
+.text-box:focus-within .text-box-rotate {
+    display: flex;
+}
+
 /* --- ÉQUERRE ARISTO / COMPAS STYLING --- */
 #aristo-svg, #compass-svg {
     overflow: visible !important;

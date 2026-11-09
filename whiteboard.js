@@ -1114,7 +1114,8 @@ function saveActiveTabTextboxes() {
             fontSize: parseInt(el.dataset.fontSize) || 12,
             underline: el.dataset.underline === 'true',
             color: el.dataset.color || '#4f46e5',
-            isPostIt: el.dataset.isPostIt === 'true'
+            isPostIt: el.dataset.isPostIt === 'true',
+            rotation: parseFloat(el.dataset.rotation) || 0
         });
     });
     
@@ -1139,7 +1140,7 @@ function restoreActiveTabTextboxes() {
             if (tb.type === 'image') {
                 createMovableImage(tb.x, tb.y, tb.w, tb.h, tb.src, tb.imageId);
             } else {
-                createTextbox(tb.x, tb.y, tb.text, tb.fontSize, tb.underline, tb.color, tb.isPostIt === true);
+                createTextbox(tb.x, tb.y, tb.text, tb.fontSize, tb.underline, tb.color, tb.isPostIt === true, tb.rotation || 0);
             }
         });
     }
@@ -2769,7 +2770,7 @@ function setBoardBackground(styleName) {
 }
 
 // --- EDITABLE ARIAL TEXT ANNOTATIONS ---
-function createTextbox(x, y, initialText = "", fontSize = 12, underline = false, color = '#4f46e5', isPostIt = false) {
+function createTextbox(x, y, initialText = "", fontSize = 12, underline = false, color = '#4f46e5', isPostIt = false, rotation = 0) {
     const layer = document.getElementById('annotations-layer');
     if (!layer) return;
     
@@ -2787,6 +2788,7 @@ function createTextbox(x, y, initialText = "", fontSize = 12, underline = false,
     textBox.style.fontSize = `${fontSize * zoomScale}px`;
     // Les marges intérieures/bordures suivent le zoom (voir styles.css) pour que le texte reste à sa place
     textBox.style.setProperty('--zs', zoomScale);
+    applyTextboxRotation(textBox, rotation);
     textBox.style.color = color;
     textBox.style.textDecoration = underline ? 'underline' : 'none';
     
@@ -2810,6 +2812,15 @@ function createTextbox(x, y, initialText = "", fontSize = 12, underline = false,
         saveActiveTabTextboxes();
     });
     textBox.appendChild(deleteBtn);
+    
+    // Poignée de rotation (« roulette ») : glisser pour faire pivoter le cadre
+    const rotateHandle = document.createElement('span');
+    rotateHandle.className = 'text-box-rotate';
+    rotateHandle.innerHTML = '⟳';
+    rotateHandle.contentEditable = false;
+    rotateHandle.title = 'Glisser pour faire pivoter (double-clic : remettre droit)';
+    setupTextboxRotateHandle(textBox, rotateHandle);
+    textBox.appendChild(rotateHandle);
     
     // Content editable text node
     const textSpan = document.createElement('div');
@@ -2856,7 +2867,7 @@ function createTextbox(x, y, initialText = "", fontSize = 12, underline = false,
     });
     
     textBox.addEventListener('pointerdown', (e) => {
-        if (e.target === deleteBtn) return;
+        if (e.target === deleteBtn || e.target === rotateHandle) return;
         if (activeTool === 'text' && e.target !== textSpan) {
             e.preventDefault();
             textSpan.focus();
@@ -2864,7 +2875,7 @@ function createTextbox(x, y, initialText = "", fontSize = 12, underline = false,
     });
     
     textBox.addEventListener('click', (e) => {
-        if (e.target !== deleteBtn) {
+        if (e.target !== deleteBtn && e.target !== rotateHandle) {
             textSpan.focus();
         }
     });
@@ -2982,7 +2993,7 @@ function makeTextBoxDraggable(el) {
     
     function dragMouseDown(e) {
         if (activeTool !== 'select') return;
-        if (document.activeElement === el.querySelector('.text-content-node') || e.target.classList.contains('text-box-delete')) return;
+        if (document.activeElement === el.querySelector('.text-content-node') || e.target.classList.contains('text-box-delete') || e.target.classList.contains('text-box-rotate')) return;
         
         if (e.touches && e.touches.length > 0) {
             pos3 = e.touches[0].clientX;
@@ -3038,6 +3049,93 @@ function makeTextBoxDraggable(el) {
     }
 }
 
+// --- ROTATION DES ZONES DE TEXTE ---
+function normalizeAngle(deg) {
+    let a = Math.round(deg) % 360;
+    if (a > 180) a -= 360;
+    if (a <= -180) a += 360;
+    return a;
+}
+
+function applyTextboxRotation(el, deg) {
+    const a = normalizeAngle(deg || 0);
+    el.dataset.rotation = a;
+    el.style.transform = a ? `rotate(${a}deg)` : '';
+}
+
+function updateRotationDisplay(el) {
+    const disp = document.getElementById('textbox-rotation-display');
+    if (disp && el) disp.textContent = `${parseFloat(el.dataset.rotation) || 0}°`;
+}
+
+function rotateActiveTextbox(delta) {
+    if (!activeEditingTextbox) return;
+    const current = parseFloat(activeEditingTextbox.dataset.rotation) || 0;
+    applyTextboxRotation(activeEditingTextbox, delta === 0 ? 0 : current + delta);
+    updateRotationDisplay(activeEditingTextbox);
+    saveActiveTabTextboxes();
+}
+window.rotateActiveTextbox = rotateActiveTextbox;
+
+function setupTextboxRotateHandle(textBox, handle) {
+    let startPointerAngle = 0, startRotation = 0, cx = 0, cy = 0, dragging = false;
+    
+    const pivotScreenPoint = () => {
+        // Point de pivot = bord gauche, au milieu de la 1re ligne (voir transform-origin dans styles.css)
+        const layer = textBox.offsetParent || textBox.parentElement;
+        const r = layer.getBoundingClientRect();
+        const fs = parseFloat(getComputedStyle(textBox).fontSize) || 12;
+        return {
+            x: r.left + textBox.offsetLeft,
+            y: r.top + textBox.offsetTop + 8 * zoomScale + 0.75 * fs
+        };
+    };
+    
+    const stop = (e) => { e.stopPropagation(); };
+    handle.addEventListener('mousedown', stop);
+    handle.addEventListener('touchstart', stop, { passive: true });
+    handle.addEventListener('click', stop);
+    
+    handle.addEventListener('pointerdown', (e) => {
+        e.preventDefault(); // garde le focus dans la zone de texte
+        e.stopPropagation();
+        const p = pivotScreenPoint();
+        cx = p.x; cy = p.y;
+        startPointerAngle = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+        startRotation = parseFloat(textBox.dataset.rotation) || 0;
+        dragging = true;
+        clearTimeout(textboxBlurTimeout);
+        try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    handle.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        e.preventDefault();
+        const ang = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+        let rot = startRotation + (ang - startPointerAngle);
+        rot = normalizeAngle(rot);
+        if (Math.abs(rot) <= 3) rot = 0; // aimant : revient à l'horizontale
+        applyTextboxRotation(textBox, rot);
+        if (activeEditingTextbox === textBox) updateRotationDisplay(textBox);
+    });
+    const end = (e) => {
+        if (!dragging) return;
+        dragging = false;
+        try { handle.releasePointerCapture(e.pointerId); } catch (err) {}
+        saveActiveTabTextboxes();
+        const span = textBox.querySelector('.text-content-node');
+        if (span && document.activeElement !== span) span.focus();
+    };
+    handle.addEventListener('pointerup', end);
+    handle.addEventListener('pointercancel', end);
+    handle.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        applyTextboxRotation(textBox, 0);
+        if (activeEditingTextbox === textBox) updateRotationDisplay(textBox);
+        saveActiveTabTextboxes();
+    });
+}
+
 // Formatting active textbox toolbar actions
 function showTextboxToolbar(el) {
     activeEditingTextbox = el;
@@ -3056,6 +3154,7 @@ function showTextboxToolbar(el) {
     // Update toolbar indicator states
     const size = parseInt(el.dataset.fontSize) || 10;
     document.getElementById('textbox-size-display').textContent = `${size}px`;
+    updateRotationDisplay(el);
     
     const underline = el.dataset.underline === 'true';
     const btnU = document.getElementById('btn-textbox-underline');
@@ -4128,6 +4227,15 @@ function exportCurrentTab() {
         
         if (text && text !== "Écrivez ici...") {
             const lines = text.split('\n');
+            const rot = parseFloat(el.dataset.rotation) || 0;
+            tempCtx.save();
+            if (rot) {
+                const ox = parseFloat(el.dataset.x);
+                const oy = parseFloat(el.dataset.y) + 8 + 0.75 * fontSize;
+                tempCtx.translate(ox, oy);
+                tempCtx.rotate(rot * Math.PI / 180);
+                tempCtx.translate(-ox, -oy);
+            }
             tempCtx.font = `bold ${fontSize}px Arial, sans-serif`;
             tempCtx.fillStyle = bgType === 'blackboard' ? '#ffffff' : color;
             
@@ -4145,6 +4253,7 @@ function exportCurrentTab() {
                     tempCtx.stroke();
                 }
             });
+            tempCtx.restore();
         }
     });
     tempCtx.restore();
