@@ -1115,7 +1115,8 @@ function saveActiveTabTextboxes() {
             underline: el.dataset.underline === 'true',
             color: el.dataset.color || '#4f46e5',
             isPostIt: el.dataset.isPostIt === 'true',
-            rotation: parseFloat(el.dataset.rotation) || 0
+            rotation: parseFloat(el.dataset.rotation) || 0,
+            layout: 2
         });
     });
     
@@ -1140,6 +1141,13 @@ function restoreActiveTabTextboxes() {
             if (tb.type === 'image') {
                 createMovableImage(tb.x, tb.y, tb.w, tb.h, tb.src, tb.imageId);
             } else {
+                // Anciennes zones de texte (cadre large) : on décale pour que le texte reste exactement au même endroit
+                if (tb.layout !== 2 && !tb.isPostIt) {
+                    const fs = tb.fontSize || 12;
+                    tb.x = (tb.x || 0) + 10;
+                    tb.y = (tb.y || 0) + 6 + 0.15 * fs;
+                    tb.layout = 2;
+                }
                 createTextbox(tb.x, tb.y, tb.text, tb.fontSize, tb.underline, tb.color, tb.isPostIt === true, tb.rotation || 0);
             }
         });
@@ -1685,9 +1693,9 @@ function handlePointerDown(e) {
         e.preventDefault();
         const defaultFontSize = 12;
         // Aligner précisément le curseur d'écriture avec le clic de l'utilisateur :
-        // - Horizontalement : soustraire la bordure (2) et le padding-left (12) = 14 (en coordonnées 1x, ils suivent le zoom)
-        // - Verticalement : soustraire la bordure + padding-top (8, en coordonnées 1x), et la hauteur de la ligne (environ 80% de la taille de police = 9.6px) pour que la ligne d'écriture soit sur le clic
-        createTextbox(x - 14, y - 8 - 0.8 * defaultFontSize, "", defaultFontSize, false, '#4f46e5');
+        // - Horizontalement : soustraire la bordure (1) et le padding-left (3) = 4 (en coordonnées 1x, ils suivent le zoom)
+        // - Verticalement : soustraire la bordure + padding-top (2, en coordonnées 1x), et la hauteur de la ligne (environ 80% de la taille de police = 9.6px) pour que la ligne d'écriture soit sur le clic
+        createTextbox(x - 4, y - 2 - 0.65 * defaultFontSize, "", defaultFontSize, false, '#4f46e5');
         return;
     }
     
@@ -3087,7 +3095,7 @@ function setupTextboxRotateHandle(textBox, handle) {
         const fs = parseFloat(getComputedStyle(textBox).fontSize) || 12;
         return {
             x: r.left + textBox.offsetLeft,
-            y: r.top + textBox.offsetTop + 8 * zoomScale + 0.75 * fs
+            y: r.top + textBox.offsetTop + (textBox.dataset.isPostIt === 'true' ? 12.5 * zoomScale + 0.75 * fs : 2 * zoomScale + 0.6 * fs)
         };
     };
     
@@ -4217,8 +4225,9 @@ function exportCurrentTab() {
     tempCtx.scale(dpr, dpr);
     const textBoxes = document.querySelectorAll('.text-box');
     textBoxes.forEach(el => {
-        const x = parseFloat(el.dataset.x) + 12;
-        const y = parseFloat(el.dataset.y) + 28;
+        const isPostItBox = el.dataset.isPostIt === 'true';
+        const x = parseFloat(el.dataset.x) + (isPostItBox ? 16.5 : 4);
+        const y = parseFloat(el.dataset.y) + (isPostItBox ? 28 : 22 - 0.15 * (parseFloat(el.dataset.fontSize) || 12));
         const contentNode = el.querySelector('.text-content-node');
         const text = contentNode ? contentNode.textContent : el.textContent.replace('✕', '').trim();
         const fontSize = parseFloat(el.dataset.fontSize) || 12;
@@ -4231,7 +4240,7 @@ function exportCurrentTab() {
             tempCtx.save();
             if (rot) {
                 const ox = parseFloat(el.dataset.x);
-                const oy = parseFloat(el.dataset.y) + 8 + 0.75 * fontSize;
+                const oy = parseFloat(el.dataset.y) + (isPostItBox ? 12.5 + 0.75 * fontSize : 2 + 0.6 * fontSize);
                 tempCtx.translate(ox, oy);
                 tempCtx.rotate(rot * Math.PI / 180);
                 tempCtx.translate(-ox, -oy);

@@ -148,17 +148,17 @@
     position: absolute;
     /* --zs = niveau de zoom (défini en JS) : marges et bordure suivent le zoom pour que le texte ne bouge pas */
     /* Largeur de départ ≈ un mot de 3 lettres (2em) + marges ; le cadre s'agrandit ensuite en écrivant */
-    min-width: calc(2em + 28px * var(--zs, 1));
-    min-height: calc(28px * var(--zs, 1));
-    padding: calc(6px * var(--zs, 1)) calc(12px * var(--zs, 1));
-    border: calc(2px * var(--zs, 1)) dashed transparent;
+    min-width: calc(2em + 8px * var(--zs, 1));
+    padding: calc(1px * var(--zs, 1)) calc(3px * var(--zs, 1));
+    border: calc(1px * var(--zs, 1)) dashed transparent;
+    line-height: 1.2;
     cursor: text;
     pointer-events: none;
     font-weight: 600;
     color: #1e293b;
     outline: none;
     display: inline-block;
-    border-radius: 8px;
+    border-radius: calc(4px * var(--zs, 1));
     transition: border-color 0.15s, background-color 0.15s;
 }
 
@@ -209,7 +209,7 @@
 
 /* Pivot de la rotation : bord gauche, milieu de la 1re ligne (le texte ne bouge pas quand le cadre s'allonge) */
 .text-box {
-    transform-origin: 0 calc(8px * var(--zs, 1) + 0.75em);
+    transform-origin: 0 calc(2px * var(--zs, 1) + 0.6em);
 }
 
 /* Poignée de rotation (« roulette ») à droite du cadre */
@@ -442,6 +442,8 @@
 
 /* --- POST-IT STICKY NOTES --- */
 .post-it-box {
+    line-height: 1.5;
+    transform-origin: 0 calc(12.5px * var(--zs, 1) + 0.75em);
     background-color: #fef08a !important; /* Tailwind yellow-200 */
     border: calc(2.5px * var(--zs, 1)) solid #000000 !important;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 1) !important;
