@@ -147,7 +147,8 @@
 .text-box {
     position: absolute;
     /* --zs = niveau de zoom (défini en JS) : marges et bordure suivent le zoom pour que le texte ne bouge pas */
-    min-width: calc(120px * var(--zs, 1));
+    /* Largeur de départ ≈ un mot de 3 lettres (2em) + marges ; le cadre s'agrandit ensuite en écrivant */
+    min-width: calc(2em + 28px * var(--zs, 1));
     min-height: calc(28px * var(--zs, 1));
     padding: calc(6px * var(--zs, 1)) calc(12px * var(--zs, 1));
     border: calc(2px * var(--zs, 1)) dashed transparent;
