@@ -168,7 +168,7 @@ function addUncheckToDomains(){
     h.insertBefore(btn,toggle);
   });
 }
-// ===== SEARCH (libellé abrégé + texte officiel) =====
+// ===== SEARCH (libellé abrégé + texte officiel + contenu/savoir du référentiel) =====
 const SMETA={
   'tab-math':{label:'Mathématiques',icon:'🔢'},
   'tab-fr':{label:'Français',icon:'📖'},
@@ -191,6 +191,13 @@ function clearSearch(){
   document.getElementById('search-panel').style.display='none';
 }
 function fold(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+function escH(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function hiFold(t,ql){
+  const f=fold(t); if(f.length!==t.length)return escH(t);
+  let o='',i=0,p;
+  while((p=f.indexOf(ql,i))!==-1){o+=escH(t.slice(i,p))+'<mark>'+escH(t.slice(p,p+ql.length))+'</mark>';i=p+ql.length;}
+  return o+escH(t.slice(i));
+}
 function runSearch(q){
   const panel=document.getElementById('search-panel');
   const header=document.getElementById('search-results-header');
@@ -199,7 +206,8 @@ function runSearch(q){
   const ql=fold(q.trim());
   const matches=getItems().filter(it=>{
     const lbl=it.querySelector('label')?.textContent||'';
-    const full=it.querySelector('.d-row .d-v')?.textContent||'';
+    const dv=it.querySelectorAll('.d-row .d-v');
+    const full=(dv[0]?.textContent||'')+' '+(dv[1]?.textContent||'');
     return fold(lbl+' '+full).includes(ql);
   });
   panel.style.display='block';
@@ -218,8 +226,10 @@ function runSearch(q){
       const years=it.dataset.years.split(' ');
       const dom=it.closest('.domain')?.querySelector('.domain-title')?.textContent||'';
       const hi=lbl.replace(new RegExp(`(${esc})`,'gi'),'<mark>$1</mark>');
+      const cont=it.querySelectorAll('.d-row .d-v')[1]?.textContent||'';
+      const ct=(!fold(lbl).includes(ql)&&fold(cont).includes(ql))?`<span style="font-size:11px;color:#64748b;display:block;margin-top:2px;text-decoration:none">Contenu : ${hiFold(cont,ql)}</span>`:'';
       const badges=years.map(y=>`<span class="badge ${y}">${y.toUpperCase()}</span>`).join('');
-      html+=`<div class="sr-item${cb.checked?' checked':''}" data-id="${it.dataset.id}" onclick="toggleFromSearch(this)"><input type="checkbox"${cb.checked?' checked':''} onclick="event.stopPropagation();toggleFromSearch(this.closest('.sr-item'))"><label><span style="font-size:10px;color:#94a3b8;display:block;margin-bottom:2px">${dom}</span>${hi}</label>${badges}</div>`;
+      html+=`<div class="sr-item${cb.checked?' checked':''}" data-id="${it.dataset.id}" onclick="toggleFromSearch(this)"><input type="checkbox"${cb.checked?' checked':''} onclick="event.stopPropagation();toggleFromSearch(this.closest('.sr-item'))"><label><span style="font-size:10px;color:#94a3b8;display:block;margin-bottom:2px">${dom}</span>${hi}${ct}</label>${badges}</div>`;
     });
     html+='</div>';
   }

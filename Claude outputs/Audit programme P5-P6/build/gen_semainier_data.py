@@ -33,7 +33,7 @@ for key, disc, name, icon, color, bg, text in SUBJECTS:
                 pages = (f"P5 p. {r['page']} · P6 p. {inv[twin]['page']}" if twin
                          else f"{y} p. {r['page']}")
                 its.append({'id': iid, 'twin': twin or '', 'y': y, 't': norm_type(r.get('type') or it.get('type')),
-                            's': it['short'], 'o': r['attendu'], 'p': pages}); n += 1
+                            's': it['short'], 'o': r['attendu'], 'c': r.get('contenu') or '', 'p': pages}); n += 1
             subs.append({'title': sub['title'], 'items': its})
         doms.append({'title': dom['title'], 'icon': dom.get('icon', '📁'), 'subsections': subs})
     out[key] = {'id': key, 'name': name, 'icon': icon, 'color': color, 'bg': bg, 'text': text, 'domains': doms}
