@@ -62,6 +62,11 @@ function switchTab(tabId) {
     document.getElementById(`screen-${tabId}`).classList.add('active');
     
     activeTab = tabId;
+
+    // Rafraîchir le calendrier des devoirs en revenant à l'accueil
+    if (tabId === 'home' && typeof renderHomeCalendar === 'function') {
+        renderHomeCalendar();
+    }
     
     // Gérer les cas particuliers d'activation
     if (tabId === 'whiteboard') {

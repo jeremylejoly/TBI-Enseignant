@@ -51,109 +51,81 @@
         
         <!-- ÉCRAN D'ACCUEIL : Dashboard -->
         <section id="screen-home" class="tab-screen active absolute inset-0 flex flex-col min-h-0 overflow-y-auto bg-[#FDFBF7] p-6 md:p-8 select-none">
-            <div class="max-w-5xl mx-auto w-full space-y-8 animate-fadeIn pb-12">
+            <div class="max-w-5xl mx-auto w-full space-y-6 animate-fadeIn pb-8">
                 
-                <!-- Bannière d'accueil -->
-                <div class="bg-gradient-to-r from-indigo-100 to-amber-100/70 border-[3px] border-neutral-900 rounded-[28px] p-6 md:p-8 flex items-center gap-6 relative overflow-hidden shadow-[4px_4px_0_rgba(0,0,0,1)]">
-                    <img src="logo.svg" alt="" class="absolute top-2 right-2 w-28 h-28 opacity-5 select-none pointer-events-none transform rotate-12">
-                    
-                    <!-- Avatar/Logo Enseignant -->
-                    <div class="w-16 h-16 bg-white border-2 border-neutral-900 rounded-2xl overflow-hidden shadow-[2px_2px_0_rgba(0,0,0,1)] shrink-0 select-none transform hover:rotate-6 transition">
+                <!-- Bannière d'accueil (compacte) -->
+                <div class="bg-gradient-to-r from-indigo-100 to-amber-100/70 border-[3px] border-neutral-900 rounded-[24px] px-6 py-4 flex items-center gap-5 relative overflow-hidden shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                    <img src="logo.svg" alt="" class="absolute -top-3 right-2 w-24 h-24 opacity-5 select-none pointer-events-none transform rotate-12">
+                    <div class="w-12 h-12 bg-white border-2 border-neutral-900 rounded-xl overflow-hidden shadow-[2px_2px_0_rgba(0,0,0,1)] shrink-0 select-none transform hover:rotate-6 transition">
                         <img src="logo.svg" alt="Logo TBI" class="w-full h-full object-cover">
                     </div>
-                    
-                    <div>
-                        <h2 class="font-display font-black text-2xl md:text-3xl text-neutral-800 tracking-tight leading-tight flex items-center gap-2">
-                            Bonjour Mr Lejoly !
-                        </h2>
-                        <p class="text-sm md:text-base text-neutral-600 font-sans font-semibold mt-1.5 leading-normal">
-                            Bienvenue sur votre console de classe. Sélectionnez l'une des applications ci-dessous pour enseigner ou préparer vos activités scolaires.
-                        </p>
+                    <div class="flex items-baseline gap-4 flex-wrap min-w-0">
+                        <h2 class="font-display font-black text-2xl md:text-3xl text-neutral-800 tracking-tight leading-tight">Bonjour Mr Lejoly !</h2>
+                        <p class="text-sm md:text-base text-neutral-600 font-sans font-semibold">Que souhaitez-vous faire aujourd'hui ?</p>
                     </div>
                 </div>
 
+                <!-- Accueil : 4 tuiles à gauche, calendrier des devoirs à droite -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
 
+                    <div class="grid grid-cols-2 gap-4">
 
-                <!-- Grille des 3 applications principales -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
-                    <!-- App 1: Tableau Blanc -->
-                    <div onclick="switchTab('whiteboard')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
-                        <div class="flex justify-between items-start">
-                            <div class="p-3 bg-indigo-50 border-2 border-neutral-900 rounded-xl text-indigo-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                                <i data-lucide="presentation" class="w-6 h-6"></i>
+                        <!-- App 1: Tableau Blanc -->
+                        <div onclick="switchTab('whiteboard')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col">
+                            <div class="p-2.5 bg-indigo-50 border-2 border-neutral-900 rounded-2xl text-indigo-600 shadow-[3px_3px_0_rgba(0,0,0,1)] self-start">
+                                <i data-lucide="presentation" class="w-8 h-8"></i>
                             </div>
+                            <h4 class="font-display font-black text-[26px] leading-tight text-neutral-800 mt-3">Tableau Blanc</h4>
+                            <p class="text-base font-sans font-medium text-neutral-600 mt-1.5 leading-snug">Écrivez, importez des fiches PDF, utilisez les ciseaux, post-it, compas et équerre.</p>
                         </div>
-                        <div class="mt-4">
-                            <h4 class="font-display font-black text-lg text-neutral-800">Tableau Blanc</h4>
-                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
-                                Écrivez, importez des fiches PDF, utilisez les ciseaux, post-it et les outils compas/équerre.
-                            </p>
+
+                        <!-- App 2: Journal de classe -->
+                        <div onclick="switchTab('horaire')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col">
+                            <div class="p-2.5 bg-amber-50 border-2 border-neutral-900 rounded-2xl text-amber-600 shadow-[3px_3px_0_rgba(0,0,0,1)] self-start">
+                                <i data-lucide="clipboard-list" class="w-8 h-8"></i>
+                            </div>
+                            <h4 class="font-display font-black text-[26px] leading-tight text-neutral-800 mt-3">Journal de classe</h4>
+                            <p class="text-base font-sans font-medium text-neutral-600 mt-1.5 leading-snug">Semainier, devoirs, programme P5-P6, leçons, cotes et lectures.</p>
+                        </div>
+
+                        <!-- App 3: Mes outils -->
+                        <div onclick="switchTab('timer')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col">
+                            <div class="p-2.5 bg-rose-50 border-2 border-neutral-900 rounded-2xl text-rose-600 shadow-[3px_3px_0_rgba(0,0,0,1)] self-start">
+                                <i data-lucide="timer" class="w-8 h-8"></i>
+                            </div>
+                            <h4 class="font-display font-black text-[26px] leading-tight text-neutral-800 mt-3">Mes outils</h4>
+                            <p class="text-base font-sans font-medium text-neutral-600 mt-1.5 leading-snug">Time Timer, roue de la chance, globe, cartes, abaques et conjugueur.</p>
+                        </div>
+
+                        <!-- Gestion des données de classe -->
+                        <div class="bg-neutral-50 border-[3px] border-dashed border-neutral-900 rounded-[24px] p-5 flex flex-col no-print">
+                            <div class="p-2.5 bg-neutral-100 border-2 border-neutral-900 rounded-2xl text-indigo-500 shadow-[3px_3px_0_rgba(0,0,0,1)] self-start">
+                                <i data-lucide="database" class="w-8 h-8"></i>
+                            </div>
+                            <h4 class="font-display font-black text-[26px] leading-tight text-neutral-800 mt-3">Données</h4>
+                            <p class="text-base font-sans font-medium text-neutral-600 mt-1.5 leading-snug">Sauvegarde, archive et rentrée.</p>
+                            <div class="grid grid-cols-2 gap-2 mt-auto pt-3">
+                                <button onclick="exportClassData()" class="px-1.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Sauvegarder l'intégralité de l'application (données, tableaux, PDF et images) au format JSON">
+                                    <i data-lucide="download" class="w-4 h-4 shrink-0"></i> Sauver
+                                </button>
+                                <label class="px-1.5 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Restaurer une sauvegarde intégrale (JSON)">
+                                    <i data-lucide="upload" class="w-4 h-4 shrink-0"></i> Restaurer
+                                    <input type="file" accept=".json" onchange="importClassData(event)" class="hidden" />
+                                </label>
+                                <button onclick="exportYearlyArchive()" class="px-1.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Télécharger l'historique de l'année (HTML/PDF)">
+                                    <i data-lucide="archive" class="w-4 h-4 shrink-0"></i> Exporter
+                                </button>
+                                <button onclick="resetYearlyData()" class="px-1.5 py-2 bg-rose-600 hover:bg-rose-700 text-white border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Réinitialiser pour une nouvelle année (télécharge une archive au préalable)">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4 shrink-0"></i> Rentrée
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- App 2: Journal de classe -->
-                    <div onclick="switchTab('horaire')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
-                        <div class="flex justify-between items-start">
-                            <div class="p-3 bg-amber-50 border-2 border-neutral-900 rounded-xl text-amber-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                                <i data-lucide="clipboard-list" class="w-6 h-6"></i>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <h4 class="font-display font-black text-lg text-neutral-800">Journal de classe</h4>
-                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
-                                Gérez votre emploi du temps (Semainier), planifiez les devoirs, consultez le programme P5-P6, accédez à vos leçons, encodez vos cotes et suivez les lectures (Récits express).
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- App 3: Mes outils -->
-                    <div onclick="switchTab('timer')" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-150 shadow-[4px_4px_0_rgba(0,0,0,1)] cursor-pointer flex flex-col justify-between min-h-[200px]">
-                        <div class="flex justify-between items-start">
-                            <div class="p-3 bg-rose-50 border-2 border-neutral-900 rounded-xl text-rose-600 shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                                <i data-lucide="timer" class="w-6 h-6"></i>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <h4 class="font-display font-black text-lg text-neutral-800">Mes outils</h4>
-                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
-                                Accédez au Time Timer, à la roue de la chance, au globe, au planisphère, à l'Europe, à la Belgique, aux abaques et au conjugueur.
-                            </p>
-                        </div>
-                    </div>
+                    <!-- Calendrier des devoirs (rempli par home_calendar.js) -->
+                    <div id="home-calendar" class="bg-white border-[3px] border-neutral-900 rounded-[24px] p-5 shadow-[4px_4px_0_rgba(0,0,0,1)] flex flex-col gap-4"></div>
 
                 </div>
-
-                <!-- Section Sauvegarde & Restauration -->
-                <div class="bg-white border-[3px] border-neutral-900 rounded-[28px] p-6 shadow-[4px_4px_0_rgba(0,0,0,1)] flex flex-col md:flex-row items-center justify-between gap-6 my-8 no-print">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-neutral-100 border-2 border-neutral-900 rounded-xl text-neutral-700 shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                            <i data-lucide="database" class="w-6 h-6 text-indigo-500"></i>
-                        </div>
-                        <div class="text-left">
-                            <h4 class="font-display font-black text-lg text-neutral-800">Gestion des Données de Classe</h4>
-                            <p class="text-xs font-sans font-medium text-neutral-500 mt-1 leading-normal">
-                                Sauvegardez vos données, téléchargez une archive de l'année au format HTML/PDF, ou réinitialisez les semainiers et devoirs pour démarrer la nouvelle rentrée.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap gap-3 w-full md:w-auto justify-end shrink-0">
-                        <button onclick="exportClassData()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Sauvegarder l'intégralité de l'application (données, tableaux, PDF et images)">
-                            <i data-lucide="download" class="w-3.5 h-3.5"></i> Sauvegarde Intégrale (JSON)
-                        </button>
-                        <label class="px-4 py-2.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Restaurer une sauvegarde intégrale (JSON)">
-                            <i data-lucide="upload" class="w-3.5 h-3.5"></i> Restaurer (JSON)
-                            <input type="file" accept=".json" onchange="importClassData(event)" class="hidden" />
-                        </label>
-                        <button onclick="exportYearlyArchive()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Télécharger l'historique de l'année (HTML/PDF)">
-                            <i data-lucide="archive" class="w-3.5 h-3.5"></i> Exporter l'Année (HTML)
-                        </button>
-                        <button onclick="resetYearlyData()" class="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white border-2 border-neutral-900 font-display font-bold text-xs rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] transition flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer" title="Réinitialiser pour une nouvelle année (télécharge une archive au préalable)">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Réinitialiser la Rentrée
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Footer -->
                 <footer class="border-t border-neutral-300/60 pt-6 text-center text-xs text-neutral-400 font-mono tracking-wider">
                    Waimes Centre • Plateforme Console TBI Enseignant • P5 & P6
@@ -1625,6 +1597,7 @@
     <script src="compass.js"></script>
     <script src="whiteboard.js?v=5"></script>
     <script src="devoirs.js"></script>
+    <script src="home_calendar.js"></script>
     <script src="roue.js"></script>
     <script src="fractions.js"></script>
     <script src="abaque.js"></script>
