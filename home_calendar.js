@@ -102,14 +102,14 @@ function homeCalLongLabel(d) {
 function homeCalSection(title, icon, theme, items) {
     const list = items.length
         ? items.map(it => `
-            <li class="flex items-start gap-2.5 py-2 border-b border-dashed border-neutral-300/70 last:border-0">
+            <li class="flex items-start gap-2.5 py-1.5 border-b border-dashed border-neutral-300/70 last:border-0">
                 <span class="mt-2 w-2 h-2 rounded-full shrink-0" style="background:${homeCalEscape(it.color)}"></span>
-                <span class="text-base font-medium leading-snug" style="color:${homeCalEscape(it.color)}">${homeCalEscape(it.text)}</span>
+                <span class="text-[clamp(16px,1.3vw,26px)] font-medium leading-snug" style="color:${homeCalEscape(it.color)}">${homeCalEscape(it.text)}</span>
             </li>`).join('')
-        : `<li class="py-2 text-sm font-medium text-neutral-400 italic">Aucun devoir encodé.</li>`;
+        : `<li class="py-2 text-[clamp(14px,1.1vw,20px)] font-medium text-neutral-400 italic">Aucun devoir encodé.</li>`;
     return `
-        <div onclick="switchTab('devoirs')" class="${theme.bg} border-2 border-neutral-900 rounded-2xl p-3.5 cursor-pointer hover:brightness-[0.98] transition" title="Ouvrir les devoirs">
-            <div class="font-display font-bold text-base ${theme.text} flex items-center gap-1.5 mb-1">
+        <div onclick="switchTab('devoirs')" class="${theme.bg} border-2 border-neutral-900 rounded-2xl p-3 cursor-pointer hover:brightness-[0.98] transition" title="Ouvrir les devoirs">
+            <div class="font-display font-bold text-[clamp(15px,1.2vw,22px)] ${theme.text} flex items-center gap-1.5 mb-1">
                 <i data-lucide="${icon}" class="w-4 h-4"></i> ${title}
                 <span class="ml-auto text-xs bg-white border-2 border-neutral-900 rounded-full px-2 text-neutral-800">${items.length}</span>
             </div>
@@ -144,8 +144,8 @@ function renderHomeCalendar() {
         else if (isNext) cls = 'bg-amber-50 border-neutral-900 text-neutral-800';
         week += `
             <button onclick="homeCalSelect(${d.getTime()})" class="flex flex-col items-center gap-1 py-2 rounded-xl border-2 ${cls} cursor-pointer transition">
-                <span class="text-[11px] font-bold ${isToday && !isSel ? 'text-indigo-600' : ''}">${HOME_CAL_DAYS[i].charAt(0)}</span>
-                <span class="font-display font-black text-lg leading-none">${d.getDate()}</span>
+                <span class="text-[clamp(11px,0.85vw,15px)] font-bold ${isToday && !isSel ? 'text-indigo-600' : ''}">${HOME_CAL_DAYS[i].charAt(0)}</span>
+                <span class="font-display font-black text-[clamp(18px,1.5vw,30px)] leading-none">${d.getDate()}</span>
                 <span class="w-1.5 h-1.5 rounded-full ${has ? 'bg-rose-500' : ''}"></span>
             </button>`;
     }
@@ -165,7 +165,7 @@ function renderHomeCalendar() {
         <div class="flex items-center justify-between gap-3">
             <div class="min-w-0">
                 <div class="text-xs font-bold uppercase tracking-wider text-neutral-400">Semaine ${homeCalWeekNumber(selected)}</div>
-                <div class="font-display font-black text-2xl text-neutral-800 truncate">${homeCalLongLabel(selected)}</div>
+                <div class="font-display font-black text-[clamp(22px,2vw,38px)] text-neutral-800 truncate">${homeCalLongLabel(selected)}</div>
             </div>
             <div class="flex gap-1.5 shrink-0">
                 ${!homeCalSameDay(selected, todaySchool) ? `<button onclick="homeCalSelect(null)" class="${navBtn} px-2.5 font-display font-bold text-xs">Aujourd'hui</button>` : ''}
@@ -176,7 +176,7 @@ function renderHomeCalendar() {
         <div class="grid grid-cols-5 gap-2">${week}</div>
         ${homeCalSection(titleSel, 'calendar-check', { bg: 'bg-indigo-50', text: 'text-indigo-700' }, index[homeCalKeyFromDate(selected)] || [])}
         ${homeCalSection(titleNext, 'calendar-clock', { bg: 'bg-amber-50', text: 'text-amber-700' }, index[homeCalKeyFromDate(next)] || [])}
-        <button onclick="switchTab('devoirs')" class="mt-auto self-start px-3 py-2 bg-white text-neutral-800 border-2 border-neutral-900 font-display font-bold text-sm rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
+        <button onclick="switchTab('devoirs')" class="mt-auto self-start px-3 py-2 bg-white text-neutral-800 border-2 border-neutral-900 font-display font-bold text-[clamp(13px,1vw,18px)] rounded-xl shadow-[2px_2px_0_rgba(0,0,0,1)] flex items-center gap-1.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer">
             <i data-lucide="plus" class="w-4 h-4"></i> Ajouter un devoir
         </button>`;
 
