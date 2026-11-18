@@ -22,6 +22,22 @@ let activePen = 'pen1';
 
 // Formes & Remplissage
 let fillShapes = false;
+let shapeToolSource = 'shape'; // 'shape' (menu Formes) ou 'line' (Règle)
+let lastShapeType = localStorage.getItem('tbi_last_shape') || 'rect';
+const SHAPE_CONFIG_DEFAULTS = { color: '#1e293b', width: 3, fillColor: null, fillOpacity: 0.35 };
+const shapeConfig = (() => {
+    try {
+        return Object.assign({}, SHAPE_CONFIG_DEFAULTS, JSON.parse(localStorage.getItem('tbi_shape_config') || '{}'));
+    } catch (err) {
+        return Object.assign({}, SHAPE_CONFIG_DEFAULTS);
+    }
+})();
+
+// Ciseaux : 'rect' (rectangle), 'polygon' (segments reliés), 'lasso' (main levée)
+let scissorsMode = localStorage.getItem('tbi_scissors_mode') || 'rect';
+
+// Tracé point par point en cours (polygone libre ou découpe par segments)
+let polyDraft = null; // { kind: 'shape' | 'scissors', points: [], hover: {x,y}, dragging: bool }
 
 // Pointeur Laser transitoire
 let laserStrokes = [];
@@ -1392,6 +1408,115 @@ function redrawDrawingCanvas() {
     }
 }
 
+// --- GÉOMÉTRIE DES FORMES ---
+// Gabarits normalisés (u,v dans [0,1]) : la forme est inscrite dans le cadre (x1,y1)-(x2,y2)
+const SHAPE_TEMPLATES = {
+    rect: [[0, 0], [1, 0], [1, 1], [0, 1]],
+    triangle: [[0.5, 0], [1, 1], [0, 1]],
+    triangle_right: [[0, 0], [1, 1], [0, 1]],
+    rhombus: [[0.5, 0], [1, 0.5], [0.5, 1], [0, 0.5]],
+    parallelogram: [[0.3, 0], [1, 0], [0.7, 1], [0, 1]],
+    trapezoid: [[0.25, 0], [0.75, 0], [1, 1], [0, 1]],
+    trapezoid_right: [[0, 0], [0.6, 0], [1, 1], [0, 1]],
+    kite: [[0.5, 0], [1, 0.33], [0.5, 1], [0, 0.33]]
+};
+
+function buildRegularTemplate(n, isStar) {
+    const pts = [];
+    const count = isStar ? n * 2 : n;
+    const offset = (!isStar && n % 2 === 0) ? Math.PI / n : 0; // côté plat en haut pour les polygones pairs
+    for (let i = 0; i < count; i++) {
+        const a = -Math.PI / 2 + offset + (i * 2 * Math.PI) / count;
+        const r = (isStar && i % 2 === 1) ? 0.382 : 1;
+        pts.push([r * Math.cos(a), r * Math.sin(a)]);
+    }
+    const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+    const w = maxX - minX, h = maxY - minY;
+    return { tpl: pts.map(p => [(p[0] - minX) / w, (p[1] - minY) / h]), ratio: h / w };
+}
+
+// Formes régulières : leurs proportions sont conservées pendant le tracé et l'agrandissement
+const REGULAR_SHAPES = {
+    square: { tpl: SHAPE_TEMPLATES.rect, ratio: 1 },
+    triangle_eq: buildRegularTemplate(3, false),
+    pentagon: buildRegularTemplate(5, false),
+    hexagon: buildRegularTemplate(6, false),
+    octagon: buildRegularTemplate(8, false),
+    star: buildRegularTemplate(5, true)
+};
+
+function getShapeTemplate(type) {
+    if (REGULAR_SHAPES[type]) return REGULAR_SHAPES[type].tpl;
+    return SHAPE_TEMPLATES[type] || null;
+}
+
+function getShapeRatio(type) {
+    if (REGULAR_SHAPES[type]) return REGULAR_SHAPES[type].ratio;
+    return null;
+}
+
+// Sommets d'une forme polygonale (null pour ligne, flèche, cercle, ellipse)
+function getShapeVertices(el) {
+    if (el.shapeType === 'polygon') return el.points || [];
+    const tpl = getShapeTemplate(el.shapeType);
+    if (!tpl) return null;
+    return tpl.map(([u, v]) => ({ x: el.x1 + u * (el.x2 - el.x1), y: el.y1 + v * (el.y2 - el.y1) }));
+}
+
+// Garde les proportions d'une forme régulière : (fx,fy) = coin fixe, (mx,my) = coin déplacé
+function applyShapeRatio(type, fx, fy, mx, my) {
+    const ratio = getShapeRatio(type);
+    if (!ratio) return { x: mx, y: my };
+    const dx = mx - fx, dy = my - fy;
+    const size = Math.max(Math.abs(dx), Math.abs(dy) / ratio);
+    return { x: fx + (dx < 0 ? -1 : 1) * size, y: fy + (dy < 0 ? -1 : 1) * size * ratio };
+}
+
+function getShapeFillStyle(el) {
+    if (el.fillColor) return getRgbaColor(el.fillColor, el.fillOpacity != null ? el.fillOpacity : 1);
+    if (el.fill) return getRgbaColor(el.color, 0.3); // anciennes formes
+    return null;
+}
+
+function isPointInPolygon(x, y, pts) {
+    let inside = false;
+    for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+        const xi = pts[i].x, yi = pts[i].y, xj = pts[j].x, yj = pts[j].y;
+        if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / ((yj - yi) || 1e-9) + xi)) inside = !inside;
+    }
+    return inside;
+}
+
+function getPointsBoundingBox(pts) {
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    pts.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+    });
+    return { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
+}
+
+// Redimensionne une liste de points proportionnellement à son cadre (poignées 0..3 = coins)
+function scalePointsWithHandle(targetPts, origPts, origBox, handleIndex, dx, dy) {
+    let newX1 = origBox.x, newY1 = origBox.y;
+    let newX2 = origBox.x + origBox.w, newY2 = origBox.y + origBox.h;
+    if (handleIndex === 0) { newX1 += dx; newY1 += dy; }
+    else if (handleIndex === 1) { newX2 += dx; newY1 += dy; }
+    else if (handleIndex === 2) { newX1 += dx; newY2 += dy; }
+    else if (handleIndex === 3) { newX2 += dx; newY2 += dy; }
+    const newW = newX2 - newX1, newH = newY2 - newY1;
+    if (Math.abs(newW) <= 5 || Math.abs(newH) <= 5) return;
+    for (let i = 0; i < targetPts.length; i++) {
+        const pctX = origBox.w ? (origPts[i].x - origBox.x) / origBox.w : 0;
+        const pctY = origBox.h ? (origPts[i].y - origBox.y) / origBox.h : 0;
+        targetPts[i].x = newX1 + pctX * newW;
+        targetPts[i].y = newY1 + pctY * newH;
+    }
+}
+
 // Draw a single vector element on a canvas context
 function drawVectorElement(ctx, el) {
     ctx.save();
@@ -1466,21 +1591,32 @@ function drawVectorElement(ctx, el) {
             ctx.closePath();
             ctx.fillStyle = el.color;
             ctx.fill();
-        } else if (el.shapeType === 'rect') {
-            ctx.rect(x1, y1, x2 - x1, y2 - y1);
-            if (el.fill) {
-                ctx.fillStyle = getRgbaColor(el.color, 0.3);
-                ctx.fill();
+        } else {
+            let hasPath = false;
+            if (el.shapeType === 'circle') {
+                const r = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+                ctx.arc(x1, y1, r, 0, 2 * Math.PI);
+                hasPath = true;
+            } else if (el.shapeType === 'ellipse') {
+                ctx.ellipse((x1 + x2) / 2, (y1 + y2) / 2, Math.abs(x2 - x1) / 2, Math.abs(y2 - y1) / 2, 0, 0, 2 * Math.PI);
+                hasPath = true;
+            } else {
+                const verts = getShapeVertices(el);
+                if (verts && verts.length >= 2) {
+                    ctx.moveTo(verts[0].x, verts[0].y);
+                    for (let i = 1; i < verts.length; i++) ctx.lineTo(verts[i].x, verts[i].y);
+                    ctx.closePath();
+                    hasPath = true;
+                }
             }
-            ctx.stroke();
-        } else if (el.shapeType === 'circle') {
-            const r = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-            ctx.arc(x1, y1, r, 0, 2 * Math.PI);
-            if (el.fill) {
-                ctx.fillStyle = getRgbaColor(el.color, 0.3);
-                ctx.fill();
+            if (hasPath) {
+                const fillStyle = getShapeFillStyle(el);
+                if (fillStyle) {
+                    ctx.fillStyle = fillStyle;
+                    ctx.fill();
+                }
+                if (el.width > 0) ctx.stroke();
             }
-            ctx.stroke();
         }
     }
     
@@ -1641,7 +1777,7 @@ function handlePointerDown(e) {
                     dragStartX = x;
                     dragStartY = y;
                     dragStartElementCopy = JSON.parse(JSON.stringify(selectedElement));
-                    if (selectedElement.type === 'stroke') {
+                    if (selectedElement.type === 'stroke' || selectedElement.shapeType === 'polygon') {
                         dragStartStrokeBox = getElementBoundingBox(selectedElement);
                     }
                     canvas.setPointerCapture(e.pointerId);
@@ -1702,12 +1838,28 @@ function handlePointerDown(e) {
     // 2b. SCISSORS MODE
     if (activeTool === 'scissors') {
         e.preventDefault();
+        if (scissorsMode === 'polygon') {
+            handlePolyPointerDown('scissors', x, y, canvas, e);
+            return;
+        }
         isDrawing = true;
         canvas.setPointerCapture(e.pointerId);
-        currentDrawingElement = {
-            type: 'scissors',
-            x1: x, y1: y, x2: x, y2: y
-        };
+        if (scissorsMode === 'lasso') {
+            currentDrawingElement = { type: 'scissors', mode: 'lasso', points: [{ x, y }] };
+        } else {
+            currentDrawingElement = {
+                type: 'scissors',
+                mode: 'rect',
+                x1: x, y1: y, x2: x, y2: y
+            };
+        }
+        return;
+    }
+    
+    // 2b'. POLYGONE LIBRE (sommets posés un par un)
+    if (activeTool === 'shape' && shapeType === 'polygon') {
+        e.preventDefault();
+        handlePolyPointerDown('shape', x, y, canvas, e);
         return;
     }
     
@@ -1737,12 +1889,15 @@ function handlePointerDown(e) {
         const pageData = tab.pages[tab.currentPage];
         if (pageData) {
             if (activeTool === 'shape') {
+                const useShapeConfig = (shapeToolSource === 'shape');
                 currentDrawingElement = {
                     type: 'shape',
                     shapeType: shapeType,
-                    color: strokeColor,
-                    width: strokeWidth,
-                    fill: fillShapes,
+                    color: useShapeConfig ? shapeConfig.color : strokeColor,
+                    width: useShapeConfig ? shapeConfig.width : strokeWidth,
+                    fill: false,
+                    fillColor: useShapeConfig ? shapeConfig.fillColor : null,
+                    fillOpacity: shapeConfig.fillOpacity,
                     x1: x, y1: y, x2: x, y2: y
                 };
             } else {
@@ -1866,19 +2021,20 @@ function handlePointerMove(e) {
                         shape.x2 = orig.x2 + dx;
                         shape.y2 = orig.y2 + dy;
                     }
-                } else if (shape.shapeType === 'rect') {
-                    if (resizeHandleIndex === 0) { // TL
-                        shape.x1 = orig.x1 + dx;
-                        shape.y1 = orig.y1 + dy;
-                    } else if (resizeHandleIndex === 1) { // TR
-                        shape.x2 = orig.x2 + dx;
-                        shape.y2 = orig.y2 + dy;
-                    } else if (resizeHandleIndex === 2) { // BL
-                        shape.x1 = orig.x1 + dx;
-                        shape.y2 = orig.y2 + dy;
-                    } else if (resizeHandleIndex === 3) { // BR
-                        shape.x2 = orig.x2 + dx;
-                        shape.y2 = orig.y2 + dy;
+                } else if (shape.shapeType === 'polygon') {
+                    if (dragStartStrokeBox) {
+                        scalePointsWithHandle(shape.points, orig.points, dragStartStrokeBox, resizeHandleIndex, dx, dy);
+                    }
+                } else {
+                    // Formes inscrites dans un cadre : poignées 0=(x1,y1) 1=(x2,y1) 2=(x1,y2) 3=(x2,y2)
+                    const keys = [['x1', 'y1'], ['x2', 'y1'], ['x1', 'y2'], ['x2', 'y2']][resizeHandleIndex];
+                    if (keys) {
+                        const kx = keys[0], ky = keys[1];
+                        const ox = (kx === 'x1') ? 'x2' : 'x1';
+                        const oy = (ky === 'y1') ? 'y2' : 'y1';
+                        const c = applyShapeRatio(shape.shapeType, orig[ox], orig[oy], orig[kx] + dx, orig[ky] + dy);
+                        shape[kx] = c.x;
+                        shape[ky] = c.y;
                     }
                 }
             } else if (selectedElement.type === 'stroke') {
@@ -1928,6 +2084,11 @@ function handlePointerMove(e) {
                     selectedElement.points[i].x = dragStartElementCopy.points[i].x + dx;
                     selectedElement.points[i].y = dragStartElementCopy.points[i].y + dy;
                 }
+            } else if (selectedElement.type === 'shape' && selectedElement.shapeType === 'polygon') {
+                for (let i = 0; i < selectedElement.points.length; i++) {
+                    selectedElement.points[i].x = dragStartElementCopy.points[i].x + dx;
+                    selectedElement.points[i].y = dragStartElementCopy.points[i].y + dy;
+                }
             } else if (selectedElement.type === 'shape') {
                 selectedElement.x1 = dragStartElementCopy.x1 + dx;
                 selectedElement.y1 = dragStartElementCopy.y1 + dy;
@@ -1949,7 +2110,30 @@ function handlePointerMove(e) {
         return;
     }
     
+    // Tracé point par point (polygone libre / découpe par segments)
+    if (polyDraft && ((activeTool === 'scissors' && scissorsMode === 'polygon') || (activeTool === 'shape' && shapeType === 'polygon'))) {
+        e.preventDefault();
+        if (polyDraft.dragging && polyDraft.points.length > 0) {
+            const last = polyDraft.points[polyDraft.points.length - 1];
+            last.x = x;
+            last.y = y;
+        }
+        polyDraft.hover = { x, y };
+        renderPolyDraft();
+        return;
+    }
+    
     if (activeTool === 'scissors') {
+        if (isDrawing && currentDrawingElement && currentDrawingElement.mode === 'lasso') {
+            e.preventDefault();
+            const pts = currentDrawingElement.points;
+            const last = pts[pts.length - 1];
+            if (Math.hypot(x - last.x, y - last.y) >= 2 / zoomScale) pts.push({ x, y });
+            redrawDrawingCanvas();
+            const lctx = document.getElementById('drawing-canvas').getContext('2d');
+            drawCutPreview(lctx, pts, null, true);
+            return;
+        }
         if (isDrawing && currentDrawingElement) {
             e.preventDefault();
             currentDrawingElement.x2 = x;
@@ -1983,8 +2167,9 @@ function handlePointerMove(e) {
     e.preventDefault();
     
     if (currentDrawingElement.type === 'shape') {
-        currentDrawingElement.x2 = x;
-        currentDrawingElement.y2 = y;
+        const c = applyShapeRatio(currentDrawingElement.shapeType, currentDrawingElement.x1, currentDrawingElement.y1, x, y);
+        currentDrawingElement.x2 = c.x;
+        currentDrawingElement.y2 = c.y;
     } else {
         currentDrawingElement.points.push({ x, y });
     }
@@ -2002,7 +2187,24 @@ function handlePointerUp(e) {
         return;
     }
     
+    // Fin d'un appui pendant un tracé point par point : le sommet est posé
+    if (polyDraft && ((activeTool === 'scissors' && scissorsMode === 'polygon') || (activeTool === 'shape' && shapeType === 'polygon'))) {
+        polyDraft.dragging = false;
+        try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+        renderPolyDraft();
+        return;
+    }
+    
     if (activeTool === 'scissors') {
+        if (isDrawing && currentDrawingElement && currentDrawingElement.mode === 'lasso') {
+            isDrawing = false;
+            try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+            const pts = currentDrawingElement.points;
+            currentDrawingElement = null;
+            redrawDrawingCanvas();
+            if (pts.length >= 3) cropWhiteboardPolygon(pts);
+            return;
+        }
         if (isDrawing && currentDrawingElement) {
             isDrawing = false;
             canvas.releasePointerCapture(e.pointerId);
@@ -2081,6 +2283,19 @@ function handlePointerUp(e) {
     
     isDrawing = false;
     canvas.releasePointerCapture(e.pointerId);
+    
+    // Une forme créée par un simple tapotement (sans glisser) est retirée
+    if (currentDrawingElement && currentDrawingElement.type === 'shape' && currentDrawingElement.shapeType !== 'polygon') {
+        const ce = currentDrawingElement;
+        if (Math.hypot(ce.x2 - ce.x1, ce.y2 - ce.y1) < 3) {
+            const tabU = getActiveTab();
+            const pageU = tabU ? tabU.pages[tabU.currentPage] : null;
+            if (pageU && pageU.elements) {
+                const idx = pageU.elements.indexOf(ce);
+                if (idx > -1) pageU.elements.splice(idx, 1);
+            }
+        }
+    }
     currentDrawingElement = null;
     
     redrawDrawingCanvas();
@@ -2167,7 +2382,9 @@ function getElementBoundingBox(el) {
         
         return { x: minX, y: minY, w, h };
     } else if (el.type === 'shape') {
-        if (el.shapeType === 'circle') {
+        if (el.shapeType === 'polygon') {
+            return getPointsBoundingBox(el.points || []);
+        } else if (el.shapeType === 'circle') {
             const r = Math.sqrt((el.x2 - el.x1) ** 2 + (el.y2 - el.y1) ** 2);
             return { x: el.x1 - r, y: el.y1 - r, w: 2 * r, h: 2 * r };
         } else {
@@ -2202,26 +2419,27 @@ function findElementAt(x, y) {
                 const dist = getDistanceToSegment(x, y, el.x1, el.y1, el.x2, el.y2);
                 const tolerance = Math.max(10, el.width / 2 + 8);
                 if (dist <= tolerance) return el;
-            } else if (el.shapeType === 'rect') {
-                const d1 = getDistanceToSegment(x, y, el.x1, el.y1, el.x2, el.y1);
-                const d2 = getDistanceToSegment(x, y, el.x2, el.y1, el.x2, el.y2);
-                const d3 = getDistanceToSegment(x, y, el.x2, el.y2, el.x1, el.y2);
-                const d4 = getDistanceToSegment(x, y, el.x1, el.y2, el.x1, el.y1);
-                const dist = Math.min(d1, d2, d3, d4);
-                const tolerance = Math.max(10, el.width / 2 + 8);
-                if (dist <= tolerance) return el;
-                
-                const minX = Math.min(el.x1, el.x2);
-                const maxX = Math.max(el.x1, el.x2);
-                const minY = Math.min(el.y1, el.y2);
-                const maxY = Math.max(el.y1, el.y2);
-                if (x >= minX && x <= maxX && y >= minY && y <= maxY) return el;
             } else if (el.shapeType === 'circle') {
                 const r = Math.sqrt((el.x2 - el.x1) ** 2 + (el.y2 - el.y1) ** 2);
                 const distToCenter = Math.sqrt((x - el.x1) ** 2 + (y - el.y1) ** 2);
                 const distToBorder = Math.abs(distToCenter - r);
                 const tolerance = Math.max(10, el.width / 2 + 8);
                 if (distToBorder <= tolerance || distToCenter <= r) return el;
+            } else if (el.shapeType === 'ellipse') {
+                const tolerance = Math.max(10, el.width / 2 + 8);
+                const cx = (el.x1 + el.x2) / 2, cy = (el.y1 + el.y2) / 2;
+                const rx = Math.abs(el.x2 - el.x1) / 2 + tolerance, ry = Math.abs(el.y2 - el.y1) / 2 + tolerance;
+                if (rx > 0 && ry > 0 && ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1) return el;
+            } else {
+                const verts = getShapeVertices(el);
+                if (verts && verts.length >= 2) {
+                    const tolerance = Math.max(10, el.width / 2 + 8);
+                    for (let k = 0; k < verts.length; k++) {
+                        const a = verts[k], b = verts[(k + 1) % verts.length];
+                        if (getDistanceToSegment(x, y, a.x, a.y, b.x, b.y) <= tolerance) return el;
+                    }
+                    if (verts.length >= 3 && isPointInPolygon(x, y, verts)) return el;
+                }
             }
         }
     }
@@ -2254,7 +2472,15 @@ function getResizeHandles(el) {
             return [
                 { x: el.x2, y: el.y2 }
             ];
-        } else if (el.shapeType === 'rect') {
+        } else if (el.shapeType === 'polygon') {
+            const box = getElementBoundingBox(el);
+            return [
+                { x: box.x, y: box.y },
+                { x: box.x + box.w, y: box.y },
+                { x: box.x, y: box.y + box.h },
+                { x: box.x + box.w, y: box.y + box.h }
+            ];
+        } else {
             return [
                 { x: el.x1, y: el.y1 },
                 { x: el.x2, y: el.y1 },
@@ -2327,6 +2553,12 @@ function drawSelectionHighlight(ctx, el) {
 
 // --- TOOL & COLOR SWITCHERS ---
 function setWhiteboardTool(toolName) {
+    // Abandonner un tracé point par point non terminé
+    if (polyDraft) {
+        polyDraft = null;
+        redrawDrawingCanvas();
+    }
+    
     // Fermer le popover de réglage d'outils lors du changement d'outil
     const popover = document.getElementById('tool-settings-popover');
     
@@ -2362,8 +2594,12 @@ function setWhiteboardTool(toolName) {
         activePen = toolName;
         strokeColor = toolConfigs[toolName].color;
         strokeWidth = toolConfigs[toolName].width;
+    } else if (toolName === 'shape') {
+        shapeToolSource = 'shape';
+        setShapeType(lastShapeType);
     } else if (toolName === 'line') {
         targetTool = 'shape';
+        shapeToolSource = 'line';
         shapeType = 'line';
         strokeColor = toolConfigs.line.color;
         strokeWidth = toolConfigs.line.width;
@@ -2407,6 +2643,16 @@ function setWhiteboardTool(toolName) {
             shapeContainer.classList.remove('hidden');
         } else {
             shapeContainer.classList.add('hidden');
+        }
+    }
+    
+    const scissorsContainer = document.getElementById('scissors-mode-container');
+    if (scissorsContainer) {
+        if (toolName === 'scissors') {
+            scissorsContainer.classList.remove('hidden');
+            setScissorsMode(scissorsMode);
+        } else {
+            scissorsContainer.classList.add('hidden');
         }
     }
     
@@ -2732,7 +2978,14 @@ function setStrokeWidth(widthValue) {
 
 // --- SHAPE MANAGEMENT ---
 function setShapeType(type) {
+    if (polyDraft && polyDraft.kind === 'shape') {
+        polyDraft = null;
+        redrawDrawingCanvas();
+    }
     shapeType = type;
+    lastShapeType = type;
+    try { localStorage.setItem('tbi_last_shape', type); } catch (err) {}
+    if (typeof updateShapeNameLabel === 'function') updateShapeNameLabel(type);
     
     document.querySelectorAll('.shape-btn').forEach(btn => {
         if (btn.id === `shape-btn-${type}`) {
@@ -3933,21 +4186,8 @@ function renderWhiteboardThumbnail(pageNum, canvas) {
                     ctx.stroke();
                 }
             } else if (el.type === 'shape') {
-                ctx.strokeStyle = el.color;
-                ctx.lineWidth = el.width;
                 ctx.globalAlpha = 1.0;
-                
-                if (el.shapeType === 'line') {
-                    ctx.moveTo(el.x1, el.y1);
-                    ctx.lineTo(el.x2, el.y2);
-                    ctx.stroke();
-                } else if (el.shapeType === 'rect') {
-                    ctx.strokeRect(el.x1, el.y1, el.x2 - el.x1, el.y2 - el.y1);
-                } else if (el.shapeType === 'circle') {
-                    const r = Math.sqrt((el.x2 - el.x1) ** 2 + (el.y2 - el.y1) ** 2);
-                    ctx.arc(el.x1, el.y1, r, 0, 2 * Math.PI);
-                    ctx.stroke();
-                }
+                drawVectorElement(ctx, el);
             }
         });
         ctx.restore();
@@ -4383,7 +4623,7 @@ function createMovableImage(x, y, w, h, src, imageId = null) {
     layer.appendChild(imgBox);
 }
 
-function cropWhiteboardArea(x1, y1, x2, y2) {
+function cropWhiteboardArea(x1, y1, x2, y2, clipPoints) {
     const dpr = window.devicePixelRatio || 1;
     
     // Bounds in 1x space
@@ -4426,6 +4666,18 @@ function cropWhiteboardArea(x1, y1, x2, y2) {
     tempCanvas.width = sw;
     tempCanvas.height = sh;
     const tempCtx = tempCanvas.getContext('2d');
+    
+    // Découpe non rectangulaire : tout ce qui est hors du contour devient transparent
+    if (clipPoints && clipPoints.length >= 3) {
+        tempCtx.beginPath();
+        clipPoints.forEach((p, i) => {
+            const px = (p.x - rx) * zoomScale * dpr;
+            const py = (p.y - ry) * zoomScale * dpr;
+            if (i === 0) tempCtx.moveTo(px, py); else tempCtx.lineTo(px, py);
+        });
+        tempCtx.closePath();
+        tempCtx.clip();
+    }
     
     // Draw background layer (PDF)
     if (bgCanvas) {
@@ -4535,20 +4787,356 @@ function getRgbaColor(hex, opacity) {
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
 
-function toggleFillShapes() {
-    fillShapes = !fillShapes;
-    const btn = document.getElementById('shape-fill-toggle-btn');
-    if (btn) {
-        if (fillShapes) {
-            btn.classList.add('bg-indigo-100', 'text-indigo-600', 'border-indigo-300');
-            btn.classList.remove('text-neutral-500');
-        } else {
-            btn.classList.remove('bg-indigo-100', 'text-indigo-600', 'border-indigo-300');
-            btn.classList.add('text-neutral-500');
-        }
+// --- FORMES : PANNEAU DE CHOIX (types, contour, fond) ---
+const SHAPE_GROUPS = [
+    { label: 'Lignes & courbes', items: [['line', 'Segment'], ['arrow', 'Flèche'], ['circle', 'Cercle'], ['ellipse', 'Ellipse']] },
+    { label: 'Triangles', items: [['triangle', 'Triangle isocèle'], ['triangle_eq', 'Triangle équilatéral'], ['triangle_right', 'Triangle rectangle']] },
+    { label: 'Quadrilatères', items: [['square', 'Carré'], ['rect', 'Rectangle'], ['rhombus', 'Losange'], ['parallelogram', 'Parallélogramme'], ['trapezoid', 'Trapèze isocèle'], ['trapezoid_right', 'Trapèze rectangle'], ['kite', 'Cerf-volant']] },
+    { label: 'Polygones', items: [['pentagon', 'Pentagone'], ['hexagon', 'Hexagone'], ['octagon', 'Octogone'], ['star', 'Étoile'], ['polygon', 'Polygone libre']] }
+];
+const SHAPE_STROKE_COLORS = ['#1e293b', '#ef4444', '#3b82f6', '#22c55e', '#eab308', '#f97316', '#a855f7', '#ec4899'];
+const SHAPE_FILL_COLORS = ['#1e293b', '#ef4444', '#3b82f6', '#22c55e', '#facc15', '#f97316', '#a855f7', '#ec4899', '#ffffff'];
+const SHAPE_WIDTHS = [2, 4, 7];
+
+function getShapeLabel(type) {
+    for (const g of SHAPE_GROUPS) {
+        for (const it of g.items) if (it[0] === type) return it[1];
     }
+    return '';
+}
+
+function shapeIconSvg(type) {
+    const open = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">';
+    if (type === 'line') return open + '<line x1="4" y1="20" x2="20" y2="4"/></svg>';
+    if (type === 'arrow') return open + '<line x1="4" y1="20" x2="19" y2="5"/><polyline points="10,5 19,5 19,14"/></svg>';
+    if (type === 'circle') return open + '<circle cx="12" cy="12" r="8.5"/></svg>';
+    if (type === 'ellipse') return open + '<ellipse cx="12" cy="12" rx="10" ry="6"/></svg>';
+    if (type === 'polygon') {
+        return open + '<polygon points="4,17 7,5 17,7 20,15 11,20"/>' +
+            '<circle cx="4" cy="17" r="1.6" fill="currentColor"/><circle cx="7" cy="5" r="1.6" fill="currentColor"/>' +
+            '<circle cx="17" cy="7" r="1.6" fill="currentColor"/><circle cx="20" cy="15" r="1.6" fill="currentColor"/>' +
+            '<circle cx="11" cy="20" r="1.6" fill="currentColor"/></svg>';
+    }
+    const tpl = getShapeTemplate(type);
+    if (!tpl) return open + '</svg>';
+    const ratio = getShapeRatio(type);
+    let w = 18, h;
+    if (ratio) h = 18 * ratio;
+    else if (type === 'rect' || type === 'parallelogram' || type === 'trapezoid' || type === 'trapezoid_right') h = 12;
+    else h = 16;
+    if (h > 18) { w = w * 18 / h; h = 18; }
+    const ox = 12 - w / 2, oy = 12 - h / 2;
+    const pts = tpl.map(([u, v]) => `${(ox + u * w).toFixed(1)},${(oy + v * h).toFixed(1)}`).join(' ');
+    return open + `<polygon points="${pts}"/></svg>`;
+}
+
+function renderShapePanel() {
+    const container = document.getElementById('shape-select-container');
+    if (!container) return;
+    let html = '<div class="shape-panel">';
+    SHAPE_GROUPS.forEach(group => {
+        html += `<div class="shape-panel-label">${group.label}</div><div class="shape-panel-grid">`;
+        group.items.forEach(([type, label]) => {
+            html += `<button type="button" onclick="setShapeType('${type}')" id="shape-btn-${type}" class="shape-btn" title="${label}">${shapeIconSvg(type)}</button>`;
+        });
+        html += '</div>';
+    });
+    html += '<div id="shape-current-name" class="shape-panel-current"></div>';
+    html += '<div id="shape-polygon-hint" class="shape-panel-hint hidden">Touchez pour placer chaque sommet, puis touchez le <b>1er point</b> (ou 2× le dernier) pour fermer la forme.</div>';
+    html += '<div class="shape-panel-sep"></div>';
+
+    html += '<div class="shape-panel-row"><span class="shape-panel-row-label">Contour</span><div class="shape-panel-swatches">';
+    SHAPE_STROKE_COLORS.forEach(c => {
+        html += `<button type="button" class="shape-swatch" data-stroke-color="${c}" style="background:${c}" onclick="setShapeStrokeColor('${c}')" title="Couleur du contour"></button>`;
+    });
+    html += '</div></div>';
+
+    html += '<div class="shape-panel-row"><span class="shape-panel-row-label">Épaisseur</span><div class="shape-panel-swatches">';
+    SHAPE_WIDTHS.forEach(wd => {
+        html += `<button type="button" class="shape-width-btn" data-width="${wd}" onclick="setShapeStrokeWidth(${wd})" title="Épaisseur ${wd}"><span style="height:${wd}px"></span></button>`;
+    });
+    html += '</div></div>';
+
+    html += '<div class="shape-panel-row"><span class="shape-panel-row-label">Fond</span><div class="shape-panel-swatches">';
+    html += '<button type="button" class="shape-swatch shape-swatch-none" data-fill-color="none" onclick="setShapeFillColor(null)" title="Fond transparent"></button>';
+    SHAPE_FILL_COLORS.forEach(c => {
+        html += `<button type="button" class="shape-swatch" data-fill-color="${c}" style="background:${c}" onclick="setShapeFillColor('${c}')" title="Couleur du fond"></button>`;
+    });
+    html += '</div></div>';
+
+    html += '<div class="shape-panel-row" id="shape-opacity-row"><span class="shape-panel-row-label">Intensité</span><div class="shape-panel-swatches">';
+    html += '<button type="button" class="shape-opacity-btn" data-opacity="0.35" onclick="setShapeFillOpacity(0.35)">Léger</button>';
+    html += '<button type="button" class="shape-opacity-btn" data-opacity="1" onclick="setShapeFillOpacity(1)">Plein</button>';
+    html += '</div></div>';
+    html += '</div>';
+    container.innerHTML = html;
+
+    updateShapePanelUI();
+    document.querySelectorAll('.shape-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.id === `shape-btn-${lastShapeType}`);
+    });
+    updateShapeNameLabel(lastShapeType);
+}
+
+function updateShapeNameLabel(type) {
+    const nameEl = document.getElementById('shape-current-name');
+    if (nameEl) nameEl.textContent = getShapeLabel(type);
+    const hint = document.getElementById('shape-polygon-hint');
+    if (hint) hint.classList.toggle('hidden', type !== 'polygon');
+}
+
+function updateShapePanelUI() {
+    document.querySelectorAll('#shape-select-container [data-stroke-color]').forEach(b => {
+        b.classList.toggle('active', b.dataset.strokeColor === shapeConfig.color);
+    });
+    document.querySelectorAll('#shape-select-container [data-fill-color]').forEach(b => {
+        const val = b.dataset.fillColor === 'none' ? null : b.dataset.fillColor;
+        b.classList.toggle('active', val === shapeConfig.fillColor);
+    });
+    document.querySelectorAll('#shape-select-container [data-width]').forEach(b => {
+        b.classList.toggle('active', parseFloat(b.dataset.width) === shapeConfig.width);
+    });
+    document.querySelectorAll('#shape-select-container [data-opacity]').forEach(b => {
+        b.classList.toggle('active', parseFloat(b.dataset.opacity) === shapeConfig.fillOpacity);
+    });
+    const opRow = document.getElementById('shape-opacity-row');
+    if (opRow) opRow.style.opacity = shapeConfig.fillColor ? '1' : '0.4';
+}
+
+function saveShapeConfig() {
+    try { localStorage.setItem('tbi_shape_config', JSON.stringify(shapeConfig)); } catch (err) {}
+    updateShapePanelUI();
+    if (polyDraft && polyDraft.kind === 'shape') renderPolyDraft();
+}
+
+function setShapeStrokeColor(color) { shapeConfig.color = color; saveShapeConfig(); }
+function setShapeStrokeWidth(width) { shapeConfig.width = width; saveShapeConfig(); }
+function setShapeFillColor(color) { shapeConfig.fillColor = color; saveShapeConfig(); }
+function setShapeFillOpacity(op) { shapeConfig.fillOpacity = op; saveShapeConfig(); }
+
+// Compatibilité avec l'ancien bouton « pot de peinture »
+function toggleFillShapes() {
+    setShapeFillColor(shapeConfig.fillColor ? null : shapeConfig.color);
 }
 window.toggleFillShapes = toggleFillShapes;
+
+// --- CISEAUX : 3 MODES DE DÉCOUPE ---
+const SCISSORS_MODES = [
+    { mode: 'rect', label: 'Rectangle', hint: 'Glissez pour tracer un rectangle à découper.',
+      icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2.5"><rect x="3.5" y="5.5" width="17" height="13" rx="1"/></svg>' },
+    { mode: 'polygon', label: 'Segments', hint: 'Touchez pour placer chaque point. Touchez le 1er point (ou 2× le dernier) pour découper.',
+      icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="4,18 8,4 19,8 16,20" stroke-dasharray="3 2.5"/><circle cx="4" cy="18" r="1.8" fill="currentColor" stroke="none"/><circle cx="8" cy="4" r="1.8" fill="currentColor" stroke="none"/><circle cx="19" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="16" cy="20" r="1.8" fill="currentColor" stroke="none"/></svg>' },
+    { mode: 'lasso', label: 'Main levée', hint: 'Entourez librement la zone à découper sans lever le doigt.',
+      icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 2.5"><path d="M7 19c-3-1-4.5-4-3.5-7.5C5 6 10 3.5 15 4.5s6.5 5 5 8.5-6 5-10 4.5"/></svg>' }
+];
+
+function renderScissorsPanel() {
+    const container = document.getElementById('scissors-mode-container');
+    if (!container) return;
+    let html = '<div class="scissors-panel-top">';
+    html += '<div class="scissors-panel-modes">';
+    SCISSORS_MODES.forEach(m => {
+        html += `<button type="button" class="scissors-mode-btn" data-mode="${m.mode}" onclick="setScissorsMode('${m.mode}')" title="${m.label}">${m.icon}<span>${m.label}</span></button>`;
+    });
+    html += '</div>';
+    html += '<button type="button" class="scissors-close-btn" onclick="setWhiteboardTool(\'select\')" title="Quitter les ciseaux">✕</button></div>';
+    html += '<div id="scissors-mode-hint" class="scissors-panel-hint"></div>';
+    container.innerHTML = html;
+    setScissorsMode(scissorsMode);
+}
+
+function setScissorsMode(mode) {
+    if (!SCISSORS_MODES.some(m => m.mode === mode)) mode = 'rect';
+    if (polyDraft && polyDraft.kind === 'scissors' && mode !== scissorsMode) {
+        polyDraft = null;
+        redrawDrawingCanvas();
+    }
+    scissorsMode = mode;
+    try { localStorage.setItem('tbi_scissors_mode', mode); } catch (err) {}
+    document.querySelectorAll('.scissors-mode-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.mode === mode);
+    });
+    const hint = document.getElementById('scissors-mode-hint');
+    const info = SCISSORS_MODES.find(m => m.mode === mode);
+    if (hint && info) hint.textContent = info.hint;
+}
+
+// Aperçu en pointillés d'une découpe (lasso ou segments)
+function drawCutPreview(ctx, pts, hover, closed) {
+    if (!pts || pts.length === 0) return;
+    ctx.save();
+    ctx.strokeStyle = '#4f46e5';
+    ctx.lineWidth = 2 / zoomScale;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.setLineDash([6 / zoomScale, 6 / zoomScale]);
+    const path = hover ? pts.concat([hover]) : pts;
+    ctx.beginPath();
+    ctx.moveTo(path[0].x, path[0].y);
+    for (let i = 1; i < path.length; i++) ctx.lineTo(path[i].x, path[i].y);
+    if (path.length >= 3) {
+        ctx.save();
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(79, 70, 229, 0.15)';
+        ctx.fill();
+        ctx.restore();
+    }
+    if (closed) ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+}
+
+// --- TRACÉ POINT PAR POINT (polygone libre & découpe par segments) ---
+function handlePolyPointerDown(kind, x, y, canvas, e) {
+    if (!polyDraft || polyDraft.kind !== kind) {
+        polyDraft = { kind, points: [], hover: null, dragging: false };
+    }
+    const pts = polyDraft.points;
+    if (pts.length > 0) {
+        const first = pts[0];
+        const last = pts[pts.length - 1];
+        const closeTol = 18 / zoomScale;
+        const repeatTol = 10 / zoomScale;
+        if (pts.length >= 3 && (Math.hypot(x - first.x, y - first.y) <= closeTol || Math.hypot(x - last.x, y - last.y) <= repeatTol)) {
+            finishPolyDraft();
+            return;
+        }
+        if (Math.hypot(x - last.x, y - last.y) <= 4 / zoomScale) return; // double appui involontaire
+    }
+    pts.push({ x, y });
+    polyDraft.dragging = true;
+    polyDraft.hover = { x, y };
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    renderPolyDraft();
+}
+
+function renderPolyDraft() {
+    redrawDrawingCanvas();
+    if (!polyDraft || polyDraft.points.length === 0) return;
+    const drawingCanvas = document.getElementById('drawing-canvas');
+    if (!drawingCanvas) return;
+    const ctx = drawingCanvas.getContext('2d');
+    const pts = polyDraft.points;
+    const hover = polyDraft.dragging ? null : polyDraft.hover;
+
+    if (polyDraft.kind === 'scissors') {
+        drawCutPreview(ctx, pts, hover, false);
+    } else {
+        const path = hover ? pts.concat([hover]) : pts;
+        ctx.save();
+        setupDrawingContext(ctx);
+        if (path.length >= 3 && shapeConfig.fillColor) {
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) ctx.lineTo(path[i].x, path[i].y);
+            ctx.closePath();
+            ctx.fillStyle = getRgbaColor(shapeConfig.fillColor, shapeConfig.fillOpacity);
+            ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+        ctx.strokeStyle = shapeConfig.color;
+        ctx.lineWidth = shapeConfig.width;
+        ctx.stroke();
+        if (hover) {
+            ctx.beginPath();
+            ctx.setLineDash([6 / zoomScale, 6 / zoomScale]);
+            ctx.moveTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+            ctx.lineTo(hover.x, hover.y);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    // Repères des sommets (le 1er devient vert quand on peut fermer)
+    ctx.save();
+    ctx.setLineDash([]);
+    pts.forEach((p, i) => {
+        const canClose = (i === 0 && pts.length >= 3);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, (canClose ? 9 : 4.5) / zoomScale, 0, 2 * Math.PI);
+        ctx.fillStyle = canClose ? 'rgba(34, 197, 94, 0.35)' : '#ffffff';
+        ctx.strokeStyle = canClose ? '#16a34a' : '#4f46e5';
+        ctx.lineWidth = 2 / zoomScale;
+        ctx.fill();
+        ctx.stroke();
+    });
+    ctx.restore();
+}
+
+function cancelPolyDraft() {
+    polyDraft = null;
+    redrawDrawingCanvas();
+}
+
+function finishPolyDraft() {
+    const draft = polyDraft;
+    polyDraft = null;
+    if (!draft || draft.points.length < 3) {
+        redrawDrawingCanvas();
+        return;
+    }
+    const pts = draft.points.map(p => ({ x: p.x, y: p.y }));
+    if (draft.kind === 'scissors') {
+        redrawDrawingCanvas();
+        cropWhiteboardPolygon(pts);
+        return;
+    }
+    const tab = getActiveTab();
+    const pageData = tab ? tab.pages[tab.currentPage] : null;
+    if (!pageData) {
+        redrawDrawingCanvas();
+        return;
+    }
+    if (!pageData.elements) pageData.elements = [];
+    saveStateToUndo();
+    pageData.elements.push({
+        type: 'shape',
+        shapeType: 'polygon',
+        points: pts,
+        color: shapeConfig.color,
+        width: shapeConfig.width,
+        fill: false,
+        fillColor: shapeConfig.fillColor,
+        fillOpacity: shapeConfig.fillOpacity
+    });
+    redrawDrawingCanvas();
+    debouncedSaveWhiteboard();
+    if (isThumbnailsPanelOpen) renderThumbnails();
+}
+
+// Découpe selon un contour quelconque (lasso ou segments)
+function cropWhiteboardPolygon(points) {
+    if (!points || points.length < 3) return;
+    const box = getPointsBoundingBox(points);
+    if (box.w < 10 || box.h < 10) return;
+    cropWhiteboardArea(box.x, box.y, box.x + box.w, box.y + box.h, points);
+}
+
+// Clavier : Entrée = fermer la forme, Échap = annuler le tracé en cours
+window.addEventListener('keydown', (e) => {
+    if (!polyDraft) return;
+    const ae = document.activeElement;
+    if (ae && (ae.contentEditable === 'true' || ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA')) return;
+    if (e.key === 'Escape') {
+        e.preventDefault();
+        cancelPolyDraft();
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        finishPolyDraft();
+    }
+});
+
+function initShapeAndScissorsPanels() {
+    renderShapePanel();
+    renderScissorsPanel();
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initShapeAndScissorsPanels);
+} else {
+    initShapeAndScissorsPanels();
+}
 window.rotateCurrentPage = rotateCurrentPage;
 
 

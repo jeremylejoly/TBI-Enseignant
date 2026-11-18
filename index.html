@@ -31,7 +31,7 @@
     <script src="lucide.min.js"></script>
     
     <!-- Styles personnalisés de la console -->
-    <link rel="stylesheet" href="styles.css?v=99">
+    <link rel="stylesheet" href="styles.css?v=100">
     
     <!-- Métadonnées PWA -->
     <link rel="manifest" href="manifest.json">
@@ -720,19 +720,7 @@
                             <i data-lucide="shapes" class="w-5 h-5"></i>
                         </button>
                         <!-- Menu de sélection des formes -->
-                        <div id="shape-select-container" class="hidden absolute bottom-14 left-1/2 -translate-x-1/2 bg-white border-2 border-neutral-300 text-neutral-800 rounded-xl py-1.5 px-2 flex gap-1.5 z-40 shadow-xl items-center">
-                            <button onclick="setShapeType('line')" id="shape-btn-line" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition active" title="Ligne droite"><i data-lucide="minus" class="w-4 h-4"></i></button>
-                            <button onclick="setShapeType('arrow')" id="shape-btn-arrow" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition" title="Flèche"><i data-lucide="arrow-up-right" class="w-4 h-4"></i></button>
-                            <button onclick="setShapeType('rect')" id="shape-btn-rect" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition" title="Rectangle"><i data-lucide="square" class="w-4 h-4"></i></button>
-                            <button onclick="setShapeType('circle')" id="shape-btn-circle" class="shape-btn p-1.5 rounded-lg hover:bg-neutral-100 transition" title="Cercle"><i data-lucide="circle" class="w-4 h-4"></i></button>
-                            
-                            <span class="w-px h-5 bg-neutral-300 mx-0.5"></span>
-                            
-                            <!-- Remplissage des formes -->
-                            <button onclick="toggleFillShapes()" id="shape-fill-toggle-btn" class="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500 transition" title="Remplir les formes (Pot de peinture)">
-                                <i data-lucide="paint-bucket" class="w-4 h-4"></i>
-                            </button>
-                        </div>
+                        <div id="shape-select-container" class="hidden absolute bottom-14 left-1/2 -translate-x-1/2 bg-white border-[3px] border-neutral-900 text-neutral-800 rounded-2xl p-3 z-40 shadow-[4px_4px_0_rgba(0,0,0,1)] select-none"></div>
                     </div>
                     
                     <div class="relative inline-block">
@@ -740,6 +728,8 @@
                             <i data-lucide="wrench" class="w-5 h-5 text-neutral-600"></i>
                             <span class="text-xs font-bold font-display hidden sm:inline">Outils</span>
                         </button>
+                        <!-- Panneau des modes de découpe (Ciseaux) -->
+                        <div id="scissors-mode-container" class="hidden absolute bottom-14 right-0 bg-white border-[3px] border-neutral-900 text-neutral-800 rounded-2xl p-2.5 z-40 shadow-[4px_4px_0_rgba(0,0,0,1)] select-none"></div>
                         <!-- Menu Popover Outils -->
                         <div id="tools-menu-container" class="hidden absolute bottom-14 left-1/2 -translate-x-1/2 bg-white border-[3px] border-neutral-900 text-neutral-800 rounded-2xl p-2.5 flex flex-col gap-1.5 z-50 shadow-[4px_4px_0_rgba(0,0,0,1)] w-48 select-none">
                             <button onclick="triggerToolAction('aristo')" class="w-full px-3 py-2 hover:bg-neutral-100 rounded-xl flex items-center gap-3 font-display font-bold text-xs text-left text-neutral-700 transition">
@@ -1594,7 +1584,7 @@
     <script src="timer.js"></script>
     <script src="aristo.js"></script>
     <script src="compass.js"></script>
-    <script src="whiteboard.js?v=5"></script>
+    <script src="whiteboard.js?v=6"></script>
     <script src="devoirs.js"></script>
     <script src="home_calendar.js"></script>
     <script src="roue.js"></script>
